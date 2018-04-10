@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Devis_ModelStoreContainer" CdmEntityContainer="Devis_Entities">
+    <EntitySetMapping Name="Devis">
+      <EntityTypeMapping TypeName="Devis_Model.Devis">
+        <MappingFragment StoreEntitySet="Devis">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Mois" ColumnName="Mois" />
+          <ScalarProperty Name="Montant" ColumnName="Montant" />
+          <ScalarProperty Name="Numéro" ColumnName="Numéro" />
+          <ScalarProperty Name="Filename" ColumnName="Filename" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Facturation">
+      <EntityTypeMapping TypeName="Devis_Model.Facturation">
+        <MappingFragment StoreEntitySet="Facturation">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Numéro" ColumnName="Numéro" />
+          <ScalarProperty Name="Mois" ColumnName="Mois" />
+          <ScalarProperty Name="Montant" ColumnName="Montant" />
+          <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Ressource">
+      <EntityTypeMapping TypeName="Devis_Model.Ressource">
+        <MappingFragment StoreEntitySet="Ressource">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mail" ColumnName="Mail" />
+          <ScalarProperty Name="Initial" ColumnName="Initial" />
+          <ScalarProperty Name="Niveau" ColumnName="Niveau" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stories">
+      <EntityTypeMapping TypeName="Devis_Model.Stories">
+        <MappingFragment StoreEntitySet="Stories">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="UpdatetDate" ColumnName="UpdatetDate" />
+          <ScalarProperty Name="Owners" ColumnName="Owners" />
+          <ScalarProperty Name="Labels" ColumnName="Labels" />
+          <ScalarProperty Name="IsBillable" ColumnName="IsBillable" />
+          <ScalarProperty Name="Bonus" ColumnName="Bonus" />
+          <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Stories_Devis">
+      <EntityTypeMapping TypeName="Devis_Model.Stories_Devis">
+        <MappingFragment StoreEntitySet="Stories_Devis">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FK_Stories" ColumnName="FK_Stories" />
+          <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
+          <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
+          <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tarification">
+      <EntityTypeMapping TypeName="Devis_Model.Tarification">
+        <MappingFragment StoreEntitySet="Tarification">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Tar3" ColumnName="Tar3" />
+          <ScalarProperty Name="Tar5" ColumnName="Tar5" />
+          <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tarification_Ressource">
+      <EntityTypeMapping TypeName="Devis_Model.Tarification_Ressource">
+        <MappingFragment StoreEntitySet="Tarification_Ressource">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
+          <ScalarProperty Name="FK_Tarification" ColumnName="FK_Tarification" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tasks">
+      <EntityTypeMapping TypeName="Devis_Model.Tasks">
+        <MappingFragment StoreEntitySet="Tasks">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="FK_Stories" ColumnName="FK_Stories" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Initials" ColumnName="Initials" />
+          <ScalarProperty Name="Duration" ColumnName="Duration" />
+          <ScalarProperty Name="IsInSprint" ColumnName="IsInSprint" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
