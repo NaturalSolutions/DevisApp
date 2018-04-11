@@ -11,14 +11,16 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
     public partial class Tarification_Ressource
     {
         public long ID { get; set; }
         public long FK_Ressource { get; set; }
         public long FK_Tarification { get; set; }
     
+    [JsonIgnore]
         public virtual Ressource Ressource { get; set; }
+    [JsonIgnore]
         public virtual Tarification Tarification { get; set; }
     }
 }

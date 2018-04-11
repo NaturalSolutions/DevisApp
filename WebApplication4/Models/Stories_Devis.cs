@@ -11,7 +11,7 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
     public partial class Stories_Devis
     {
         public long ID { get; set; }
@@ -20,7 +20,9 @@ namespace WebApplication4.Models
         public bool IsPayed { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
     
+    [JsonIgnore]
         public virtual Devis Devis { get; set; }
+    [JsonIgnore]
         public virtual Stories Stories { get; set; }
     }
 }

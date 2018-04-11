@@ -163,15 +163,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Base.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\TasksBo.cs" />
+    <Compile Include="Models\BO\Facturation.cs" />
+    <Compile Include="Models\BO\RessourceBL.cs" />
+    <Compile Include="Models\BO\TasksBo.cs" />
     <Compile Include="Models\Devis.cs">
       <DependentUpon>Base.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Facturation.cs">
       <DependentUpon>Base.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Product.cs" />
-    <Compile Include="Models\ProductController.cs" />
     <Compile Include="Models\Ressource.cs">
       <DependentUpon>Base.tt</DependentUpon>
     </Compile>

@@ -11,7 +11,7 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using Newtonsoft.Json;
     public partial class Tasks
     {
         public long ID { get; set; }
@@ -21,6 +21,7 @@ namespace WebApplication4.Models
         public Nullable<int> Duration { get; set; }
         public Nullable<bool> IsInSprint { get; set; }
     
+    [JsonIgnore]
         public virtual Stories Stories { get; set; }
     }
 }

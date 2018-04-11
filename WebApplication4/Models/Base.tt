@@ -103,6 +103,7 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 <#
             }
 #>
+[JsonIgnore]
     <#=codeStringGenerator.NavigationProperty(navigationProperty)#>
 <#
         }
@@ -429,6 +430,7 @@ public class CodeStringGenerator
                 "{2}",
                 inHeader ? Environment.NewLine : "",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",
+				(Environment.NewLine + "using Newtonsoft.Json;"),
                 inHeader ? "" : Environment.NewLine)
             : "";
     }
