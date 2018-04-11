@@ -11,7 +11,6 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     
     public partial class Tarification
     {
@@ -26,7 +25,7 @@ namespace WebApplication4.Models
         public Nullable<decimal> Tar3 { get; set; }
         public decimal Tar5 { get; set; }
         public Nullable<bool> IsAmo { get; set; }
-        [JsonIgnore]
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tarification_Ressource> Tarification_Ressource { get; set; }
     }
