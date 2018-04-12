@@ -163,11 +163,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Base.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\BO\DevisElements.cs" />
+    <Compile Include="Models\BO\FactuConstante.cs" />
     <Compile Include="Models\BO\Facturation.cs" />
     <Compile Include="Models\BO\FacturationBonus.cs" />
     <Compile Include="Models\BO\FacturationTotale.cs" />
+    <Compile Include="Models\BO\GeneralProject.cs" />
     <Compile Include="Models\BO\RessourceBL.cs" />
     <Compile Include="Models\BO\TasksBo.cs" />
+    <Compile Include="Models\BO\WordFileGenerator.cs" />
     <Compile Include="Models\Devis.cs">
       <DependentUpon>Base.tt</DependentUpon>
     </Compile>

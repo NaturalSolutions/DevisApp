@@ -7,11 +7,8 @@ namespace WebApplication4.Models.BO
 {
     public class FactuConstante
     {
-        [DataMember]
-        public List<sended> projet { get; set; }
-        [DataMember]
+        public List<GeneralProject> projet { get; set; }     
         public DirecteurTechnique directeur { get; set; }
-        [DataMember]
         public ChefDeProjet chefProjet { get; set; }
     }
 
@@ -25,13 +22,13 @@ namespace WebApplication4.Models.BO
         public decimal sum { get; set; }
 
         public void updateValue()
-        {          
-                Tarification tar = this.db.Tarification.Where(x => x.Type == "Chef de projet fonctionnel").FirstOrDefault();
-                decimal dailyValue = Convert.ToDecimal((this.jrs != null ? this.jrs : 0) * tar.Tar5);
-                decimal dailyValueWE = Convert.ToDecimal((this.we != null ? this.we : 0) * tar.Tar5 * 1.5m);
-                decimal dailyValueF = Convert.ToDecimal((this.f != null ? this.f : 0) * tar.Tar5 * 2m);
+        {
+            Tarification tar = this.db.Tarification.Where(x => x.Type == "Chef de projet fonctionnel").FirstOrDefault();
+            decimal dailyValue = Convert.ToDecimal((this.jrs != null ? this.jrs : 0) * tar.Tar5);
+            decimal dailyValueWE = Convert.ToDecimal((this.we != null ? this.we : 0) * tar.Tar5 * 1.5m);
+            decimal dailyValueF = Convert.ToDecimal((this.f != null ? this.f : 0) * tar.Tar5 * 2m);
 
-                this.sum = Convert.ToDecimal(dailyValue + dailyValueWE + dailyValueF);
+            this.sum = Convert.ToDecimal(dailyValue + dailyValueWE + dailyValueF);
         }
     }
 
