@@ -164,6 +164,8 @@
       <DependentUpon>Base.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\BO\Facturation.cs" />
+    <Compile Include="Models\BO\FacturationBonus.cs" />
+    <Compile Include="Models\BO\FacturationTotale.cs" />
     <Compile Include="Models\BO\RessourceBL.cs" />
     <Compile Include="Models\BO\TasksBo.cs" />
     <Compile Include="Models\Devis.cs">

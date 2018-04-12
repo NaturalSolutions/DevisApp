@@ -9,7 +9,7 @@ namespace WebApplication4.Models.BO
     public class Facturation
     {
         public string initials { get; set; } // initials de la personne sur la facturation
-        public decimal? value { get; set; } // Valeur
+        public decimal? value { get; set; } // ValeurNormal
         public decimal? valueWE { get; set; } // valeur weekend
         public decimal valueF { get; set; } // valeur jour férié
         public decimal sum { get; set; } // somme 
@@ -75,30 +75,30 @@ namespace WebApplication4.Models.BO
                     }
                 }
 
-                decimal dailyValue = this.value != null ? Math.Round(Convert.ToDecimal(this.value / 7), 2) : 0;
-                decimal dailyValueWE = this.valueWE != null ? Math.Round(Convert.ToDecimal(this.valueWE / 7), 2) : 0;
-                decimal dailyValueF = this.valueF != null ? Math.Round(Convert.ToDecimal(this.valueF / 7), 2) : 0;
-                dailyValue = getDecimalPart(dailyValue);
-                dailyValueWE = getDecimalPart(dailyValueWE);
-                dailyValueF = getDecimalPart(dailyValueF);
-                this.value = Math.Round(dailyValue * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2);
+                decimal dailyValue = this.value != null ? Math.Round(Convert.ToDecimal(this.value / 7), 2) : 0; // conversion en jour
+                decimal dailyValueWE = this.valueWE != null ? Math.Round(Convert.ToDecimal(this.valueWE / 7), 2) : 0; // conversion en jour
+                decimal dailyValueF = this.valueF != null ? Math.Round(Convert.ToDecimal(this.valueF / 7), 2) : 0; // conversion en jour
+                dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
+                dailyValueWE = getDecimalPart(dailyValueWE); //Arrondie au supérieur
+                dailyValueF = getDecimalPart(dailyValueF); //Arrondie au supérieur
+                this.value = Math.Round(dailyValue * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2); // je prend la valeur en fonction de son niveau
                 if (this.valueWE != null)
                 {
-                    this.valueWE = Math.Round(dailyValueWE * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2) * 1.5m;
+                    this.valueWE = Math.Round(dailyValueWE * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2) * 1.5m; // si la personne a travailler le weekend j'applique le tarif weekend
                 }
                 else
                 {
-                    this.valueWE = 0;
+                    this.valueWE = 0; // Tarif weekend = 0
                 }
                 if (this.valueF != null)
                 {
-                    this.valueF = Math.Round(dailyValueF * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2) * 2m;
+                    this.valueF = Math.Round(dailyValueF * (res.Niveau == 3 ? (decimal)tar.Tar3 : (decimal)tar.Tar5), 2) * 2m; // si la personne a travailler un jour férié j'applique le tarif férié 
                 }
                 else
                 {
-                    this.valueF = 0;
+                    this.valueF = 0; // Tarif férié = 0
                 }
-                this.sum = Convert.ToDecimal(this.value + this.valueWE + this.valueF);
+                this.sum = Convert.ToDecimal(this.value + this.valueWE + this.valueF); //j'applique la somme de tout les tarifs pour la personne
             }
         }
 
