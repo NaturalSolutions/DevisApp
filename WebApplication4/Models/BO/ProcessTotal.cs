@@ -6,13 +6,13 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Models.BO
 {
-    public class FacturationTotale
+    public class ProcessTotal
     {
-        public List<Facturation> amo { get; set; }
-        public List<Facturation> dev { get; set; }
-        public List<Facturation> des { get; set; }
+        public List<Process> amo { get; set; }
+        public List<Process> dev { get; set; }
+        public List<Process> des { get; set; }
 
-        public FacturationTotale()
+        public ProcessTotal()
         {
 
         }

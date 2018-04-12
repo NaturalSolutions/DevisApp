@@ -4,7 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
 using WebApplication4.Models;
+using WebApplication4.Models.BO;
 
 namespace WebApplication4.Controllers
 {
@@ -114,6 +116,31 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
             }
+        }
+
+        [ActionName("factu")]
+        public string GetFactu(ProcessTotal laFactu)
+        {
+            laFactu.updateValue();
+            return JsonConvert.SerializeObject(laFactu);
+        }
+
+        [ActionName("postfactu")]
+        public string PostFactu(ProcessTotal laFactu)
+        {
+            laFactu.updateValue();
+            return JsonConvert.SerializeObject(laFactu);
+        }
+
+        [ActionName("postfactuWBonus")]
+        public string PostFactuWBOnus(ProcessBonus lesFactus)
+        {
+            //FacturationWBonus result = new FacturationWBonus();
+            if (lesFactus != null)
+            {
+                lesFactus.updateValue();
+            }
+            return JsonConvert.SerializeObject(lesFactus);
         }
     }
 }

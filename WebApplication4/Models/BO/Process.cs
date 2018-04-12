@@ -6,7 +6,7 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Models.BO
 {
-    public class Facturation
+    public class Process
     {
         public string initials { get; set; } // initials de la personne sur la facturation
         public decimal? value { get; set; } // ValeurNormal
@@ -15,7 +15,7 @@ namespace WebApplication4.Models.BO
         public decimal sum { get; set; } // somme 
         private Devis_Entities db;
 
-        public Facturation()
+        public Process()
         {
             this.db = new Devis_Entities();
         }

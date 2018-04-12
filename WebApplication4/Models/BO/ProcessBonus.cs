@@ -6,11 +6,11 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Models.BO
 {
-    public class FacturationBonus
+    public class ProcessBonus
     {
-        public FacturationTotale normal { get; set; }
-        public FacturationTotale bonus { get; set; }
-        public FacturationBonus()
+        public ProcessTotal normal { get; set; }
+        public ProcessTotal bonus { get; set; }
+        public ProcessBonus()
         {
 
         }
