@@ -61,7 +61,6 @@ namespace WebApplication4.Controllers
                     {
                         NomProjet.Add(p.Nom);
                         DescriptionProjet.Add(p.Description);
-                        foreach()
                     }
                     // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
                     //db.Devis.Add(EnormeObjetyaToutDedans); 

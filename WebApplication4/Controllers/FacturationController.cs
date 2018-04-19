@@ -55,7 +55,7 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Facturation
-        public void Post([FromBody] GeneralObject_f genObject)
+        public void Post([FromBody] GeneralObject genObject)
         {
             try
             {

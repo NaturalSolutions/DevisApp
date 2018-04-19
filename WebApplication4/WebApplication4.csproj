@@ -162,14 +162,22 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BO\DevisElements.cs" />
+    <Compile Include="Models\BO\DevisProcess\DevisCalculator.cs" />
+    <Compile Include="Models\BO\DevisProcess\DevisFiller.cs" />
+    <Compile Include="Models\BO\DevisProcess\DevisSumManager.cs" />
     <Compile Include="Models\BO\FactuConstante.cs" />
-    <Compile Include="Models\BO\GeneralObject_f.cs" />
     <Compile Include="Models\BO\Process.cs" />
     <Compile Include="Models\BO\ProcessBonus.cs" />
     <Compile Include="Models\BO\ProcessTotal.cs" />
-    <Compile Include="Models\BO\GeneralObject_d.cs" />
+    <Compile Include="Models\BO\GeneralObjectBO\GeneralObject.cs" />
+    <Compile Include="Models\BO\ProjetBO\Projet.cs" />
     <Compile Include="Models\BO\RessourceBL.cs" />
-    <Compile Include="Models\BO\TasksBo.cs" />
+    <Compile Include="Models\BO\StoriesBO\Stories.cs" />
+    <Compile Include="Models\BO\StoriesBO\Stories_d.cs" />
+    <Compile Include="Models\BO\StoriesBO\Stories_f.cs" />
+    <Compile Include="Models\BO\TasksBO\Tasks.cs" />
+    <Compile Include="Models\BO\TasksBO\Tasks_d.cs" />
+    <Compile Include="Models\BO\TasksBO\Tasks_f.cs" />
     <Compile Include="Models\BO\WordFileGenerator.cs" />
     <Compile Include="Models\Devis.cs">
       <DependentUpon>ModelDevisFacturation.tt</DependentUpon>

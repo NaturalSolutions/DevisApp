@@ -13,11 +13,11 @@ namespace WebApplication4.Models.BO
         public decimal? valueWE { get; set; } // valeur weekend
         public decimal valueF { get; set; } // valeur jour férié
         public decimal sum { get; set; } // somme 
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
 
         public Process()
         {
-            this.db = new Devis_Entities();
+            this.db = new DevisFacturationEntities();
         }
 
         public void updateValue(bool isAmo)
