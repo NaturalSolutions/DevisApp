@@ -11,7 +11,7 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
+    
     public partial class Facturation
     {
         public long ID { get; set; }
@@ -19,8 +19,9 @@ namespace WebApplication4.Models
         public System.DateTime Mois { get; set; }
         public decimal Montant { get; set; }
         public long FK_Devis { get; set; }
+        public System.DateTime Date { get; set; }
+        public string Filename { get; set; }
     
-    [JsonIgnore]
         public virtual Devis Devis { get; set; }
     }
 }

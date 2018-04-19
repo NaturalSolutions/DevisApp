@@ -5,24 +5,25 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using WebApplication4.Models.BO;
 
 namespace WebApplication4.Controllers
 {
     public class DevisController : ApiController
     {
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
         public DevisController()
         {
-            this.db = new Devis_Entities(); // interface d'appel de la bd
+            this.db = new DevisFacturationEntities(); // interface d'appel de la bd
         }
         // GET: api/Devis
-        public IEnumerable<Devis> Get()
+        public IEnumerable<Devis> Get() // Devra return TOUUUUT les emplacements des DEVIS existant
         {
             try
             {
                 if((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
                 {
-                    return db.Devis.ToList();
+                    return db.Devis.ToList(); // TO DO Jsonifier le renvoie de la liste des devis pour pouvoir acceder aux attributs des objets
                 }
                 else
                 {
@@ -35,11 +36,11 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Devis/5
-        public Devis Get(int id)
+        public Devis Get(int id) //Devra return l'emmplacement d'un DEVIS existant en particulier
         {
             if(db.Devis.Where(res => res.ID == id).FirstOrDefault() != null)
             {
-                return db.Devis.Where(res => res.ID == id).FirstOrDefault();
+                return db.Devis.Where(res => res.ID == id).FirstOrDefault(); // return l'objet Devis jsonifier
             }else
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Pas d'objet pour cet ID")); // lance une exception si il n'y a pas d'objet pour l'id visé
@@ -48,13 +49,22 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Devis
-        public void Post([FromBody]Devis devis)
-        {
+        public void Post([FromBody] GeneralObject genObjec_d) // DEVRA CREER UN DEVIS 
+        { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
             try
             {
-                if(devis != null)
+                if(genObjec_d != null)
                 {
-                    db.Devis.Add(devis);
+                    List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
+                    List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
+                    foreach(WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
+                    {
+                        NomProjet.Add(p.Nom);
+                        DescriptionProjet.Add(p.Description);
+                        foreach()
+                    }
+                    // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
+                    //db.Devis.Add(EnormeObjetyaToutDedans); 
                     db.SaveChanges();
                 }
                 else
@@ -69,7 +79,7 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Devis/5
-        public void Put(int id, [FromBody]Devis value)
+        public void Put(int id, [FromBody]Devis value) // Update un DEVIS
         {
             try
             {
@@ -81,6 +91,7 @@ namespace WebApplication4.Controllers
                     res.Montant = value.Montant; // same
                     res.Numéro = value.Numéro; // same
                     res.Filename = value.Filename; // same
+                    res.Date = value.Date; // same
                     db.SaveChanges(); // mise a joue de la table
                 }
                 else
@@ -96,7 +107,7 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/Devis/5
-        public void Delete(int id)
+        public void Delete(int id)  // Devra supprimer un DEVIS
         {
             try
             {

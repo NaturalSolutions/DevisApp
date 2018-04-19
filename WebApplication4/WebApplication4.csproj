@@ -129,15 +129,15 @@
   <ItemGroup>
     <Content Include="Global.asax" />
     <Content Include="index.html" />
-    <Content Include="Models\Base.Context.tt">
+    <Content Include="Models\ModelDevisFacturation.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Base.edmx</DependentUpon>
-      <LastGenOutput>Base.Context.cs</LastGenOutput>
+      <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
+      <LastGenOutput>ModelDevisFacturation.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\Base.tt">
+    <Content Include="Models\ModelDevisFacturation.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Base.edmx</DependentUpon>
-      <LastGenOutput>Base.cs</LastGenOutput>
+      <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
+      <LastGenOutput>ModelDevisFacturation.cs</LastGenOutput>
     </Content>
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
@@ -147,63 +147,83 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DevisController.cs" />
     <Compile Include="Controllers\FacturationController.cs" />
+    <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="Controllers\RessourceController.cs" />
-    <Compile Include="Controllers\StoriesController.cs" />
+    <Compile Include="Controllers\StoriesFacturationController.cs" />
+    <Compile Include="Controllers\Stories_dController.cs" />
     <Compile Include="Controllers\StoriesDevisController.cs" />
+    <Compile Include="Controllers\Stories_fController.cs" />
     <Compile Include="Controllers\TarificationController.cs" />
     <Compile Include="Controllers\TarificationRessourceController.cs" />
-    <Compile Include="Controllers\TasksController.cs" />
+    <Compile Include="Controllers\Tasks_dController.cs" />
+    <Compile Include="Controllers\Tasks_fController.cs" />
     <Compile Include="Controllers\WorldFileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Base.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Base.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Base.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Base.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Base.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Base.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Models\BO\DevisElements.cs" />
     <Compile Include="Models\BO\FactuConstante.cs" />
+    <Compile Include="Models\BO\GeneralObject_f.cs" />
     <Compile Include="Models\BO\Process.cs" />
     <Compile Include="Models\BO\ProcessBonus.cs" />
     <Compile Include="Models\BO\ProcessTotal.cs" />
-    <Compile Include="Models\BO\GeneralProject.cs" />
+    <Compile Include="Models\BO\GeneralObject_d.cs" />
     <Compile Include="Models\BO\RessourceBL.cs" />
     <Compile Include="Models\BO\TasksBo.cs" />
     <Compile Include="Models\BO\WordFileGenerator.cs" />
     <Compile Include="Models\Devis.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Facturation.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelDevisFacturation.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDevisFacturation.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelDevisFacturation.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ModelDevisFacturation.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Projet.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Ressource.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Stories.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+    <Compile Include="Models\Ressource_Tarif.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Stories_d.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Stories_Devis.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Stories_f.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Stories_Facturation.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tarification.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Tarification_Ressource.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Tasks.cs">
-      <DependentUpon>Base.tt</DependentUpon>
+    <Compile Include="Models\Tasks_d.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tasks_f.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -212,12 +232,12 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Models\Base.edmx">
+    <EntityDeploy Include="Models\ModelDevisFacturation.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Base.Designer.cs</LastGenOutput>
+      <LastGenOutput>ModelDevisFacturation.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\Base.edmx.diagram">
-      <DependentUpon>Base.edmx</DependentUpon>
+    <Content Include="Models\ModelDevisFacturation.edmx.diagram">
+      <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
     </Content>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -23,11 +23,11 @@ namespace WebApplication4.Models.BO
         public string mois;
         public string annee;
         public decimal support;
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
 
         public DevisElements(string _nomFichier, decimal _totalTable, bool isFactu = false, decimal? _tarCDP = null, decimal? _tarDT = null)
         {
-            this.db = new Devis_Entities();
+            this.db = new DevisFacturationEntities();
             this.dateCreation = DateTime.Now.ToShortDateString();
             this.dateVersion = DateTime.Now.ToShortDateString();
             this.annee = DateTime.Now.Year.ToString();

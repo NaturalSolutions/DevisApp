@@ -12,10 +12,10 @@ namespace WebApplication4.Controllers
 {
     public class FacturationController : ApiController
     {
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
         public FacturationController()
         {
-            this.db = new Devis_Entities(); // interface avec la bd
+            this.db = new DevisFacturationEntities(); // interface avec la bd
         }
 
 
@@ -55,14 +55,14 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Facturation
-        public void Post([FromBody] Facturation factu)
+        public void Post([FromBody] GeneralObject_f genObject)
         {
             try
             {
-                if (factu != null)
+                if (genObject != null)
                 {
-                    this.db.Facturation.Add(factu); // Ajout d'un nouvel objet dans la table
-                    this.db.SaveChanges(); // mise a jour de la table
+                   // pas trop vite garçon this.db.Facturation.Add(genObject); // Ajout d'un nouvel objet dans la table
+                   // this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
                 {
@@ -88,6 +88,8 @@ namespace WebApplication4.Controllers
                     ts.Mois = factu.Mois; // same
                     ts.Montant = factu.Montant; // same
                     ts.FK_Devis = factu.FK_Devis; // same
+                    ts.Date = factu.Date; // same
+                    ts.Filename = factu.Filename; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception

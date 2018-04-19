@@ -11,18 +11,15 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
+    
     public partial class Stories_Devis
     {
         public long ID { get; set; }
-        public long FK_Stories { get; set; }
+        public long FK_Stories_d { get; set; }
         public long FK_Devis { get; set; }
-        public bool IsPayed { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
     
-    [JsonIgnore]
         public virtual Devis Devis { get; set; }
-    [JsonIgnore]
-        public virtual Stories Stories { get; set; }
+        public virtual Stories_d Stories_d { get; set; }
     }
 }

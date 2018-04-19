@@ -51,7 +51,7 @@ namespace WebApplication4.Models.BO
             this.final.SaveAs(this.basePath + @"\Content\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
         }
-        public WordFileGenerator(List<GeneralProject> obj, bool isFactu = false)
+        public WordFileGenerator(List<GeneralObject> obj, bool isFactu = false)
         {
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
@@ -108,11 +108,11 @@ namespace WebApplication4.Models.BO
             }
         }
 
-        private void manageDevisTable(List<GeneralProject> obj)
+        private void manageDevisTable(List<GeneralObject> obj)
         {
             Table tab = this.final.Tables[2];
             //Row templateToCopy = tab.Rows[1];
-            foreach (GeneralProject insert in obj)
+            foreach (GeneralObject insert in obj)
             {
                 if (insert.stories != null)
                 {
@@ -146,55 +146,55 @@ namespace WebApplication4.Models.BO
                 Table tabBonus = this.final.Tables[3];
                 Table tabUnfinished = this.final.Tables[4];
                 //Row templateToCopy = tab.Rows[1];
-                foreach (GeneralProject insert in obj)
-                {
-                    if (insert.storiesBonus.Values != null && insert.storiesBonus.Values.Count > 0 && insert.storiesBonus.Keys.Count > 0)
-                    {
-                        Row toAdd = tabBonus.InsertRow(tabBonus.RowCount - 2);
-                        //project
-                        toAdd.Cells[0].InsertParagraph(insert.projet);
-                        List bulletedList = null;
-                        //stories
-                        foreach (string story in insert.storiesBonus.Keys)
-                        {
-                            if (bulletedList == null)
-                            {
-                                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
-                            }
-                            else
-                            {
-                                this.final.AddListItem(bulletedList, story);
-                            }
-                        }
-                        toAdd.Cells[1].InsertList(bulletedList);
-                        //Cout
-                        toAdd.Cells[2].InsertParagraph(insert.totalBonus.ToString() + "€");
-                        this.tableSubTotalBonus += insert.totalBonus;
-                    }
+                //foreach (GeneralObject insert in obj)
+                //{
+               //     if (insert.storiesBonus.Values != null && insert.storiesBonus.Values.Count > 0 && insert.storiesBonus.Keys.Count > 0)
+               //     {
+               //         Row toAdd = tabBonus.InsertRow(tabBonus.RowCount - 2);
+               //         //project
+                //        toAdd.Cells[0].InsertParagraph(insert.projet);
+                //        List bulletedList = null;
+                //        //stories
+                //        foreach (string story in insert.storiesBonus.Keys)
+                //        {
+                //            if (bulletedList == null)
+                 //           {
+                //                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
+                //            }
+                //            else
+                //            {
+                //                this.final.AddListItem(bulletedList, story);
+                //            }
+                //        }
+                //        toAdd.Cells[1].InsertList(bulletedList);
+                //        //Cout
+                //        toAdd.Cells[2].InsertParagraph(insert.totalBonus.ToString() + "€");
+                //        this.tableSubTotalBonus += insert.totalBonus;
+                //    }
+                //
 
-
-                    if (insert.unfinished != null && insert.unfinished.Values.Count > 0 && insert.unfinished.Keys.Count > 0)
-                    {
-                        Row toAdd = tabUnfinished.InsertRow(tabUnfinished.RowCount - 1);
-                        //project
-                        toAdd.Cells[0].InsertParagraph(insert.projet);
-                        List bulletedList = null;
+                //    if (insert.unfinished != null && insert.unfinished.Values.Count > 0 && insert.unfinished.Keys.Count > 0)
+                //    {
+                //        Row toAdd = tabUnfinished.InsertRow(tabUnfinished.RowCount - 1);
+                //        //project
+                //        toAdd.Cells[0].InsertParagraph(insert.projet);
+                //        List bulletedList = null;
                         //stories
-                        foreach (string story in insert.unfinished.Keys)
-                        {
-                            if (bulletedList == null)
-                            {
-                                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
-                            }
-                            else
-                            {
-                                this.final.AddListItem(bulletedList, story);
-                            }
-                        }
-                        toAdd.Cells[1].InsertList(bulletedList);
-                    }
-                }
-                tabBonus.Rows[tabBonus.RowCount - 1].Cells[1].ReplaceText("[totalTableBonus]", this.tableSubTotalBonus.ToString());
+                //        foreach (string story in insert.unfinished.Keys)
+                //        {
+                //            if (bulletedList == null)
+                //            {
+                //                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
+                //            }
+                //            else
+                //            {
+                //                this.final.AddListItem(bulletedList, story);
+                //            }
+                //        }
+                //        toAdd.Cells[1].InsertList(bulletedList);
+                //    }
+                //}
+                //tabBonus.Rows[tabBonus.RowCount - 1].Cells[1].ReplaceText("[totalTableBonus]", this.tableSubTotalBonus.ToString());
 
             }
         }

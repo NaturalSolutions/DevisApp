@@ -8,17 +8,17 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class TarificationController : ApiController
+    public class TarificationController : ApiController // Objet de Tarification
     {
-        private Devis_Entities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
+        private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
 
         public TarificationController()
         {
-            this.db = new Devis_Entities();
+            this.db = new DevisFacturationEntities();
         }
 
         // GET: api/Tarification
-        public IEnumerable<Tarification> Get()
+        public IEnumerable<Tarification> Get() // Renvoie toute les tarification
         {
             try
             {
@@ -39,7 +39,7 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Tarification/5
-        public Tarification Get(int id)
+        public Tarification Get(int id) // renvoi la tarification d'id ID
         {
             Tarification res = this.db.Tarification.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
@@ -53,7 +53,7 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Tarification
-        public void Post([FromBody]Tarification tsk)
+        public void Post([FromBody]Tarification tsk) // creer et ajoute à la bd une nouvelle Tarification
         {
             try
             {
@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Tarification/5
-        public void Put(int id, [FromBody]Tarification tsk)
+        public void Put(int id, [FromBody]Tarification tsk) // met a jour une Tarification a partir de son ID
         {
             try
             {
@@ -86,6 +86,8 @@ namespace WebApplication4.Controllers
                     ts.Tar3 = tsk.Tar3; // same
                     ts.Tar5 = tsk.Tar5; // same
                     ts.IsAmo = tsk.IsAmo; // same
+                    ts.Date = tsk.Date; // same
+                    ts.Obsolete = tsk.Obsolete; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -101,7 +103,7 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/Tarification/5
-        public void Delete(int id)
+        public void Delete(int id) // Détruit un objet Tarification a partir de son ID
         {
             try // vérrif si un objet a été trouvé pour l'id
             {

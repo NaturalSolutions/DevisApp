@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,18 +8,18 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class StoriesDevisController : ApiController
+    public class StoriesDevisController : ApiController // objet de liaison entre Stories_d et Devis
     {
         // GET: api/Tasks
-        private Devis_Entities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
+        private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
 
         public StoriesDevisController()
         {
-            this.db = new Devis_Entities(); // instanciation du contexte de base donnée
+            this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
 
         // GET: api/StoriesDevis
-        public IEnumerable<Stories_Devis> Get()
+        public IEnumerable<Stories_Devis> Get() // renvoie toute les stories liée a un devis en Gros
         {
             try
             {
@@ -40,7 +40,7 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/StoriesDevis/5
-        public Stories_Devis Get(int id)
+        public Stories_Devis Get(int id) // renvoie le StoriesDevis d'id id
         {
             Stories_Devis res = this.db.Stories_Devis.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
@@ -54,7 +54,7 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/StoriesDevis
-        public void Post([FromBody]Stories_Devis tsk)
+        public void Post([FromBody]Stories_Devis tsk) // cree et ajoute un StoriesDevis normalement c'est automatique on verra
         {
             try
             {
@@ -75,7 +75,7 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/StoriesDevis/5
-        public void Put(int id, [FromBody]Stories_Devis tsk)
+        public void Put(int id, [FromBody]Stories_Devis tsk) // modifier un objet StoriesDevis
         {
             try
             {
@@ -83,9 +83,8 @@ namespace WebApplication4.Controllers
                 {
                     Stories_Devis ts = db.Stories_Devis.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
                     db.Stories_Devis.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.FK_Stories = tsk.FK_Stories; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.FK_Stories_d = tsk.FK_Stories_d; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.FK_Devis = tsk.FK_Devis; // same
-                    ts.IsPayed = tsk.IsPayed; // same
                     ts.CreationDate = tsk.CreationDate; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
@@ -103,7 +102,7 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/StoriesDevis/5
-        public void Delete(int id)
+        public void Delete(int id) // supprimer un objet StoriesDevis
         {
             try // vérrif si un objet a été trouvé pour l'id
             {

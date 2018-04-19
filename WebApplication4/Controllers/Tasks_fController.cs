@@ -8,23 +8,24 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class StoriesController : ApiController
+    public class Tasks_fController : ApiController // Tache lié aux Facturations
     {
-        private Devis_Entities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/Stories
+        // GET: api/Tasks
+        private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
 
-        public StoriesController()
+        public Tasks_fController()
         {
-            this.db = new Devis_Entities(); // instanciation du contexte de base donnée
+            this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
-        public IEnumerable<Stories> Get()
+
+        public IEnumerable<Tasks_f> Get() // renvoie toute les taches lié aux Facturation 
         {
             try
             {
-                List<Stories> st = db.Stories.ToList();
-                if ((!st.Any()) && (st != null)) // verification de la nullité de la liste renvoyé
+                List<Tasks_f> ts = db.Tasks_f.ToList();
+                if ((!ts.Any()) && (ts != null)) // verification de la nullité de la liste renvoyé
                 {
-                    return st; // si c'est bon on renvoi la liste des taches
+                    return ts; // si c'est bon on renvoi la liste des taches
                 }
                 else
                 {
@@ -37,10 +38,10 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/Stories/5
-        public Stories Get(int id)
+        // GET: api/Tasks/5
+        public Tasks_f Get(int id) // renvoie la tacheFacturation correspondant a L'id
         {
-            Stories res = this.db.Stories.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
+            Tasks_f res = this.db.Tasks_f.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {
                 return res;
@@ -51,14 +52,14 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/Stories
-        public void Post([FromBody]Stories st)
+        // POST: api/Tasks
+        public void Post([FromBody]Tasks_f tsk) // Création et ajout d'une nouvelle tacheFacturation dans la BD
         {
             try
             {
-                if (st != null)
+                if (tsk != null)
                 {
-                    this.db.Stories.Add(st); // Ajout d'un nouvel objet dans la table
+                    this.db.Tasks_f.Add(tsk); // Ajout d'un nouvel objet dans la table
                     this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
@@ -72,24 +73,19 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/Stories/5
-        public void Put(int id, [FromBody]Stories st)
+        // PUT: api/Tasks/5
+        public void Put(int id, [FromBody]Tasks_f tsk) // update une Tache Facturation
         {
             try
             {
-                if (st != null) // si l'objet source n'est pas null => update de la base
+                if (tsk != null) // si l'objet source n'est pas null => update de la base
                 {
-                    Stories ts = db.Stories.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Stories.Attach(st); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.Description = st.Description; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    ts.Type = st.Type; // same
-                    ts.StartDate = st.StartDate; // same
-                    ts.UpdatetDate = st.UpdatetDate; // same
-                    ts.Owners = st.Owners;// same
-                    ts.Labels = st.Labels; // same
-                    ts.IsBillable = st.IsBillable;// same
-                    ts.Bonus = st.Bonus;// same
-                    ts.OriginalId = st.OriginalId; // same
+                    Tasks_f ts = db.Tasks_f.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
+                    db.Tasks_f.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
+                    ts.Description = tsk.Description; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.Duration = tsk.Duration; // same
+                    ts.Initials = tsk.Initials; // same
+                    ts.Fk_Ressource_Initials = tsk.Fk_Ressource_Initials; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -102,16 +98,17 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
             }
+
         }
 
-        // DELETE: api/Stories/5
-        public void Delete(int id)
+        // DELETE: api/Tasks/5
+        public void Delete(int id) // Détruit une Tache Facturation
         {
             try // vérrif si un objet a été trouvé pour l'id
             {
-                Stories ts = db.Stories.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Stories.Attach(ts); // ecouter les changement de l'objet 
-                db.Stories.Remove(ts); // remove l'objet ts
+                Tasks_f ts = db.Tasks_f.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+                db.Tasks_f.Attach(ts); // ecouter les changement de l'objet 
+                db.Tasks_f.Remove(ts); // remove l'objet ts
                 db.SaveChanges(); // mettre a jour la table
             }
             catch (Exception e)

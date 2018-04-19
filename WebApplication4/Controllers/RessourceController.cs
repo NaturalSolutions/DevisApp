@@ -10,20 +10,20 @@ namespace WebApplication4.Controllers
 {
     public class RessourceController : ApiController
     {
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
         public RessourceController()
         {
-            this.db = new Devis_Entities();
+            this.db = new DevisFacturationEntities();
         }
         // GET: api/Ressource
-        public IEnumerable<Ressource> Get()
+        public IEnumerable<Ressource> Get() // renvoie Toute les ressource existantes
         {
             try
             {
                 List<Ressource> rs = db.Ressource.ToList();
                 if ((rs.Count > 0 ) && (rs != null)) // verification de la nullité de la liste renvoyé
                 {
-                    return rs; // si c'est bon on renvoi la liste des taches
+                    return rs; // si c'est bon on renvoi la liste des taches json ou xml dailleurs mais mieux JSON quand meme c'est moins caca
                 }
                 else
                 {
@@ -37,7 +37,7 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Ressource/5
-        public Ressource Get(int id)
+        public Ressource Get(int id)// renvoie la ressource de par son ID
         {
             Ressource res = this.db.Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
@@ -49,31 +49,32 @@ namespace WebApplication4.Controllers
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "pas d'objet pour cet ID"));
             }
         }
-        [HttpGet]
-        [ActionName("tarification")]
+
+
+        //[HttpGet]
+        //[ActionName("tarification")]
         //[Route("Ressource/{id}/Tarification")]
-        public List<Tarification> GetTarification(int id)
-        {
-            //Ressource res = this.db.Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
-            List<Tarification> tar = db.Tarification_Ressource.Include("Tarification").Where(s => s.FK_Ressource == id).Select(s => s.Tarification).ToList();
-            if (tar != null)
-            {
-                return tar;
-            }
-            else
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "pas d'objet pour cet ID"));
-            }
-        }
+        //public List<Tarification> GetTarification(int id)
+        //{      
+        //    List<Tarification> tar = db.Tarification_Ressource.Include("Tarification").Where(s => s.FK_Ressource == id).Select(s => s.Tarification).ToList();
+        //    if (tar != null)
+        //    {
+        //        return tar;
+        //    }
+        //    else
+        //    {
+        //        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "pas d'objet pour cet ID"));
+        //    }
+        //}
 
         // POST: api/Ressource
-        public void Post([FromBody]Ressource rss)
+        public void Post([FromBody]Ressource rss) // Ajout d'une nouvelle ressource 
         {
             try
             {
                 if (rss != null)
                 {
-                    this.db.Ressource.Add(rss); // Ajout d'un nouvel objet dans la table
+                    this.db.Ressource.Add(rss); 
                     this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
@@ -88,7 +89,7 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Ressource/5
-        public void Put(int id, [FromBody]Ressource rss)
+        public void Put(int id, [FromBody]Ressource rss)// Update une ressource Existente de par son ID
         {
             try
             {
@@ -100,6 +101,8 @@ namespace WebApplication4.Controllers
                     rs.Mail = rss.Mail; // same
                     rs.Initial = rss.Initial; // same
                     rs.Niveau = rss.Niveau; // same
+                    rs.Date = rss.Date; // same
+                    rs.Obsolete = rss.Obsolete; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -116,7 +119,7 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/Ressource/5
-        public void Delete(int id)
+        public void Delete(int id) // detruit la ressource de par son ID
         {
             try // vérrif si un objet a été trouvé pour l'id
             {

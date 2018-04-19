@@ -12,23 +12,22 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tarification
+    public partial class Projet
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Tarification()
+        public Projet()
         {
-            this.Tarification_Ressource = new HashSet<Tarification_Ressource>();
+            this.Stories_d = new HashSet<Stories_d>();
+            this.Stories_f = new HashSet<Stories_f>();
         }
     
-        public long ID { get; set; }
-        public string Type { get; set; }
-        public Nullable<decimal> Tar3 { get; set; }
-        public decimal Tar5 { get; set; }
-        public Nullable<bool> IsAmo { get; set; }
-        public System.DateTime Date { get; set; }
-        public bool Obsolete { get; set; }
+        public long Id { get; set; }
+        public string Nom { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tarification_Ressource> Tarification_Ressource { get; set; }
+        public virtual ICollection<Stories_d> Stories_d { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stories_f> Stories_f { get; set; }
     }
 }

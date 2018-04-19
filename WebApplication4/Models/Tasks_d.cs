@@ -11,17 +11,16 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
-    public partial class Tasks
+    
+    public partial class Tasks_d
     {
         public long ID { get; set; }
-        public long FK_Stories { get; set; }
+        public long FK_Stories_d { get; set; }
         public string Description { get; set; }
         public string Initials { get; set; }
         public Nullable<int> Duration { get; set; }
-        public Nullable<bool> IsInSprint { get; set; }
+        public string Fk_Ressource_Initials { get; set; }
     
-    [JsonIgnore]
-        public virtual Stories Stories { get; set; }
+        public virtual Stories_d Stories_d { get; set; }
     }
 }

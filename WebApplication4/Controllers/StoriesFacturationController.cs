@@ -8,22 +8,22 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class TarificationRessourceController : ApiController //Objet qui lie les Tarification aux ressources
+    public class StoriesFacturationController : ApiController // obket de liaison entre stories et Facturation
     {
+        // GET: api/Tasks
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/TarificationRessource
 
-        public TarificationRessourceController()
+        public StoriesFacturationController()
         {
-            this.db = new DevisFacturationEntities();
+            this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
 
-
-        public IEnumerable<Tarification_Ressource> Get() // renvoie tout les tarification ressources
+        // GET: api/StoriesDevis
+        public IEnumerable<Stories_Facturation> Get() // renvoie tout les objet StoriesFacturation 
         {
             try
             {
-                List<Tarification_Ressource> ts = db.Tarification_Ressource.ToList();
+                List<Stories_Facturation> ts = db.Stories_Facturation.ToList();
                 if ((!ts.Any()) && (ts != null)) // verification de la nullité de la liste renvoyé
                 {
                     return ts; // si c'est bon on renvoi la liste des taches
@@ -39,10 +39,10 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/TarificationRessource/5
-        public Tarification_Ressource Get(int id) // renvoie la Tarification Ressource d'id ID
+        // GET: api/StoriesDevis/5
+        public Stories_Facturation Get(int id) // renvoie la StoriesFacturation d'id ID
         {
-            Tarification_Ressource res = this.db.Tarification_Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
+            Stories_Facturation res = this.db.Stories_Facturation.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {
                 return res;
@@ -53,14 +53,14 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/TarificationRessource
-        public void Post([FromBody] Tarification_Ressource tsk) // Ajoute et créer une nouvelle TarificationRessource
+        // POST: api/StoriesDevis
+        public void Post([FromBody]Stories_Facturation tsk) // creer et ajoute un nouvel objet StoriesFacturation
         {
             try
             {
                 if (tsk != null)
                 {
-                    this.db.Tarification_Ressource.Add(tsk); // Ajout d'un nouvel objet dans la table
+                    this.db.Stories_Facturation.Add(tsk); // Ajout d'un nouvel objet dans la table
                     this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
@@ -74,17 +74,18 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/TarificationRessource/5
-        public void Put(int id, [FromBody] Tarification_Ressource tsk) // Met a jour une TarificationRessource a partir de son ID
+        // PUT: api/StoriesDevis/5
+        public void Put(int id, [FromBody]Stories_Facturation tsk) // met a jour un objet StoriesFacturation
         {
             try
             {
                 if (tsk != null) // si l'objet source n'est pas null => update de la base
                 {
-                    Tarification_Ressource ts = db.Tarification_Ressource.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Tarification_Ressource.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.FK_Ressource = tsk.FK_Ressource; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    ts.FK_Tarification = tsk.FK_Tarification; // same
+                    Stories_Facturation ts = db.Stories_Facturation.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
+                    db.Stories_Facturation.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
+                    ts.FK_Stories_f = tsk.FK_Stories_f; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.FK_Facturation = tsk.FK_Facturation; // same
+                    ts.CreationDate = tsk.CreationDate; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -97,16 +98,17 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
             }
+
         }
 
-        // DELETE: api/TarificationRessource/5
-        public void Delete(int id) // Détruit une Une TarificationRessource
+        // DELETE: api/StoriesDevis/5
+        public void Delete(int id) // Détruit un objet StoriesFacturation
         {
             try // vérrif si un objet a été trouvé pour l'id
             {
-                Tarification_Ressource ts = db.Tarification_Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Tarification_Ressource.Attach(ts); // ecouter les changement de l'objet 
-                db.Tarification_Ressource.Remove(ts); // remove l'objet ts
+                Stories_Facturation ts = db.Stories_Facturation.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+                db.Stories_Facturation.Attach(ts); // ecouter les changement de l'objet 
+                db.Stories_Facturation.Remove(ts); // remove l'objet ts
                 db.SaveChanges(); // mettre a jour la table
             }
             catch (Exception e)

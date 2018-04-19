@@ -11,14 +11,14 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
-    public partial class Stories
+    
+    public partial class Stories_d
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stories()
+        public Stories_d()
         {
             this.Stories_Devis = new HashSet<Stories_Devis>();
-            this.Tasks = new HashSet<Tasks>();
+            this.Tasks_d = new HashSet<Tasks_d>();
         }
     
         public long ID { get; set; }
@@ -29,14 +29,17 @@ namespace WebApplication4.Models
         public string Owners { get; set; }
         public string Labels { get; set; }
         public Nullable<bool> IsBillable { get; set; }
+        public Nullable<bool> IsPayed { get; set; }
         public Nullable<bool> Bonus { get; set; }
         public Nullable<long> OriginalId { get; set; }
+        public string URL { get; set; }
+        public string Epic { get; set; }
+        public Nullable<long> Fk_Project { get; set; }
     
+        public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    [JsonIgnore]
         public virtual ICollection<Stories_Devis> Stories_Devis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-    [JsonIgnore]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Tasks_d> Tasks_d { get; set; }
     }
 }

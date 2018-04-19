@@ -7,7 +7,7 @@ namespace WebApplication4.Models.BO
 {
     public class FactuConstante
     {
-        public List<GeneralProject> projet { get; set; }     
+        public List<GeneralObject> projet { get; set; }     
         public DirecteurTechnique directeur { get; set; }
         public ChefDeProjet chefProjet { get; set; }
     }
@@ -15,7 +15,7 @@ namespace WebApplication4.Models.BO
     //Gestion cas particuloer chef de projet et directeur technique tarification et devis 
     public class ChefDeProjet
     {
-        private Devis_Entities db = new Devis_Entities();
+        private DevisFacturationEntities db = new DevisFacturationEntities();
         public decimal? jrs { get; set; }
         public decimal? we { get; set; }
         public decimal? f { get; set; }
@@ -34,7 +34,7 @@ namespace WebApplication4.Models.BO
 
     public class DirecteurTechnique
     {
-        private Devis_Entities db = new Devis_Entities();
+        private DevisFacturationEntities db = new DevisFacturationEntities();
         public decimal? jrs { get; set; }
         public decimal? we { get; set; }
         public decimal? f { get; set; }

@@ -12,25 +12,34 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Devis
+    public partial class Stories_f
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Devis()
+        public Stories_f()
         {
-            this.Stories_Devis = new HashSet<Stories_Devis>();
-            this.Facturation = new HashSet<Facturation>();
+            this.Stories_Facturation = new HashSet<Stories_Facturation>();
+            this.Tasks_f = new HashSet<Tasks_f>();
         }
     
         public long ID { get; set; }
-        public Nullable<System.DateTime> Mois { get; set; }
-        public Nullable<decimal> Montant { get; set; }
-        public Nullable<int> Numéro { get; set; }
-        public string Filename { get; set; }
-        public System.DateTime Date { get; set; }
+        public string Description { get; set; }
+        public string Type { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> UpdatetDate { get; set; }
+        public string Owners { get; set; }
+        public string Labels { get; set; }
+        public Nullable<bool> IsBillable { get; set; }
+        public Nullable<bool> IsPayed { get; set; }
+        public Nullable<bool> Bonus { get; set; }
+        public Nullable<long> OriginalId { get; set; }
+        public string URL { get; set; }
+        public string Epic { get; set; }
+        public Nullable<long> Fk_Project { get; set; }
     
+        public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stories_Devis> Stories_Devis { get; set; }
+        public virtual ICollection<Stories_Facturation> Stories_Facturation { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Facturation> Facturation { get; set; }
+        public virtual ICollection<Tasks_f> Tasks_f { get; set; }
     }
 }

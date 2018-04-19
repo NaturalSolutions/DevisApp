@@ -12,13 +12,17 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tarification_Ressource
+    public partial class Ressource_Tarif
     {
-        public long ID { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> Niveau { get; set; }
+        public bool Obsolete { get; set; }
+        public System.DateTime Date { get; set; }
+        public string Type { get; set; }
+        public Nullable<decimal> Tar3 { get; set; }
+        public decimal Tar5 { get; set; }
+        public Nullable<bool> IsAmo { get; set; }
         public long FK_Ressource { get; set; }
         public long FK_Tarification { get; set; }
-    
-        public virtual Ressource Ressource { get; set; }
-        public virtual Tarification Tarification { get; set; }
     }
 }

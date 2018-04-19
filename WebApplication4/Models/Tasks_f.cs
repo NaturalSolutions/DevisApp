@@ -12,13 +12,15 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tarification_Ressource
+    public partial class Tasks_f
     {
         public long ID { get; set; }
-        public long FK_Ressource { get; set; }
-        public long FK_Tarification { get; set; }
+        public long FK_Stories_f { get; set; }
+        public string Description { get; set; }
+        public string Initials { get; set; }
+        public Nullable<int> Duration { get; set; }
+        public string Fk_Ressource_Initials { get; set; }
     
-        public virtual Ressource Ressource { get; set; }
-        public virtual Tarification Tarification { get; set; }
+        public virtual Stories_f Stories_f { get; set; }
     }
 }

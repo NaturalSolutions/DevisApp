@@ -8,21 +8,21 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class TasksController : ApiController
+    public class Tasks_dController : ApiController // Taches lié aux devis
     {
         // GET: api/Tasks
-        private Devis_Entities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
+        private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
 
-        public TasksController()
+        public Tasks_dController()
         {
-            this.db = new Devis_Entities(); // instanciation du contexte de base donnée
+            this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
 
-        public IEnumerable<Tasks> Get()
+        public IEnumerable<Tasks_d> Get() // renvoie tout les taches lié a un devis
         {
             try
             {
-                List<Tasks> ts = db.Tasks.ToList();
+                List<Tasks_d> ts = db.Tasks_d.ToList();
                 if ((!ts.Any()) && (ts != null)) // verification de la nullité de la liste renvoyé
                 {
                     return ts; // si c'est bon on renvoi la liste des taches
@@ -39,9 +39,9 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Tasks/5
-        public Tasks Get(int id)
+        public Tasks_d Get(int id) // renvoie la tache liée a un devis d'id ID
         {
-            Tasks res = this.db.Tasks.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
+            Tasks_d res = this.db.Tasks_d.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if(res != null)
             {
                 return res;
@@ -53,13 +53,13 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Tasks
-        public void Post([FromBody]Tasks tsk) // route d'envoi d'un nouvel objet dans la table en POST
+        public void Post([FromBody]Tasks_d tsk) // Créer et ajoute un nouvel objet TarificationRessource
         {
             try
             {
                 if (tsk != null)
                 {
-                    this.db.Tasks.Add(tsk); // Ajout d'un nouvel objet dans la table
+                    this.db.Tasks_d.Add(tsk); // Ajout d'un nouvel objet dans la table
                     this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
@@ -74,18 +74,18 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Tasks/5
-        public void Put(int id, [FromBody]Tasks tsk)
+        public void Put(int id, [FromBody]Tasks_d tsk) // Met a jour un objet TarificationRessource
         {
             try
             {
                 if(tsk != null) // si l'objet source n'est pas null => update de la base
                 {
-                    Tasks ts = db.Tasks.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Tasks.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
+                    Tasks_d ts = db.Tasks_d.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
+                    db.Tasks_d.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
                     ts.Description = tsk.Description; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.Duration = tsk.Duration; // same
                     ts.Initials = tsk.Initials; // same
-                    ts.IsInSprint = tsk.IsInSprint; // same
+                    ts.Fk_Ressource_Initials = tsk.Fk_Ressource_Initials; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -102,13 +102,13 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/Tasks/5
-        public void Delete(int id)
+        public void Delete(int id) // Détruit un objet TarificationRessource
         {
             try // vérrif si un objet a été trouvé pour l'id
             {
-                Tasks ts = db.Tasks.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Tasks.Attach(ts); // ecouter les changement de l'objet 
-                db.Tasks.Remove(ts); // remove l'objet ts
+                Tasks_d ts = db.Tasks_d.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+                db.Tasks_d.Attach(ts); // ecouter les changement de l'objet 
+                db.Tasks_d.Remove(ts); // remove l'objet ts
                 db.SaveChanges(); // mettre a jour la table
             }
             catch(Exception e)

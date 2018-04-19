@@ -8,25 +8,23 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Controllers
 {
-    public class TarificationRessourceController : ApiController //Objet qui lie les Tarification aux ressources
+    public class ProjetController : ApiController
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/TarificationRessource
+        // GET: api/Stories
 
-        public TarificationRessourceController()
+        public ProjetController()
         {
-            this.db = new DevisFacturationEntities();
+            this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
-
-
-        public IEnumerable<Tarification_Ressource> Get() // renvoie tout les tarification ressources
+        public IEnumerable<Projet> Get()
         {
             try
             {
-                List<Tarification_Ressource> ts = db.Tarification_Ressource.ToList();
-                if ((!ts.Any()) && (ts != null)) // verification de la nullité de la liste renvoyé
+                List<Projet> st = db.Projet.ToList();
+                if ((!st.Any()) && (st != null)) // verification de la nullité de la liste renvoyé
                 {
-                    return ts; // si c'est bon on renvoi la liste des taches
+                    return st; // si c'est bon on renvoi la liste des taches
                 }
                 else
                 {
@@ -39,10 +37,10 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/TarificationRessource/5
-        public Tarification_Ressource Get(int id) // renvoie la Tarification Ressource d'id ID
+        // GET: api/Stories/5
+        public Projet Get(int id)
         {
-            Tarification_Ressource res = this.db.Tarification_Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
+            Projet res = this.db.Projet.Where(s => s.Id == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {
                 return res;
@@ -53,14 +51,14 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/TarificationRessource
-        public void Post([FromBody] Tarification_Ressource tsk) // Ajoute et créer une nouvelle TarificationRessource
+        // POST: api/Stories
+        public void Post([FromBody]Projet st)
         {
             try
             {
-                if (tsk != null)
+                if (st != null)
                 {
-                    this.db.Tarification_Ressource.Add(tsk); // Ajout d'un nouvel objet dans la table
+                    this.db.Projet.Add(st); // Ajout d'un nouvel objet dans la table
                     this.db.SaveChanges(); // mise a jour de la table
                 }
                 else
@@ -74,17 +72,17 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/TarificationRessource/5
-        public void Put(int id, [FromBody] Tarification_Ressource tsk) // Met a jour une TarificationRessource a partir de son ID
+        // PUT: api/Stories/5
+        public void Put(int id, [FromBody]Projet st)
         {
             try
             {
-                if (tsk != null) // si l'objet source n'est pas null => update de la base
+                if (st != null) // si l'objet source n'est pas null => update de la base
                 {
-                    Tarification_Ressource ts = db.Tarification_Ressource.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Tarification_Ressource.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.FK_Ressource = tsk.FK_Ressource; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    ts.FK_Tarification = tsk.FK_Tarification; // same
+                    Projet ts = db.Projet.Where(res => res.Id == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
+                    db.Projet.Attach(st); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
+                    ts.Description = st.Description; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.Nom = st.Nom; // same
                     db.SaveChanges(); // mise a jour de la table
                 }
                 else // sinon je throw une exception
@@ -99,14 +97,14 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // DELETE: api/TarificationRessource/5
-        public void Delete(int id) // Détruit une Une TarificationRessource
+        // DELETE: api/Stories/5
+        public void Delete(int id)
         {
             try // vérrif si un objet a été trouvé pour l'id
             {
-                Tarification_Ressource ts = db.Tarification_Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Tarification_Ressource.Attach(ts); // ecouter les changement de l'objet 
-                db.Tarification_Ressource.Remove(ts); // remove l'objet ts
+                Projet ts = db.Projet.Where(res => res.Id == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+                db.Projet.Attach(ts); // ecouter les changement de l'objet 
+                db.Projet.Remove(ts); // remove l'objet ts
                 db.SaveChanges(); // mettre a jour la table
             }
             catch (Exception e)
