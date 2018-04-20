@@ -85,6 +85,9 @@ namespace WebApplication4.Models.BO.DevisProcess
         }
 
 
+
+
+
         public DevisCalculator(GeneralObject myGeneralObject)
         {
             this.db = new DevisFacturationEntities();
