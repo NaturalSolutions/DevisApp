@@ -80,7 +80,6 @@ namespace WebApplication4.Models.BO.DevisProcess
             else
             {
                 return Convert.ToDecimal(tabValues[0]);
-
             }
 
         }
