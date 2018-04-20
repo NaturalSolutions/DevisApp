@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
+using WebApplication4.Models.BO.DevisProcess;
 
 namespace WebApplication4.Controllers
 {
@@ -21,15 +22,16 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
+                if ((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
                 {
                     return db.Devis.ToList(); // TO DO Jsonifier le renvoie de la liste des devis pour pouvoir acceder aux attributs des objets
                 }
                 else
                 {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"liste vide")); // lance une exception si la liste est vide
+                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
             }
@@ -38,14 +40,44 @@ namespace WebApplication4.Controllers
         // GET: api/Devis/5
         public Devis Get(int id) //Devra return l'emmplacement d'un DEVIS existant en particulier
         {
-            if(db.Devis.Where(res => res.ID == id).FirstOrDefault() != null)
+            if (db.Devis.Where(res => res.ID == id).FirstOrDefault() != null)
             {
                 return db.Devis.Where(res => res.ID == id).FirstOrDefault(); // return l'objet Devis jsonifier
-            }else
+            }
+            else
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Pas d'objet pour cet ID")); // lance une exception si il n'y a pas d'objet pour l'id visé
             }
-            
+
+        }
+
+        public GeneralObject CreateATestingContext()
+        {
+            Tasks taskTest = new Tasks();
+            taskTest.Description = "une tache de merde bien chiante";
+            taskTest.Duration = 2;
+            taskTest.Initials = "TL";
+            List <Tasks> TasksTest = new List<Tasks>():
+            TasksTest.Add(taskTest);
+
+            // LA TACHE
+
+            Stories storyTest = new Stories();
+            storyTest.Type = "DEV";
+            storyTest.Tasks = TasksTest;
+            List<Stories> storiesTest = new List<Stories>():
+            storiesTest.Add(storyTest);
+
+            WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
+            projetTest.Nom = "nom Test";
+            projetTest.Stories = storiesTest;
+            List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>():
+            projetsTest.Add(projetTest);
+
+            GeneralObject myTestGenObject = new GeneralObject();
+            myTestGenObject.projets = projetsTest;
+
+            return myTestGenObject;
         }
 
         // POST: api/Devis
@@ -53,27 +85,31 @@ namespace WebApplication4.Controllers
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
             try
             {
-                if(genObjec_d != null)
+                GeneralObject genTest = CreateATestingContext();
+                DevisCalculator devisCalculator = new DevisCalculator(genTest);
+                DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
+                Console.WriteLine("Resultat ici");
+                foreach (KeyValuePair<string, decimal?> entry in resultFromcallCalculator.getProjectCost())
                 {
-                    List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
-                    List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
-                    foreach(WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
-                    {
-                        NomProjet.Add(p.Nom);
-                        DescriptionProjet.Add(p.Description);
-                    }
-                    // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
-                    //db.Devis.Add(EnormeObjetyaToutDedans); 
-                    db.SaveChanges();
+                    Console.WriteLine(entry.Key + "    " + entry.Value);
                 }
-                else
                 {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"Objet source null")); //lance exception si objet source est nulle
+                    // do something with entry.Value or entry.Key
                 }
+                List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
+                List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
+                foreach (WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
+                {
+                    NomProjet.Add(p.Nom);
+                    DescriptionProjet.Add(p.Description);
+                }
+                // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
+                //db.Devis.Add(EnormeObjetyaToutDedans); 
+                db.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,e.Message)); //lance exception si un attribut dans l'objet est nulle
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si un attribut dans l'objet est nulle
             }
         }
 
@@ -82,7 +118,7 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if(value != null)
+                if (value != null)
                 {
                     Devis res = db.Devis.Where(s => s.ID == id).FirstOrDefault();
                     db.Devis.Attach(res); // ecouteur de chamgement de l'objet
@@ -97,9 +133,9 @@ namespace WebApplication4.Controllers
                 {
                     throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
                 }
-                
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
             }

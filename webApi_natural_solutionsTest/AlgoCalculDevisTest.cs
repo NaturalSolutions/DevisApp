@@ -4,11 +4,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace webApi_natural_solutionsTest
 {
     [TestClass]
-    public class UnitTest1
+    public class AlgoCalculDevisTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void testRetourCalculDevis()
         {
+            
         }
     }
 }

@@ -9,10 +9,22 @@ namespace WebApplication4.Models.BO.DevisProcess
     {
         private DevisFacturationEntities db;
         private DevisSumManager ResultSumManager;
+        private GeneralObject genObject;
 
-        public bool checkIfRessourceIsFullAmo()
+        public bool checkIfRessourceIsFullAmo(string initialRessource)
         {
-            return true;
+            Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == initialRessource).FirstOrDefault(); // Recuperation de la ressource correspondante
+            Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
+            List<Tarification> tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == true).OrderBy(o => o.Tar5).ToList(); // On récupère la liste des tarifications IsAmo de la personne 
+            if (tarTemp.Count >= 2) // si il y a deux tarification AMO la personn est full AMO
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         private string setHalfDays(int value)
@@ -88,25 +100,31 @@ namespace WebApplication4.Models.BO.DevisProcess
         {
             this.db = new DevisFacturationEntities();
             this.ResultSumManager = new DevisSumManager();
-            foreach(Projet p in myGeneralObject.projets)
+            this.genObject = myGeneralObject;
+        }
+
+        public DevisSumManager CalculateDevis()
+        {
+
+            foreach (Projet p in this.genObject.projets)
             {
                 decimal? projectCost = 0;
-                foreach(Stories_d s in p.Stories_d)
+                foreach (Stories_d s in p.Stories_d)
                 {
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
-                    foreach(WebApplication4.Models.Tasks_d t in s.Tasks_d)
+                    foreach (WebApplication4.Models.Tasks_d t in s.Tasks_d)
                     {
                         decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(t.Duration / 7), 2) : 0; // conversion en jour
                         dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
 
                         Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == t.Initials).FirstOrDefault(); // Recuperation de la ressource correspondante
                         Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
-                        if(((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AM O
+                        if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AM O
                         {
                             Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
                             StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
                         }
-                        else if(((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
+                        else if (((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
                         {
                             Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).FirstOrDefault(); // récupération de la tarification correspondant a la personne
                             if (ressourceTemp.Niveau == 5) // si la personne est bac+5 
@@ -120,13 +138,14 @@ namespace WebApplication4.Models.BO.DevisProcess
                         }
                         else if (((s.Type.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
                         { //TO DO FOR TOMORROW PRENDRE EN COMPTE LES RESSOURCE FULL AMO 
-                            if (checkIfRessourceIsFullAmo())
+                            if (checkIfRessourceIsFullAmo(t.Initials))
                             {
-                                Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne
+                                List<Tarification> tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).ToList();
+                                tarTemp.Sort();
                             }
                             else
                             {
-                                if(ressourceTemp.Niveau == 3)
+                                if (ressourceTemp.Niveau == 3)
                                 {
                                     Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
                                     StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
@@ -138,12 +157,13 @@ namespace WebApplication4.Models.BO.DevisProcess
                                 }
                             }
                         }
-                        
+
                     }
                     projectCost += StoriesCost; // Ajout du cout de la stoy au cout du projet
                 }
                 ResultSumManager.setProjectCost(p.Nom, projectCost);
             }
+            return this.ResultSumManager;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace WebApplication4.Models
     {
         public bool isFullAMO()
         {
-            using (Devis_Entities cont = new Devis_Entities())
+            using (DevisFacturationEntities cont = new DevisFacturationEntities())
             {
                 List<long> ids = cont.Tarification_Ressource.Where(s => s.FK_Ressource == this.ID).Select(s => s.FK_Tarification).ToList();
                 List<Tarification> tars = cont.Tarification.Where(s => ids.Contains(s.ID)).ToList();
