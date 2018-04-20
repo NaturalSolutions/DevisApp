@@ -15,6 +15,40 @@ namespace WebApplication4.Models.BO.DevisProcess
             return true;
         }
 
+        private string setHalfDays(int value)
+        {
+            if (value.ToString().Length < 2)
+            {
+                if (value == 0)
+                {
+                    return "00";
+                }
+                else if (value <= 5)
+                {
+                    return "50";
+                }
+                else
+                {
+                    return "1";
+                }
+            }
+            else
+            {
+                if (value == 0)
+                {
+                    return "00";
+                }
+                else if (value <= 50)
+                {
+                    return "50";
+                }
+                else
+                {
+                    return "1";
+                }
+            }
+        }
+
         private decimal getDecimalPart(decimal value) // Fonction d'arrondie au supérieur
         {
             string strValue = value.ToString();
