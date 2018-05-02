@@ -57,7 +57,7 @@ namespace WebApplication4.Controllers
             taskTest.Description = "une tache de merde bien chiante";
             taskTest.Duration = 2;
             taskTest.Initials = "TL";
-            List <Tasks> TasksTest = new List<Tasks>():
+            List<Tasks> TasksTest = new List<Tasks>();
             TasksTest.Add(taskTest);
 
             // LA TACHE
@@ -65,13 +65,13 @@ namespace WebApplication4.Controllers
             Stories storyTest = new Stories();
             storyTest.Type = "DEV";
             storyTest.Tasks = TasksTest;
-            List<Stories> storiesTest = new List<Stories>():
+            List<Stories> storiesTest = new List<Stories>();
             storiesTest.Add(storyTest);
 
             WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
             projetTest.Nom = "nom Test";
             projetTest.Stories = storiesTest;
-            List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>():
+            List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
             projetsTest.Add(projetTest);
 
             GeneralObject myTestGenObject = new GeneralObject();

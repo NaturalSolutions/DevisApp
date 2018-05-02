@@ -5,6 +5,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using WebApplication4.Models.BO.StoriesBO;
+using Newtonsoft.Json;
 
 namespace WebApplication4.Controllers
 {
@@ -17,11 +19,11 @@ namespace WebApplication4.Controllers
         {
             this.db = new DevisFacturationEntities(); // instanciation du contexte de base donnée
         }
-        public IEnumerable<Stories_d> Get() // renvoie tout les objet de types storiesD trouvé
+        public IEnumerable<WebApplication4.Models.Stories_d> Get() // renvoie tout les objet de types storiesD trouvé
         {
             try
             {
-                List<Stories_d> st = db.Stories_d.ToList();
+                List<WebApplication4.Models.Stories_d> st = db.Stories_d.ToList();
                 if ((!st.Any()) && (st != null)) // verification de la nullité de la liste renvoyé
                 {
                     return st; // si c'est bon on renvoi la liste des taches
@@ -38,9 +40,9 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Stories/5
-        public Stories_d Get(int id) // renvoie la Stories associé a son id
+        public WebApplication4.Models.Stories_d Get(int id) // renvoie la Stories associé a son id
         {
-            Stories_d res = this.db.Stories_d.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
+            WebApplication4.Models.Stories_d res = this.db.Stories_d.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {
                 return res;
@@ -52,7 +54,7 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Stories
-        public void Post([FromBody]Stories_d st) // crée et ajoute a la bd un nouvel objet Stories_d
+        public void Post([FromBody]WebApplication4.Models.Stories_d st) // crée et ajoute a la bd un nouvel objet Stories_d
         {
             try
             {
@@ -73,13 +75,13 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Stories/5
-        public void Put(int id, [FromBody]Stories_d st) // Met a jour un objet Stories_d
+        public void Put(int id, [FromBody]WebApplication4.Models.Stories_d st) // Met a jour un objet Stories_d
         {
             try
             {
                 if (st != null) // si l'objet source n'est pas null => update de la base
                 {
-                    Stories_d ts = db.Stories_d.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
+                    WebApplication4.Models.Stories_d ts = db.Stories_d.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
                     db.Stories_d.Attach(st); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
                     ts.Description = st.Description; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.Type = st.Type; // same
@@ -113,7 +115,7 @@ namespace WebApplication4.Controllers
         {
             try // vérrif si un objet a été trouvé pour l'id
             {
-                Stories_d ts = db.Stories_d.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+                WebApplication4.Models.Stories_d ts = db.Stories_d.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
                 db.Stories_d.Attach(ts); // ecouter les changement de l'objet 
                 db.Stories_d.Remove(ts); // remove l'objet ts
                 db.SaveChanges(); // mettre a jour la table
@@ -122,6 +124,12 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
             }
+        }
+
+        public object Structure()
+        {
+            WebApplication4.Models.BO.Stories s = new Models.BO.Stories();
+            return JsonConvert.SerializeObject(s.getStructure());
         }
     }
 }

@@ -44,7 +44,7 @@ namespace WebApplication4.Models.BO
             obj.directeur.updateValue();
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
-            manageDevisTable(obj.projet);
+       //     manageDevisTable(obj.projet);
             insertElementsInFiles(obj.chefProjet.sum, obj.directeur.sum);
             //Save template to a new name same location
             //TODO : convenir d'une convention de nommage 
@@ -69,7 +69,7 @@ namespace WebApplication4.Models.BO
             }
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
-            manageDevisTable(obj);
+        //    manageDevisTable(obj);
             insertElementsInFiles();
             //Save template to a new name same location
             //TODO : convenir d'une convention de nommage 
@@ -108,43 +108,44 @@ namespace WebApplication4.Models.BO
             }
         }
 
-        private void manageDevisTable(List<GeneralObject> obj)
-        {
-            Table tab = this.final.Tables[2];
-            //Row templateToCopy = tab.Rows[1];
-            foreach (GeneralObject insert in obj)
-            {
-                if (insert.stories != null)
-                {
-                    Row toAdd = tab.InsertRow(tab.RowCount - 2);
-                    //project
-                    toAdd.Cells[0].InsertParagraph(insert.projet);
-                    List bulletedList = null;
+   //     private void manageDevisTable(List<GeneralObject> obj)
+   //     {
+         //   Table tab = this.final.Tables[2];
+
+           ///Row templateToCopy = tab.Rows[1];
+        //    foreach (GeneralObject insert in obj)
+         //   {
+          //      if (insert.stories != null)
+            //    {
+            //        Row toAdd = tab.InsertRow(tab.RowCount - 2);
+            //        //project
+            //        toAdd.Cells[0].InsertParagraph(insert.projet);
+            //        List bulletedList = null;
                     //stories
-                    foreach (string story in insert.stories.Keys)
-                    {
-                        if (bulletedList == null)
-                        {
-                            bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
-                        }
-                        else
-                        {
-                            this.final.AddListItem(bulletedList, story);
-                        }
-                    }
-                    toAdd.Cells[1].InsertList(bulletedList);
+            //        foreach (string story in insert.stories.Keys)
+            //        {
+            //            if (bulletedList == null)
+            //            {
+            //                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
+            //            }
+            //            else
+            //            {
+            //                this.final.AddListItem(bulletedList, story);
+            //            }
+            //        }
+            //        toAdd.Cells[1].InsertList(bulletedList);
                     //Cout
-                    toAdd.Cells[2].InsertParagraph(insert.total.ToString() + "€");
+             //       toAdd.Cells[2].InsertParagraph(insert.total.ToString() + "€");
                 }
-                this.tableSubTotal += insert.total;
+           //     this.tableSubTotal += insert.total;
             }
 
-            tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
+           // tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
-            if (this.isFactu)
-            {
-                Table tabBonus = this.final.Tables[3];
-                Table tabUnfinished = this.final.Tables[4];
+           // if (this.isFactu)
+          //  {
+          //      Table tabBonus = this.final.Tables[3];
+          //      Table tabUnfinished = this.final.Tables[4];
                 //Row templateToCopy = tab.Rows[1];
                 //foreach (GeneralObject insert in obj)
                 //{
@@ -196,7 +197,7 @@ namespace WebApplication4.Models.BO
                 //}
                 //tabBonus.Rows[tabBonus.RowCount - 1].Cells[1].ReplaceText("[totalTableBonus]", this.tableSubTotalBonus.ToString());
 
-            }
-        }
-    } 
-}
+  //          }
+  //      }
+  //  } 
+//}

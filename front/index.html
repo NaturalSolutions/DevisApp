@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test recup epics</title>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+	#resultOption{
+		text-align: center;
+	}
+	#resultOption p{
+		margin:20px;
+		text-align: center;
+		display: inline-block;
+	}
+
+	p{
+		display: inline-block;
+	}
+</style>
+<body style="text-align: center; width: 100%;">
+	<h1>TEST</h1>
+	<button id="facture">Faire une facture !</button>
+	<button id="devis">Faire un Devis !</button>
+	<div id="processRecup" style="display: none;">
+		<h2 id="etape1"></h2>
+		<h2 id="etape2"></h2>
+		<h2 id="etape3"></h2>
+		<h2 id="erreurlog"></h2>
+		<div id="div_selecteur">
+		</div>
+		<h3 id="projets" style="display: none;">Projets</h3>
+		<div id="resultOption"></div>
+		<h3 id="stories" style="display: none;">Stories</h3>
+		<div id="resultOptionStories"></div>
+		<h3 id="taks" style="display: none;">Taks</h3>
+		<div id="resultOptionTasks"></div>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="Caller.js"></script>
+<script src="epicRecuperator.js"></script>
+<script src="DevisRequester.js"></script>
+<script src="main.js"></script>
+</html>

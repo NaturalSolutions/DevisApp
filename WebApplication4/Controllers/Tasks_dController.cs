@@ -98,7 +98,6 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
             }
-
         }
 
         // DELETE: api/Tasks/5

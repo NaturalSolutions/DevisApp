@@ -16,8 +16,16 @@ namespace WebApplication4.Models
         public string Fk_Ressource_Initials { get; set; }
 
         public virtual Stories_d Stories_d { get; set; }
+
+        public Dictionary<Type,string> structure;
         public Tasks()
         {
+            this.structure.Add(ID.GetType(), "ID");
+            this.structure.Add(FK_Stories_d.GetType(), "FK_Stories_d");
+            this.structure.Add(Description.GetType(), "Description)");
+            this.structure.Add(Initials.GetType(), "Initials");
+            this.structure.Add(Duration.GetType(), "Duration");
+            this.structure.Add(Fk_Ressource_Initials.GetType(), "Fk_Ressource_Initials"); 
         }
     }
 }

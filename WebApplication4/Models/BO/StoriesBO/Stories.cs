@@ -8,10 +8,6 @@ namespace WebApplication4.Models.BO
     public class Stories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Stories()
-        {
-            this.Tasks = new HashSet<Tasks>();
-        }
 
         public long ID {get; set;}
         public string Description {get; set;}
@@ -32,5 +28,33 @@ namespace WebApplication4.Models.BO
         public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks> Tasks { get; set; }
+
+        public Dictionary<string, string> structure;
+
+        public Stories()
+        {
+            this.structure = new Dictionary<string, string>();
+            this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Type", this.Type.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("StartDate", this.StartDate.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("UpdatetDate", this.UpdatetDate.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Owners", this.Owners.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Labels", this.Labels.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("IsBillable", this.IsBillable.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("IsPayed", this.IsPayed.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Bonus", this.Bonus.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("OriginalId", this.OriginalId.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("URL", this.URL.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Epic", this.Epic.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("isAMO", this.isAMO.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.structure.Add("Fk_Project", this.Fk_Project.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
+            this.Tasks = new HashSet<Tasks>();
+        }
+
+        public object getStructure()
+        {
+            return this.structure;
+        }
     }
 }
