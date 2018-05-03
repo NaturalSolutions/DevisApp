@@ -66,14 +66,15 @@ namespace WebApplication4.Controllers
            // storyTest.Type = "DEV";
            // storyTest.Tasks = TasksTest;
             List<Stories> storiesTest = new List<Stories>();
-         //   storiesTest.Add(storyTest);
+            //   storiesTest.Add(storyTest);
 
-            WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
-            projetTest.Nom = "nom Test";
-            projetTest.Stories = storiesTest;
+            // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
+            //projetTest.Nom = "nom Test";
+
+            //projetTest.Stories = storiesTest;
             List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
-            projetsTest.Add(projetTest);
-
+            //projetsTest.Add(projetTest);
+         
             GeneralObject myTestGenObject = new GeneralObject();
             myTestGenObject.projets = projetsTest;
 
