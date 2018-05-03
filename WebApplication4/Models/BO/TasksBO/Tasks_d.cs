@@ -8,6 +8,8 @@ namespace WebApplication4.Models.BO
 {
     public partial class Tasks_d : Tasks
     {
-
+        public Tasks_d(string description, string initials, int duration) : base(description, initials, duration)
+        {
+        }
     }
 }

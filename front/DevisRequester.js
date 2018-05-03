@@ -1,50 +1,59 @@
 class DevisRequester{
 	constructor(epic){
 		this.epic = epic;
-		this.caller = new Caller();
+		//this.caller = new Caller();
+		this.myValableProjets = 0;
+		this.myStories = 0;
+		this.myFuckingTasks = 0;
 	}
 
+	getmyValableProjets(){return this.myValableProjets;}
+	getmyStories(){return this.myStories;}
+	getmyFuckingTasks(){return this.myFuckingTasks;}
+
+	get(url) {
+		var xhr = new window.XMLHttpRequest();
+		return new Promise((resolve,reject) => {
+			xhr.onreadystatechange = function(){
+			if(xhr.readyState === 4){
+				if(xhr.status === 200){
+						resolve(JSON.parse(xhr.response));
+					}else{
+						reject(xhr);
+					}
+				}
+			}
+			xhr.open('GET',url,true);
+			xhr.setRequestHeader('X-TrackerToken','b4a752782f711a7c564221c2b0c2d5dc','Content-Type','application/json');
+			xhr.send();
+		});
+	};
 
 	/*TO DO */
-	getProjectFromEpic(myProjectsIds){
+	async getProjectFromEpic(myProjectsIds){
 		 /* va récupérer tout les projets concernant un epic */
+		let _this = this;
 		let epics;
 		let projectvalable = [];
 		let epicsAdder = new Set();
 		let epicsArray;
-		let _this = this;
 		let caller = new Caller();
 		for(let idProjet in myProjectsIds){
-			//let result = await caller.executeQuery(myProjectsIds.length,"test");
-			$.ajax({
-				url: "https://www.pivotaltracker.com/services/v5/projects/"+myProjectsIds[idProjet].id+"/epics",
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader('X-TrackerToken', 'b4a752782f711a7c564221c2b0c2d5dc'); // token de connexion pour recup les projets
-				},
-				async: false,
-				type: 'GET',
-				dataType: 'json',
-				contentType: 'application/json',
-				processData: false,
-				success: function (info) {
-					for(let u in info){
-						if(info[u].name.toLowerCase() === _this.epic.toLowerCase()){
-							projectvalable.push(myProjectsIds[idProjet]);
-						}	
-					}
-				},
-				error: function () {
-					alert("cannot access data")
+			let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/"+myProjectsIds[idProjet].id+"/epics").then((res) => {
+				for(let u in res){
+					if(res[u].name.toLowerCase() === _this.epic.toLowerCase()){
+						projectvalable.push(myProjectsIds[idProjet]);
+					}	
 				}
 			});
-/*			if(myProjectsIds[idProjet].name.toLowerCase() == this.epic.toLowerCase()){
-				projectvalable.push(myProjectsIds[idProjet]);
-			}
-*/		}
-		
+		}
 		$('#projets').show();
-		//console.log('projet : '+ projectvalable);
-		return projectvalable;
+		for(let i in projectvalable){           
+            //console.log(projectvalable[i]);
+            $('#resultOption').append('<br><p>'+projectvalable[i].name+'<p><br>');
+        } 
+		//this.myValableProjets =  projectvalable;
+		_this.getProjectStories(projectvalable);
 	}
 
 
@@ -62,74 +71,45 @@ class DevisRequester{
 			return false;
 		}
 	}
-	getProjectStories(projectIds) {
-		let stories = [];
+	async getProjectStories(projectIds) {
 		let _this = this;
+		let stories = [];
 		for(let i in projectIds){
-			/*alert(projectIds[i].id);*/
-			$.ajax({
-				url: "https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic,
-				beforeSend: function (xhr) {
-					xhr.setRequestHeader('X-TrackerToken', 'b4a752782f711a7c564221c2b0c2d5dc');
-				},
-				async: false,
-				type: 'GET',
-				dataType: 'json',
-				contentType: 'application/json',
-				processData: false,
-				success: function (data) {
-					for(let i in data){
-						if(data[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(data[i].labels) == false){
-							stories.push(data[i]); // renvoie les stories d'un projet correspondant a un epic 
+			let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic).then((r) => {
+				for(let i in r){
+						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
+							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
 						}
-					}
-				},
-				error: function () {
-					alert("Cannot get data");
 				}
-			});
+			})
 		}
 		$('#stories').show();
-		alert(stories.length)
-		return stories; 
+		//alert('nb stories :',stories.length)
+		for(let u in stories){    				
+       		$('#resultOptionStories').append('<br><p>'+stories[u].name+'<p><br>');
+       	}
+		//this.myStories = stories; 
+		_this.getTaks(projectIds,stories);
 	}
 
-	getTaks(projectIds,storiesIds){
-		
+	async getTaks(projectIds,storiesIds){
 		let tasks = [];
+		let _this = this;
 		for(let i in projectIds){
-			
-			console.log('gettasks argyuments', projectIds[i], storiesIds);
-
 			let relatedStories = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-			
-
-			console.log('relatedStories', relatedStories , "storiesIds" ,storiesIds )
-			
 			for(let s in relatedStories){
-				$.ajax({
-					url: "https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + relatedStories[s].id + "/tasks",
-					beforeSend: function (xhr) {
-						xhr.setRequestHeader('X-TrackerToken', 'b4a752782f711a7c564221c2b0c2d5dc');
-					},
-					async: false,
-					type: 'GET',
-					dataType: 'json',
-					contentType: 'application/json',
-					processData: false,
-					success: function (data) {
-						for(let i in data){
-							tasks.push(data[i]);
-						}
-					},
-					error: function () {
-						console.log('ça marche pas');
+				let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + relatedStories[s].id + "/tasks").then((res) => {
+					for(let i in res){
+						tasks.push(res[i]);
 					}
-				});
+				})
 			}
 		}
 		$('#taks').show();
-		return tasks; 
+		for(let z in tasks){    				
+       		$('#resultOptionTasks').append('<br><p>'+tasks[z].description+'<p><br>');
+       	}
+		//this.myFuckingTasks = tasks; 
 	}
 
 

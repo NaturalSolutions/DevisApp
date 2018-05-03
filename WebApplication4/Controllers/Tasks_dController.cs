@@ -117,9 +117,10 @@ namespace WebApplication4.Controllers
             }
         }
 
+        [Route("api/Tasks_d/getStructure")]
         public object getStructure()
         {
-            Tasks t = new Tasks();
+            Tasks t = new Tasks("description" , "initials",45);
             return JsonConvert.SerializeObject(t.getStructure());
         }
     }

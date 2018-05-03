@@ -31,8 +31,7 @@ namespace WebApplication4.Models.BO
 
         public Dictionary<string, string> structure;
 
-        public Stories(long id,
-            string description,
+        public Stories(string description,
             string type,
             System.DateTime depart,
             System.DateTime maj,
@@ -44,11 +43,10 @@ namespace WebApplication4.Models.BO
             long originalID,
             string url,
             string epic,
-            string isAmo,
-            long fkprojet)
+            string isAmo)
         {
 
-            this.ID = id;
+           // this.ID = id;
             this.Description = description;
             this.Type = type;
             this.StartDate = depart;
@@ -62,9 +60,9 @@ namespace WebApplication4.Models.BO
             this.URL = url;
             this.Epic = epic;
             this.isAMO = isAmo;
-            this.Fk_Project = fkprojet;
+           // this.Fk_Project = fkprojet;
             this.structure = new Dictionary<string, string>();
-            this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
+          //  this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Type", this.Type.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("StartDate", this.StartDate.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
@@ -78,7 +76,7 @@ namespace WebApplication4.Models.BO
             this.structure.Add("URL", this.URL.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Epic", this.Epic.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("isAMO", this.isAMO.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
-            this.structure.Add("Fk_Project", this.Fk_Project.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
+          //  this.structure.Add("Fk_Project", this.Fk_Project.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.Tasks = new HashSet<Tasks>();
         }
 

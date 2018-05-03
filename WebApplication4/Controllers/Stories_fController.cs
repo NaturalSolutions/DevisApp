@@ -128,7 +128,7 @@ namespace WebApplication4.Controllers
         [Route("api/Stories_f/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Stories s = new Models.BO.Stories(44455556,"description", "type",new DateTime(2008, 5, 1, 8, 30, 52),new DateTime(2008, 5, 1, 8, 30, 56),"owners","labels",true,true,false,2555645,"url","epic","isAmo",321312321);
+            WebApplication4.Models.BO.Stories s = new Models.BO.Stories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo");
             return JsonConvert.SerializeObject(s.getStructure());
         }
     }

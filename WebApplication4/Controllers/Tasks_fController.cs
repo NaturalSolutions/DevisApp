@@ -118,11 +118,11 @@ namespace WebApplication4.Controllers
             }
         }
 
+        [Route("api/Tasks_f/getStructure")]
         public object getStructure()
         {
-            //  WebApplication4.Models.BO.Stories s = new Models.BO.Stories();
-            return new object();
-            //return JsonConvert.SerializeObject(s.getStructure());
+            Tasks t = new Tasks("description", "initials", 45);
+            return JsonConvert.SerializeObject(t.getStructure());
         }
     }
 }

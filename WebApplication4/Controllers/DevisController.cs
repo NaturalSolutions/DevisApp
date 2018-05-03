@@ -53,12 +53,12 @@ namespace WebApplication4.Controllers
 
         public GeneralObject CreateATestingContext()
         {
-            Tasks taskTest = new Tasks();
-            taskTest.Description = "une tache de merde bien chiante";
-            taskTest.Duration = 2;
-            taskTest.Initials = "TL";
-            List<Tasks> TasksTest = new List<Tasks>();
-            TasksTest.Add(taskTest);
+          //  Tasks taskTest = new Tasks();
+          //  taskTest.Description = "une tache de merde bien chiante";
+          //  taskTest.Duration = 2;
+          //  taskTest.Initials = "TL";
+          //  List<Tasks> TasksTest = new List<Tasks>();
+          //  TasksTest.Add(taskTest);
 
             // LA TACHE
 
