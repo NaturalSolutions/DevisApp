@@ -126,10 +126,11 @@ namespace WebApplication4.Controllers
             }
         }
 
-        public object Structure()
+        public object getStructure()
         {
-            WebApplication4.Models.BO.Stories s = new Models.BO.Stories();
-            return JsonConvert.SerializeObject(s.getStructure());
+            //   WebApplication4.Models.BO.Stories s = new Models.BO.Stories();
+            //   return JsonConvert.SerializeObject(s.getStructure());
+            return new object();
         }
     }
 }

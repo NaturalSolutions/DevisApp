@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using Newtonsoft.Json;
 
 namespace WebApplication4.Controllers
 {
@@ -115,6 +116,13 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
             }
+        }
+
+        public object getStructure()
+        {
+            //  WebApplication4.Models.BO.Stories s = new Models.BO.Stories();
+            return new object();
+            //return JsonConvert.SerializeObject(s.getStructure());
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using Newtonsoft.Json;
 
 namespace WebApplication4.Controllers
 {
@@ -122,6 +123,13 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
             }
+        }
+
+        [Route("api/Stories_f/getStructure")]
+        public object getStructure()
+        {
+            WebApplication4.Models.BO.Stories s = new Models.BO.Stories(44455556,"description", "type",new DateTime(2008, 5, 1, 8, 30, 52),new DateTime(2008, 5, 1, 8, 30, 56),"owners","labels",true,true,false,2555645,"url","epic","isAmo",321312321);
+            return JsonConvert.SerializeObject(s.getStructure());
         }
     }
 }

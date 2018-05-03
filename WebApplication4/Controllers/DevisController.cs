@@ -62,11 +62,11 @@ namespace WebApplication4.Controllers
 
             // LA TACHE
 
-            Stories storyTest = new Stories();
-            storyTest.Type = "DEV";
-            storyTest.Tasks = TasksTest;
+            //Stories storyTest = new Stories();
+           // storyTest.Type = "DEV";
+           // storyTest.Tasks = TasksTest;
             List<Stories> storiesTest = new List<Stories>();
-            storiesTest.Add(storyTest);
+         //   storiesTest.Add(storyTest);
 
             WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
             projetTest.Nom = "nom Test";

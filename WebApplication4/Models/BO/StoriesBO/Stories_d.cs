@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApplication4.Models.BO.StoriesBO
 {
-    public partial class Stories_d : Stories
-    {
-    }
+  //  public partial class Stories_d : Stories
+  //  {
+  //  }
 }
