@@ -1,7 +1,3 @@
-async function recupInfo() => {
-
-}; 
-
 (() => {
 	"use strict";
 
