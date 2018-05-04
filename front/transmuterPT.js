@@ -3,15 +3,15 @@ class transmuterPT{
 		this.self = this;
 	}
 
-	transmuteTasks(){
-
+	transmuteTasks(TaskObject){
+		tasksStructure = 	
 	}
 
-	transmuteStories(){
-
+	transmuteStories(StoryObject){
+		storyStructure = 
 	}
 
-	transmuteProjects(){
-		
+	transmuteProjects(ProjectObject){
+		projectStructure = 
 	}
 }

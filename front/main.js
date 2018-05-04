@@ -18,6 +18,17 @@
 		  }); 
       console.log("mes Structures");
       let s = new Structurer();
-      s.getBddObjectStructure();
+      
+      s.getProjetStructure().then((res) => {
+        console.log(res);
+      });
+
+      s.getStoriesStructure().then((res) => {
+        console.log(res);
+      });
+
+      s.getTasksStructure().then((res) => {
+        console.log(res);
+      });
 	});	
 })();

@@ -16,32 +16,60 @@ class Structurer{
 				}
 			}
 			xhr.open('GET',url,true);
-			xhr.setRequestHeader('Content-Type','application/json','Allow','getStructure');
+			xhr.setRequestHeader('Content-Type','application/json');
 			xhr.send();
 		});
 	}
 
-	async getBddObjectStructure(){
-		await this.getProjetStructure().then((res) => { console.log('Projet structure',res)}); 
-		await this.getStoriesStructure().then((res) => {console.log('Story structure',res)});
-		await this.getTasksStructure().then((res) => {console.log('Task structure',res)});
-	}
+/*	async getBddObjectStructure(){
+		return new Promise((resolve,reject) => {
+			this.getProjetStructure().then((res) => {
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			});
 
-	async getProjetStructure(){
-		return this.get("http://localhost/DevisAPI/api/Projet/getStructure").then((res) => {
-			return res;	
+			this.getStoriesStructure().then((res) => {
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			});
+
+			this.getTasksStructure().then((res) => {
+				resolve(res)
+			}).catch((error) => {
+				reject(error);
+			});
+		})
+	}*/
+
+	getProjetStructure(){
+		return new Promise((resolve,reject) => {
+			this.get("http://localhost/DevisAPI/api/Projet/getStructure").then((res) => {
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			});
 		});
 	}
 
-	async getStoriesStructure(){
-		return this.get("http://localhost/DevisAPI/api/Stories_d/getStructure").then((res) => {
-			return res;	
+	getStoriesStructure(){
+		return new Promise((resolve,reject) => {
+			this.get("http://localhost/DevisAPI/api/Stories_d/getStructure").then((res) => {
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			});
 		});
 	}
 
-	async getTasksStructure(){
-		return this.get("http://localhost/DevisAPI/api/Tasks_d/getStructure").then((res) => {
-			return res;	
+	getTasksStructure(){
+		return new Promise((resolve,reject) => {
+			this.get("http://localhost/DevisAPI/api/Tasks_d/getStructure").then((res) => {
+				resolve(res);
+			}).catch((error) => {
+				reject(error);
+			});
 		});
 	}
 }
