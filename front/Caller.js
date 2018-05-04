@@ -25,10 +25,4 @@ class Caller{
 		}
 		return listeResult;
 	};
-
-/*	executeQuery(urlRequest){
-			var apiRequest1 = fetch(urlRequest).then(function(response){ 
-       		return response.json()
-    	});
-	}*/
 }

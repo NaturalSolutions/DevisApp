@@ -1,7 +1,6 @@
 class DevisRequester{
 	constructor(epic){
 		this.epic = epic;
-		//this.caller = new Caller();
 		this.myValableProjets = 0;
 		this.myStories = 0;
 		this.myFuckingTasks = 0;
@@ -29,9 +28,9 @@ class DevisRequester{
 		});
 	};
 
-	/*TO DO */
+
+	/* va récupérer tout les projets concernant un epic */
 	async getProjectFromEpic(myProjectsIds){
-		 /* va récupérer tout les projets concernant un epic */
 		let _this = this;
 		let epics;
 		let projectvalable = [];
@@ -43,18 +42,16 @@ class DevisRequester{
 				for(let u in res){
 					if(res[u].name.toLowerCase() === _this.epic.toLowerCase()){
 						projectvalable.push(myProjectsIds[idProjet]);
+						 $('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');
 					}	
 				}
 			});
 		}
 		$('#projets').show();
-		for(let i in projectvalable){           
-            //console.log(projectvalable[i]);
-            $('#resultOption').append('<br><p>'+projectvalable[i].name+'<p><br>');
-        } 
-		//this.myValableProjets =  projectvalable;
 		_this.getProjectStories(projectvalable);
 	}
+
+
 
 
 
@@ -79,16 +76,15 @@ class DevisRequester{
 				for(let i in r){
 						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
 							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
+							$('#resultOptionStories').append('<br><p>'+r[i].name+'<p><br>');
 						}
 				}
 			})
 		}
 		$('#stories').show();
-		//alert('nb stories :',stories.length)
 		for(let u in stories){    				
        		$('#resultOptionStories').append('<br><p>'+stories[u].name+'<p><br>');
        	}
-		//this.myStories = stories; 
 		_this.getTaks(projectIds,stories);
 	}
 
@@ -101,6 +97,7 @@ class DevisRequester{
 				let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + relatedStories[s].id + "/tasks").then((res) => {
 					for(let i in res){
 						tasks.push(res[i]);
+						$('#resultOptionTasks').append('<br><p>'+res[i].description+'<p><br>');
 					}
 				})
 			}
@@ -109,7 +106,6 @@ class DevisRequester{
 		for(let z in tasks){    				
        		$('#resultOptionTasks').append('<br><p>'+tasks[z].description+'<p><br>');
        	}
-		//this.myFuckingTasks = tasks; 
 	}
 
 

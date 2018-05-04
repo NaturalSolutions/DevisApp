@@ -1,3 +1,7 @@
+async function recupInfo() => {
+
+}; 
+
 (() => {
 	"use strict";
 
@@ -15,6 +19,9 @@
        			let devis = new DevisRequester($('#selector').val());
        			let result = devis.getProjectFromEpic(myRecuperator.getMemberIdProjets());
   		 	});
-		 });  
+		  }); 
+      console.log("mes Structures");
+      let s = new Structurer();
+      s.getBddObjectStructure();
 	});	
 })();
