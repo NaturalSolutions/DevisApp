@@ -47,7 +47,7 @@
 				"margin-bottom" : "10px",
 				"text-align" : "center"
 			});	
-			console.log("testComplet",res);
+			//console.log("testComplet",res);
 			let toAdd = [];
 			let projects = res.filter(o => o.description == 'reneco');
 			for(let i in projects) {
@@ -69,7 +69,7 @@
 					"margin-bottom" : "10px",
 					"text-align" : "center"
 				});
-				console.log('epics ',r);
+				//console.log('epics ',r);
 				$('#selector').append('<option></option>');
   		 		for(let i in r){
   		 			$('#selector').append('<option>'+r[i]+'</option>');
@@ -117,7 +117,7 @@
 			if (a.toLowerCase() > b.toLowerCase()) return 1;
 			return 0;
 		});
-		console.log(epics);
+		//console.log(epics);
 		return epics;
 	}
  }

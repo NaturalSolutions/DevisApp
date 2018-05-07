@@ -1,4 +1,4 @@
-class transmuterPT{
+class transmuter{
 	constructor(conf){
 		this.self = this;
 		this.Structurer = new Structurer();
@@ -19,10 +19,27 @@ class transmuterPT{
       	});
 	}
 
-	transmuteProjects(ProjectObject){
+	transmuteProjects(ProjectsObjects){
+		//obj bdd
 		let projectStructure;
 		this.Structurer.getTasksStructure().then((res) => {
         	projectStructure = JSON.parse(res);
+        	console.log('projectStructure', projectStructure);
+        	let finalObjects = {};
+      	let finalListOfObjects;
+      	console.log('ConverterProjet',ConverterProjet);
+      	console.log('ProjectsObjects',ProjectsObjects);
+      	//Boucle sur object config
+		for(let i in ConverterProjet){	
+      		console.log(i +' : '+ConverterProjet[i]);
+      		 for(let u  in ProjectsObjects){
+      			console.log('touyjours plus', i, projectStructure[i],ProjectsObjects[u],  ProjectsObjects[u][ConverterProjet[i]]  )
+      			if(projectStructure[i] !== undefined && ProjectsObjects[u][ConverterProjet[i]] !== undefined){
+      				finalObjects[i] = ProjectsObjects[u][ConverterProjet[i]];      			
+      			}      			
+      		}	
+		}
+		console.log('finaleObject', finalObjects)
       	});
 	}
 }
