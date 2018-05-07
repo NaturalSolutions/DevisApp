@@ -10,13 +10,11 @@ namespace WebApplication4.Models.BO
         public List<Stories> Stories { get; set; }
         public Dictionary<string, string> structure;
 
-        public Projet(long id, string description, string nom)
+        public Projet(string description, string nom)
         {
-            this.Id = id;
             this.Description = description;
             this.Nom = nom;
             this.structure = new Dictionary<string, string>();
-            this.structure.Add("Id", this.Id.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Nom", this.Nom.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
         }

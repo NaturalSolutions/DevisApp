@@ -118,7 +118,7 @@ namespace WebApplication4.Controllers
         [Route("api/Projet/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Projet p = new WebApplication4.Models.BO.Projet(4564654654,"description","nom");
+            WebApplication4.Models.BO.Projet p = new WebApplication4.Models.BO.Projet("description","nom");
             return JsonConvert.SerializeObject(p.getStructure());
         }
     }

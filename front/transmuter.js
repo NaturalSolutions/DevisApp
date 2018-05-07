@@ -1,10 +1,11 @@
 class transmuterPT{
-	constructor(){
+	constructor(conf){
 		this.self = this;
 		this.Structurer = new Structurer();
+		this.formatConf = conf;
 	}
 
-	transmuteTasks(TaskObject){
+	transmuteTasks(TaskObject){    
 		let tasksStructure;
 		this.Structurer.getProjetStructure().then((res) => {
         	tasksStructure = JSON.parse(res)

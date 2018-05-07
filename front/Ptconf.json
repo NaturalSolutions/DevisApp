@@ -1,28 +1,3 @@
-"Projet" : {
-	"Id" : "Id",
-	"Description" : "Description",
-	"Name" : "Name"
-}
-
-"Stories" :  {
-	"Bonus" : "Bonus",
-	"Description" : "Description",
-	"Epic" : "Epic",
-	"IsBillable" : "IsBillable",
-	"IsPayed" : "IsPayed",
-	"Labels" : "Labels",
-	"OriginalId" : "OriginalId",
-	"Owners" : "Owners",
-	"StartDate" : "StartDate",
-	"Type" : "Type",
-	"URL" : "URL",
-	"UpdateDate" : "UpdateDate",
-	"isAmo" : "isAmo"
-}
-
-
-"Tasks" : {
-	"Description" : "Description",
-	"Duration" : "Duration",
-	"Initials" : "Initials" 
-}
+ConverterProjet = {"Nom" : "name","Description" : "description"};
+ConverterStories = {"Bonus" : "labels","Description" : "description","Epic" : "labels","Labels" : "labels","OriginalId" : "id","Owners" : "owner_ids","StartDate" : "created_at","Type" : "story_type","URL" : "url","UpdatetDate" : "updated_at","isAMO" : "labels"};
+ConverterTasks = {"Description" : "description","Duration" : "description","Initials" : "description"};

@@ -2,6 +2,10 @@
 	"use strict";
 
 	$(document).ready(($) =>{
+    /*let converter =  JSON.parse(Converter);*/
+    console.log("convertisseur PT BDD projet",ConverterProjet);
+    console.log("convertisseur PT BDD stories",ConverterStories);
+    console.log("convertisseur PT BDD tasks",ConverterTasks);
 		  $('#devis').click(() => {
   		 	$('#processRecup').slideDown();
   		 	let myRecuperator = new epicRecuperator();
