@@ -68,6 +68,7 @@ class transmuter{
       			}
       			finalListOfObjects.push(finalObjects);	
 			}
+			console.log("projets" ,finalListOfObjects);
 			this.listeProjets = finalListOfObjects;
       	});
 	}
@@ -76,6 +77,23 @@ class transmuter{
     	if(this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined){
     		alert("prêt a tout envoyé !");
     		console.log("youpi");
+    		let GeneralObject = {}
+    		GeneralObject.projets = this.listeProjets;
+    		for(let p in GeneralObject.projets){
+    			for(let s in this.listeStories){
+    				if(this.listeStories[s].project_id == GeneralObject.projets[p].ID){
+              GeneralObject.projets[p].listeStories =  [];
+              GeneralObject.projets[p].listeStories.push(this.listeStories[s])
+              for(let t in this.listeTaches){
+                if(this.listeTaches[t].story_id == this.listeStories[s].id){
+                  this.listeStories[s].listeTaches = [];
+                  this.listeStories[s].listeTaches.push(this.listeTaches[t])
+                }
+              }
+            }
+    			}
+    		}
+        console.log("GeneralObject to send ",GeneralObject);
     	}else{
     		alert("toutes les actions précédents l'envoie n'on pas été effectués");
     		console.log("et merde...");

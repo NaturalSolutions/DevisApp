@@ -14,7 +14,9 @@ namespace WebApplication4.Models.BO
         {
             this.Description = description;
             this.Nom = nom;
+            this.Id = 4564564;
             this.structure = new Dictionary<string, string>();
+            this.structure.Add("ID", this.Id.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Nom", this.Nom.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
         }
