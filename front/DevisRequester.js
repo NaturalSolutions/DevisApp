@@ -120,7 +120,7 @@ class DevisRequester{
 		let storiesid = storiesIds.map(o => o.id);
 		let parser = new TasksParser();
 		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
-		/*console.log();	*/
+		//this.transMuter.sendToServer();
 	}	
 
 }

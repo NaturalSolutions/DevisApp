@@ -18,9 +18,11 @@ class TasksParser{
 		return tab;
 	}
 
-	getInfoFromTasks(tasks, storyId, projectId, isFactu) {
+	getInfoFromTasks(tasks, storyId, projectId, isFactu) 
+	{
 		var tasksModified = []; 									//initialisation tableaux vide
-		var _this = this;  										// récupération contexte
+		var _this = this; 
+		var cpt = 0; 										// récupération contexte
 		for(let i in tasks)
 		{			
 			var tabDescrInfo = tasks[i].description.split('.-');
@@ -74,6 +76,7 @@ class TasksParser{
 									tasks[i].isBonnus = bonusState;
 								}
 								tasksModified.push(tasks[i]);
+								cpt++;
 								/*for (var i in owners) {
 									tasks[i]. = _this.fillUserTab(ressource, owners[i], tabDuree[i], bonusState);
 								}*/
@@ -112,6 +115,7 @@ class TasksParser{
 								tasks[i].isBonnus = bonusState;
 							}
 							tasksModified.push(tasks[i]);
+							cpt++;
 							/*ressource = _this.fillUserTab(ressource, owner_initial, duree, bonusState)*/
 						}
 						else {
@@ -128,6 +132,7 @@ class TasksParser{
 				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 			}
 		}
+		alert(cpt +'/'+ tasks.length + 'taches ont  été attribué cet algo est trop bien bordel on gagne de l\'argent grace a toi continue gros ! ');
 		return tasksModified;
 	}
 

@@ -3,6 +3,9 @@ class transmuter{
 		this.self = this;
 		this.Structurer = new Structurer();
 		this.formatConf = conf;
+		this.listeTaches = undefined;
+		this.listeStories = undefined;
+		this.listeProjets = undefined;
 	}
 	// TO DO prendre en compte initials et duration pour les taches 
 	transmuteTasks(TaskObject){    
@@ -22,7 +25,8 @@ class transmuter{
       			}	
       			finalListOfObjects.push(finalObjects);
 			}
-			console.log('finalListOfObjects taches', finalListOfObjects)
+			this.listeTaches = finalListOfObjects;
+			this.sendToServer();
       	});	
 	}
 
@@ -43,7 +47,7 @@ class transmuter{
       			}
       			finalListOfObjects.push(finalObjects);	
 			}
-			console.log('finalListOfObjects stories', finalListOfObjects)
+			this.listeStories = finalListOfObjects;
       	});
 	}
 
@@ -64,7 +68,20 @@ class transmuter{
       			}
       			finalListOfObjects.push(finalObjects);	
 			}
-			console.log('finalListOfObjects projet', finalListOfObjects)
+			this.listeProjets = finalListOfObjects;
       	});
 	}
+
+	sendToServer(){
+    	if(this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined){
+    		alert("prêt a tout envoyé !");
+    		console.log("youpi");
+    	}else{
+    		alert("toutes les actions précédents l'envoie n'on pas été effectués");
+    		console.log("et merde...");
+    		console.log("this.listeTaches" + this.listeTaches);
+    		console.log("this.listeStories" + this.listeStories);
+    		console.log("this.listeProjets" + this.listeProjets)
+    	}
+    }
 }
