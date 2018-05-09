@@ -89,6 +89,7 @@ class DevisRequester{
        		$('#resultOptionStories').append('<br><p>'+stories[u].name+'<p><br>');
        	}
 		_this.getTaks(projectIds,stories);
+		this.transMuter.transmuteStories(stories);
 	}
 
 
@@ -110,6 +111,7 @@ class DevisRequester{
 		let projetid =  projectIds.map(o => o.id);
 		let storiesid = storiesIds.map(o => o.id);
 		let parser = new TasksParser();
+		this.transMuter.transmuteTasks(tasks);
 		console.log(parser.getInfoFromTasks(tasks,storiesid,projetid,false));	
 	}	
 
