@@ -19,12 +19,13 @@ class TasksParser{
 	}
 
 	getInfoFromTasks(tasks, storyId, projectId, isFactu) {
-	var ressource = []; 									//initialisation tableaux vide
+		var tasksModified = []; 									//initialisation tableaux vide
 		var _this = this;  										// récupération contexte
-		$.each(tasks, function () {
-			var tabDescrInfo = this.description.split('.-');
+		for(let i in tasks)
+		{			
+			var tabDescrInfo = tasks[i].description.split('.-');
 			if (tabDescrInfo.length <= 1) {
-				tabDescrInfo = this.description.split('. -');
+				tabDescrInfo = tasks[i].description.split('. -');
 			}
 			var isWE = false;
 			var bonusState = null;
@@ -62,21 +63,29 @@ class TasksParser{
 							tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regex, "");
 							var tabDuree = tabDureeBrut[0].split('+');
 							if (tabDuree.length != owners.length) {
-								alert('Probleme d\'estimation et initiales dans la tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id)
-								_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id,this.id);
+								alert('Probleme d\'estimation et initiales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
+								_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 							} else {
-								for (var i in owners) {
-									ressource = _this.fillUserTab(ressource, owners[i], tabDuree[i], bonusState);
+								tasks[i].initials = owners;
+								tasks[i].duree = tabDuree;
+								if(bonusState == undefined || bonusState == null){
+								tasks[i].isBonnus = false;	
+								}else{
+									tasks[i].isBonnus = bonusState;
 								}
+								tasksModified.push(tasks[i]);
+								/*for (var i in owners) {
+									tasks[i]. = _this.fillUserTab(ressource, owners[i], tabDuree[i], bonusState);
+								}*/
 							}
 							//this.description = this.description.trim().replace(regex, "");
 						} else {
-							this.duree = null;
+							tasks[i].duree = null;
 						}
-						alert('Probleme d\'estimation dans la tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id +'/tasks/' + this.id)
+						alert('Probleme d\'estimation dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id +'/tasks/' + tasks[i].id)
 					} else {
-						alert('Probleme d\'initales dans la tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est attribué.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id)
-						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id,this.id);
+						alert('Probleme d\'initales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
+						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 					}
 				}
 				//Tache solo
@@ -95,24 +104,42 @@ class TasksParser{
 							var duree = 0;
 							duree = regex.exec(tabDescrInfo[1].trim())[0];
 							tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regex, "");
-							ressource = _this.fillUserTab(ressource, owner_initial, duree, bonusState)
+							tasks[i].initials = owner_initial;
+							tasks[i].duree = duree;
+							if(bonusState == undefined || bonusState == null){
+								tasks[i].isBonnus = false;	
+							}else{
+								tasks[i].isBonnus = bonusState;
 							}
+							tasksModified.push(tasks[i]);
+							/*ressource = _this.fillUserTab(ressource, owner_initial, duree, bonusState)*/
+						}
 						else {
-							alert('Probleme d\'estimation dans la tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id)
-							_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id,this.id);
+							alert('Probleme d\'estimation dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
+							_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 						}
 					} else {
-						alert('Probleme d\'initales dans la tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est attribué.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id)
-						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id,this.id);
+						alert('Probleme d\'initales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
+						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 					}
 					}
 			} else { //Si la story ne peut pas etre découpée alors elle n'est pas estimée et ou attribuée
-				alert('La tâche : ' + this.id + ' de la storie n° : ' + this.story_id + ' n\'est pas attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id);
-				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + this.story_id + '/tasks/' + this.id,this.id);
+				alert('La tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id);
+				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 			}
+		}
+		return tasksModified;
+	}
+
+/*
+	getInfoFromTasks(tasks, storyId, projectId, isFactu) {
+	var ressource = []; 									//initialisation tableaux vide
+		var _this = this;  										// récupération contexte
+		$.each(tasks, function () 
+		{
 		});
 		return ressource;
-	}
+	}*/
 
 
 

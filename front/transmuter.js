@@ -4,7 +4,7 @@ class transmuter{
 		this.Structurer = new Structurer();
 		this.formatConf = conf;
 	}
-
+	// TO DO prendre en compte initials et duration pour les taches 
 	transmuteTasks(TaskObject){    
 		let tasksStructure;
 		this.Structurer.getTasksStructure().then((res) => {
@@ -16,8 +16,8 @@ class transmuter{
 				//console.log(TaskObject[u].description);
       			 for(let i  in ConverterTasks){
       				/*console.log('touyjours plus', i, tasksStructure[i],TaskObject[u],  TaskObject[u][ConverterProjet[i]]  )*/
-      				if(tasksStructure[i] !== undefined && TaskObject[u][ConverterProjet[i]] !== undefined){
-      					finalObjects[i] = TaskObject[u][ConverterProjet[i]];      			
+      				if(tasksStructure[i] !== undefined && TaskObject[u][ConverterTasks[i]] !== undefined){
+      					finalObjects[i] = TaskObject[u][ConverterTasks[i]];      			
       				}      			
       			}	
       			finalListOfObjects.push(finalObjects);
@@ -31,7 +31,6 @@ class transmuter{
 		this.Structurer.getStoriesStructure().then((res) => {
         	storyStructure = JSON.parse(res);
       		let finalListOfObjects = [];
-      		// TO DO PRENDRE EN COMPTE IS AMO AVEC ALGO DE VERIFICATION  DANS LABELS
       		//console.log(storyStructure);
       		//Boucle sur object config
 			for(let u in StoryObject){

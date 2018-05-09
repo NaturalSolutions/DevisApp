@@ -119,8 +119,8 @@ class DevisRequester{
 		let projetid =  projectIds.map(o => o.id);
 		let storiesid = storiesIds.map(o => o.id);
 		let parser = new TasksParser();
-		this.transMuter.transmuteTasks(tasks);
-		console.log(parser.getInfoFromTasks(tasks,storiesid,projetid,false));	
+		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
+		/*console.log();	*/
 	}	
 
 }
