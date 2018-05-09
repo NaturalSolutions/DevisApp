@@ -79,7 +79,7 @@ class DevisRequester{
 				for(let i in r){
 						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
 							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
-							$('#resultOptionStories').append('<br><p>'+r[i]+'<p><br>');
+							$('#resultOptionStories').append('<br><p>'+r[i].name+'<p><br>');
 						}
 				}
 			})

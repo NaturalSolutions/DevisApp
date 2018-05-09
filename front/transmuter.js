@@ -31,7 +31,7 @@ class transmuter{
 		this.Structurer.getStoriesStructure().then((res) => {
         	storyStructure = JSON.parse(res);
       		let finalListOfObjects = [];
-      		console.log(storyStructure);
+      		//console.log(storyStructure);
       		//Boucle sur object config
 			for(let u in StoryObject){
 				let finalObjects = {};

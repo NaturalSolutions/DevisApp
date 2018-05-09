@@ -129,7 +129,7 @@ namespace WebApplication4.Controllers
         [Route("api/Stories_d/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Stories s = new Models.BO.Stories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo");
+            WebApplication4.Models.BO.Stories s = new Models.BO.Stories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo",33665);
             return JsonConvert.SerializeObject(s.getStructure());
         }
     }
