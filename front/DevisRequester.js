@@ -79,15 +79,12 @@ class DevisRequester{
 				for(let i in r){
 						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
 							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
-							$('#resultOptionStories').append('<br><p>'+r[i].name+'<p><br>');
+							$('#resultOptionStories').append('<br><p>'+r[i]+'<p><br>');
 						}
 				}
 			})
 		}
 		$('#stories').show();
-		for(let u in stories){    				
-       		$('#resultOptionStories').append('<br><p>'+stories[u].name+'<p><br>');
-       	}
 		_this.getTaks(projectIds,stories);
 		this.transMuter.transmuteStories(stories);
 	}

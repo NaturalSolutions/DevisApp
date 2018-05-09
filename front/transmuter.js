@@ -31,13 +31,14 @@ class transmuter{
 		this.Structurer.getStoriesStructure().then((res) => {
         	storyStructure = JSON.parse(res);
       		let finalListOfObjects = [];
+      		console.log(storyStructure);
       		//Boucle sur object config
 			for(let u in StoryObject){
 				let finalObjects = {};
-      			for(let i  in ConverterStories){
+      			for(let i in ConverterStories){
       			 	//console.log('toujours plus', i, storyStructure[i],StoryObject[u],  StoryObject[u][ConverterProjet[i]]  )
-      				if(storyStructure[i] !== undefined && StoryObject[u][ConverterProjet[i]] !== undefined){
-      					finalObjects[i] = StoryObject[u][ConverterProjet[i]];      			
+      				if(storyStructure[i] !== undefined && StoryObject[u][ConverterStories[i]] !== undefined){
+      					finalObjects[i] = StoryObject[u][ConverterStories[i]];      			
       				}      			
       			}
       			finalListOfObjects.push(finalObjects);	
