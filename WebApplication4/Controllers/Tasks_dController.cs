@@ -120,7 +120,7 @@ namespace WebApplication4.Controllers
         [Route("api/Tasks_d/getStructure")]
         public object getStructure()
         {
-            Tasks t = new Tasks("description" , "initials",45);
+            Tasks t = new Tasks("description" , "initials",45,4564654);
             return JsonConvert.SerializeObject(t.getStructure());
         }
     }
