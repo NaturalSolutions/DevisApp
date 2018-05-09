@@ -1,5 +1,5 @@
 ConverterProjet = {"Nom" : "name","Description" : "description"};
-ConverterStories = {"Description" : "name","Labels" : "labels","OriginalId" : "id","Owners" : "owner_ids","StartDate" : "created_at","Type" : "story_type","URL" : "url","UpdatetDate" : "updated_at","isAMO" : "labels","Fk_Project":"project_id"};
+ConverterStories = {"Description" : "name","Labels" : "labels","OriginalId" : "id","Owners" : "owner_ids","StartDate" : "created_at","Type" : "story_type","URL" : "url","UpdatetDate" : "updated_at","isAMO" : "AMO","Fk_Project":"project_id"};
 ConverterTasks = {"Description" : "description","Duration" : "description","Initials" : "description"};
 
 

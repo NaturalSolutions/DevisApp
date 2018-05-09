@@ -31,6 +31,7 @@ class transmuter{
 		this.Structurer.getStoriesStructure().then((res) => {
         	storyStructure = JSON.parse(res);
       		let finalListOfObjects = [];
+      		// TO DO PRENDRE EN COMPTE IS AMO AVEC ALGO DE VERIFICATION  DANS LABELS
       		//console.log(storyStructure);
       		//Boucle sur object config
 			for(let u in StoryObject){

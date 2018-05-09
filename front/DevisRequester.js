@@ -79,6 +79,17 @@ class DevisRequester{
 				for(let i in r){
 						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
 							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
+							for(let o in r[i].labels){
+								//alert(r[i].labels[o].name.toLowerCase());
+								if(r[i].labels[o].name == "amo"){
+									r[i].AMO = true;
+									/*console.log("true" , r[i].name);*/
+									/*console.log("isAMO actuel ",r[i].isAMO);*/
+								}
+							}
+							if(r[i].AMO == undefined){
+								r[i].AMO = false;
+							}
 							$('#resultOptionStories').append('<br><p>'+r[i].name+'<p><br>');
 						}
 				}
