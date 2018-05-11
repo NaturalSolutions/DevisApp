@@ -68,7 +68,7 @@ class transmuter{
       			}
       			finalListOfObjects.push(finalObjects);	
 			}
-			console.log("projets" ,finalListOfObjects);
+			//console.log("projets" ,finalListOfObjects);
 			this.listeProjets = finalListOfObjects;
       	});
 	}
@@ -95,11 +95,9 @@ class transmuter{
     		}
         console.log("GeneralObject to send ",GeneralObject);
     	}else{
-    		alert("toutes les actions précédents l'envoie n'on pas été effectués");
-    		console.log("et merde...");
-    		console.log("this.listeTaches" + this.listeTaches);
+/*    		console.log("this.listeTaches" + this.listeTaches);
     		console.log("this.listeStories" + this.listeStories);
-    		console.log("this.listeProjets" + this.listeProjets)
+    		console.log("this.listeProjets" + this.listeProjets)*/
     	}
     }
 }

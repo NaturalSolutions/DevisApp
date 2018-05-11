@@ -39,10 +39,14 @@ class DevisRequester{
 		let epicsArray;
 		let caller = new Caller();
 		for(let idProjet in myProjectsIds){
+			let myCurrentProject = {};
 			let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/"+myProjectsIds[idProjet].id+"/epics").then((res) => {
 				for(let u in res){
 					if(res[u].name.toLowerCase() === _this.epic.toLowerCase()){
-						projectvalable.push(myProjectsIds[idProjet]);
+						myCurrentProject = myProjectsIds[idProjet];
+						console.log("here");
+						myCurrentProject.listeStories = [];
+						projectvalable.push(myCurrentProject);
 						 $('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');
 					}	
 				}
@@ -72,29 +76,39 @@ class DevisRequester{
 	}
 
 	async getProjectStories(projectIds) {
+		console.log("projectIds",projectIds);
+		//console.log(projectIds);
 		let _this = this;
 		let stories = [];
 		for(let i in projectIds){
-			let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic).then((r) => {
-				for(let i in r){
-						if(r[i].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[i].labels) == false){
-							stories.push(r[i]); // renvoie les stories d'un projet correspondant a un epic 
-							for(let o in r[i].labels){
+			let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic).then((r) => {
+			let myCurrentStory = {};
+				for(let u in r){
+						if(r[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[u].labels) == false){
+							myCurrentStory = r[u];
+							myCurrentStory.listeTaches = [];
+							stories.push(myCurrentStory); // renvoie les stories d'un projet correspondant a un epic 	
+							//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
+							if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+								projectIds[i].listeStories.push(myCurrentStory);	
+							}
+							for(let o in r[u].labels){
 								//alert(r[i].labels[o].name.toLowerCase());
-								if(r[i].labels[o].name == "amo"){
-									r[i].AMO = true;
-									/*console.log("true" , r[i].name);*/
-									/*console.log("isAMO actuel ",r[i].isAMO);*/
+								if(r[u].labels[o].name == "amo"){
+									r[u].AMO = true;
+									//console.log("true" , r[i].name);
+									//console.log("isAMO actuel ",r[i].isAMO);
 								}
 							}
-							if(r[i].AMO == undefined){
-								r[i].AMO = false;
+							if(r[u].AMO == undefined){
+								r[u].AMO = false;
 							}
-							$('#resultOptionStories').append('<br><p>'+r[i].name+'<p><br>');
+							$('#resultOptionStories').append('<br><p>'+r[u].name+'<p><br>');
 						}
 				}
 			})
 		}
+
 		$('#stories').show();
 		_this.getTaks(projectIds,stories);
 		this.transMuter.transmuteStories(stories);
@@ -103,21 +117,34 @@ class DevisRequester{
 
 	async getTaks(projectIds,storiesIds){
 		let tasks = [];
+		console.log("getTasks(): ", projectIds);
 		let _this = this;
-		for(let i in projectIds){
-			let relatedStories = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-			for(let s in relatedStories){
-				let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + relatedStories[s].id + "/tasks").then((res) => {
-					for(let i in res){
-						tasks.push(res[i]);
-						$('#resultOptionTasks').append('<br><p>'+res[i].description+'<p><br>');
+		projectIds.map(p => p.listeStories)
+				  .map(s => console.log(s))
+		/*for(let i=0; i < projectIds.length; i++){
+			//let storiesIds;//.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+			//console.log("storiesIds",storiesIds);
+
+			console.debug(projectIds[i].id)
+
+			for(let s in projectIds[i].listeStories){
+				alert('il ne veut pas passer la dedans');
+				projectIds.listeStories[s].listeTaches = new Array();
+				let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + projectIds.listeStories[s].id + "/tasks").then((res) => {
+					for(let u in res){
+						tasks.push(res[u]);
+						projectIds.listeStories[s].listeTaches.push(res[u]);
+						$('#resultOptionTasks').append('<br><p>'+res[u].description+'<p><br>');
 					}
 				})
 			}
-		}
+		}*/
 		$('#taks').show();
 		let projetid =  projectIds.map(o => o.id);
-		let storiesid = storiesIds.map(o => o.id);
+		let storiesid = [];
+		for(let k in projectIds){
+			storiesid.push(projectIds[k].id); 
+		}
 		let parser = new TasksParser();
 		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
 		//this.transMuter.sendToServer();

@@ -132,7 +132,7 @@ class TasksParser{
 				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 			}
 		}
-		alert(cpt +'/'+ tasks.length + 'taches ont  été attribué cet algo est trop bien bordel on gagne de l\'argent grace a toi continue gros ! ');
+		alert(cpt +'/'+ tasks.length + 'taches ont  été attribué');
 		return tasksModified;
 	}
 
