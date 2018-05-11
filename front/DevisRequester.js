@@ -81,7 +81,8 @@ class DevisRequester{
 		let _this = this;
 		let stories = [];
 		for(let i in projectIds){
-			let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic).then((r) => {
+			let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic)
+			.then((r) => {
 			let myCurrentStory = {};
 				for(let u in r){
 						if(r[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[u].labels) == false){
@@ -106,21 +107,27 @@ class DevisRequester{
 							$('#resultOptionStories').append('<br><p>'+r[u].name+'<p><br>');
 						}
 				}
-			})
-		}
 
 		$('#stories').show();
+		console.log("projectIds debug",projectIds);
 		_this.getTaks(projectIds,stories);
+
 		this.transMuter.transmuteStories(stories);
+			})
+		}
 	}
 
+
+/*
 
 	async getTaks(projectIds,storiesIds){
 		let tasks = [];
 		console.log("getTasks(): ", projectIds);
 		let _this = this;
 		projectIds.map(p => p.listeStories)
-				  .map(s => console.log(s))
+				  .map(s => {
+				  	let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + projectIds.listeStories[s].id + "/tasks")
+				  })
 		/*for(let i=0; i < projectIds.length; i++){
 			//let storiesIds;//.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
 			//console.log("storiesIds",storiesIds);
@@ -139,7 +146,8 @@ class DevisRequester{
 				})
 			}
 		}*/
-		$('#taks').show();
+	
+	/*	$('#taks').show();
 		let projetid =  projectIds.map(o => o.id);
 		let storiesid = [];
 		for(let k in projectIds){
@@ -148,6 +156,38 @@ class DevisRequester{
 		let parser = new TasksParser();
 		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
 		//this.transMuter.sendToServer();
+	}	
+*/
+
+	async getTaks(projectIds,storiesIds){
+		let tasks = [];
+		console.log("c'est vide ???? ",projectIds);
+		let _this = this;
+		for(let i in projectIds){
+			//let storiesIds;//.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+			//console.log("storiesIds",storiesIds);
+			i = parseInt(i);
+			for(let s in projectIds[i].listeStories){
+				alert('il ne veut pas passer la dedans');
+				projectIds[i].listeStories[s].listeTaches = new Array();
+				let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories/" + projectIds[i].listeStories[s].id + "/tasks").then((res) => {
+					for(let u in res){
+						tasks.push(res[u]);
+						projectIds[i].listeStories[s].listeTaches.push(res[u]);
+						$('#resultOptionTasks').append('<br><p>'+res[u].description+'<p><br>');
+					}
+				})
+			}
+		}
+		$('#taks').show();
+		let projetid =  projectIds.map(o => o.id);
+		let storiesid = [];
+		for(let k in projectIds){
+			storiesid.push(projectIds[k].id); 
+		}
+		let parser = new TasksParser();
+		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
+		console.log('projectIds tout complet',projectIds);		//this.transMuter.sendToServer();
 	}	
 
 }
