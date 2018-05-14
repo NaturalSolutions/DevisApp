@@ -84,8 +84,8 @@ class TasksParser{
 							//this.description = this.description.trim().replace(regex, "");
 						} else {
 							tasks[i].duree = null;
+							alert('Probleme d\'estimation dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id +'/tasks/' + tasks[i].id)
 						}
-						alert('Probleme d\'estimation dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id +'/tasks/' + tasks[i].id)
 					} else {
 						alert('Probleme d\'initales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
 						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);

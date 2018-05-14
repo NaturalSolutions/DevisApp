@@ -44,17 +44,18 @@ class DevisRequester{
 				for(let u in res){
 					if(res[u].name.toLowerCase() === _this.epic.toLowerCase()){
 						myCurrentProject = myProjectsIds[idProjet];
-						console.log("here");
 						myCurrentProject.listeStories = [];
 						projectvalable.push(myCurrentProject);
 						 $('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');
 					}	
 				}
+				$('#projets').show();
+				_this.getProjectStories(projectvalable).then((res) => {
+				//console.log('projectIds tout complet',projectvalable);
+				_this.transMuter.transmuteProjects(projectvalable);			
+				})
 			});
 		}
-		$('#projets').show();
-		_this.getProjectStories(projectvalable);
-		this.transMuter.transmuteProjects(projectvalable);
 	}
 
 
@@ -76,7 +77,7 @@ class DevisRequester{
 	}
 
 	async getProjectStories(projectIds) {
-		console.log("projectIds",projectIds);
+		//console.log("projectIds",projectIds);
 		//console.log(projectIds);
 		let _this = this;
 		let stories = [];
@@ -84,6 +85,7 @@ class DevisRequester{
 			let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic)
 			.then((r) => {
 			let myCurrentStory = {};
+			let cpt = 0;
 				for(let u in r){
 						if(r[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[u].labels) == false){
 							myCurrentStory = r[u];
@@ -106,16 +108,21 @@ class DevisRequester{
 							}
 							$('#resultOptionStories').append('<br><p>'+r[u].name+'<p><br>');
 						}
+						$('#stories').show();
+						//console.log("projectIds debug",projectIds)
 				}
+				this.getTaks(stories,projectIds).then((tasks) => {
+					_this.transMuter.transmuteTasks(tasks);
+				});
 
-		$('#stories').show();
-		console.log("projectIds debug",projectIds);
-		_this.getTaks(projectIds,stories);
-
-		this.transMuter.transmuteStories(stories);
+				this.transMuter.transmuteStories(stories);
+				//this.transMuter.transmuteStories(stories);
 			})
 		}
 	}
+
+
+
 
 
 /*
@@ -158,10 +165,10 @@ class DevisRequester{
 		//this.transMuter.sendToServer();
 	}	
 */
-
-	async getTaks(projectIds,storiesIds){
+/*
+	async getTaks(projectIds,storyId){
 		let tasks = [];
-		console.log("c'est vide ???? ",projectIds);
+		//console.log("c'est vide ???? ",projectIds);
 		let _this = this;
 		for(let i in projectIds){
 			//let storiesIds;//.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
@@ -188,6 +195,46 @@ class DevisRequester{
 		let parser = new TasksParser();
 		this.transMuter.transmuteTasks(parser.getInfoFromTasks(tasks,storiesid,projetid,false));
 		console.log('projectIds tout complet',projectIds);		//this.transMuter.sendToServer();
+	}	*/
+
+
+
+
+	getTaks(storiesIds,projectIds){
+		let tasks = [];
+		//console.log("c'est vide ???? ",projectIds);
+		let _this = this;
+		//console.log("story",story);
+		for(let i in projectIds){
+			let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+			console.log("strfiltered",strfiltered);
+			i = parseInt(i);
+			return new Promise((resolve,reject) => {
+				for(let s in strfiltered){
+					/*alert('il ne veut pas passer la dedans');*/
+					projectIds[i].listeStories[s].listeTaches = new Array(); 
+					let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks").then((res) => {
+					for(let u in res){
+						tasks.push(res[u]);
+						strfiltered[s].listeTaches.push(res[u]);
+						$('#resultOptionTasks').append('<br><p>'+res[u].description+'<p><br>');
+					}
+					resolve(tasks);	
+					$('#taks').show();
+					let projetid =  projectIds.map(o => o.id);
+					let storiesid = [];
+					for(let k in projectIds){
+						storiesid.push(projectIds[k].id); 
+					}
+					let parser = new TasksParser();
+					if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
+						parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+					}
+					//console.log('projectIds tout complet',projectIds);		//this.transMuter.sendToServer();
+				})
+				}				
+			})
+		}
 	}	
 
 }

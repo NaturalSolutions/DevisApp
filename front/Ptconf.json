@@ -1,5 +1,5 @@
-ConverterProjet = {"ID":"id","Nom" : "name","Description" : "description"};
-ConverterStories = {"Description" : "name","Labels" : "labels","OriginalId" : "id","Owners" : "owner_ids","StartDate" : "created_at","Type" : "story_type","URL" : "url","UpdatetDate" : "updated_at","isAMO" : "AMO","Fk_Project":"project_id"};
+ConverterProjet = {"ID":"id","Nom" : "name","Description" : "description" , "Stories" : "listeStories"};
+ConverterStories = {"Description" : "name","Labels" : "labels","OriginalId" : "id","Owners" : "owner_ids","StartDate" : "created_at","Type" : "story_type","URL" : "url","UpdatetDate" : "updated_at","isAMO" : "AMO","Fk_Project":"project_id", "Tasks" : "listeTaches"};
 ConverterTasks = {"Description" : "description","Duration" : "duree","Initials" : "initials","FK_Stories":"story_id"};
 
 

@@ -74,30 +74,18 @@ class transmuter{
 	}
 
 	sendToServer(){
+    let GeneralObject = {}
     	if(this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined){
-    		alert("prêt a tout envoyé !");
-    		console.log("youpi");
-    		let GeneralObject = {}
+    		//alert("prêt a tout envoyé !");
+    		//console.log("this.listeProjets",this.listeProjets);
     		GeneralObject.projets = this.listeProjets;
     		for(let p in GeneralObject.projets){
-    			for(let s in this.listeStories){
-    				if(this.listeStories[s].project_id == GeneralObject.projets[p].ID){
-              GeneralObject.projets[p].listeStories =  [];
-              GeneralObject.projets[p].listeStories.push(this.listeStories[s])
-              for(let t in this.listeTaches){
-                if(this.listeTaches[t].story_id == this.listeStories[s].id){
-                  this.listeStories[s].listeTaches = [];
-                  this.listeStories[s].listeTaches.push(this.listeTaches[t])
-                }
+          GeneralObject.projets[p].listeStories = this.listeStories;
+          for(let t in GeneralObject.projets[p].listeStories){
+                  GeneralObject.projets[p].listeStories[t].listeTaches = this.listeTaches[t];
               }
             }
     			}
-    		}
         console.log("GeneralObject to send ",GeneralObject);
-    	}else{
-/*    		console.log("this.listeTaches" + this.listeTaches);
-    		console.log("this.listeStories" + this.listeStories);
-    		console.log("this.listeProjets" + this.listeProjets)*/
-    	}
-    }
+  }
 }
