@@ -111,8 +111,18 @@ class DevisRequester{
 						$('#stories').show();
 						//console.log("projectIds debug",projectIds)
 				}
-				this.getTaks(stories,projectIds).then((tasks) => {
-					_this.transMuter.transmuteTasks(tasks);
+				this.getTaks(stories,projectIds).then((tasks,isFull) => {
+					let listeDenvoi = [];
+					if(isFull == true){
+						for(let f in tasks){
+							listeDenvoi.push(tasks[f]);
+						}
+						_this.transMuter.transmuteTasks(tasks);	
+					}else{
+						for(let f in tasks){
+							listeDenvoi.push(tasks[f]);
+						}
+					}					
 				});
 
 				this.transMuter.transmuteStories(stories);
@@ -205,9 +215,10 @@ class DevisRequester{
 		//console.log("c'est vide ???? ",projectIds);
 		let _this = this;
 		//console.log("story",story);
+		let cpt = 1;
 		for(let i in projectIds){
 			let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-			console.log("strfiltered",strfiltered);
+			//console.log("strfiltered",strfiltered);
 			i = parseInt(i);
 			return new Promise((resolve,reject) => {
 				for(let s in strfiltered){
@@ -219,7 +230,11 @@ class DevisRequester{
 						strfiltered[s].listeTaches.push(res[u]);
 						$('#resultOptionTasks').append('<br><p>'+res[u].description+'<p><br>');
 					}
-					resolve(tasks);	
+					if(cpt >= projectIds.length){
+						resolve(tasks,true);
+					}else{
+						resolve(tasks,false);
+					}
 					$('#taks').show();
 					let projetid =  projectIds.map(o => o.id);
 					let storiesid = [];
@@ -234,6 +249,7 @@ class DevisRequester{
 				})
 				}				
 			})
+			cpt++;
 		}
 	}	
 
