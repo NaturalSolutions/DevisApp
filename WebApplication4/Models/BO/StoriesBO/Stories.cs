@@ -83,6 +83,11 @@ namespace WebApplication4.Models.BO
             this.Tasks = new HashSet<Tasks>();
         }
 
+        public Stories()
+        {
+
+        }
+
         public object getStructure()
         {
             return this.structure;

@@ -93,19 +93,10 @@ class DevisRequester{
 					stringLabels += myCurrentStory.labels[o].name + " ";
 					if(myCurrentStory.labels[o].name == "amo"){
 						myCurrentStory.AMO = true;
-						//console.log("true" , r[i].name);
-						//console.log("isAMO actuel ",r[i].isAMO);
 					}
 				}
 				myCurrentStory.labels = stringLabels;
 				myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
-		/*		if(myCurrentStory.owner_ids != undefined){
-					let stringOwners = " ";
-					for(let owner in myCurrentStory.owner_ids){
-						stringOwners += myCurrentStory.owner_ids[owner] + " ";
-					}
-					
-				}*/
 				if(myCurrentStory.AMO == undefined){
 					myCurrentStory.AMO = false;
 				}

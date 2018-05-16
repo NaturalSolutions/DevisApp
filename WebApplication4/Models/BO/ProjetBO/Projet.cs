@@ -10,6 +10,11 @@ namespace WebApplication4.Models.BO
         public List<Stories> Stories { get; set; }
         public Dictionary<string, string> structure;
 
+        public Projet()
+        {
+
+        }
+
         public Projet(string description, string nom)
         {
             this.Description = description;

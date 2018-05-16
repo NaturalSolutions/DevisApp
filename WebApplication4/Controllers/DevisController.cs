@@ -93,19 +93,19 @@ namespace WebApplication4.Controllers
                 var escouilles = genObjec_d.ToString();
                 GeneralObject test = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
                 //GeneralObject genTest = CreateATestingContext();
-                DevisCalculator devisCalculator = new DevisCalculator(new GeneralObject());
+                DevisCalculator devisCalculator = new DevisCalculator(test);
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
                 DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
                 Console.WriteLine("Resultat ici");
-                foreach (KeyValuePair<string, decimal?> entry in resultFromcallCalculator.getProjectCost())
-                {
-                    Console.WriteLine(entry.Key + "    " + entry.Value);
-                }
-                {
+               // foreach (KeyValuePair<string, decimal?> entry in resultFromcallCalculator.getProjectCost())
+               // {
+              //      Console.WriteLine(entry.Key + "    " + entry.Value);
+               // }
+               // {
                     // do something with entry.Value or entry.Key
-                }
-                List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
-                List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
+               // }
+               // List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
+               // List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
                 //foreach (WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
                 //{
                 //    NomProjet.Add(p.Nom);
