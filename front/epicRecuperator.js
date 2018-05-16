@@ -4,13 +4,22 @@
  	}
  	get(url) {
 		var xhr = new window.XMLHttpRequest();
+		let result = {};
 		return new Promise((resolve,reject) => {
 			xhr.onreadystatechange = function(){
 			if(xhr.readyState === 4){
 				if(xhr.status === 200){
 						resolve(JSON.parse(xhr.response));
 					}else{
-						reject(xhr);
+						if(xhr.status === 403){
+							result.code = 403;
+							result.message = "Vous n'avez pas accès à cet url " +'<a href="' +url +'" style="color:white;" target="_blank">ICI</a>' + '\n' + "Veuillez changer votre Token D'accès à Pivotal Tracker";
+							reject(result);
+						}else{
+							result.code = "Others";
+							result.message = JSON.parse(xhr.response);
+							reject(result);
+						}
 					}
 				}
 			}
@@ -77,15 +86,16 @@
 			});
 			
 		}).catch((error) => {
-			$('#erreurlog').html('Unable to get projects').css({
-					"background-color" : "red",
-					"width" : "400px",
-					"border-radius" : "30px",
-					"margin" : "auto",
-					"margin-bottom" : "10px",
-					"color" : "white",
-					"text-align" : "center"
-				});
+			alert(error.code);
+			$('#erreurlog').html(error.message).css({
+				"background-color" : "red",
+				"width" : "800px",
+				"border-radius" : "30px",
+				"margin" : "auto",
+				"margin-bottom" : "10px",
+				"color" : "white",
+				"text-align" : "center"
+			});
 		});
 	};
 
@@ -101,9 +111,9 @@
 				let tabNames = data.map(o => epicsAdder.add(o.name.toLowerCase()));
 				myProjectsIds[idProjet].epicName = data.map(o => o.name.toLowerCase()); 
 			}).catch((error) => {
-				$('#erreurlog').html('OUPSI y\'a eu une erreur').css({
+				$('#erreurlog').html(error.message).css({
 					"background-color" : "red",
-					"width" : "400px",
+					"width" : "800px",
 					"margin" : "auto",
 					"margin-bottom" : "10px",
 					"border-radius" : "30px",
