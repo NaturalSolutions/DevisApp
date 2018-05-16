@@ -99,8 +99,9 @@
 		for(let idProjet in myProjectsIds){
 			await _this.get('https://www.pivotaltracker.com/services/v5/projects/'+myProjectsIds[idProjet].id+'/epics').then((data) => {
 				let tabNames = data.map(o => epicsAdder.add(o.name.toLowerCase()));
+				myProjectsIds[idProjet].epicName = data.map(o => o.name.toLowerCase()); 
 			}).catch((error) => {
-				$('#erreurlog').html('Unable to get epics').css({
+				$('#erreurlog').html('OUPSI y\'a eu une erreur').css({
 					"background-color" : "red",
 					"width" : "400px",
 					"margin" : "auto",

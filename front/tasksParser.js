@@ -20,6 +20,7 @@ class TasksParser{
 
 	getInfoFromTasks(tasks, storyId, projectId, isFactu) 
 	{
+		console.log("Parsing tasks");
 		var tasksModified = []; 									//initialisation tableaux vide
 		var _this = this; 
 		var cpt = 0; 										// récupération contexte
@@ -132,7 +133,7 @@ class TasksParser{
 				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 			}
 		}
-		alert(cpt +'/'+ tasks.length + 'taches ont  été attribué');
+		//alert(cpt +'/'+ tasks.length + 'taches ont  été attribué');
 		return tasksModified;
 	}
 

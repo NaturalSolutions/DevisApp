@@ -8,7 +8,8 @@ class transmuter{
 		this.listeProjets = undefined;
 	}
 	// TO DO prendre en compte initials et duration pour les taches 
-	transmuteTasks(TaskObject){    
+	transmuteTasks(TaskObject){
+    console.log("Transmuting Tasks");    
 		let tasksStructure;
 		this.Structurer.getTasksStructure().then((res) => {
         	tasksStructure = JSON.parse(res);
@@ -26,11 +27,11 @@ class transmuter{
       			finalListOfObjects.push(finalObjects);
 			}
 			this.listeTaches = finalListOfObjects;
-			this.sendToServer();
       	});	
 	}
 
 	transmuteStories(StoryObject){
+    console.log("Transmuting Stories");
 		let storyStructure;
 		this.Structurer.getStoriesStructure().then((res) => {
         	storyStructure = JSON.parse(res);
@@ -53,6 +54,7 @@ class transmuter{
 
 	transmuteProjects(ProjectsObjects){
 		//obj bdd
+    console.log("Transmuting Projects");
 		let projectStructure;
 		this.Structurer.getProjetStructure().then((res) => {
         	projectStructure = JSON.parse(res);
@@ -70,22 +72,21 @@ class transmuter{
 			}
 			//console.log("projets" ,finalListOfObjects);
 			this.listeProjets = finalListOfObjects;
+      this.encapsulateObjects();
       	});
 	}
 
-	sendToServer(){
-    let GeneralObject = {}
+	encapsulateObjects(){
+    let GeneralObject = {};
     	if(this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined){
-    		//alert("prêt a tout envoyé !");
-    		//console.log("this.listeProjets",this.listeProjets);
     		GeneralObject.projets = this.listeProjets;
     		for(let p in GeneralObject.projets){
-          GeneralObject.projets[p].listeStories = this.listeStories;
+          GeneralObject.projets[p].Stories = this.listeStories.filter(o => o.Fk_Project == GeneralObject.projets[p].ID);
           for(let t in GeneralObject.projets[p].listeStories){
-                  GeneralObject.projets[p].listeStories[t].listeTaches = this.listeTaches[t];
-              }
-            }
-    			}
+            GeneralObject.projets[p].listeStories[t].Tasks = this.listeTaches[t].filter(o => o.story_id == GeneralObject.projets[p].listeStories[t].OriginalId);
+          }
+        }
         console.log("GeneralObject to send ",GeneralObject);
+    	}
   }
 }

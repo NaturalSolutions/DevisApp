@@ -1,63 +1,54 @@
 class DevisRequester{
 	constructor(epic){
 		this.epic = epic;
-		this.myValableProjets = 0;
-		this.myStories = 0;
-		this.myFuckingTasks = 0;
 		this.transMuter = new transmuter();
 	}
 
-	getmyValableProjets(){return this.myValableProjets;}
-	getmyStories(){return this.myStories;}
-	getmyFuckingTasks(){return this.myFuckingTasks;}
-
 	get(url) {
 		var xhr = new window.XMLHttpRequest();
-		return new Promise((resolve,reject) => {
-			xhr.onreadystatechange = function(){
+		let result;
+		xhr.onreadystatechange = function(){
 			if(xhr.readyState === 4){
 				if(xhr.status === 200){
-						resolve(JSON.parse(xhr.response));
+						result = JSON.parse(xhr.response);
 					}else{
-						reject(xhr);
+						result = JSON.parse(xhr.response);
 					}
 				}
 			}
-			xhr.open('GET',url,true);
-			xhr.setRequestHeader('X-TrackerToken','b4a752782f711a7c564221c2b0c2d5dc','Content-Type','application/json');
-			xhr.send();
-		});
+		xhr.open('GET',url,false);
+		xhr.setRequestHeader('X-TrackerToken','b4a752782f711a7c564221c2b0c2d5dc','Content-Type','application/json');
+		xhr.send();
+		return result;
 	};
 
-
 	/* va récupérer tout les projets concernant un epic */
-	async getProjectFromEpic(myProjectsIds){
-		let _this = this;
-		let epics;
-		let projectvalable = [];
-		let epicsAdder = new Set();
-		let epicsArray;
-		let caller = new Caller();
-		for(let idProjet in myProjectsIds){
-			let myCurrentProject = {};
-			let result = await _this.get("https://www.pivotaltracker.com/services/v5/projects/"+myProjectsIds[idProjet].id+"/epics").then((res) => {
-				for(let u in res){
-					if(res[u].name.toLowerCase() === _this.epic.toLowerCase()){
-						myCurrentProject = myProjectsIds[idProjet];
-						myCurrentProject.listeStories = [];
-						projectvalable.push(myCurrentProject);
-						 $('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');
-					}	
+	getProjectFromEpic(myProjectsIds){
+	console.log("going to search Projects");
+	let _this = this;
+	let epics;
+	let projectvalable = [];
+	let epicsAdder = new Set();
+	let epicsArray;
+	for(let idProjet in myProjectsIds)
+	{
+		let myCurrentProject = {};	
+		if(myProjectsIds[idProjet].epicName != undefined){
+			for(let Name in myProjectsIds[idProjet].epicName){
+				if(myProjectsIds[idProjet].epicName[Name].toLowerCase() === _this.epic.toLowerCase()){
+					myCurrentProject = myProjectsIds[idProjet];
+					myCurrentProject.listeStories = [];
+					projectvalable.push(myCurrentProject);
+					$('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');	
 				}
-				$('#projets').show();
-				_this.getProjectStories(projectvalable).then((res) => {
-				//console.log('projectIds tout complet',projectvalable);
-				_this.transMuter.transmuteProjects(projectvalable);			
-				})
-			});
+			}			
 		}
 	}
-
+	$('#projets').show();
+	_this.getProjectStories(projectvalable);
+	//console.log('projectIds tout complet',projectvalable);
+	_this.transMuter.transmuteProjects(projectvalable);		
+}
 
 
 
@@ -76,60 +67,46 @@ class DevisRequester{
 		}
 	}
 
-	async getProjectStories(projectIds) {
-		//console.log("projectIds",projectIds);
-		//console.log(projectIds);
-		let _this = this;
-		let stories = [];
-		for(let i in projectIds){
-			let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic)
-			.then((r) => {
-			let myCurrentStory = {};
-			let cpt = 0;
-				for(let u in r){
-						if(r[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(r[u].labels) == false){
-							myCurrentStory = r[u];
-							myCurrentStory.listeTaches = [];
-							stories.push(myCurrentStory); // renvoie les stories d'un projet correspondant a un epic 	
-							//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
-							if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
-								projectIds[i].listeStories.push(myCurrentStory);	
-							}
-							for(let o in r[u].labels){
-								//alert(r[i].labels[o].name.toLowerCase());
-								if(r[u].labels[o].name == "amo"){
-									r[u].AMO = true;
-									//console.log("true" , r[i].name);
-									//console.log("isAMO actuel ",r[i].isAMO);
-								}
-							}
-							if(r[u].AMO == undefined){
-								r[u].AMO = false;
-							}
-							$('#resultOptionStories').append('<br><p>'+r[u].name+'<p><br>');
-						}
-						$('#stories').show();
-						//console.log("projectIds debug",projectIds)
+	getProjectStories(projectIds) {
+	let _this = this;
+	let stories = [];
+	console.log("going to search Stories");
+	for(let i in projectIds){
+		let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+_this.epic);
+		let myCurrentStory = {};
+		for(let u in result){
+			if(result[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(result[u].labels) == false){
+				myCurrentStory = result[u];
+				myCurrentStory.listeTaches = [];
+				 // renvoie les stories d'un projet correspondant a un epic 	
+				//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
+				if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+					stories.push(myCurrentStory);
+					if(myCurrentStory.project_id == projectIds[i].id){
+						projectIds[i].listeStories.push(myCurrentStory);	
+					}
 				}
-				this.getTaks(stories,projectIds).then((tasks,isFull) => {
-					let listeDenvoi = [];
-					if(isFull == true){
-						for(let f in tasks){
-							listeDenvoi.push(tasks[f]);
-						}
-						_this.transMuter.transmuteTasks(tasks);	
-					}else{
-						for(let f in tasks){
-							listeDenvoi.push(tasks[f]);
-						}
-					}					
-				});
-
-				this.transMuter.transmuteStories(stories);
-				//this.transMuter.transmuteStories(stories);
-			})
+				for(let o in result[u].labels){
+					//alert(result[i].labels[o].name.toLowerCase());
+					if(result[u].labels[o].name == "amo"){
+						result[u].AMO = true;
+						//console.log("true" , r[i].name);
+						//console.log("isAMO actuel ",r[i].isAMO);
+					}
+				}
+				if(result[u].AMO == undefined){
+					result[u].AMO = false;
+				}
+				$('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
+			}
+			$('#stories').show();
+			//console.log("projectIds debug",projectIds)
 		}
 	}
+	this.transMuter.transmuteStories(stories);
+	this.getTaks(stories,projectIds);
+	//this.transMuter.transmuteStories(stories);
+}
 
 
 
@@ -212,44 +189,38 @@ class DevisRequester{
 
 	getTaks(storiesIds,projectIds){
 		let tasks = [];
-		//console.log("c'est vide ???? ",projectIds);
+		console.log("going to search tasks");
 		let _this = this;
-		//console.log("story",story);
 		let cpt = 1;
-		for(let i in projectIds){
+		for(let i in projectIds)
+		{
 			let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-			//console.log("strfiltered",strfiltered);
+			projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
 			i = parseInt(i);
-			return new Promise((resolve,reject) => {
-				for(let s in strfiltered){
-					/*alert('il ne veut pas passer la dedans');*/
-					projectIds[i].listeStories[s].listeTaches = new Array(); 
-					let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks").then((res) => {
-					for(let u in res){
-						tasks.push(res[u]);
-						strfiltered[s].listeTaches.push(res[u]);
-						$('#resultOptionTasks').append('<br><p>'+res[u].description+'<p><br>');
+			for(let s in strfiltered)
+			{
+				projectIds[i].listeStories[s].listeTaches = new Array(); 
+				let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks");
+				for(let u in result){
+					if(result[u].story_id == strfiltered[s].id){
+						tasks.push(result[u]);
+						strfiltered[s].listeTaches.push(result[u]);
+						$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
 					}
-					if(cpt >= projectIds.length){
-						resolve(tasks,true);
-					}else{
-						resolve(tasks,false);
-					}
-					$('#taks').show();
-					let projetid =  projectIds.map(o => o.id);
-					let storiesid = [];
-					for(let k in projectIds){
-						storiesid.push(projectIds[k].id); 
-					}
-					let parser = new TasksParser();
-					if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-						parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
-					}
-					//console.log('projectIds tout complet',projectIds);		//this.transMuter.sendToServer();
-				})
-				}				
-			})
-			cpt++;
+				}
+				$('#taks').show();
+				let projetid =  projectIds.map(o => o.id);
+				let storiesid = [];
+				for(let k in projectIds){
+					storiesid.push(projectIds[k].id); 
+				}
+				let parser = new TasksParser();
+				if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
+					parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+				}
+				/*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
+				_this.transMuter.transmuteTasks(tasks);					
+			}				
 		}
 	}	
 
