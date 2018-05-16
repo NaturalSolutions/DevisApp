@@ -7,6 +7,8 @@ using System.Web.Http;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
 using WebApplication4.Models.BO.DevisProcess;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace WebApplication4.Controllers
 {
@@ -51,43 +53,48 @@ namespace WebApplication4.Controllers
 
         }
 
-        public GeneralObject CreateATestingContext()
-        {
-          //  Tasks taskTest = new Tasks();
-          //  taskTest.Description = "une tache de merde bien chiante";
-          //  taskTest.Duration = 2;
-          //  taskTest.Initials = "TL";
-          //  List<Tasks> TasksTest = new List<Tasks>();
-          //  TasksTest.Add(taskTest);
+        //public GeneralObject CreateATestingContext()
+        //{
+        //  //  Tasks taskTest = new Tasks();
+        //  //  taskTest.Description = "une tache de merde bien chiante";
+        //  //  taskTest.Duration = 2;
+        //  //  taskTest.Initials = "TL";
+        //  //  List<Tasks> TasksTest = new List<Tasks>();
+        //  //  TasksTest.Add(taskTest);
 
-            // LA TACHE
+        //    // LA TACHE
 
-            //Stories storyTest = new Stories();
-           // storyTest.Type = "DEV";
-           // storyTest.Tasks = TasksTest;
-            List<Stories> storiesTest = new List<Stories>();
-            //   storiesTest.Add(storyTest);
+        //    //Stories storyTest = new Stories();
+        //   // storyTest.Type = "DEV";
+        //   // storyTest.Tasks = TasksTest;
+        //    List<Stories> storiesTest = new List<Stories>();
+        //    //   storiesTest.Add(storyTest);
 
-            // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
-            //projetTest.Nom = "nom Test";
+        //    // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
+        //    //projetTest.Nom = "nom Test";
 
-            //projetTest.Stories = storiesTest;
-            List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
-            //projetsTest.Add(projetTest);
+        //    //projetTest.Stories = storiesTest;
+        //    List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
+        //    //projetsTest.Add(projetTest);
          
-            GeneralObject myTestGenObject = new GeneralObject();
-            myTestGenObject.projets = projetsTest;
+        //    GeneralObject myTestGenObject = new GeneralObject();
+        //    myTestGenObject.projets = projetsTest;
 
-            return myTestGenObject;
-        }
+        //    return myTestGenObject;
+        //}
 
         // POST: api/Devis
-        public void Post([FromBody] GeneralObject genObjec_d) // DEVRA CREER UN DEVIS 
+        public void Post( object genObjec_d) // DEVRA CREER UN DEVIS 
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
             try
             {
-                GeneralObject genTest = CreateATestingContext();
-                DevisCalculator devisCalculator = new DevisCalculator(genTest);
+                //JObject job = JObject.Parse(genObjec_d);
+
+                var escouilles = genObjec_d.ToString();
+                GeneralObject test = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+                //GeneralObject genTest = CreateATestingContext();
+                DevisCalculator devisCalculator = new DevisCalculator(new GeneralObject());
+                //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
                 DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
                 Console.WriteLine("Resultat ici");
                 foreach (KeyValuePair<string, decimal?> entry in resultFromcallCalculator.getProjectCost())
@@ -99,11 +106,11 @@ namespace WebApplication4.Controllers
                 }
                 List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
                 List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
-                foreach (WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
-                {
-                    NomProjet.Add(p.Nom);
-                    DescriptionProjet.Add(p.Description);
-                }
+                //foreach (WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
+                //{
+                //    NomProjet.Add(p.Nom);
+                //    DescriptionProjet.Add(p.Description);
+                //}
                 // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
                 db.SaveChanges();

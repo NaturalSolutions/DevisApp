@@ -18,5 +18,7 @@
        			let result = devis.getProjectFromEpic(myRecuperator.getMemberIdProjets());
   		 	});
 		  });
+      //let temp = new transmuter();
+      //temp.encapsulateObjects();
 	});	
 })();

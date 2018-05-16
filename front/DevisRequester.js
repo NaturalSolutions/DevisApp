@@ -81,27 +81,39 @@ class DevisRequester{
 		let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+_this.epic);
 		let myCurrentStory = {};
 		for(let u in result){
-			if(result[u].story_type.toLowerCase() != 'release' && _this.checkifBonus(result[u].labels) == false){
-				myCurrentStory = result[u];
-				myCurrentStory.listeTaches = [];
+			myCurrentStory = result[u];
+			myCurrentStory.listeTaches = [];
+			if(myCurrentStory.story_type.toLowerCase() != 'release' && _this.checkifBonus(myCurrentStory.labels) == false){
+				console.log('myCurrentStory',myCurrentStory);
 				 // renvoie les stories d'un projet correspondant a un epic 	
 				//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
+				let stringLabels = "";
+				for(let o in myCurrentStory.labels){
+					//alert(result[i].labels[o].name.toLowerCase());
+					stringLabels += myCurrentStory.labels[o].name + " ";
+					if(myCurrentStory.labels[o].name == "amo"){
+						myCurrentStory.AMO = true;
+						//console.log("true" , r[i].name);
+						//console.log("isAMO actuel ",r[i].isAMO);
+					}
+				}
+				myCurrentStory.labels = stringLabels;
+				myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
+		/*		if(myCurrentStory.owner_ids != undefined){
+					let stringOwners = " ";
+					for(let owner in myCurrentStory.owner_ids){
+						stringOwners += myCurrentStory.owner_ids[owner] + " ";
+					}
+					
+				}*/
+				if(myCurrentStory.AMO == undefined){
+					myCurrentStory.AMO = false;
+				}
 				if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
 					stories.push(myCurrentStory);
 					if(myCurrentStory.project_id == projectIds[i].id){
 						projectIds[i].listeStories.push(myCurrentStory);	
 					}
-				}
-				for(let o in result[u].labels){
-					//alert(result[i].labels[o].name.toLowerCase());
-					if(result[u].labels[o].name == "amo"){
-						result[u].AMO = true;
-						//console.log("true" , r[i].name);
-						//console.log("isAMO actuel ",r[i].isAMO);
-					}
-				}
-				if(result[u].AMO == undefined){
-					result[u].AMO = false;
 				}
 				$('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
 			}
