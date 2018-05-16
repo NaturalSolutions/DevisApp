@@ -13,7 +13,7 @@ namespace WebApplication4.Controllers
     public class ProjetController : ApiController
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/Stories
+        // GET: api/MasterStories
 
         public ProjetController()
         {
@@ -39,7 +39,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/Stories/5
+        // GET: api/MasterStories/5
         public WebApplication4.Models.Projet Get(int id)
         {
             WebApplication4.Models.Projet res = this.db.Projet.Where(s => s.Id == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
@@ -53,7 +53,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/Stories
+        // POST: api/MasterStories
         public void Post([FromBody]WebApplication4.Models.Projet st)
         {
             try
@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/Stories/5
+        // PUT: api/MasterStories/5
         public void Put(int id, [FromBody]WebApplication4.Models.Projet st)
         {
             try
@@ -99,7 +99,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // DELETE: api/Stories/5
+        // DELETE: api/MasterStories/5
         public void Delete(int id)
         {
             try // vérrif si un objet a été trouvé pour l'id
@@ -118,7 +118,7 @@ namespace WebApplication4.Controllers
         [Route("api/Projet/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Projet p = new WebApplication4.Models.BO.Projet("description","nom");
+            Projet p = new Projet("description","nom");
             return JsonConvert.SerializeObject(p.getStructure());
         }
     }

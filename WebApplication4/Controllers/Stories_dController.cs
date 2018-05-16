@@ -13,7 +13,7 @@ namespace WebApplication4.Controllers
     public class Stories_dController : ApiController // stories liée a un devis
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/Stories
+        // GET: api/MasterStories
 
         public Stories_dController()
         {
@@ -39,8 +39,8 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/Stories/5
-        public WebApplication4.Models.Stories_d Get(int id) // renvoie la Stories associé a son id
+        // GET: api/MasterStories/5
+        public WebApplication4.Models.Stories_d Get(int id) // renvoie la MasterStories associé a son id
         {
             WebApplication4.Models.Stories_d res = this.db.Stories_d.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
@@ -53,7 +53,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/Stories
+        // POST: api/MasterStories
         public void Post([FromBody]WebApplication4.Models.Stories_d st) // crée et ajoute a la bd un nouvel objet Stories_d
         {
             try
@@ -74,7 +74,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/Stories/5
+        // PUT: api/MasterStories/5
         public void Put(int id, [FromBody]WebApplication4.Models.Stories_d st) // Met a jour un objet Stories_d
         {
             try
@@ -129,7 +129,7 @@ namespace WebApplication4.Controllers
         [Route("api/Stories_d/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Stories s = new Models.BO.Stories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo",33665);
+            WebApplication4.Models.BO.MasterStories s = new Models.BO.MasterStories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo",33665);
             return JsonConvert.SerializeObject(s.getStructure());
         }
     }

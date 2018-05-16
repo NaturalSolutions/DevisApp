@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication4.Models.BO;
 
-namespace WebApplication4.Models.BO
+namespace WebApplication4.Models
 {
-    public partial class Projet : WebApplication4.Models.Projet
+    public partial class Projet
     {
-        public List<Stories> Stories { get; set; }
+        public List<MasterStories> Stories { get; set; }
         public Dictionary<string, string> structure;
 
-        public Projet()
-        {
-
-        }
+        
 
         public Projet(string description, string nom)
         {

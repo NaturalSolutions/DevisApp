@@ -5,7 +5,7 @@ using System.Web;
 
 namespace WebApplication4.Models.BO
 {
-    public class Stories
+    public class MasterStories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 
@@ -27,11 +27,11 @@ namespace WebApplication4.Models.BO
 
         public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<MasterTasks> Tasks { get; set; }
 
         public Dictionary<string, string> structure;
 
-        public Stories(string description,
+        public MasterStories(string description,
             string type,
             System.DateTime depart,
             System.DateTime maj,
@@ -62,7 +62,7 @@ namespace WebApplication4.Models.BO
             this.Epic = epic;
             this.isAMO = isAmo;
             this.Fk_Project = fkprojet;
-            this.Tasks = new List<Tasks> ();
+            this.Tasks = new List<MasterTasks> ();
             this.structure = new Dictionary<string, string>();
           //  this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
@@ -80,10 +80,10 @@ namespace WebApplication4.Models.BO
             this.structure.Add("isAMO", this.isAMO.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Fk_Project", this.Fk_Project.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Tasks", this.Tasks.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
-            this.Tasks = new HashSet<Tasks>();
+            this.Tasks = new HashSet<MasterTasks>();
         }
 
-        public Stories()
+        public MasterStories()
         {
 
         }

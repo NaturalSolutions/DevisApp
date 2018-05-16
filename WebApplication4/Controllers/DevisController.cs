@@ -64,16 +64,16 @@ namespace WebApplication4.Controllers
 
         //    // LA TACHE
 
-        //    //Stories storyTest = new Stories();
+        //    //MasterStories storyTest = new MasterStories();
         //   // storyTest.Type = "DEV";
         //   // storyTest.Tasks = TasksTest;
-        //    List<Stories> storiesTest = new List<Stories>();
+        //    List<MasterStories> storiesTest = new List<MasterStories>();
         //    //   storiesTest.Add(storyTest);
 
         //    // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
         //    //projetTest.Nom = "nom Test";
 
-        //    //projetTest.Stories = storiesTest;
+        //    //projetTest.MasterStories = storiesTest;
         //    List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
         //    //projetsTest.Add(projetTest);
          
@@ -99,13 +99,13 @@ namespace WebApplication4.Controllers
                 Console.WriteLine("Resultat ici");
                // foreach (KeyValuePair<string, decimal?> entry in resultFromcallCalculator.getProjectCost())
                // {
-              //      Console.WriteLine(entry.Key + "    " + entry.Value);
+                    //Console.WriteLine(entry.Key + "    " + entry.Value);
                // }
                // {
                     // do something with entry.Value or entry.Key
                // }
-               // List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
-               // List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
+                List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
+                List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
                 //foreach (WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
                 //{
                 //    NomProjet.Add(p.Nom);

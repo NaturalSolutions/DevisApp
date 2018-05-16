@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace WebApplication4.Models
 {
-    public class Tasks
+    public class MasterTasks
     {
         private DevisFacturationEntities context;
         public long ID { get; set; }
@@ -19,7 +19,7 @@ namespace WebApplication4.Models
         public virtual Stories_d Stories_d { get; set; }
 
         public Dictionary<string,string> structure;
-        public Tasks(string description, string initials,int duration,long fk_stories)
+        public MasterTasks(string description, string initials,int duration,long fk_stories)
         {
             //this.ID = id;
             this.FK_Stories = fk_stories;

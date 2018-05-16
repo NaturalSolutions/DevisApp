@@ -109,10 +109,10 @@ namespace WebApplication4.Models.BO.DevisProcess
             foreach (Projet p in this.genObject.projets)
             {
                 decimal? projectCost = 0;
-                foreach (Stories_d s in p.Stories_d)
+                foreach (MasterStories s in p.Stories)
                 {
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
-                    foreach (WebApplication4.Models.Tasks_d t in s.Tasks_d)
+                    foreach (MasterTasks t in s.Tasks)
                     {
                         decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(t.Duration / 7), 2) : 0; // conversion en jour
                         dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur

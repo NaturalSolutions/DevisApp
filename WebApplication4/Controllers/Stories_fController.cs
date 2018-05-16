@@ -9,10 +9,10 @@ using Newtonsoft.Json;
 
 namespace WebApplication4.Controllers
 {
-    public class Stories_fController : ApiController // Stories associé a une facturation
+    public class Stories_fController : ApiController // MasterStories associé a une facturation
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base
-        // GET: api/Stories
+        // GET: api/MasterStories
 
         public Stories_fController()
         {
@@ -38,7 +38,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // GET: api/Stories/5
+        // GET: api/MasterStories/5
         public Stories_f Get(int id) // renvoi l'objet stories_f pointé par l'id en questions
         {
             Stories_f res = this.db.Stories_f.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
@@ -52,7 +52,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/Stories
+        // POST: api/MasterStories
         public void Post([FromBody]Stories_f st) // créer et ajoute une nouvel stories_f dans la bd
         {
             try
@@ -73,7 +73,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // PUT: api/Stories/5
+        // PUT: api/MasterStories/5
         public void Put(int id, [FromBody]Stories_f st) // met a jour une stories_f pointé par son ID
         {
             try
@@ -109,7 +109,7 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // DELETE: api/Stories/5
+        // DELETE: api/MasterStories/5
         public void Delete(int id) // supprimer une stories_f pointé par son ID
         {
             try // vérrif si un objet a été trouvé pour l'id
@@ -128,7 +128,7 @@ namespace WebApplication4.Controllers
         [Route("api/Stories_f/getStructure")]
         public object getStructure()
         {
-            WebApplication4.Models.BO.Stories s = new Models.BO.Stories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo",46464);
+            WebApplication4.Models.BO.MasterStories s = new Models.BO.MasterStories("description", "type", new DateTime(2008, 5, 1, 8, 30, 52), new DateTime(2008, 5, 1, 8, 30, 56), "owners", "labels", true, true, false, 2555645, "url", "epic", "isAmo",46464);
             return JsonConvert.SerializeObject(s.getStructure());
         }
     }

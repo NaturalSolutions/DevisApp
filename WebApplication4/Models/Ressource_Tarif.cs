@@ -12,7 +12,7 @@ namespace WebApplication4.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Ressource_Tarif
+    public partial class RessTarif
     {
         public string Name { get; set; }
         public Nullable<int> Niveau { get; set; }
