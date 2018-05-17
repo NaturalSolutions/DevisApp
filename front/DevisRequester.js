@@ -88,9 +88,13 @@ class DevisRequester{
 				 // renvoie les stories d'un projet correspondant a un epic 	
 				//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
 				result[u].listeTaches = new Array();
+				myCurrentStory.story_type = "";
 				let stringLabels = "";
 				for(let o in myCurrentStory.labels){
 					//alert(result[i].labels[o].name.toLowerCase());
+					if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
+						myCurrentStory.story_type = myCurrentStory.labels[o].name;
+					}
 					stringLabels += myCurrentStory.labels[o].name + " ";
 					if(myCurrentStory.labels[o].name == "amo"){
 						myCurrentStory.AMO = true;
