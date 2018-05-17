@@ -9,25 +9,28 @@ class transmuter{
 	}
 	// TO DO prendre en compte initials et duration pour les taches 
 	transmuteTasks(TaskObject){
-    console.log("Transmuting Tasks");    
+   /* console.log("TaskObject",TaskObject);    */
 		let tasksStructure;
 		this.Structurer.getTasksStructure().then((res) => {
-        	tasksStructure = JSON.parse(res);
-      		let finalListOfObjects = [];
-      		//Boucle sur object configConverterTasks
+      tasksStructure = JSON.parse(res);
+      let finalListOfObjects = [];
+      //Boucle sur object configConverterTasks
 			for(let u in TaskObject){	
 				let finalObjects = {};
-				//console.log(TaskObject[u].description);
-      			 for(let i  in ConverterTasks){
-      				/*console.log('touyjours plus', i, tasksStructure[i],TaskObject[u],  TaskObject[u][ConverterProjet[i]]  )*/
-      				if(tasksStructure[i] !== undefined && TaskObject[u][ConverterTasks[i]] !== undefined){
-      					finalObjects[i] = TaskObject[u][ConverterTasks[i]];      			
-      				}      			
-      			}	
-      			finalListOfObjects.push(finalObjects);
+      	for(let i  in ConverterTasks){
+          //console.log("tasksStructure[i]",tasksStructure[ConverterTasks[i]]);
+          //console.log("TaskObject[u][i]",TaskObject[u][i]);
+      		if(tasksStructure[ConverterTasks[i]] !== undefined && TaskObject[u][i] !== undefined){
+            //console.log("TaskObject[u][i]",TaskObject[u][i]);
+            //console.log("ConverterTasks[i]",ConverterTasks[i]);
+      			finalObjects[ConverterTasks[i]] = TaskObject[u][i];      			
+      		}      			
+      	}	
+      	finalListOfObjects.push(finalObjects);
+       /* console.log("finalObjects",finalObjects);        */
 			}
 			this.listeTaches = finalListOfObjects;
-      	});	
+    });	
 	}
 
 	transmuteStories(StoryObject){
@@ -49,7 +52,7 @@ class transmuter{
       			finalListOfObjects.push(finalObjects);	
 			}
 			this.listeStories = finalListOfObjects;
-      console.log('listeStories', this.listeStories)
+    /*  console.log('listeStories', this.listeStories)*/
       	});
 	}
 
@@ -77,14 +80,17 @@ class transmuter{
       	});
 	}
 
-	encapsulateObjects(){
+	encapsulateObjects()
+  {
+    /*console.log("this.listeTaches",this.listeTaches);*/
     let GeneralObject = {};
-    	if(this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined){
+    	if( this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined)
+      {
     		GeneralObject.projets = this.listeProjets;
     		for(let p in GeneralObject.projets){
           GeneralObject.projets[p].Stories = this.listeStories.filter(o => o.Fk_Project == GeneralObject.projets[p].ID);
-          for(let t in GeneralObject.projets[p].listeStories){
-            GeneralObject.projets[p].listeStories[t].Tasks = this.listeTaches[t].filter(o => o.story_id == GeneralObject.projets[p].listeStories[t].OriginalId);
+          for(let t in GeneralObject.projets[p].Stories){
+            GeneralObject.projets[p].Stories[t].Tasks = this.listeTaches.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
           }
         }
 

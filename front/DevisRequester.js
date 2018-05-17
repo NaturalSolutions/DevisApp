@@ -84,9 +84,10 @@ class DevisRequester{
 			myCurrentStory = result[u];
 			myCurrentStory.listeTaches = [];
 			if(myCurrentStory.story_type.toLowerCase() != 'release' && _this.checkifBonus(myCurrentStory.labels) == false){
-				console.log('myCurrentStory',myCurrentStory);
+				/*console.log('myCurrentStory',myCurrentStory);*/
 				 // renvoie les stories d'un projet correspondant a un epic 	
 				//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
+				result[u].listeTaches = new Array();
 				let stringLabels = "";
 				for(let o in myCurrentStory.labels){
 					//alert(result[i].labels[o].name.toLowerCase());
@@ -103,7 +104,7 @@ class DevisRequester{
 				if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
 					stories.push(myCurrentStory);
 					if(myCurrentStory.project_id == projectIds[i].id){
-						projectIds[i].listeStories.push(myCurrentStory);	
+						/*projectIds[i].listeStories.push(myCurrentStory);*/	
 					}
 				}
 				$('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
@@ -113,7 +114,7 @@ class DevisRequester{
 		}
 	}
 	this.transMuter.transmuteStories(stories);
-	this.getTaks(stories,projectIds);
+	this.getTasks(stories,projectIds);
 	//this.transMuter.transmuteStories(stories);
 }
 
@@ -123,7 +124,7 @@ class DevisRequester{
 
 /*
 
-	async getTaks(projectIds,storiesIds){
+	async getTasks(projectIds,storiesIds){
 		let tasks = [];
 		console.log("getTasks(): ", projectIds);
 		let _this = this;
@@ -162,7 +163,7 @@ class DevisRequester{
 	}	
 */
 /*
-	async getTaks(projectIds,storyId){
+	async getTasks(projectIds,storyId){
 		let tasks = [];
 		//console.log("c'est vide ???? ",projectIds);
 		let _this = this;
@@ -194,9 +195,7 @@ class DevisRequester{
 	}	*/
 
 
-
-
-	getTaks(storiesIds,projectIds){
+	getTasks(storiesIds,projectIds){
 		let tasks = [];
 		console.log("going to search tasks");
 		let _this = this;
@@ -208,12 +207,12 @@ class DevisRequester{
 			i = parseInt(i);
 			for(let s in strfiltered)
 			{
-				projectIds[i].listeStories[s].listeTaches = new Array(); 
+			//	projectIds[i].listeStories[s].listeTaches = new Array(); 
 				let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks");
 				for(let u in result){
 					if(result[u].story_id == strfiltered[s].id){
 						tasks.push(result[u]);
-						strfiltered[s].listeTaches.push(result[u]);
+						/*strfiltered[s].listeTaches.push(result[u]);*/
 						$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
 					}
 				}
@@ -228,9 +227,10 @@ class DevisRequester{
 					parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
 				}
 				/*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
-				_this.transMuter.transmuteTasks(tasks);					
+						
 			}				
 		}
+		_this.transMuter.transmuteTasks(tasks);
 	}	
 
 }

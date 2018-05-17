@@ -69,12 +69,15 @@ class TasksParser{
 								alert('Probleme d\'estimation et initiales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
 								_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 							} else {
-								for(let ow in owners){
-									tasks[i].initials += ""+ owners[ow];	
-								}
-								for(let du in tabDuree){
-									tasks[i].duree += tabDuree[du] + " ";	
-								}
+								console.log("owners.length",owners.length);
+								tasks[i].initials += owners.toString();
+								tasks[i].duree += tabDuree.toString();
+								/*for(let ow in owners){
+									tasks[i].initials += owners[ow] +',';	
+								}*/
+								/*for(let du in tabDuree){
+									tasks[i].duree += tabDuree[du] +',';	
+								}*/
 								if(bonusState == undefined || bonusState == null){
 								tasks[i].isBonnus = false;	
 								}else{
