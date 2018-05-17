@@ -18,7 +18,7 @@ namespace WebApplication4.Models
         public long FK_Stories_d { get; set; }
         public string Description { get; set; }
         public string Initials { get; set; }
-        public Nullable<int> Duration { get; set; }
+        public string Duration { get; set; }
         public string Fk_Ressource_Initials { get; set; }
     
         public virtual Stories_d Stories_d { get; set; }

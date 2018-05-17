@@ -35,8 +35,8 @@ namespace WebApplication4.Models
         public virtual DbSet<Stories_Facturation> Stories_Facturation { get; set; }
         public virtual DbSet<Tarification> Tarification { get; set; }
         public virtual DbSet<Tarification_Ressource> Tarification_Ressource { get; set; }
+        public virtual DbSet<Ressource_Tarif> Ressource_Tarif { get; set; }
         public virtual DbSet<Tasks_d> Tasks_d { get; set; }
         public virtual DbSet<Tasks_f> Tasks_f { get; set; }
-        public virtual DbSet<RessTarif> Ressource_Tarif { get; set; }
     }
 }

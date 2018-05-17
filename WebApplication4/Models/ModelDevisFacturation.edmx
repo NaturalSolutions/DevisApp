@@ -132,7 +132,7 @@
           <Property Name="FK_Stories_d" Type="bigint" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Initials" Type="nvarchar(max)" />
-          <Property Name="Duration" Type="int" />
+          <Property Name="Duration" Type="nvarchar(max)" />
           <Property Name="Fk_Ressource_Initials" Type="nvarchar" MaxLength="4" />
         </EntityType>
         <EntityType Name="Tasks_f">
@@ -143,7 +143,7 @@
           <Property Name="FK_Stories_f" Type="bigint" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Initials" Type="nvarchar(max)" />
-          <Property Name="Duration" Type="int" />
+          <Property Name="Duration" Type="nvarchar(max)" />
           <Property Name="Fk_Ressource_Initials" Type="nvarchar" MaxLength="4" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
@@ -377,6 +377,65 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DevisFacturationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DevisFacturationEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Devis" EntityType="DevisFacturationModel.Devis" />
+          <EntitySet Name="Facturation" EntityType="DevisFacturationModel.Facturation" />
+          <EntitySet Name="Projet" EntityType="DevisFacturationModel.Projet" />
+          <EntitySet Name="Ressource" EntityType="DevisFacturationModel.Ressource" />
+          <EntitySet Name="Stories_d" EntityType="DevisFacturationModel.Stories_d" />
+          <EntitySet Name="Stories_Devis" EntityType="DevisFacturationModel.Stories_Devis" />
+          <EntitySet Name="Stories_f" EntityType="DevisFacturationModel.Stories_f" />
+          <EntitySet Name="Stories_Facturation" EntityType="DevisFacturationModel.Stories_Facturation" />
+          <EntitySet Name="Tarification" EntityType="DevisFacturationModel.Tarification" />
+          <EntitySet Name="Tarification_Ressource" EntityType="DevisFacturationModel.Tarification_Ressource" />
+          <EntitySet Name="Ressource_Tarif" EntityType="DevisFacturationModel.Ressource_Tarif" />
+          <AssociationSet Name="Fk_Devis_Stories_Devis" Association="DevisFacturationModel.Fk_Devis_Stories_Devis">
+            <End Role="Devis" EntitySet="Devis" />
+            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturation_Devis" Association="DevisFacturationModel.FK_Facturation_Devis">
+            <End Role="Devis" EntitySet="Devis" />
+            <End Role="Facturation" EntitySet="Facturation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stotries_d_project" Association="DevisFacturationModel.FK_stotries_d_project">
+            <End Role="Projet" EntitySet="Projet" />
+            <End Role="Stories_d" EntitySet="Stories_d" />
+          </AssociationSet>
+          <AssociationSet Name="FK_stotries_f_project" Association="DevisFacturationModel.FK_stotries_f_project">
+            <End Role="Projet" EntitySet="Projet" />
+            <End Role="Stories_f" EntitySet="Stories_f" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarification_Ressource" Association="DevisFacturationModel.FK_Tarification_Ressource">
+            <End Role="Ressource" EntitySet="Ressource" />
+            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stories_d_Stories_Devis" Association="DevisFacturationModel.FK_Stories_d_Stories_Devis">
+            <End Role="Stories_d" EntitySet="Stories_d" />
+            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stories_f_Stories_Facturation" Association="DevisFacturationModel.FK_Stories_f_Stories_Facturation">
+            <End Role="Stories_f" EntitySet="Stories_f" />
+            <End Role="Stories_Facturation" EntitySet="Stories_Facturation" />
+          </AssociationSet>
+          <AssociationSet Name="Fk_Facturation_Stories_Facturation" Association="DevisFacturationModel.Fk_Facturation_Stories_Facturation">
+            <End Role="Stories_Facturation" EntitySet="Stories_Facturation" />
+            <End Role="Stories_Facturation1" EntitySet="Stories_Facturation" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tarification_Tarification" Association="DevisFacturationModel.FK_Tarification_Tarification">
+            <End Role="Tarification" EntitySet="Tarification" />
+            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
+          </AssociationSet>
+          <EntitySet Name="Tasks_d" EntityType="DevisFacturationModel.Tasks_d" />
+          <EntitySet Name="Tasks_f" EntityType="DevisFacturationModel.Tasks_f" />
+          <AssociationSet Name="FK_Stories_d_Tasks_d" Association="DevisFacturationModel.FK_Stories_d_Tasks_d">
+            <End Role="Stories_d" EntitySet="Stories_d" />
+            <End Role="Tasks_d" EntitySet="Tasks_d" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stories_f_Tasks_f" Association="DevisFacturationModel.FK_Stories_f_Tasks_f">
+            <End Role="Stories_f" EntitySet="Stories_f" />
+            <End Role="Tasks_f" EntitySet="Tasks_f" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Devis">
           <Key>
             <PropertyRef Name="ID" />
@@ -387,8 +446,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="Numéro" Type="Int32" />
           <Property Name="Filename" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Stories_Devis" Relationship="Self.Fk_Devis_Stories_Devis" FromRole="Devis" ToRole="Stories_Devis" />
-          <NavigationProperty Name="Facturation" Relationship="Self.FK_Facturation_Devis" FromRole="Devis" ToRole="Facturation" />
+          <NavigationProperty Name="Stories_Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Devis" ToRole="Stories_Devis" />
+          <NavigationProperty Name="Facturation" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Devis" ToRole="Facturation" />
         </EntityType>
         <EntityType Name="Facturation">
           <Key>
@@ -397,34 +456,34 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Numéro" Type="Int64" Nullable="false" />
           <Property Name="Mois" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Montant" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Montant" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="FK_Devis" Type="Int64" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Devis" Relationship="Self.FK_Facturation_Devis" FromRole="Facturation" ToRole="Devis" />
           <Property Name="Filename" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Facturation" ToRole="Devis" />
         </EntityType>
         <EntityType Name="Projet">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nom" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Stories_d" Relationship="Self.FK_stotries_d_project" FromRole="Projet" ToRole="Stories_d" />
-          <NavigationProperty Name="Stories_f" Relationship="Self.FK_stotries_f_project" FromRole="Projet" ToRole="Stories_f" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_stotries_d_project" FromRole="Projet" ToRole="Stories_d" />
+          <NavigationProperty Name="Stories_f" Relationship="DevisFacturationModel.FK_stotries_f_project" FromRole="Projet" ToRole="Stories_f" />
         </EntityType>
         <EntityType Name="Ressource">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Initial" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Initial" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="Niveau" Type="Int32" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Obsolete" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tarification_Ressource" Relationship="Self.FK_Tarification_Ressource" FromRole="Ressource" ToRole="Tarification_Ressource" />
+          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressource" FromRole="Ressource" ToRole="Tarification_Ressource" />
         </EntityType>
         <EntityType Name="Stories_d">
           <Key>
@@ -444,9 +503,9 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Epic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Fk_Project" Type="Int64" />
-          <NavigationProperty Name="Projet" Relationship="Self.FK_stotries_d_project" FromRole="Stories_d" ToRole="Projet" />
-          <NavigationProperty Name="Stories_Devis" Relationship="Self.FK_Stories_d_Stories_Devis" FromRole="Stories_d" ToRole="Stories_Devis" />
-          <NavigationProperty Name="Tasks_d" Relationship="Self.FK_Stories_d_Tasks_d" FromRole="Stories_d" ToRole="Tasks_d" />
+          <NavigationProperty Name="Projet" Relationship="DevisFacturationModel.FK_stotries_d_project" FromRole="Stories_d" ToRole="Projet" />
+          <NavigationProperty Name="Stories_Devis" Relationship="DevisFacturationModel.FK_Stories_d_Stories_Devis" FromRole="Stories_d" ToRole="Stories_Devis" />
+          <NavigationProperty Name="Tasks_d" Relationship="DevisFacturationModel.FK_Stories_d_Tasks_d" FromRole="Stories_d" ToRole="Tasks_d" />
         </EntityType>
         <EntityType Name="Stories_Devis">
           <Key>
@@ -456,8 +515,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="FK_Stories_d" Type="Int64" Nullable="false" />
           <Property Name="FK_Devis" Type="Int64" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Devis" Relationship="Self.Fk_Devis_Stories_Devis" FromRole="Stories_Devis" ToRole="Devis" />
-          <NavigationProperty Name="Stories_d" Relationship="Self.FK_Stories_d_Stories_Devis" FromRole="Stories_Devis" ToRole="Stories_d" />
+          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Stories_Devis" ToRole="Devis" />
+          <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_Stories_d_Stories_Devis" FromRole="Stories_Devis" ToRole="Stories_d" />
         </EntityType>
         <EntityType Name="Stories_f">
           <Key>
@@ -477,9 +536,9 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="URL" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Epic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Fk_Project" Type="Int64" />
-          <NavigationProperty Name="Projet" Relationship="Self.FK_stotries_f_project" FromRole="Stories_f" ToRole="Projet" />
-          <NavigationProperty Name="Stories_Facturation" Relationship="Self.FK_Stories_f_Stories_Facturation" FromRole="Stories_f" ToRole="Stories_Facturation" />
-          <NavigationProperty Name="Tasks_f" Relationship="Self.FK_Stories_f_Tasks_f" FromRole="Stories_f" ToRole="Tasks_f" />
+          <NavigationProperty Name="Projet" Relationship="DevisFacturationModel.FK_stotries_f_project" FromRole="Stories_f" ToRole="Projet" />
+          <NavigationProperty Name="Stories_Facturation" Relationship="DevisFacturationModel.FK_Stories_f_Stories_Facturation" FromRole="Stories_f" ToRole="Stories_Facturation" />
+          <NavigationProperty Name="Tasks_f" Relationship="DevisFacturationModel.FK_Stories_f_Tasks_f" FromRole="Stories_f" ToRole="Tasks_f" />
         </EntityType>
         <EntityType Name="Stories_Facturation">
           <Key>
@@ -489,22 +548,22 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="FK_Stories_f" Type="Int64" Nullable="false" />
           <Property Name="FK_Facturation" Type="Int64" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Stories_f" Relationship="Self.FK_Stories_f_Stories_Facturation" FromRole="Stories_Facturation" ToRole="Stories_f" />
-          <NavigationProperty Name="Stories_Facturation1" Relationship="Self.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation" ToRole="Stories_Facturation1" />
-          <NavigationProperty Name="Stories_Facturation2" Relationship="Self.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation1" ToRole="Stories_Facturation" />
+          <NavigationProperty Name="Stories_f" Relationship="DevisFacturationModel.FK_Stories_f_Stories_Facturation" FromRole="Stories_Facturation" ToRole="Stories_f" />
+          <NavigationProperty Name="Stories_Facturation1" Relationship="DevisFacturationModel.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation" ToRole="Stories_Facturation1" />
+          <NavigationProperty Name="Stories_Facturation2" Relationship="DevisFacturationModel.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation1" ToRole="Stories_Facturation" />
         </EntityType>
         <EntityType Name="Tarification">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Tar3" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Tar5" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Tar5" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="IsAmo" Type="Boolean" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Obsolete" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tarification_Ressource" Relationship="Self.FK_Tarification_Tarification" FromRole="Tarification" ToRole="Tarification_Ressource" />
+          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification_Tarification" FromRole="Tarification" ToRole="Tarification_Ressource" />
         </EntityType>
         <EntityType Name="Tarification_Ressource">
           <Key>
@@ -513,32 +572,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FK_Ressource" Type="Int64" Nullable="false" />
           <Property Name="FK_Tarification" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Ressource" Relationship="Self.FK_Tarification_Ressource" FromRole="Tarification_Ressource" ToRole="Ressource" />
-          <NavigationProperty Name="Tarification" Relationship="Self.FK_Tarification_Tarification" FromRole="Tarification_Ressource" ToRole="Tarification" />
-        </EntityType>
-        <EntityType Name="Tasks_d">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FK_Stories_d" Type="Int64" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Duration" Type="Int32" />
-          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Stories_d" Relationship="Self.FK_Stories_d_Tasks_d" FromRole="Tasks_d" ToRole="Stories_d" />
-        </EntityType>
-        <EntityType Name="Tasks_f">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FK_Stories_f" Type="Int64" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Duration" Type="Int32" />
-          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Stories_f" Relationship="Self.FK_Stories_f_Tasks_f" FromRole="Tasks_f" ToRole="Stories_f" />
+          <NavigationProperty Name="Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressource" FromRole="Tarification_Ressource" ToRole="Ressource" />
+          <NavigationProperty Name="Tarification" Relationship="DevisFacturationModel.FK_Tarification_Tarification" FromRole="Tarification_Ressource" ToRole="Tarification" />
         </EntityType>
         <EntityType Name="Ressource_Tarif">
           <Key>
@@ -550,20 +585,20 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             <PropertyRef Name="FK_Ressource" />
             <PropertyRef Name="FK_Tarification" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Niveau" Type="Int32" />
           <Property Name="Obsolete" Type="Boolean" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Type" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Tar3" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Tar5" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Tar5" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <Property Name="IsAmo" Type="Boolean" />
           <Property Name="FK_Ressource" Type="Int64" Nullable="false" />
           <Property Name="FK_Tarification" Type="Int64" Nullable="false" />
         </EntityType>
         <Association Name="Fk_Devis_Stories_Devis">
-          <End Role="Devis" Type="Self.Devis" Multiplicity="1" />
-          <End Role="Stories_Devis" Type="Self.Stories_Devis" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Stories_Devis" Role="Stories_Devis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Devis">
               <PropertyRef Name="ID" />
@@ -574,8 +609,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Facturation_Devis">
-          <End Role="Devis" Type="Self.Devis" Multiplicity="1" />
-          <End Role="Facturation" Type="Self.Facturation" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Facturation" Role="Facturation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Devis">
               <PropertyRef Name="ID" />
@@ -586,8 +621,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_stotries_d_project">
-          <End Role="Projet" Type="Self.Projet" Multiplicity="0..1" />
-          <End Role="Stories_d" Type="Self.Stories_d" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Projet" Role="Projet" Multiplicity="0..1" />
+          <End Type="DevisFacturationModel.Stories_d" Role="Stories_d" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Projet">
               <PropertyRef Name="Id" />
@@ -598,8 +633,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_stotries_f_project">
-          <End Role="Projet" Type="Self.Projet" Multiplicity="0..1" />
-          <End Role="Stories_f" Type="Self.Stories_f" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Projet" Role="Projet" Multiplicity="0..1" />
+          <End Type="DevisFacturationModel.Stories_f" Role="Stories_f" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Projet">
               <PropertyRef Name="Id" />
@@ -610,8 +645,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tarification_Ressource">
-          <End Role="Ressource" Type="Self.Ressource" Multiplicity="1" />
-          <End Role="Tarification_Ressource" Type="Self.Tarification_Ressource" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Ressource" Role="Ressource" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Ressource">
               <PropertyRef Name="ID" />
@@ -622,8 +657,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Stories_d_Stories_Devis">
-          <End Role="Stories_d" Type="Self.Stories_d" Multiplicity="1" />
-          <End Role="Stories_Devis" Type="Self.Stories_Devis" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Stories_d" Role="Stories_d" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Stories_Devis" Role="Stories_Devis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stories_d">
               <PropertyRef Name="ID" />
@@ -633,21 +668,9 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Stories_d_Tasks_d">
-          <End Role="Stories_d" Type="Self.Stories_d" Multiplicity="1" />
-          <End Role="Tasks_d" Type="Self.Tasks_d" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stories_d">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tasks_d">
-              <PropertyRef Name="FK_Stories_d" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Stories_f_Stories_Facturation">
-          <End Role="Stories_f" Type="Self.Stories_f" Multiplicity="1" />
-          <End Role="Stories_Facturation" Type="Self.Stories_Facturation" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Stories_f" Role="Stories_f" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Stories_Facturation" Role="Stories_Facturation" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stories_f">
               <PropertyRef Name="ID" />
@@ -657,21 +680,9 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Stories_f_Tasks_f">
-          <End Role="Stories_f" Type="Self.Stories_f" Multiplicity="1" />
-          <End Role="Tasks_f" Type="Self.Tasks_f" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stories_f">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tasks_f">
-              <PropertyRef Name="FK_Stories_f" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Fk_Facturation_Stories_Facturation">
-          <End Role="Stories_Facturation" Type="Self.Stories_Facturation" Multiplicity="1" />
-          <End Role="Stories_Facturation1" Type="Self.Stories_Facturation" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Stories_Facturation" Role="Stories_Facturation" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Stories_Facturation" Role="Stories_Facturation1" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Stories_Facturation">
               <PropertyRef Name="ID" />
@@ -682,8 +693,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Tarification_Tarification">
-          <End Role="Tarification" Type="Self.Tarification" Multiplicity="1" />
-          <End Role="Tarification_Ressource" Type="Self.Tarification_Ressource" Multiplicity="*" />
+          <End Type="DevisFacturationModel.Tarification" Role="Tarification" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Tarification">
               <PropertyRef Name="ID" />
@@ -693,65 +704,54 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DevisFacturationEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Devis" EntityType="Self.Devis" />
-          <EntitySet Name="Facturation" EntityType="Self.Facturation" />
-          <EntitySet Name="Projet" EntityType="Self.Projet" />
-          <EntitySet Name="Ressource" EntityType="Self.Ressource" />
-          <EntitySet Name="Stories_d" EntityType="Self.Stories_d" />
-          <EntitySet Name="Stories_Devis" EntityType="Self.Stories_Devis" />
-          <EntitySet Name="Stories_f" EntityType="Self.Stories_f" />
-          <EntitySet Name="Stories_Facturation" EntityType="Self.Stories_Facturation" />
-          <EntitySet Name="Tarification" EntityType="Self.Tarification" />
-          <EntitySet Name="Tarification_Ressource" EntityType="Self.Tarification_Ressource" />
-          <EntitySet Name="Tasks_d" EntityType="Self.Tasks_d" />
-          <EntitySet Name="Tasks_f" EntityType="Self.Tasks_f" />
-          <EntitySet Name="Ressource_Tarif" EntityType="Self.Ressource_Tarif" />
-          <AssociationSet Name="Fk_Devis_Stories_Devis" Association="Self.Fk_Devis_Stories_Devis">
-            <End Role="Devis" EntitySet="Devis" />
-            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturation_Devis" Association="Self.FK_Facturation_Devis">
-            <End Role="Devis" EntitySet="Devis" />
-            <End Role="Facturation" EntitySet="Facturation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_stotries_d_project" Association="Self.FK_stotries_d_project">
-            <End Role="Projet" EntitySet="Projet" />
-            <End Role="Stories_d" EntitySet="Stories_d" />
-          </AssociationSet>
-          <AssociationSet Name="FK_stotries_f_project" Association="Self.FK_stotries_f_project">
-            <End Role="Projet" EntitySet="Projet" />
-            <End Role="Stories_f" EntitySet="Stories_f" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Ressource" Association="Self.FK_Tarification_Ressource">
-            <End Role="Ressource" EntitySet="Ressource" />
-            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Stories_d_Stories_Devis" Association="Self.FK_Stories_d_Stories_Devis">
-            <End Role="Stories_d" EntitySet="Stories_d" />
-            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Stories_d_Tasks_d" Association="Self.FK_Stories_d_Tasks_d">
-            <End Role="Stories_d" EntitySet="Stories_d" />
-            <End Role="Tasks_d" EntitySet="Tasks_d" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Stories_f_Stories_Facturation" Association="Self.FK_Stories_f_Stories_Facturation">
-            <End Role="Stories_f" EntitySet="Stories_f" />
-            <End Role="Stories_Facturation" EntitySet="Stories_Facturation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Stories_f_Tasks_f" Association="Self.FK_Stories_f_Tasks_f">
-            <End Role="Stories_f" EntitySet="Stories_f" />
-            <End Role="Tasks_f" EntitySet="Tasks_f" />
-          </AssociationSet>
-          <AssociationSet Name="Fk_Facturation_Stories_Facturation" Association="Self.Fk_Facturation_Stories_Facturation">
-            <End Role="Stories_Facturation" EntitySet="Stories_Facturation" />
-            <End Role="Stories_Facturation1" EntitySet="Stories_Facturation" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Tarification" Association="Self.FK_Tarification_Tarification">
-            <End Role="Tarification" EntitySet="Tarification" />
-            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
-          </AssociationSet>
-        </EntityContainer>
+        <EntityType Name="Tasks_d">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Stories_d" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_Stories_d_Tasks_d" FromRole="Tasks_d" ToRole="Stories_d" />
+        </EntityType>
+        <EntityType Name="Tasks_f">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FK_Stories_f" Type="Int64" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Stories_f" Relationship="DevisFacturationModel.FK_Stories_f_Tasks_f" FromRole="Tasks_f" ToRole="Stories_f" />
+        </EntityType>
+        <Association Name="FK_Stories_d_Tasks_d">
+          <End Type="DevisFacturationModel.Stories_d" Role="Stories_d" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tasks_d" Role="Tasks_d" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stories_d">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks_d">
+              <PropertyRef Name="FK_Stories_d" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stories_f_Tasks_f">
+          <End Type="DevisFacturationModel.Stories_f" Role="Stories_f" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tasks_f" Role="Tasks_f" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stories_f">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tasks_f">
+              <PropertyRef Name="FK_Stories_f" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -761,12 +761,12 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <EntitySetMapping Name="Devis">
             <EntityTypeMapping TypeName="DevisFacturationModel.Devis">
               <MappingFragment StoreEntitySet="Devis">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Mois" ColumnName="Mois" />
-                <ScalarProperty Name="Montant" ColumnName="Montant" />
-                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
-                <ScalarProperty Name="Filename" ColumnName="Filename" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="Mois" ColumnName="Mois" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -774,156 +774,156 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             <EntityTypeMapping TypeName="DevisFacturationModel.Facturation">
               <MappingFragment StoreEntitySet="Facturation">
                 <ScalarProperty Name="Filename" ColumnName="Filename" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
-                <ScalarProperty Name="Mois" ColumnName="Mois" />
-                <ScalarProperty Name="Montant" ColumnName="Montant" />
-                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="Mois" ColumnName="Mois" />
+                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projet">
             <EntityTypeMapping TypeName="DevisFacturationModel.Projet">
               <MappingFragment StoreEntitySet="Projet">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ressource">
             <EntityTypeMapping TypeName="DevisFacturationModel.Ressource">
               <MappingFragment StoreEntitySet="Ressource">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Initial" ColumnName="Initial" />
-                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
+                <ScalarProperty Name="Initial" ColumnName="Initial" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stories_d">
             <EntityTypeMapping TypeName="DevisFacturationModel.Stories_d">
               <MappingFragment StoreEntitySet="Stories_d">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="UpdatetDate" ColumnName="UpdatetDate" />
-                <ScalarProperty Name="Owners" ColumnName="Owners" />
-                <ScalarProperty Name="Labels" ColumnName="Labels" />
-                <ScalarProperty Name="IsBillable" ColumnName="IsBillable" />
-                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
-                <ScalarProperty Name="Bonus" ColumnName="Bonus" />
-                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Epic" ColumnName="Epic" />
                 <ScalarProperty Name="Fk_Project" ColumnName="Fk_Project" />
+                <ScalarProperty Name="Epic" ColumnName="Epic" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+                <ScalarProperty Name="Bonus" ColumnName="Bonus" />
+                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
+                <ScalarProperty Name="IsBillable" ColumnName="IsBillable" />
+                <ScalarProperty Name="Labels" ColumnName="Labels" />
+                <ScalarProperty Name="Owners" ColumnName="Owners" />
+                <ScalarProperty Name="UpdatetDate" ColumnName="UpdatetDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stories_Devis">
             <EntityTypeMapping TypeName="DevisFacturationModel.Stories_Devis">
               <MappingFragment StoreEntitySet="Stories_Devis">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FK_Stories_d" ColumnName="FK_Stories_d" />
-                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
+                <ScalarProperty Name="FK_Stories_d" ColumnName="FK_Stories_d" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stories_f">
             <EntityTypeMapping TypeName="DevisFacturationModel.Stories_f">
               <MappingFragment StoreEntitySet="Stories_f">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="UpdatetDate" ColumnName="UpdatetDate" />
-                <ScalarProperty Name="Owners" ColumnName="Owners" />
-                <ScalarProperty Name="Labels" ColumnName="Labels" />
-                <ScalarProperty Name="IsBillable" ColumnName="IsBillable" />
-                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
-                <ScalarProperty Name="Bonus" ColumnName="Bonus" />
-                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
-                <ScalarProperty Name="URL" ColumnName="URL" />
-                <ScalarProperty Name="Epic" ColumnName="Epic" />
                 <ScalarProperty Name="Fk_Project" ColumnName="Fk_Project" />
+                <ScalarProperty Name="Epic" ColumnName="Epic" />
+                <ScalarProperty Name="URL" ColumnName="URL" />
+                <ScalarProperty Name="OriginalId" ColumnName="OriginalId" />
+                <ScalarProperty Name="Bonus" ColumnName="Bonus" />
+                <ScalarProperty Name="IsPayed" ColumnName="IsPayed" />
+                <ScalarProperty Name="IsBillable" ColumnName="IsBillable" />
+                <ScalarProperty Name="Labels" ColumnName="Labels" />
+                <ScalarProperty Name="Owners" ColumnName="Owners" />
+                <ScalarProperty Name="UpdatetDate" ColumnName="UpdatetDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Stories_Facturation">
             <EntityTypeMapping TypeName="DevisFacturationModel.Stories_Facturation">
               <MappingFragment StoreEntitySet="Stories_Facturation">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FK_Stories_f" ColumnName="FK_Stories_f" />
-                <ScalarProperty Name="FK_Facturation" ColumnName="FK_Facturation" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="FK_Facturation" ColumnName="FK_Facturation" />
+                <ScalarProperty Name="FK_Stories_f" ColumnName="FK_Stories_f" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tarification">
             <EntityTypeMapping TypeName="DevisFacturationModel.Tarification">
               <MappingFragment StoreEntitySet="Tarification">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
-                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
-                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
+                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
+                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tarification_Ressource">
             <EntityTypeMapping TypeName="DevisFacturationModel.Tarification_Ressource">
               <MappingFragment StoreEntitySet="Tarification_Ressource">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
                 <ScalarProperty Name="FK_Tarification" ColumnName="FK_Tarification" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tasks_d">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Tasks_d">
-              <MappingFragment StoreEntitySet="Tasks_d">
+                <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FK_Stories_d" ColumnName="FK_Stories_d" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Initials" ColumnName="Initials" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Fk_Ressource_Initials" ColumnName="Fk_Ressource_Initials" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tasks_f">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Tasks_f">
-              <MappingFragment StoreEntitySet="Tasks_f">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="FK_Stories_f" ColumnName="FK_Stories_f" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Initials" ColumnName="Initials" />
-                <ScalarProperty Name="Duration" ColumnName="Duration" />
-                <ScalarProperty Name="Fk_Ressource_Initials" ColumnName="Fk_Ressource_Initials" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Ressource_Tarif">
             <EntityTypeMapping TypeName="DevisFacturationModel.Ressource_Tarif">
               <MappingFragment StoreEntitySet="Ressource_Tarif">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
-                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
-                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
-                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
-                <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
                 <ScalarProperty Name="FK_Tarification" ColumnName="FK_Tarification" />
+                <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
+                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
+                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
+                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks_d">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Tasks_d">
+              <MappingFragment StoreEntitySet="Tasks_d">
+                <ScalarProperty Name="Fk_Ressource_Initials" ColumnName="Fk_Ressource_Initials" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Initials" ColumnName="Initials" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FK_Stories_d" ColumnName="FK_Stories_d" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks_f">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Tasks_f">
+              <MappingFragment StoreEntitySet="Tasks_f">
+                <ScalarProperty Name="Fk_Ressource_Initials" ColumnName="Fk_Ressource_Initials" />
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
+                <ScalarProperty Name="Initials" ColumnName="Initials" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="FK_Stories_f" ColumnName="FK_Stories_f" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
