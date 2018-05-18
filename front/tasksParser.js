@@ -73,17 +73,18 @@ class TasksParser{
 								//console.log("duree",duree);
 								tasks[i].initials = "";
 								tasks[i].duree = "";
-								tasks[i].initials = owners.toString();
-								let somme = 0;
+								//tasks[i].initials = owners.toString();
+								let somme = "";
 								for(let l in tabDuree){
-									somme += parseInt(tabDuree[l]);
+									somme += tabDuree[l] + '+';
 								}
-								tasks[i].duree = somme;
+								tasks[i].duree = somme.substr(0,somme.length-1);
 
-								/*for(let ow in owners){
-									tasks[i].initials += owners[ow] +',';	
+								for(let ow in owners){
+									tasks[i].initials += owners[ow] +'+';	
 								}
-								for(let du in tabDuree){
+								tasks[i].initials = tasks[i].initials.substr(0,tasks[i].initials.length-1);
+								/*for(let du in tabDuree){
 									tasks[i].duree += tabDuree +',';	
 								}*/
 								if(bonusState == undefined || bonusState == null){
