@@ -159,12 +159,12 @@ namespace WebApplication4.Models.BO.DevisProcess
                                         if (ressourceTemp.Niveau == 3)
                                         {
                                             Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
-                                            StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
+                                            StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
                                         }
                                         else
                                         {
                                             Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
-                                            StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+3 
+                                            StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+3 
                                         }
                                     }
                                 }
@@ -206,12 +206,12 @@ namespace WebApplication4.Models.BO.DevisProcess
                                     if (ressourceTemp.Niveau == 3)
                                     {
                                         Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
-                                        StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
+                                        StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
                                     }
                                     else
                                     {
                                         Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
-                                        StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+3 
+                                        StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+3 
                                     }
                                 }
                             }
