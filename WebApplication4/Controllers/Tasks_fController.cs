@@ -121,7 +121,7 @@ namespace WebApplication4.Controllers
         [Route("api/Tasks_f/getStructure")]
         public object getStructure()
         {
-            MasterTasks t = new MasterTasks("description", "initials", 45,45646);
+            MasterTasks t = new MasterTasks("description", "initials", "45",45646);
             return JsonConvert.SerializeObject(t.getStructure());
         }
     }

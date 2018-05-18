@@ -8,7 +8,7 @@ namespace WebApplication4.Models.BO
 {
     public partial class Tasks_f : MasterTasks
     {
-        public Tasks_f(string description, string initials, int duration, long fk_stories) : base(description, initials, duration, fk_stories)
+        public Tasks_f(string description, string initials, string duration, long fk_stories) : base(description, initials, duration, fk_stories)
         {
         }
     }
