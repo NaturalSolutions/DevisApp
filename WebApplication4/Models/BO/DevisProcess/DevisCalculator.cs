@@ -126,7 +126,7 @@ namespace WebApplication4.Models.BO.DevisProcess
                             {
                                 string tempDuration = Durations[i];
                                 string tempInitial = Initiales[i];
-                                decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(int.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
+                                decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
                                 dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
                                 Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == tempInitial).FirstOrDefault(); // Recuperation de la ressource correspondante
                                 Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
