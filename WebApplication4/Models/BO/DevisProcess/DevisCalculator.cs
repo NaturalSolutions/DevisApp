@@ -114,15 +114,21 @@ namespace WebApplication4.Models.BO.DevisProcess
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
                     foreach (MasterTasks t in s.Tasks)
                     {
+                        if(t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
+                        {
+                            t.isMultiProgramming = true;
+                        }
                         if( t.isMultiProgramming == true) // c'est une tache de N programming
                         {
                             string[] Initiales = t.Initials.Split('+');
                             string[] Durations = t.Duration.Split('+');
                             for(int i = 0; i < Durations.Length; i++)
                             {
-                                decimal? dailyValue = Durations[i] != null ? Math.Round(Convert.ToDecimal(int.Parse(Durations[i]) / 7), 2) : 0; // conversion en jour
+                                string tempDuration = Durations[i];
+                                string tempInitial = Initiales[i];
+                                decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(int.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
                                 dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
-                                Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == Initiales[i]).FirstOrDefault(); // Recuperation de la ressource correspondante
+                                Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == tempInitial).FirstOrDefault(); // Recuperation de la ressource correspondante
                                 Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
                                 if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AM O
                                 {
@@ -143,7 +149,7 @@ namespace WebApplication4.Models.BO.DevisProcess
                                 }
                                 else if (((s.Type.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
                                 { //TO DO FOR TOMORROW PRENDRE EN COMPTE LES RESSOURCE FULL AMO 
-                                    if (checkIfRessourceIsFullAmo(t.Initials))
+                                    if (checkIfRessourceIsFullAmo(tempInitial))
                                     {
                                         List<Tarification> tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).ToList();
                                         tarTemp.Sort();

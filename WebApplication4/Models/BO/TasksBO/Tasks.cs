@@ -37,17 +37,26 @@ namespace WebApplication4.Models
             this.structure.Add("Initials", this.Initials.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
             this.structure.Add("Duration", this.Duration.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim());
             //this.structure.Add("Fk_Ressource_Initials",Fk_Ressource_Initials.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Trim()); 
+            if (this.Duration.IndexOf('+') == 1 && this.Initials.IndexOf('+') == 1)
+            {
+                this.isMultiProgramming = true;
+            }
+            else
+            {
+                this.isMultiProgramming = false;
+            }
         }
 
         public MasterTasks()
         {
-            if(this.Duration.IndexOf('+') != -1 && this.Duration.IndexOf('+') != 0 && this.Initials.IndexOf('+') != -1 && this.Initials.IndexOf('+') != 0)
-            {
-                this.isMultiProgramming = true;
-            }else
-            {
-                this.isMultiProgramming = false;
-            }
+            //  this.isMultiProgramming = false;
+            //  if(this.Duration.IndexOf('+') != -1 && this.Duration.IndexOf('+') != 0 && this.Initials.IndexOf('+') != -1 && this.Initials.IndexOf('+') != 0)
+            //  {
+            //      this.isMultiProgramming = true;
+            //  }else
+            //  {
+            //      this.isMultiProgramming = false;
+            //  }
         }
 
         public object getStructure()
