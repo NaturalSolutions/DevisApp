@@ -113,7 +113,7 @@ namespace WebApplication4.Controllers
                 //}
                 // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
-                db.SaveChanges();
+                //db.SaveChanges();
             }
             catch (Exception e)
             {
