@@ -95,7 +95,20 @@ namespace WebApplication4.Controllers
                 //GeneralObject genTest = CreateATestingContext();
                 DevisCalculator devisCalculator = new DevisCalculator(test);
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
-                DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();           
+                DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
+
+
+                foreach (Projet p in test.projets)
+                {
+                    foreach (MasterStories s in p.Stories)
+                    {
+                        foreach (MasterTasks t in s.Tasks)
+                        {
+
+                        }
+
+                    }
+                }
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
                 //db.SaveChanges();
             }
