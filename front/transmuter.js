@@ -123,7 +123,7 @@ class transmuter{
               result = "Vous n'avez pas accès à cet url " + url + '\n' + "Veuillez changer votre Token D'accès à Pivotal Tracker";
             }else{
               result.code = "Others";
-              result = JSON.parse(xhr.response);
+              result = xhr.response;
             }
           }
         }

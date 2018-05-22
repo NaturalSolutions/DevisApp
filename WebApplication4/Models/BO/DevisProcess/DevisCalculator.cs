@@ -108,6 +108,10 @@ namespace WebApplication4.Models.BO.DevisProcess
 
             foreach (Projet p in this.genObject.projets)
             {
+                if(p.Nom.ToLower() == "ecoRelevé-data")
+                {
+                    var test = "tst";
+                }
                 decimal? projectCost = 0;
                 foreach (MasterStories s in p.Stories)
                 {
@@ -129,15 +133,17 @@ namespace WebApplication4.Models.BO.DevisProcess
                                 decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
                                 dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
                                 Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == tempInitial).FirstOrDefault(); // Recuperation de la ressource correspondante
-                                Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
+                                List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
                                 if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AM O
                                 {
-                                    Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
+                                    //TODO Tester si il est full amo le mec ?? (a tester quand meme)
+                                    Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
                                     StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
                                 }
                                 else if (((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
                                 {
-                                    Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).FirstOrDefault(); // récupération de la tarification correspondant a la personne
+                                    //TODO Tester si il est full amo le mec ?? (a tester quand meme)
+                                    Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).FirstOrDefault(); // récupération de la tarification correspondant a la personne
                                     if (ressourceTemp.Niveau == 5) // si la personne est bac+5 
                                     {
                                         StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
@@ -149,21 +155,22 @@ namespace WebApplication4.Models.BO.DevisProcess
                                 }
                                 else if (((s.Type.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
                                 { //TO DO FOR TOMORROW PRENDRE EN COMPTE LES RESSOURCE FULL AMO 
+
                                     if (checkIfRessourceIsFullAmo(tempInitial))
                                     {
-                                        List<Tarification> tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).ToList();
+                                        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
                                         tarTemp.Sort();
                                     }
                                     else
                                     {
                                         if (ressourceTemp.Niveau == 3)
                                         {
-                                            Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
+                                            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
                                             StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
                                         }
                                         else
                                         {
-                                            Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
+                                            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
                                             StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+3 
                                         }
                                     }
@@ -172,7 +179,7 @@ namespace WebApplication4.Models.BO.DevisProcess
                         }
                         else // c'est pas une tache de N programming
                         {
-                            decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(int.Parse(t.Duration) / 7), 2) : 0; // conversion en jour
+                            decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(t.Duration) / 7), 2) : 0; // conversion en jour
                             dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
 
                             Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == t.Initials).FirstOrDefault(); // Recuperation de la ressource correspondante
@@ -180,7 +187,24 @@ namespace WebApplication4.Models.BO.DevisProcess
                             if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AM O
                             {
                                 Tarification tarTemp = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
-                                StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
+                                if(tarTemp == null)
+                                {
+                                    if(ressourceTemp.Niveau == 5)
+                                    {
+                                        Tarification ThereIsNoAMO = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == false).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
+                                        StoriesCost += ThereIsNoAMO.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
+                                    }
+                                    else
+                                    {
+                                        Tarification ThereIsNoAMO = db.Tarification.Where(myTar => myTar.ID == tarRessTemp.FK_Tarification && myTar.IsAmo == false).OrderBy(o => o.Tar3).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
+                                        StoriesCost += ThereIsNoAMO.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
+                                    }
+
+                                }
+                                else
+                                {
+                                    StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
+                                }
                             }
                             else if (((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
                             {

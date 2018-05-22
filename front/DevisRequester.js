@@ -204,6 +204,7 @@ class DevisRequester{
 		console.log("going to search tasks");
 		let _this = this;
 		let cpt = 1;
+		let listeModifie = [];
 		for(let i in projectIds)
 		{
 			let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
@@ -228,13 +229,12 @@ class DevisRequester{
 				}
 				let parser = new TasksParser();
 				if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-					parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+					listeModifie = parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
 				}
 				/*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
-						
 			}				
 		}
-		_this.transMuter.transmuteTasks(tasks);
+		_this.transMuter.transmuteTasks(listeModifie);
 	}	
 
 }

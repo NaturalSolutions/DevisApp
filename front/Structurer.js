@@ -20,29 +20,7 @@ class Structurer{
 			xhr.send();
 		});
 	}
-
-/*	async getBddObjectStructure(){
-		return new Promise((resolve,reject) => {
-			this.getProjetStructure().then((res) => {
-				resolve(res);
-			}).catch((error) => {
-				reject(error);
-			});
-
-			this.getStoriesStructure().then((res) => {
-				resolve(res);
-			}).catch((error) => {
-				reject(error);
-			});
-
-			this.getTasksStructure().then((res) => {
-				resolve(res)
-			}).catch((error) => {
-				reject(error);
-			});
-		})
-	}*/
-
+	
 	getProjetStructure(){
 		return new Promise((resolve,reject) => {
 			this.get("http://localhost/DevisAPI/api/Projet/getStructure").then((res) => {

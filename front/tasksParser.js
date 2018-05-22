@@ -20,8 +20,7 @@ class TasksParser{
 
 	getInfoFromTasks(tasks, storyId, projectId, isFactu) 
 	{
-		console.log("Parsing tasks");
-		var tasksModified = []; 									//initialisation tableaux vide
+		var tasksModified = []; 							//initialisation tableaux vide
 		var _this = this; 
 		var cpt = 0; 										// récupération contexte
 		for(let i in tasks)
@@ -60,7 +59,6 @@ class TasksParser{
 						regex = /\(?\d+(\+\d+)+\)?/; //Cherche les durees dans le text
 						if (tabDescrInfo[1].trim().match(regex)) {
 							var duree = 0;
-							var regexParenth = /\)$/;
 							var tabDureeBrut;
 							tabDureeBrut = regex.exec(tabDescrInfo[1].trim());
 							tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regex, "");
@@ -69,16 +67,19 @@ class TasksParser{
 								alert('Probleme d\'estimation et initiales dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id)
 								_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 							} else {
-								//console.log("owners",owners);
-								//console.log("duree",duree);
 								tasks[i].initials = "";
 								tasks[i].duree = "";
-								//tasks[i].initials = owners.toString();
 								let somme = "";
 								for(let l in tabDuree){
 									somme += tabDuree[l] + '+';
 								}
+								var regexParenth = /(\(|\))/gmi;
+								somme = somme.replace(regexParenth,"");
 								tasks[i].duree = somme.substr(0,somme.length-1);
+								// if(tasks[i].duree.trim().match(regexParenth)){
+								// 	tasks[i].duree = regexParenth.exec(tasks[i].duree.trim());
+								// 	tasks[i].duree = tasks[i].duree;  
+								// }
 
 								for(let ow in owners){
 									tasks[i].initials += owners[ow] +'+';	
@@ -108,6 +109,8 @@ class TasksParser{
 						_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 					}
 				}
+
+
 				//Tache solo
 				else {
 					//CHerche l'owner de la tache
@@ -125,7 +128,8 @@ class TasksParser{
 							duree = regex.exec(tabDescrInfo[1].trim())[0];
 							tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regex, "");
 							tasks[i].initials = owner_initial;
-							tasks[i].duree = duree;
+							var regexParenth = /(\(|\))/gmi;
+							tasks[i].duree = duree.replace(regexParenth,"");;
 							if(bonusState == undefined || bonusState == null){
 								tasks[i].isBonnus = false;	
 							}else{
@@ -149,7 +153,6 @@ class TasksParser{
 				_this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
 			}
 		}
-		//alert(cpt +'/'+ tasks.length + 'taches ont  été attribué');
 		return tasksModified;
 	}
 
