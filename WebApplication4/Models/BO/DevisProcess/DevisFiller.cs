@@ -9,8 +9,9 @@ namespace WebApplication4.Models.BO.DevisProcess
     {
         private WordFileGenerator generator;
 
-        public DevisFiller(FactuConstante f,bool isFactu)
+        public DevisFiller(bool isFactu)
         {
+            FactuConstante ConstanteDeFacturation = new FactuConstante();
             this.generator = new WordFileGenerator(f,isFactu);
         }
     }

@@ -7,14 +7,31 @@ namespace WebApplication4.Models.BO.DevisProcess
 {
     public class DevisSumManager // objet renvoyer par le DevisCalculator 
     {
+        private Dictionary<string, decimal?> projectCost; // Dictionnaire qui associe le nom du projet a son cout
         public DevisSumManager()
         {
             this.projectCost = new Dictionary<string, decimal?>();
         }
-        private Dictionary<string,decimal?> projectCost; // Dictionnaire qui associe le nom du projet a son cout
-        public Dictionary<string,decimal?> getProjectCost()
+       
+        public decimal? getProjectCost(string key)
         {
-            return this.projectCost;
+            decimal? result;
+            if(this.projectCost != null && key != null)
+            {
+                if (this.projectCost.ContainsKey(key))
+                {
+                    result = this.projectCost[key];
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            else
+            {
+                result = -2;
+            }
+            return result;
         }
         public void setProjectCost(string projectName,decimal? priceCash)
         {

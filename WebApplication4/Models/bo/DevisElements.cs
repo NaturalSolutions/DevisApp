@@ -44,7 +44,6 @@ namespace WebApplication4.Models.BO
             //Calculs des factu CDP et DT
             if (_tarCDP == null)
             {
-                //Atttention ta base est pourrie pense a changer les labels pour les finaux
                 decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet fonctionnel").Select(s => s.Tar5).First();
                 decimal dt = db.Tarification.Where(s => s.Type == "Directeur technique").Select(s => s.Tar5).First();
                 //TODO possibiliter de saisir le nombre de jour

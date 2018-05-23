@@ -91,26 +91,30 @@ namespace WebApplication4.Controllers
                 //JObject job = JObject.Parse(genObjec_d);
 
                 var escouilles = genObjec_d.ToString();
-                GeneralObject test = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+                GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
                 //GeneralObject genTest = CreateATestingContext();
-                DevisCalculator devisCalculator = new DevisCalculator(test);
+                DevisCalculator devisCalculator = new DevisCalculator(newGenObject);
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
                 DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
 
 
-                foreach (Projet p in test.projets)
+                foreach (Projet p in newGenObject.projets)
                 {
+                    db.Projet.Add(p);
                     foreach (MasterStories s in p.Stories)
                     {
+                        Stories_d temp = new Stories_d(s);
+                        db.Stories_d.Add(temp);
                         foreach (MasterTasks t in s.Tasks)
                         {
-
+                            Models.Tasks_d tempTasks = new Models.Tasks_d(t);
+                            db.Tasks_d.Add(tempTasks);
                         }
 
                     }
                 }
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
-                //db.SaveChanges();
+                db.SaveChanges();
             }
             catch (Exception e)
             {

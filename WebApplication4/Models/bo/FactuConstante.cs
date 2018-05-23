@@ -12,7 +12,7 @@ namespace WebApplication4.Models.BO
         public ChefDeProjet chefProjet { get; set; }
     }
 
-    //Gestion cas particuloer chef de projet et directeur technique tarification et devis 
+    //Gestion cas particuloer chef de projet et directeur technique facturation et devis 
     public class ChefDeProjet
     {
         private DevisFacturationEntities db = new DevisFacturationEntities();
@@ -46,7 +46,6 @@ namespace WebApplication4.Models.BO
             decimal dailyValue = Convert.ToDecimal((this.jrs != null ? this.jrs : 0) * tar.Tar5);
             decimal dailyValueWE = Convert.ToDecimal((this.we != null ? this.we : 0) * tar.Tar5 * 1.5m);
             decimal dailyValueF = Convert.ToDecimal((this.f != null ? this.f : 0) * tar.Tar5 * 2m);
-
             this.sum = Convert.ToDecimal(dailyValue + dailyValueWE + dailyValueF);
         }
     }

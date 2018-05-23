@@ -9,21 +9,21 @@ namespace WebApplication4.Models.BO
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 
-        public long ID {get; set;} // OK
-        public string Description {get; set; }// OK
-        public string Type {get; set; }// OK
-        public Nullable<System.DateTime> StartDate {get; set; }// OK
-        public Nullable<System.DateTime> UpdatetDate {get; set; }// OK
-        public string Owners {get; set; }// OK
-        public string Labels {get; set; }// OK
-        public Nullable<bool> IsBillable {get; set; }// OK
-        public Nullable<bool> IsPayed {get; set; }// OK
-        public Nullable<bool> Bonus {get; set; }// OK
-        public Nullable<long> OriginalId {get; set; }// OK
-        public string URL {get; set; }// OK
-        public string Epic {get; set; }// OK
-        public string isAMO {get; set; }// OK
-        public Nullable<long> Fk_Project {get; set; }// OK
+        public long ID {get; set;}
+        public string Description {get; set; }
+        public string Type {get; set; }
+        public Nullable<System.DateTime> StartDate {get; set; }
+        public Nullable<System.DateTime> UpdatetDate {get; set; }
+        public string Owners {get; set; }
+        public string Labels {get; set; }
+        public Nullable<bool> IsBillable {get; set; }
+        public Nullable<bool> IsPayed {get; set; }
+        public Nullable<bool> Bonus {get; set; }
+        public Nullable<long> OriginalId {get; set; }
+        public string URL {get; set; }
+        public string Epic {get; set; }
+        public string isAMO {get; set; }
+        public Nullable<long> Fk_Project {get; set; }
 
         public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -46,8 +46,7 @@ namespace WebApplication4.Models.BO
             string isAmo,
             long fkprojet)
         {
-
-           // this.ID = id;
+            // this.ID = id; NOn inclu car généré automatiquement
             this.Description = description;
             this.Type = type;
             this.StartDate = depart;
@@ -64,7 +63,7 @@ namespace WebApplication4.Models.BO
             this.Fk_Project = fkprojet;
             this.Tasks = new List<MasterTasks> ();
             this.structure = new Dictionary<string, string>();
-          //  this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
+            //this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Description", this.Description.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("Type", this.Type.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
             this.structure.Add("StartDate", this.StartDate.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
