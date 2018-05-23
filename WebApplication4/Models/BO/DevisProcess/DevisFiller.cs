@@ -5,14 +5,12 @@ using System.Web;
 
 namespace WebApplication4.Models.BO.DevisProcess
 {
-    public class DevisFiller // classe de remplissage du devis ... a prevoir plus tard
+    public class DevisFiller
     {
         private WordFileGenerator generator;
-
-        public DevisFiller(bool isFactu)
+        public DevisFiller(bool isFactu, DevisSumManager sumManager,GeneralObject genObject)
         {
-            FactuConstante ConstanteDeFacturation = new FactuConstante();
-            this.generator = new WordFileGenerator(f,isFactu);
+            this.generator = new WordFileGenerator(genObject,sumManager,isFactu);
         }
     }
 }

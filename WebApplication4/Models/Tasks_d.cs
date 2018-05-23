@@ -14,6 +14,13 @@ namespace WebApplication4.Models
     
     public partial class Tasks_d
     {
+        private MasterTasks t;
+
+        public Tasks_d(MasterTasks t)
+        {
+            this.t = t;
+        }
+
         public long ID { get; set; }
         public long FK_Stories_d { get; set; }
         public string Description { get; set; }

@@ -97,24 +97,25 @@ namespace WebApplication4.Controllers
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
                 DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
 
+                DevisFiller filler = new DevisFiller(false,resultFromcallCalculator,newGenObject);
 
-                foreach (Projet p in newGenObject.projets)
-                {
-                    db.Projet.Add(p);
-                    foreach (MasterStories s in p.Stories)
-                    {
-                        Stories_d temp = new Stories_d(s);
-                        db.Stories_d.Add(temp);
-                        foreach (MasterTasks t in s.Tasks)
-                        {
-                            Models.Tasks_d tempTasks = new Models.Tasks_d(t);
-                            db.Tasks_d.Add(tempTasks);
-                        }
+                //foreach (Projet p in newGenObject.projets)
+                //{
+                //    db.Projet.Add(p);
+                //    foreach (MasterStories s in p.Stories)
+                //    {
+                //        Stories_d temp = new Stories_d(s);
+                //        db.Stories_d.Add(temp);
+                //        foreach (MasterTasks t in s.Tasks)
+                //        {
+                //            Models.Tasks_d tempTasks = new Models.Tasks_d(t);
+                //            db.Tasks_d.Add(tempTasks);
+                //        }
 
-                    }
-                }
+                //    }
+                //}
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
-                db.SaveChanges();
+                //db.SaveChanges();
             }
             catch (Exception e)
             {

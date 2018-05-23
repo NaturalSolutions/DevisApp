@@ -15,15 +15,15 @@ namespace WebApplication4.Controllers // Ca devrait pas Etre un Controller mais 
         [ActionName("createDevis")]
         public string PostCreateDevis(List<GeneralObject> docInfos)
         {
-            WordFileGenerator test = new WordFileGenerator(docInfos);
-            return JsonConvert.SerializeObject(test);
+            //WordFileGenerator test = new WordFileGenerator(docInfos);
+            return "dd"; //JsonConvert.SerializeObject(test);
         }
 
         [ActionName("createFactu")]
         public string PostCreateFactu(FactuConstante docInfos)
         {
-            WordFileGenerator test = new WordFileGenerator(docInfos, true);
-            return JsonConvert.SerializeObject(test);
+            //WordFileGenerator test = new WordFileGenerator(docInfos, true);
+            return ""; //JsonConvert.SerializeObject(test);
         }
     }
 }
