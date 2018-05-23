@@ -121,20 +121,23 @@ namespace WebApplication4.Models.BO
                     toAdd.Cells[0].InsertParagraph(projet.Nom);
                     List bulletedList = null;
                     //stories
-                    foreach (MasterStories story in projet.Stories)
+                    if(projet.Stories.Count > 0)
                     {
-                        if (bulletedList == null)
+                        foreach (MasterStories story in projet.Stories)
                         {
-                            bulletedList = this.final.AddList(story.Description, 0, ListItemType.Bulleted, 1);
+                            if (bulletedList == null)
+                            {
+                                bulletedList = this.final.AddList(story.Description, 0, ListItemType.Bulleted, 1);
+                            }
+                            else
+                            {
+                                this.final.AddListItem(bulletedList, story.Description);
+                            }
                         }
-                        else
-                        {
-                            this.final.AddListItem(bulletedList, story.Description);
-                        }
+                        toAdd.Cells[1].InsertList(bulletedList);
+                        //Cout
+                        toAdd.Cells[2].InsertParagraph(sumManager.getProjectCost(projet.Nom).ToString() + "€");
                     }
-                    toAdd.Cells[1].InsertList(bulletedList);
-                    //Cout
-                    toAdd.Cells[2].InsertParagraph(sumManager.getProjectCost(projet.Nom).ToString() + "€");
                 }
                 this.tableSubTotal += (decimal) sumManager.getProjectCost(projet.Nom);
             }

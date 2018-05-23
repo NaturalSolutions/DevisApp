@@ -65,12 +65,11 @@ class DevisRequester{
 
 	checkifBonus(labels){
 		for(let i in labels){
-			//console.log("label",labels[i]);
 			if(labels[i].name == "bonus"){
 				return true;
 			}
-			return false;
 		}
+		return false;
 	}
 
 	getProjectStories(projectIds) {
@@ -83,7 +82,7 @@ class DevisRequester{
 		for(let u in result){
 			myCurrentStory = result[u];
 			myCurrentStory.listeTaches = [];
-			if(myCurrentStory.story_type.toLowerCase() != 'release' && _this.checkifBonus(myCurrentStory.labels) == false){
+			if(myCurrentStory.story_type.toLowerCase() != 'release' && !_this.checkifBonus(myCurrentStory.labels)){
 				/*console.log('myCurrentStory',myCurrentStory);*/
 				 // renvoie les stories d'un projet correspondant a un epic 	
 				//console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
