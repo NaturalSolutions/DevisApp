@@ -3,17 +3,17 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import { AppComponent } from './app.component';
 import {FileGeneratorComponent} from '../file-generator/file-generator.component';
-
+import {EpicRecuperatorModule} from '../epic-recuperator/epic-recuperator.module';
 @NgModule({
   declarations: [
     AppComponent, 
-    FileGeneratorComponent
+    FileGeneratorComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [EpicRecuperatorModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
