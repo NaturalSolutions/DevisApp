@@ -39,7 +39,7 @@ export class FileGeneratorComponent implements OnInit {
       infoLogContext.innerHTML = "<p> Devis process lauched </p>"
       setTimeout(function (){
         infoLogContext.style.visibility = "hidden";
-      }, 1000);
+      }, 2000);
       this.DevisProcessLauched = true;
       this.epicRecuperator.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe(response => {
         console.log("response",response);
@@ -49,7 +49,7 @@ export class FileGeneratorComponent implements OnInit {
       infoLogContext.style.visibility = "visible";
       setTimeout(function (){
         infoLogContext.style.visibility = "hidden";
-      }, 1000);
+      }, 2000);
     }
     
   }

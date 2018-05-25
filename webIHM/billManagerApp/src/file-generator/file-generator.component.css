@@ -5,6 +5,7 @@
     top: 70px;
     margin: auto;
     padding: 5%;
+    border-radius: 15px;
 }
 
 #fic:hover{
@@ -22,6 +23,7 @@
     background-color: white;
     padding: 5%;
     display: inline-block;
+    border-radius: 15px;
 }
 
 #devis:hover{
@@ -39,6 +41,7 @@
     background-color: white;
     padding: 5%;
     display: inline-block;
+    border-radius: 15px;
 }
 
 #facture:hover{
@@ -54,7 +57,7 @@
     background-color: white;
     border-radius: 15px;
     width: 20%;
-    color:red;
+    color:green;
     margin: auto;
     padding: 2%;
 }

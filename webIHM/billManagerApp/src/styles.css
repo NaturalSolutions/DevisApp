@@ -1,4 +1,18 @@
-html{
+html,body{
     background-color: grey;
     text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+#title{
+    background-color: white;
+    padding: 0.4%;
+    border-bottom-left-radius: 180px;
+    border-bottom-right-radius: 180px;
+    width: 60%;
+    margin: auto;
+    border-bottom: 5px solid #565151;
+    color: #565151;
+    text-transform: uppercase;
 }
