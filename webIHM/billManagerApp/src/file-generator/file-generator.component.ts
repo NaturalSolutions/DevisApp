@@ -44,6 +44,7 @@ export class FileGeneratorComponent implements OnInit {
       this.epicRecuperator.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe(response => {
         console.log("response",response);
       });
+      this.epicRecuperator.getAllProjectsId();
     }else{
       infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
       infoLogContext.style.visibility = "visible";
