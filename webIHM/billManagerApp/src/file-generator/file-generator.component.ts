@@ -45,7 +45,7 @@ export class FileGeneratorComponent implements OnInit {
         console.log("response",response);
       });
     }else{
-      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee ! Devis process is already processing "
+      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
       infoLogContext.style.visibility = "visible";
       setTimeout(function (){
         infoLogContext.style.visibility = "hidden";

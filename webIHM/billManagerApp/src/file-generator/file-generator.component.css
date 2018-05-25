@@ -4,7 +4,7 @@
     position: relative;
     top: 70px;
     margin: auto;
-    padding: 5%;
+    padding: 2%;
     border-radius: 15px;
 }
 
@@ -21,7 +21,7 @@
     right: 5%;
     visibility: hidden;
     background-color: white;
-    padding: 5%;
+    padding: 2%;
     display: inline-block;
     border-radius: 15px;
 }
@@ -39,7 +39,7 @@
     left: 5%;
     visibility: hidden;
     background-color: white;
-    padding: 5%;
+    padding: 2%;
     display: inline-block;
     border-radius: 15px;
 }
