@@ -11,24 +11,26 @@ export class FileGeneratorComponent implements OnInit {
 
   private divVisibility;
   private DevisProcessLauched;
+  private devisScope;
+  private factureScope;
   constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
    }
 
   ngOnInit() {
+    this.devisScope = document.getElementById('devis');
+    this.factureScope = document.getElementById('facture');
   }
 
   displayOptions () :void {
-    let devisScope = document.getElementById('devis');
-    let factureScope = document.getElementById('facture');
     if(this.divVisibility == false){
-      devisScope.style.visibility = "visible";
-      factureScope.style.visibility = "visible";
+      this.devisScope.style.visibility = "visible";
+      this.factureScope.style.visibility = "visible";
       this.divVisibility = true;
     }else{
-      devisScope.style.visibility = "hidden";
-      factureScope.style.visibility = "hidden";
+      this.devisScope.style.visibility = "hidden";
+      this.factureScope.style.visibility = "hidden";
       this.divVisibility = false;
     }
   } 
@@ -42,15 +44,22 @@ export class FileGeneratorComponent implements OnInit {
         infoLogContext.style.visibility = "hidden";
       }, 2000);
       this.DevisProcessLauched = true;
-      // this.epicRecuperator.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe(response => {
-      //   console.log("response",response);
-      // });
       let objetTransition;
       this.epicRecuperator.getAllProjectsId().then(projects => {
         console.log("res",projects);
         this.epicRecuperator.getAllEpics(projects).then(epics => {
-          console.log("epics",epics);
+          let selector = document.createElement("select");
+
+          for(let i in epics){
+            //console.log(epics[i]);
+            let option = document.createElement("option");
+            option.text = epics[i];
+            selector.appendChild(option);
+           }
+           let fileGeneratorContext = document.getElementById('fileGenerator');
+           fileGeneratorContext.appendChild(selector);
         });
+      
         // let promises: Promise<any[]>[] = [];
         // projects.forEach(project => {
         //   let promise: Promise<any[]> = this.http.get<any[]>('')
