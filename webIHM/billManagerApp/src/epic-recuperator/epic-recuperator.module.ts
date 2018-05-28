@@ -89,7 +89,7 @@ export class EpicRecuperatorModule {
 		  let epicsAdder = new Set();
 		  let epicsArray;
       let compter = myProjectsIds.length;
-      let promises:Promise[] = [];
+      let promises:Promise<any>[] = [];
         for(let idProjet in myProjectsIds){
           let p = this.Angularget('https://www.pivotaltracker.com/services/v5/projects/'+myProjectsIds[idProjet].id+'/epics')
           .toPromise()
