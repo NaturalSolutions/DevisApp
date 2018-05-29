@@ -86,8 +86,8 @@ namespace WebApplication4.Controllers
         // POST: api/Devis
         public void Post( object genObjec_d) // DEVRA CREER UN DEVIS 
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
-            try
-            {
+            //try
+            //{
                 //JObject job = JObject.Parse(genObjec_d);
 
                 var escouilles = genObjec_d.ToString();
@@ -116,11 +116,11 @@ namespace WebApplication4.Controllers
                 //}
                 //db.Devis.Add(EnormeObjetyaToutDedans); 
                 //db.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si un attribut dans l'objet est nulle
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si un attribut dans l'objet est nulle
+            //}
         }
 
         // PUT: api/Devis/5

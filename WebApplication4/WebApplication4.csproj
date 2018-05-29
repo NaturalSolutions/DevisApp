@@ -206,9 +206,6 @@
     <Compile Include="Models\Ressource.cs">
       <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Ressource_Tarif.cs">
-      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Stories_d.cs">
       <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>

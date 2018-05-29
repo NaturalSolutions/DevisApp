@@ -45,8 +45,8 @@
           <Property Name="Mail" Type="nvarchar(max)" />
           <Property Name="Initial" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="Niveau" Type="int" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Obsolete" Type="bit" Nullable="false" />
+          <Property Name="Obsolete" Type="bit" />
+          <Property Name="Date" Type="datetime" />
         </EntityType>
         <EntityType Name="Stories_d">
           <Key>
@@ -113,8 +113,8 @@
           <Property Name="Tar3" Type="decimal" Precision="18" Scale="0" />
           <Property Name="Tar5" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="IsAmo" Type="bit" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Obsolete" Type="bit" Nullable="false" />
+          <Property Name="Obsolete" Type="bit" />
+          <Property Name="Date" Type="datetime" />
         </EntityType>
         <EntityType Name="Tarification_Ressource">
           <Key>
@@ -145,29 +145,6 @@
           <Property Name="Initials" Type="nvarchar(max)" />
           <Property Name="Duration" Type="nvarchar(max)" />
           <Property Name="Fk_Ressource_Initials" Type="nvarchar" MaxLength="4" />
-        </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
-        <EntityType Name="Ressource_Tarif">
-          <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Obsolete" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="Tar5" />
-            <PropertyRef Name="FK_Ressource" />
-            <PropertyRef Name="FK_Tarification" />
-          </Key>
-          <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Niveau" Type="int" />
-          <Property Name="Obsolete" Type="bit" Nullable="false" />
-          <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="Type" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Tar3" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Tar5" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="IsAmo" Type="bit" />
-          <Property Name="FK_Ressource" Type="bigint" Nullable="false" />
-          <Property Name="FK_Tarification" Type="bigint" Nullable="false" />
         </EntityType>
         <Association Name="Fk_Devis_Stories_Devis">
           <End Role="Devis" Type="Self.Devis" Multiplicity="1" />
@@ -277,19 +254,7 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tarification_Ressource">
-          <End Role="Ressource" Type="Self.Ressource" Multiplicity="1" />
-          <End Role="Tarification_Ressource" Type="Self.Tarification_Ressource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ressource">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tarification_Ressource">
-              <PropertyRef Name="FK_Ressource" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tarification_Tarification">
+        <Association Name="FK_Tarification">
           <End Role="Tarification" Type="Self.Tarification" Multiplicity="1" />
           <End Role="Tarification_Ressource" Type="Self.Tarification_Ressource" Multiplicity="*" />
           <ReferentialConstraint>
@@ -298,6 +263,18 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Principal>
             <Dependent Role="Tarification_Ressource">
               <PropertyRef Name="FK_Tarification" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tarification_Ressources">
+          <End Role="Ressource" Type="Self.Ressource" Multiplicity="1" />
+          <End Role="Tarification_Ressource" Type="Self.Tarification_Ressource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ressource">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tarification_Ressource">
+              <PropertyRef Name="FK_Ressource" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -314,20 +291,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <EntitySet Name="Tarification_Ressource" EntityType="Self.Tarification_Ressource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks_d" EntityType="Self.Tasks_d" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks_f" EntityType="Self.Tasks_f" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Ressource_Tarif" EntityType="Self.Ressource_Tarif" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Ressource_Tarif].[Name] AS [Name], 
-    [Ressource_Tarif].[Niveau] AS [Niveau], 
-    [Ressource_Tarif].[Obsolete] AS [Obsolete], 
-    [Ressource_Tarif].[Date] AS [Date], 
-    [Ressource_Tarif].[Type] AS [Type], 
-    [Ressource_Tarif].[Tar3] AS [Tar3], 
-    [Ressource_Tarif].[Tar5] AS [Tar5], 
-    [Ressource_Tarif].[IsAmo] AS [IsAmo], 
-    [Ressource_Tarif].[FK_Ressource] AS [FK_Ressource], 
-    [Ressource_Tarif].[FK_Tarification] AS [FK_Tarification]
-    FROM [dbo].[Ressource_Tarif] AS [Ressource_Tarif]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="Fk_Devis_Stories_Devis" Association="Self.Fk_Devis_Stories_Devis">
             <End Role="Devis" EntitySet="Devis" />
             <End Role="Stories_Devis" EntitySet="Stories_Devis" />
@@ -364,12 +327,12 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             <End Role="Projet" EntitySet="Projet" />
             <End Role="Stories_f" EntitySet="Stories_f" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Ressource" Association="Self.FK_Tarification_Ressource">
-            <End Role="Ressource" EntitySet="Ressource" />
+          <AssociationSet Name="FK_Tarification" Association="Self.FK_Tarification">
+            <End Role="Tarification" EntitySet="Tarification" />
             <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Tarification" Association="Self.FK_Tarification_Tarification">
-            <End Role="Tarification" EntitySet="Tarification" />
+          <AssociationSet Name="FK_Tarification_Ressources" Association="Self.FK_Tarification_Ressources">
+            <End Role="Ressource" EntitySet="Ressource" />
             <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
           </AssociationSet>
         </EntityContainer>
@@ -381,14 +344,11 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <EntitySet Name="Devis" EntityType="DevisFacturationModel.Devis" />
           <EntitySet Name="Facturation" EntityType="DevisFacturationModel.Facturation" />
           <EntitySet Name="Projet" EntityType="DevisFacturationModel.Projet" />
-          <EntitySet Name="Ressource" EntityType="DevisFacturationModel.Ressource" />
           <EntitySet Name="Stories_d" EntityType="DevisFacturationModel.Stories_d" />
           <EntitySet Name="Stories_Devis" EntityType="DevisFacturationModel.Stories_Devis" />
           <EntitySet Name="Stories_f" EntityType="DevisFacturationModel.Stories_f" />
           <EntitySet Name="Stories_Facturation" EntityType="DevisFacturationModel.Stories_Facturation" />
-          <EntitySet Name="Tarification" EntityType="DevisFacturationModel.Tarification" />
           <EntitySet Name="Tarification_Ressource" EntityType="DevisFacturationModel.Tarification_Ressource" />
-          <EntitySet Name="Ressource_Tarif" EntityType="DevisFacturationModel.Ressource_Tarif" />
           <AssociationSet Name="Fk_Devis_Stories_Devis" Association="DevisFacturationModel.Fk_Devis_Stories_Devis">
             <End Role="Devis" EntitySet="Devis" />
             <End Role="Stories_Devis" EntitySet="Stories_Devis" />
@@ -405,10 +365,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             <End Role="Projet" EntitySet="Projet" />
             <End Role="Stories_f" EntitySet="Stories_f" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Ressource" Association="DevisFacturationModel.FK_Tarification_Ressource">
-            <End Role="Ressource" EntitySet="Ressource" />
-            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
-          </AssociationSet>
           <AssociationSet Name="FK_Stories_d_Stories_Devis" Association="DevisFacturationModel.FK_Stories_d_Stories_Devis">
             <End Role="Stories_d" EntitySet="Stories_d" />
             <End Role="Stories_Devis" EntitySet="Stories_Devis" />
@@ -421,10 +377,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             <End Role="Stories_Facturation" EntitySet="Stories_Facturation" />
             <End Role="Stories_Facturation1" EntitySet="Stories_Facturation" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tarification_Tarification" Association="DevisFacturationModel.FK_Tarification_Tarification">
-            <End Role="Tarification" EntitySet="Tarification" />
-            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
-          </AssociationSet>
           <EntitySet Name="Tasks_d" EntityType="DevisFacturationModel.Tasks_d" />
           <EntitySet Name="Tasks_f" EntityType="DevisFacturationModel.Tasks_f" />
           <AssociationSet Name="FK_Stories_d_Tasks_d" Association="DevisFacturationModel.FK_Stories_d_Tasks_d">
@@ -434,6 +386,16 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <AssociationSet Name="FK_Stories_f_Tasks_f" Association="DevisFacturationModel.FK_Stories_f_Tasks_f">
             <End Role="Stories_f" EntitySet="Stories_f" />
             <End Role="Tasks_f" EntitySet="Tasks_f" />
+          </AssociationSet>
+          <EntitySet Name="Tarification" EntityType="DevisFacturationModel.Tarification" />
+          <AssociationSet Name="FK_Tarification" Association="DevisFacturationModel.FK_Tarification">
+            <End Role="Tarification" EntitySet="Tarification" />
+            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
+          </AssociationSet>
+          <EntitySet Name="Ressource" EntityType="DevisFacturationModel.Ressource" />
+          <AssociationSet Name="FK_Tarification_Ressources" Association="DevisFacturationModel.FK_Tarification_Ressources">
+            <End Role="Ressource" EntitySet="Ressource" />
+            <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Devis">
@@ -471,19 +433,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_stotries_d_project" FromRole="Projet" ToRole="Stories_d" />
           <NavigationProperty Name="Stories_f" Relationship="DevisFacturationModel.FK_stotries_f_project" FromRole="Projet" ToRole="Stories_f" />
-        </EntityType>
-        <EntityType Name="Ressource">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Initial" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Niveau" Type="Int32" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Obsolete" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressource" FromRole="Ressource" ToRole="Tarification_Ressource" />
         </EntityType>
         <EntityType Name="Stories_d">
           <Key>
@@ -552,19 +501,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <NavigationProperty Name="Stories_Facturation1" Relationship="DevisFacturationModel.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation" ToRole="Stories_Facturation1" />
           <NavigationProperty Name="Stories_Facturation2" Relationship="DevisFacturationModel.Fk_Facturation_Stories_Facturation" FromRole="Stories_Facturation1" ToRole="Stories_Facturation" />
         </EntityType>
-        <EntityType Name="Tarification">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Tar3" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Tar5" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="IsAmo" Type="Boolean" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Obsolete" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification_Tarification" FromRole="Tarification" ToRole="Tarification_Ressource" />
-        </EntityType>
         <EntityType Name="Tarification_Ressource">
           <Key>
             <PropertyRef Name="ID" />
@@ -572,29 +508,8 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FK_Ressource" Type="Int64" Nullable="false" />
           <Property Name="FK_Tarification" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressource" FromRole="Tarification_Ressource" ToRole="Ressource" />
-          <NavigationProperty Name="Tarification" Relationship="DevisFacturationModel.FK_Tarification_Tarification" FromRole="Tarification_Ressource" ToRole="Tarification" />
-        </EntityType>
-        <EntityType Name="Ressource_Tarif">
-          <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Obsolete" />
-            <PropertyRef Name="Date" />
-            <PropertyRef Name="Type" />
-            <PropertyRef Name="Tar5" />
-            <PropertyRef Name="FK_Ressource" />
-            <PropertyRef Name="FK_Tarification" />
-          </Key>
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Niveau" Type="Int32" />
-          <Property Name="Obsolete" Type="Boolean" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Tar3" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Tar5" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="IsAmo" Type="Boolean" />
-          <Property Name="FK_Ressource" Type="Int64" Nullable="false" />
-          <Property Name="FK_Tarification" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Tarification" Relationship="DevisFacturationModel.FK_Tarification" FromRole="Tarification_Ressource" ToRole="Tarification" />
+          <NavigationProperty Name="Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressources" FromRole="Tarification_Ressource" ToRole="Ressource" />
         </EntityType>
         <Association Name="Fk_Devis_Stories_Devis">
           <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
@@ -644,18 +559,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tarification_Ressource">
-          <End Type="DevisFacturationModel.Ressource" Role="Ressource" Multiplicity="1" />
-          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ressource">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tarification_Ressource">
-              <PropertyRef Name="FK_Ressource" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Stories_d_Stories_Devis">
           <End Type="DevisFacturationModel.Stories_d" Role="Stories_d" Multiplicity="1" />
           <End Type="DevisFacturationModel.Stories_Devis" Role="Stories_Devis" Multiplicity="*" />
@@ -689,18 +592,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Principal>
             <Dependent Role="Stories_Facturation1">
               <PropertyRef Name="FK_Facturation" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tarification_Tarification">
-          <End Type="DevisFacturationModel.Tarification" Role="Tarification" Multiplicity="1" />
-          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tarification">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Tarification_Ressource">
-              <PropertyRef Name="FK_Tarification" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -752,6 +643,56 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Tarification">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Tar3" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Tar5" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="IsAmo" Type="Boolean" />
+          <Property Name="Obsolete" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification" FromRole="Tarification" ToRole="Tarification_Ressource" />
+        </EntityType>
+        <Association Name="FK_Tarification">
+          <End Type="DevisFacturationModel.Tarification" Role="Tarification" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tarification">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tarification_Ressource">
+              <PropertyRef Name="FK_Tarification" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Ressource">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Mail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Initial" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Niveau" Type="Int32" />
+          <Property Name="Obsolete" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Tarification_Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressources" FromRole="Ressource" ToRole="Tarification_Ressource" />
+        </EntityType>
+        <Association Name="FK_Tarification_Ressources">
+          <End Type="DevisFacturationModel.Ressource" Role="Ressource" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Tarification_Ressource" Role="Tarification_Ressource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ressource">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Tarification_Ressource">
+              <PropertyRef Name="FK_Ressource" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -789,19 +730,6 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Nom" ColumnName="Nom" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ressource">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Ressource">
-              <MappingFragment StoreEntitySet="Ressource">
-                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
-                <ScalarProperty Name="Initial" ColumnName="Initial" />
-                <ScalarProperty Name="Mail" ColumnName="Mail" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -865,41 +793,12 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Tarification">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Tarification">
-              <MappingFragment StoreEntitySet="Tarification">
-                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
-                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
-                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tarification_Ressource">
             <EntityTypeMapping TypeName="DevisFacturationModel.Tarification_Ressource">
               <MappingFragment StoreEntitySet="Tarification_Ressource">
                 <ScalarProperty Name="FK_Tarification" ColumnName="FK_Tarification" />
                 <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ressource_Tarif">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Ressource_Tarif">
-              <MappingFragment StoreEntitySet="Ressource_Tarif">
-                <ScalarProperty Name="FK_Tarification" ColumnName="FK_Tarification" />
-                <ScalarProperty Name="FK_Ressource" ColumnName="FK_Ressource" />
-                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
-                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
-                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
-                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -923,6 +822,32 @@ avertissement 6002: La table/vue 'DevisFacturation.dbo.Ressource_Tarif' n'a pas 
                 <ScalarProperty Name="Initials" ColumnName="Initials" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="FK_Stories_f" ColumnName="FK_Stories_f" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tarification">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Tarification">
+              <MappingFragment StoreEntitySet="Tarification">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="IsAmo" ColumnName="IsAmo" />
+                <ScalarProperty Name="Tar5" ColumnName="Tar5" />
+                <ScalarProperty Name="Tar3" ColumnName="Tar3" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ressource">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Ressource">
+              <MappingFragment StoreEntitySet="Ressource">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="Niveau" ColumnName="Niveau" />
+                <ScalarProperty Name="Initial" ColumnName="Initial" />
+                <ScalarProperty Name="Mail" ColumnName="Mail" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

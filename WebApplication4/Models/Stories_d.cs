@@ -11,24 +11,16 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using BO;
-
+    
     public partial class Stories_d
     {
-        private MasterStories s;
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Stories_d()
         {
             this.Stories_Devis = new HashSet<Stories_Devis>();
             this.Tasks_d = new HashSet<Tasks_d>();
         }
-
-        public Stories_d(MasterStories s)
-        {
-            this.s = s;
-        }
-
+    
         public long ID { get; set; }
         public string Description { get; set; }
         public string Type { get; set; }
