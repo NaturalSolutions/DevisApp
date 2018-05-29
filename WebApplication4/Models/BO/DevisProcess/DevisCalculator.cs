@@ -116,7 +116,7 @@ namespace WebApplication4.Models.BO.DevisProcess
                 decimal? projectCost = 0;
                 foreach (MasterStories s in p.Stories)
                 {
-                    file.WriteLine('\t' + s.Description + '\n' + '\r');
+                    file.WriteLine('\t' + s.Description +"    |  type : (" + s.Type +")" +'\n' + '\r');
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
                     foreach (MasterTasks t in s.Tasks)
                     {

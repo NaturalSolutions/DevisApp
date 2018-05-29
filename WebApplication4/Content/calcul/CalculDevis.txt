@@ -1,6 +1,6 @@
-Reneco Apps
+﻿Reneco Apps
 
-	Gestion du backlog et planification
+	Gestion du backlog et planification    |  type : (dev)
 
 Gestion du backlog et planification.-1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE
 
@@ -37,7 +37,7 @@ HE  |  1   |   0,50 x 410 = 205,00
 
 
 
-	Choix de la stratégie de la validation des forms
+	Choix de la stratégie de la validation des forms    |  type : (amo)
 
 Test de la validation par schéma du json issu du formbuilder.-7+7+7 VB+TL+JV
 
@@ -71,7 +71,7 @@ JV  |  7   |   1 x 610 = 610
 
 eCollection
 
-	Création d'un système de génération d'excel pour import 
+	Création d'un système de génération d'excel pour import     |  type : (dev)
 
 Récupération de la configuration des objets en fonction des contextes (sujets, échantillons, évènements).-2 TL
 
@@ -98,7 +98,7 @@ TL  |  4   |   1 x 530 = 530
 
 
 
-	Mise à jour du module d'import avec modification de la base de données
+	Mise à jour du module d'import avec modification de la base de données    |  type : (dev)
 
 Mise à jour de la configuration de l'import avec la structure de la base de données.-4 TL
 
@@ -113,7 +113,7 @@ TL  |  5   |   1 x 530 = 530
 
 
 
-	Intégration des icones eCollection
+	Intégration des icones eCollection    |  type : (dev)
 
 Intégration des icônes issus de icomoon.-3+1 NF+DL
 
@@ -126,7 +126,7 @@ DL  |  1   |   0,50 x 530 = 265,00
 
 
 
-	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)
+	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)    |  type : (dev)
 
 Intégration de l'écran de visualisation des détails d'un sujet.-14+1+2 NF+AR+DL
 
@@ -143,7 +143,7 @@ DL  |  2   |   0,50 x 530 = 265,00
 
 
 
-	Traitement des retours de Mai suite à la MAJ de Mai
+	Traitement des retours de Mai suite à la MAJ de Mai    |  type : (dev)
 
 Un mode "only create" a été mis en place au niveau d'un objet (event, sample, subject) identique à celui existant pour les champs.-4 DL
 
@@ -210,7 +210,7 @@ DL  |  2   |   0,50 x 530 = 265,00
 
 
 
-	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.
+	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.    |  type : (dev)
 
 Intégration des maquettes de page d'accueil.-4 NF
 
@@ -219,7 +219,7 @@ NF  |  4   |   1 x 410 = 410
 
 
 
-	Mise en place de règles pour les fichiers d'import
+	Mise en place de règles pour les fichiers d'import    |  type : (dev)
 
 Des règles de valeur par défaut ont été mises en place pour les imports.-12+3 HE+TL
 
@@ -242,7 +242,7 @@ DL  |  1   |   0,50 x 530 = 265,00
 
 
 
-	Vérification de la robustesse du système d'import selon la configuration, les types d'objets et les types d'import
+	Vérification de la robustesse du système d'import selon la configuration, les types d'objets et les types d'import    |  type : (dev)
 
 Vérification de la conformité  (configuration, format des données) du processus d'import pour tous les évènements.-12+2 HE+DL
 
@@ -267,7 +267,7 @@ Balance_RFID
 
 Positions
 
-	Corrections des maquettes de gestion des évènements
+	Corrections des maquettes de gestion des évènements    |  type : (des)
 
 Corrections des maquettes suite aux retours de dbsupport.-3 AR
 
@@ -282,7 +282,7 @@ FormBuilder
 
 ecoRelevé-data
 
-	Corrections des maquettes suite aux retours pour la gestion des protocoles
+	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
 
 Modification des maquettes en fonction des commentaires de DBSupport.-7 AR
 
@@ -291,7 +291,7 @@ AR  |  7   |   1 x 440 = 440
 
 
 
-	Maquette de la page individuals pour intégrer la nouvelle grille avec pager
+	Maquette de la page individuals pour intégrer la nouvelle grille avec pager    |  type : (des)
 
 Réorganisation de la page pour intégrer le pager.-2+2 AR+JV
 
@@ -322,7 +322,7 @@ AR  |  1   |   0,50 x 440 = 220,00
 
 
 
-	Mise en place d'un pré-filtrage des données pour la page individus
+	Mise en place d'un pré-filtrage des données pour la page individus    |  type : (dev)
 
 Rajout de la pagination côté back sur la route individual location.-10 JV
 
@@ -394,7 +394,7 @@ NF  |  5   |   1 x 410 = 410
 
 TRACK
 
-	Amélioration des maquettes existantes de l'outil repro (phase 1)
+	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
 
 Revue de l'ensemble des écrans par rapport au workflow existant.-7 AR
 
@@ -415,7 +415,7 @@ AR  |  7   |   1 x 440 = 440
 
 
 
-	Répercution de la centralisation des référentiels
+	Répercution de la centralisation des référentiels    |  type : (dev)
 
 Test de l'actualisation automatique des formulaires après modification du référentiel.-2 HE
 
@@ -430,7 +430,7 @@ HE  |  4   |   1 x 440 = 440
 
 
 
-	Export des colonnes dans l'ordre de TObs_Ordre
+	Export des colonnes dans l'ordre de TObs_Ordre    |  type : (dev)
 
 Modification des sp d'export des protocoles pour prendre en compte le TObs_Ordre et création des pipes.-1 HE
 
@@ -445,7 +445,7 @@ HE  |  1   |   0,50 x 440 = 220,00
 
 
 
-	Intégration du système de reconstruction d'un état à une date donnée pour la gestion des saisies et import, pour des protocoles avec importapressortie = 0
+	Intégration du système de reconstruction d'un état à une date donnée pour la gestion des saisies et import, pour des protocoles avec importapressortie = 0    |  type : (dev)
 
 Modification de la sp pr_Check_BirthDeathValidity pour intégrer la reconstruction d'un état à la date de saisie donnée et validation de la condition d'import apres sortie.-5 HE
 
