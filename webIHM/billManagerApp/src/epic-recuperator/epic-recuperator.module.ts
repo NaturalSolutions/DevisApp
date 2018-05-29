@@ -43,46 +43,6 @@ export class EpicRecuperatorModule {
     });
   }
 
-
-  // getAllEpics(ProjectsArray) : Promise<any[]> { 
-  //   return new Promise<any[]>((resolve,reject) => {
-  //     let epicsAdder: any[] = [];
-  //     let compter = ProjectsArray.length;
-  //     let promises: Promise<any[]>[] = [];
-  //     for(let idProjet in ProjectsArray){
-  //       let promise : Promise<any> = this.http.get<any[]>('https://www.pivotaltracker.com/services/v5/projects/'+ProjectsArray[idProjet].id+'/epics', {
-  //         headers: {
-  //           'X-TrackerToken': 'b4a752782f711a7c564221c2b0c2d5dc',
-  //           'Content-Type': 'application/json'
-  //         }
-  //       }).toPromise().then(data => {
-  //         return new Promise<any[]>((resolve,reject) => {
-  //           data.forEach(epic => {
-  //           let prevs:any[] = epicsAdder.filter(prevEpic => {
-  //             return prevEpic.name.toLowerCase().trim() == epic.name.toLowerCase().trim();
-  //           });
-  //           if (!prevs.length)
-  //             epicsAdder.push(epic);
-  //          });
-  //           ProjectsArray[idProjet].epicName = data.map(o => o.name.toLowerCase()); 
-  //           epicsAdder.sort((a, b) => {
-  //             if (a.name.toLowerCase() < b.name.toLowerCase()) return -1; 
-  //             if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
-  //             return 0;
-  //           });
-  //         }).then((res) => {
-  //             resolve(epicsAdder);     
-  //         })
-  //         promises.push(promise)
-  //       });
-  //     }
-  //     Promise.all(promises).then(() => {
-  //       resolve(promises);
-  //     })
-  //   });
-	// }
-
-
   getAllEpics(myProjectsIds){ /* va parcourir tout les projets et récuperer les epics et les foutre dans un tableaux */
     return new Promise<any[]>((resolve,reject) => {
       let epics;

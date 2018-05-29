@@ -49,9 +49,11 @@ export class FileGeneratorComponent implements OnInit {
         console.log("res",projects);
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
-
+          selector.style.borderRadius = "15px";
+          selector.style.padding = "10px"; 
+          selector.style.position = " relative";
+          selector.style.top = "2em";          
           for(let i in epics){
-            //console.log(epics[i]);
             let option = document.createElement("option");
             option.text = epics[i];
             selector.appendChild(option);
