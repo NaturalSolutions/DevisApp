@@ -11,19 +11,20 @@ namespace WebApplication4.Models.BO.DevisProcess
         private DevisFacturationEntities db;
         private DevisSumManager ResultSumManager;
         private GeneralObject genObject;
+        private StreamWriter logFile;
 
         public bool checkIfRessourceIsFullAmo(string initialRessource)
         {
             Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == initialRessource).FirstOrDefault(); // Recuperation de la ressource correspondante
             List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(o => o.FK_Tarification).ToList(); // Identification de la tarification ressource
             List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).ToList(); // On récupère la liste des tarifications IsAmo de la personne 
-            foreach(Tarification tar in tarTemp)
+            foreach (Tarification tar in tarTemp)
             {
                 if (!(bool)tar.IsAmo)
                 {
                     return false;
                 }
-            }           
+            }
             return true;
         }
 
@@ -101,258 +102,214 @@ namespace WebApplication4.Models.BO.DevisProcess
             this.db = new DevisFacturationEntities();
             this.ResultSumManager = new DevisSumManager();
             this.genObject = myGeneralObject;
+           // this.logFile = new StreamWriter(@"C:\Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\calcul\CalculDevis.txt");
         }
 
         public DevisSumManager CalculateDevis()
         {
-            StreamWriter file = new StreamWriter(@"C:\Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\calcul\CalculDevis.txt");
             foreach (Projet p in this.genObject.projets)
             {
-                file.WriteLine(p.Nom+'\n'+'\r');
-                if (p.Nom.ToLower() == "reneco apps")
+                //logFile.WriteLine(p.Nom + '\n' + '\r');
+                if (p.Nom.ToLower() == "ecollection")
                 {
                     var test = "tst";
                 }
                 decimal? projectCost = 0;
+                //Dictionary<string, decimal> StoriesTasksInfoDic = new Dictionary<string, decimal>();
+                Dictionary<string, Dictionary<string, decimal>> truc = new Dictionary<string, Dictionary<string, decimal>>();
+                truc.Add("AMO", new Dictionary<string, decimal>());
+                truc.Add("DES", new Dictionary<string, decimal>());
+                truc.Add("DEV", new Dictionary<string, decimal>());
                 foreach (MasterStories s in p.Stories)
-                {
-                    file.WriteLine('\t' + s.Description +"    |  type : (" + s.Type +")" +'\n' + '\r');
+                {              
+                 //   logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
                     foreach (MasterTasks t in s.Tasks)
                     {
-
-                        file.WriteLine(t.Description + '\n' + '\r');
+                        string dicSelector = s.Type.ToUpper();                
+                     //   logFile.WriteLine(t.Description + '\n' + '\r');
                         if (t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
                         {
                             t.isMultiProgramming = true;
                         }
-                        if( t.isMultiProgramming == true) // c'est une tache de N programming
+                        if (t.isMultiProgramming == true) // c'est une tache de N programming
                         {
                             string[] Initiales = t.Initials.Split('+');
                             string[] Durations = t.Duration.Split('+');
-                            for(int i = 0; i < Durations.Length; i++)
+                            for (int i = 0; i < Durations.Length; i++)
                             {
                                 string tempDuration = Durations[i];
                                 string tempInitial = Initiales[i];
-                                decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
-                                dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
-                                Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == tempInitial).FirstOrDefault(); // Recuperation de la ressource correspondante
-                                List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
-                                if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AMO
+                                //decimal? dailyValue = tempDuration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(tempDuration) / 7), 2) : 0; // conversion en jour
+                                //dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
+                                //Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == tempInitial).FirstOrDefault(); // Recuperation de la ressource correspondante
+                                //List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
+                                if (truc[dicSelector].Where(o => o.Key == tempInitial).Count() > 0)
                                 {
-                                    if (checkIfRessourceIsFullAmo(tempInitial))
-                                    {
-                                        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                        Tarification tarif = tarTemp.OrderByDescending(o => o.Tar5).FirstOrDefault();
-                                        StoriesCost += tarif.Tar5 * dailyValue;
-                                        file.WriteLine(tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                    else
-                                    {
-                                        Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
-                                        StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
-                                        file.WriteLine(tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
+                                    truc[dicSelector][tempInitial] += decimal.Parse(tempDuration);
+                                   // StoriesTasksInfoDic[tempInitial] += decimal.Parse(tempDuration);//La valeur a ajouter en heure;
                                 }
-                                else if (((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
+                                else
                                 {
-                                    if (checkIfRessourceIsFullAmo(tempInitial))
-                                    {
-                                        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                        Tarification tarif = tarTemp.OrderByDescending(o => o.Tar5).FirstOrDefault();
-                                        StoriesCost += tarif.Tar5 * dailyValue;
-                                        file.WriteLine( tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                    else
-                                    {
-                                        Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).FirstOrDefault(); // récupération de la tarification correspondant a la personne
-                                        if (ressourceTemp.Niveau == 5) // si la personne est bac+5 
-                                        {
-                                            StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
-                                            file.WriteLine( tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-                                        else // sinon elle est bac+3
-                                        {
-                                            StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
-                                            file.WriteLine( tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarTemp.Tar3 + " = " + dailyValue * tarTemp.Tar3 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-                                    }    
-                                }
-                                else if (((s.Type.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
-                                {
-                                    if (checkIfRessourceIsFullAmo(tempInitial))
-                                    {
-                                        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                        Tarification tarif = tarTemp.OrderBy(o => o.Tar5).FirstOrDefault();
-                                        StoriesCost += tarif.Tar5 * dailyValue;
-                                        file.WriteLine( t.Description + " |  " + tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarif.Tar3 + " = " + dailyValue * tarif.Tar3 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                    else
-                                    {
-                                        if (ressourceTemp.Niveau == 3)
-                                        {
-                                            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
-                                            StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
-                                            file.WriteLine( tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarTemp.Tar3 + " = " + dailyValue * tarTemp.Tar3 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-                                        else
-                                        {
-                                            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
-                                            StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+3 
-                                            file.WriteLine( tempInitial + "  |  " + tempDuration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-                                    }
+                                    truc[dicSelector].Add(tempInitial, decimal.Parse(tempDuration));
+                                    //StoriesTasksInfoDic.Add(tempInitial, decimal.Parse(tempDuration));
                                 }
                             }
                         }
-                        else // c'est pas une tache de N programming
+                        else //c'est pas une tache de N programming
                         {
-                            decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(t.Duration) / 7), 2) : 0; // conversion en jour
-                            dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
-
-                            Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == t.Initials).FirstOrDefault(); // Recuperation de la ressource correspondante
-                            List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
-
-                            //Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource
-                            if (((s.Type.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AMO
+                            //decimal? dailyValue = t.Duration != null ? Math.Round(Convert.ToDecimal(decimal.Parse(t.Duration) / 7), 2) : 0; // conversion en jour
+                            //dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur
+                            //Tarification_Ressource tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).FirstOrDefault(); // Identification de la tarification ressource                     
+                            //Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == t.Initials).FirstOrDefault(); // Recuperation de la ressource correspondante
+                            //List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
+                            if (truc[dicSelector].Where(o => o.Key == t.Initials).Count() > 0)
                             {
-                                if (checkIfRessourceIsFullAmo(ressourceTemp.Initial))
-                                {
-                                    List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                    Tarification tarif = tarTemp.OrderByDescending(o => o.Tar5).FirstOrDefault();
-                                    StoriesCost += tarif.Tar5 * dailyValue;
-                                    file.WriteLine(  t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
-                                    file.WriteLine('\n');
-                                }
-                                else
-                                {
-                                    Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == true).OrderBy(o => o.Tar5).FirstOrDefault(); // On récupère la tarification IsAmo de la personne 
-                                    if (tarTemp == null)
-                                    {
-                                        if (ressourceTemp.Niveau == 5)
-                                        {
-                                            List<Tarification> AMOTarif = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(o => o.Tar5).ToList(); // On récupère la tarification IsAmo de la personne 
-                                                                                                                                                                        //TODO tester si au mloins une tar est amo, sinon prendre la plus chere non amo OK
-                                            Tarification leTarif = new Tarification();
-                                            bool amoExist = false;
-                                            foreach (Tarification tarif in AMOTarif)
-                                            {
-                                                if ((bool)tarif.IsAmo)
-                                                {
-                                                    leTarif = tarif;
-                                                    amoExist = true;
-                                                }
-
-                                            }
-                                            if (amoExist == false)
-                                            {
-                                                leTarif = AMOTarif.OrderBy(o => o.Tar5).FirstOrDefault();
-                                            }
-                                            StoriesCost += leTarif.Tar5 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
-                                            file.WriteLine(  t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + leTarif.Tar5 + " = " + dailyValue * leTarif.Tar5 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-                                        else
-                                        {
-                                            List<Tarification> AMOtarif = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(o => o.Tar3).ToList(); // On récupère la tarification IsAmo de la personne 
-                                            Tarification letarif = new Tarification();
-                                            bool amoExist = false;
-                                            foreach (Tarification tarif in AMOtarif)
-                                            {
-                                                if ((bool)tarif.IsAmo)
-                                                {
-                                                    letarif = tarif;
-                                                    amoExist = true;
-                                                }
-                                            }
-                                            if (amoExist == false)
-                                            {
-                                                letarif = AMOtarif.OrderBy(o => o.Tar3).FirstOrDefault();
-                                            }
-                                            //TODO tester si au mloins une tar est amo, sinon prendre la plus chere non amo OK
-                                            StoriesCost += letarif.Tar3 * dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
-                                            file.WriteLine( t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + letarif.Tar3 + " = " + dailyValue * letarif.Tar3 + '\n' + '\r');
-                                            file.WriteLine('\n');
-                                        }
-
-                                    }
-                                }
+                                truc[dicSelector][t.Initials] += decimal.Parse(t.Initials);
+                                // StoriesTasksInfoDic[tempInitial] += decimal.Parse(tempDuration);//La valeur a ajouter en heure;
                             }
-                            else if (((s.Type.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
+                            else
                             {
-                                if (checkIfRessourceIsFullAmo(t.Initials))
-                                {
-                                    List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                    Tarification tarif = tarTemp.OrderBy(o => o.Tar5).FirstOrDefault();
-                                    StoriesCost += tarif.Tar5 * dailyValue;
-                                    file.WriteLine(  t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
-                                    file.WriteLine('\n');
-                                }
-                                else
-                                {
-                                    Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).FirstOrDefault(); // récupération de la tarification correspondant a la personne
-                                    if (ressourceTemp.Niveau == 5) // si la personne est bac+5 
-                                    {
-                                        StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+5 
-                                        file.WriteLine(  t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                    else // sinon elle est bac+3
-                                    {
-                                        StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
-                                        file.WriteLine( t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                }
+                                truc[dicSelector].Add(t.Initials, decimal.Parse(t.Initials));
+                                //StoriesTasksInfoDic.Add(tempInitial, decimal.Parse(tempDuration));
                             }
-                            else if (((s.Type.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
-                            { //TO DO FOR TOMORROW PRENDRE EN COMPTE LES RESSOURCE FULL AMO 
-                                if (checkIfRessourceIsFullAmo(t.Initials))
-                                {
-                                    List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
-                                    Tarification tarif = tarTemp.OrderBy(o => o.Tar5).FirstOrDefault();
-                                    StoriesCost += tarif.Tar5 * dailyValue;
-                                    file.WriteLine( t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
-                                    file.WriteLine('\n');
-                                }
-                                else
-                                {
-                                    if (ressourceTemp.Niveau == 3)
-                                    {
-                                        Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
-                                        StoriesCost += tarTemp.Tar3 * dailyValue; // Application du tarif bac+5 
-                                        file.WriteLine( t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                    else
-                                    {
-                                        Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
-                                        StoriesCost += tarTemp.Tar5 * dailyValue; // Application du tarif bac+3 
-                                        file.WriteLine( t.Initials + "  |  " + t.Duration + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
-                                        file.WriteLine('\n');
-                                    }
-                                }
-                            }
-
                         }
                     }
-                    file.WriteLine('\r');
-                    projectCost += StoriesCost; // Ajout du cout de la stoy au cout du projet
+                   // logFile.WriteLine('\r');
                 }
-                file.WriteLine('\r');
+               // logFile.WriteLine('\r');
+                projectCost += calculateStoriesCost(truc); // Ajout du cout de la stoy au cout du projet
                 ResultSumManager.setProjectCost(p.Nom, projectCost);
             }
-            file.WriteLine('\r');
-            file.Close();
+            //logFile.WriteLine('\r');
+            //logFile.Close();
+            
             return this.ResultSumManager;
         }
+
+
+
+
+        public decimal calculateStoriesCost(Dictionary<string, Dictionary<string, decimal>> myDic)
+        {
+            decimal storycost = 0;
+            foreach (KeyValuePair<string, Dictionary<string, decimal>> entry in myDic)
+            {
+                foreach(KeyValuePair<string,decimal> entryT in entry.Value)
+                {
+                    Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == entry.Key).FirstOrDefault(); // Recuperation de la ressource correspondante
+                    //List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
+                    decimal? dailyValue = entry.Value != null ? Math.Round(Convert.ToDecimal(entryT.Value / 7), 2) : 0; // conversion en jour
+                    dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur      
+                    decimal resFact = ressourceTemp.getCurrentTarification(entry.Key);
+                    storycost += resFact * (decimal)dailyValue;
+                    //this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + resFact + " = " + dailyValue * resFact + '\n' + '\r');
+                    //this.logFile.WriteLine('\n');
+                }
+                
+                //if (((storyType.Trim(' ')).ToUpper()).Equals("AMO")) // si la story est typé AMO
+                //{
+                //    if (checkIfRessourceIsFullAmo(ressourceTemp.Initial))
+                //    {
+                //        Tarification tarif = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderByDescending(tar => tar.Tar5).FirstOrDefault();
+                //        //Tarification tarif = tarTemp.OrderByDescending(o => o.Tar5).FirstOrDefault();
+                //        storiecost += tarif.Tar5 * (decimal)dailyValue;
+                //        this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
+                //        this.logFile.WriteLine('\n');
+                //    }
+                //    else
+                //    {
+                //        if (ressourceTemp.hasAmo())
+                //        {
+                //            Tarification_Ressource tarAmo = db.Tarification_Ressource.Where(o => o.Tarification.IsAmo == true && o.FK_Ressource == ressourceTemp.ID)
+                //            Tarification tarAmo = db.Tarification.Where(o => o.Tarification_Ressource)
+                //        }
+                //        else
+                //        {
+
+                //        }
+                //        ///Tarification de base AMO -> niveau 5 pour tout le monde
+                //        List<Tarification> AMOTarif = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(o => o.Tar5).ToList();
+                //        Tarification leTarif = new Tarification();
+                //        bool amoExist = false;
+                //        foreach (Tarification tarif in AMOTarif)
+                //        {
+                //            if ((bool)tarif.IsAmo)
+                //            {
+                //                leTarif = tarif;
+                //                amoExist = true;
+                //            }
+
+                //        }
+                //        if (amoExist == false)
+                //        {
+                //            leTarif = AMOTarif.OrderBy(o => o.Tar5).FirstOrDefault();
+                //        }
+                //        storiecost += leTarif.Tar5 * (decimal)dailyValue; // Application du tarif tar 5 parce que il faut etre tar5 pour faire de l'amo donc aucun tarif tar3 possible 
+                //        this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + leTarif.Tar5 + " = " + dailyValue * leTarif.Tar5 + '\n' + '\r');
+                //        this.logFile.WriteLine('\n');
+
+                //    }
+                //}
+                //else if (((storyType.Trim(' ')).ToUpper()).Equals("DES")) // ou alors si la tache est typé DES
+                //{
+                //    if (checkIfRessourceIsFullAmo(entry.Key))
+                //    {
+                //        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
+                //        Tarification tarif = tarTemp.OrderByDescending(o => o.Tar5).FirstOrDefault();
+                //        storiecost += tarif.Tar5 * (decimal)dailyValue;
+                //        this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
+                //        this.logFile.WriteLine('\n');
+                //    }
+                //    else
+                //    {
+                //        Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).FirstOrDefault(); // récupération de la tarification correspondant a la personne
+                //        if (ressourceTemp.Niveau == 5) // si la personne est bac+5 
+                //        {
+                //            storiecost += tarTemp.Tar5 * (decimal)dailyValue; // Application du tarif bac+5 
+                //            this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
+                //            this.logFile.WriteLine('\n');
+                //        }
+                //        else // sinon elle est bac+3
+                //        {
+                //            storiecost += (decimal)tarTemp.Tar3 * (decimal)dailyValue; // Application du tarif bac+5 
+                //            this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarTemp.Tar3 + " = " + dailyValue * tarTemp.Tar3 + '\n' + '\r');
+                //            this.logFile.WriteLine('\n');
+                //        }
+                //    }
+                //}
+                //else if (((storyType.Trim(' ')).ToUpper()).Equals("DEV"))// ou si la tache est typé DEV
+                //{
+                //    if (checkIfRessourceIsFullAmo(entry.Key))
+                //    {
+                //        List<Tarification> tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID)).OrderBy(tar => tar.Tar5).ToList();
+                //        Tarification tarif = tarTemp.OrderBy(o => o.Tar5).FirstOrDefault();
+                //        storiecost += tarif.Tar5 * (decimal)dailyValue;
+                //        this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarif.Tar5 + " = " + dailyValue * tarif.Tar5 + '\n' + '\r');
+                //        this.logFile.WriteLine('\n');
+                //    }
+                //    else
+                //    {
+                //        if (ressourceTemp.Niveau == 3)
+                //        {
+                //            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar3).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 3
+                //            storiecost += (decimal)tarTemp.Tar3 * (decimal)dailyValue; // Application du tarif bac+5 
+                //            this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarTemp.Tar3 + " = " + dailyValue * tarTemp.Tar3 + '\n' + '\r');
+                //            this.logFile.WriteLine('\n');
+                //        }
+                //        else
+                //        {
+                //            Tarification tarTemp = db.Tarification.Where(myTar => tarRessTemp.Contains(myTar.ID) && myTar.IsAmo == false).OrderBy(tar => tar.Tar5).FirstOrDefault(); // Enfin récuperation de la tarification correspondant a la personne niveau 5
+                //            storiecost += tarTemp.Tar5 * (decimal)dailyValue; // Application du tarif bac+3 
+                //            this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + tarTemp.Tar5 + " = " + dailyValue * tarTemp.Tar5 + '\n' + '\r');
+                //            this.logFile.WriteLine('\n');
+                //        }
+                //    }
+                //}
+            }
+            return storycost;
+        }
+
+
     }
 }

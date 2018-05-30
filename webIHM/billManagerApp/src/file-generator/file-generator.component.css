@@ -53,11 +53,17 @@
 #infoLog{
     visibility: hidden;
     position: relative;
-    top: 250px;
+    top: 350px;
     background-color: white;
     border-radius: 15px;
     width: 20%;
     color:green;
     margin: auto;
     padding: 2%;
+}
+
+#fileGenerator{
+    position: relative;
+    top:100px;
+    height : 400px;
 }

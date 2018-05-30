@@ -13,6 +13,7 @@ export class FileGeneratorComponent implements OnInit {
   private DevisProcessLauched;
   private devisScope;
   private factureScope;
+  private fileScope; 
   constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
@@ -21,14 +22,17 @@ export class FileGeneratorComponent implements OnInit {
   ngOnInit() {
     this.devisScope = document.getElementById('devis');
     this.factureScope = document.getElementById('facture');
+    this.fileScope = document.getElementById('fileGenerator');
   }
 
   displayOptions () :void {
     if(this.divVisibility == false){
+      this.fileScope.style.visibility = "visible";
       this.devisScope.style.visibility = "visible";
       this.factureScope.style.visibility = "visible";
       this.divVisibility = true;
     }else{
+      this.fileScope.style.visibility = "hidden";
       this.devisScope.style.visibility = "hidden";
       this.factureScope.style.visibility = "hidden";
       this.divVisibility = false;
@@ -51,8 +55,12 @@ export class FileGeneratorComponent implements OnInit {
           let selector = document.createElement("select");
           selector.style.borderRadius = "15px";
           selector.style.padding = "10px"; 
-          selector.style.position = " relative";
-          selector.style.top = "2em";          
+          selector.style.position = "absolute";
+          selector.style.bottom = "0px";
+          selector.style.left = "50%";
+          selector.style.transform ="translateX(-50%)";
+          selector.style.width = "30%";
+
           for(let i in epics){
             let option = document.createElement("option");
             option.text = epics[i];
