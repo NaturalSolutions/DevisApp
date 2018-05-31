@@ -19,9 +19,8 @@ export class DevisRequesterModule {
 
   private epic;
   private transmuter;
-  private http: HttpClient;
 
-  constructor(){
+  constructor(private http: HttpClient){
   }  
 
 
@@ -37,6 +36,7 @@ export class DevisRequesterModule {
 
   getProjectFromEpic(myProjects,RequestedEpic : any){
     let projectvalable = [];
+    this.epic = RequestedEpic;
     let epicsAdder = new Set();
     let epicsArray;
     for(let idProjet in myProjects)
@@ -55,9 +55,9 @@ export class DevisRequesterModule {
     }
     //$('#projets').show();
     //this.getProjectStories(projectvalable);
-    //console.log('projectIds tout complet',projectvalable);
     //_this.transMuter.transmuteProjects(projectvalable);	
-    console.log("projectvalable",projectvalable);	
+    // console.log("projectvalable",projectvalable);	
+    return projectvalable;
   }
   
   
@@ -76,54 +76,64 @@ export class DevisRequesterModule {
       return false;
     }
   
-  //   getProjectStories(projectIds) {
-  //   let _this = this;
-  //   let stories = [];
-  //   console.log("going to search Stories");
-  //   for(let i in projectIds){
-  //     let result = _this.get("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+_this.epic);
-  //     let myCurrentStory = {};
-  //     for(let u in result){
-  //       myCurrentStory = result[u];
-  //       myCurrentStory.listeTaches = [];
-  //       if(myCurrentStory.story_type.toLowerCase() != 'release' && !_this.checkifBonus(myCurrentStory.labels)){
-  //         /*console.log('myCurrentStory',myCurrentStory);*/
-  //          // renvoie les stories d'un projet correspondant a un epic 	
-  //         //console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
-  //         result[u].listeTaches = new Array();
-  //         myCurrentStory.story_type = "";
-  //         let stringLabels = "";
-  //         for(let o in myCurrentStory.labels){
-  //           //alert(result[i].labels[o].name.toLowerCase());
-  //           if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
-  //             myCurrentStory.story_type = myCurrentStory.labels[o].name;
-  //           }
-  //           stringLabels += myCurrentStory.labels[o].name + " ";
-  //           if(myCurrentStory.labels[o].name == "amo"){
-  //             myCurrentStory.AMO = true;
-  //           }
-  //         }
-  //         myCurrentStory.labels = stringLabels;
-  //         myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
-  //         if(myCurrentStory.AMO == undefined){
-  //           myCurrentStory.AMO = false;
-  //         }
-  //         if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
-  //           stories.push(myCurrentStory);
-  //           if(myCurrentStory.project_id == projectIds[i].id){
-  //             /*projectIds[i].listeStories.push(myCurrentStory);*/	
-  //           }
-  //         }
-  //         $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
-  //       }
-  //       $('#stories').show();
-  //       //console.log("projectIds debug",projectIds)
-  //     }
-  //   }
-  //   this.transMuter.transmuteStories(stories);
-  //   this.getTasks(stories,projectIds);
-  //   //this.transMuter.transmuteStories(stories);
-  // }
+    getProjectStories(projectIds) {
+    return new Promise<any>((resolve,reject) => {
+      let stories = [];
+      console.log("going to search Stories");
+      let promises:Promise<any>[] = [];
+      console.log("this.epic",this.epic);
+      for(let i in projectIds){
+        let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic)
+        .toPromise().then((res : any) => {
+          let myCurrentStory : any;
+          for(let u in res){
+            // console.log("result[u]",result[u]); 
+            myCurrentStory = res[u];
+            myCurrentStory.listeTaches = [];
+            if(myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)){
+              /*console.log('myCurrentStory',myCurrentStory);*/
+               // renvoie les stories d'un projet correspondant a un epic 	
+              //console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
+              res[u].listeTaches = new Array();
+              myCurrentStory.story_type = "";
+              let stringLabels = "";
+              for(let o in myCurrentStory.labels){
+                //alert(result[i].labels[o].name.toLowerCase());
+                if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
+                  myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                }
+                stringLabels += myCurrentStory.labels[o].name + " ";
+                if(myCurrentStory.labels[o].name == "amo"){
+                  myCurrentStory.AMO = true;
+                }
+              }
+              myCurrentStory.labels = stringLabels;
+              myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
+              if(myCurrentStory.AMO == undefined){
+                myCurrentStory.AMO = false;
+              }
+              if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+                stories.push(myCurrentStory);
+                if(myCurrentStory.project_id == projectIds[i].id){
+                 /*projectIds[i].listeStories.push(myCurrentStory);*/	
+                }
+              }
+             // $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
+            }
+            //$('#stories').show();
+            //console.log("projectIds debug",projectIds)
+          }
+      });
+      promises.push(res);
+      }
+      Promise.all(promises).then(() => {
+        resolve(stories);
+      })
+    });    
+    //this.transMuter.transmuteStories(stories);
+    //this.getTasks(stories,projectIds);
+    //this.transMuter.transmuteStories(stories);
+  }
   
   //   getTasks(storiesIds,projectIds){
   //     let tasks = [];
