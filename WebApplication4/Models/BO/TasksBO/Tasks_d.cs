@@ -7,12 +7,14 @@ using WebApplication4.Models.BO;
 namespace WebApplication4.Models.BO
 {
     public partial class Tasks_d : MasterTasks
-    {
-        private MasterTasks t;
-
+    {     
         public Tasks_d(MasterTasks t)
         {
-            this.t = t;
+            this.FK_Stories = t.FK_Stories;
+            this.Description = t.Description;
+            this.Initials = t.Initials;
+            this.Duration = t.Duration;
+            this.Fk_Ressource_Initials = t.Fk_Ressource_Initials;
         }
 
         public Tasks_d(string description, string initials, string duration,long fk_stories) : base(description, initials, duration,fk_stories)
