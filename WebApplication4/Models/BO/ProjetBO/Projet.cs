@@ -8,6 +8,7 @@ namespace WebApplication4.Models
 {
     public partial class Projet
     {
+        private DevisFacturationEntities db = new DevisFacturationEntities();
         public List<MasterStories> Stories { get; set; }
         public Dictionary<string, string> structure;
 
@@ -27,6 +28,12 @@ namespace WebApplication4.Models
         public object getStructure()
         {
             return this.structure;
+        }
+
+        public void save()
+        {
+            this.db.Projet.Add(this);
+            this.db.SaveChanges();
         }
     }
 }

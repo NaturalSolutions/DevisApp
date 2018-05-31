@@ -8,6 +8,7 @@ namespace WebApplication4.Models.BO
 {
     public partial class Tasks_f : MasterTasks
     {
+        private DevisFacturationEntities db = new DevisFacturationEntities();
         public Tasks_f(MasterTasks t)
         {
             this.FK_Stories = t.FK_Stories;
@@ -18,6 +19,11 @@ namespace WebApplication4.Models.BO
         }
         public Tasks_f(string description, string initials, string duration, long fk_stories) : base(description, initials, duration, fk_stories)
         {
+        }
+
+        public void save()
+        {
+            this.db.Tasks_f.Add(this);
         }
     }
 }

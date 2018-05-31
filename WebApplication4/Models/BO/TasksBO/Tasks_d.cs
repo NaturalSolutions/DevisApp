@@ -7,7 +7,8 @@ using WebApplication4.Models.BO;
 namespace WebApplication4.Models.BO
 {
     public partial class Tasks_d : MasterTasks
-    {     
+    {
+        private DevisFacturationEntities db = new DevisFacturationEntities();
         public Tasks_d(MasterTasks t)
         {
             this.FK_Stories = t.FK_Stories;
@@ -19,6 +20,12 @@ namespace WebApplication4.Models.BO
 
         public Tasks_d(string description, string initials, string duration,long fk_stories) : base(description, initials, duration,fk_stories)
         {
+        }
+
+        public void save()
+        {
+            this.db.Tasks_d.Add(this);
+            this.db.SaveChanges();
         }
     }
 }
