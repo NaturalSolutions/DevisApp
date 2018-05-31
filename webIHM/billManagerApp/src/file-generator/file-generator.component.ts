@@ -72,8 +72,11 @@ export class FileGeneratorComponent implements OnInit {
            fileGeneratorContext.appendChild(selector); 
            let ev : Event;
            selector.onchange = () => {          
-            this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((res) => {
-              console.log(res);
+            this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
+              console.log("rezzz",rezzz);
+              this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
+                console.log("rez",rez);
+              })
             })
            };
            

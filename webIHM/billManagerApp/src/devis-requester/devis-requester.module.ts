@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
+import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ export class DevisRequesterModule {
   private epic;
   private transmuter;
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient,private tasksParser : TasksParserModule){
   }  
 
 
@@ -115,7 +116,7 @@ export class DevisRequesterModule {
               if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
                 stories.push(myCurrentStory);
                 if(myCurrentStory.project_id == projectIds[i].id){
-                 /*projectIds[i].listeStories.push(myCurrentStory);*/	
+                 projectIds[i].listeStories.push(myCurrentStory);
                 }
               }
              // $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
@@ -127,52 +128,61 @@ export class DevisRequesterModule {
       promises.push(res);
       }
       Promise.all(promises).then(() => {
-        resolve(stories);
+        let objectToSend : any = {};
+        objectToSend.stories = stories;
+        objectToSend.Projects = projectIds; 
+        resolve(objectToSend);
       })
     });    
     //this.transMuter.transmuteStories(stories);
     //this.getTasks(stories,projectIds);
     //this.transMuter.transmuteStories(stories);
   }
-  
-  //   getTasks(storiesIds,projectIds){
-  //     let tasks = [];
-  //     console.log("going to search tasks");
-  //     let _this = this;
-  //     let cpt = 1;
-  //     let listeModifie = [];
-  //     for(let i in projectIds)
-  //     {
-  //       let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-  //       projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-  //       //i = parseInt(i);
-  //       for(let s in strfiltered)
-  //       {
-  //       //	projectIds[i].listeStories[s].listeTaches = new Array(); 
-  //         let result = _this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks");
-  //         for(let u in result){
-  //           if(result[u].story_id == strfiltered[s].id){
-  //             tasks.push(result[u]);
-  //             /*strfiltered[s].listeTaches.push(result[u]);*/
-  //             $('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
-  //           }
-  //         }
-  //         $('#taks').show();
-  //         let projetid =  projectIds.map(o => o.id);
-  //         let storiesid = [];
-  //         for(let k in projectIds){
-  //           storiesid.push(projectIds[k].id); 
-  //         }
-  //         //let parser = new TasksParser();
-  //         if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-  //           //listeModifie = parser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
-  //         }
-  //         /*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
-  //       }				
-  //     }
-  //    // _this.transMuter.transmuteTasks(listeModifie);
-  //   }	
-  
-  // }
+ 
+    getTasks(storiesIds,projectIds){
+      return new Promise<any>((resolve,reject) => {
+        console.log("projectIds",projectIds);
+        let tasks = [];
+        let listeModifie = [];
+        let promises:Promise<any>[] = [];
+        for(let i in projectIds)
+        {
+          console.log("projectIds[i]",projectIds[i]);
+          let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+          projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+          //i = parseInt(i);
+          for(let s in strfiltered)
+          {
+          	projectIds[i].listeStories[s].listeTaches = new Array(); 
+            let result = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks")
+            .toPromise().then((result) => {
+              for(let u in result){
+                if(result[u].story_id == strfiltered[s].id){
+                  tasks.push(result[u]);
+                  /*strfiltered[s].listeTaches.push(result[u]);*/
+                  //$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
+                }
+              }
+              //$('#taks').show();
+              let projetid =  projectIds.map(o => o.id);
+              let storiesid = [];
+              for(let k in projectIds){
+                storiesid.push(projectIds[k].id); 
+              }
+              //let parser = new TasksParser();
+              if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
+                listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+              }
+              /*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
+            });
+            promises.push(result);            
+          }				
+        }
+        Promise.all(promises).then(() => {
+          resolve(listeModifie);
+        })
+      });     
+     // _this.transMuter.transmuteTasks(listeModifie);
+    }	
   
  }
