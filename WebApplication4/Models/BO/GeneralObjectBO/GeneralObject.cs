@@ -16,6 +16,10 @@ namespace WebApplication4.Models.BO
             foreach(Projet p in this.projets)
             {
                 db.Projet.Add(p);
+                foreach(MasterStories s in p.Stories)
+                {
+                    Stories_d st_d = new Stories_d();
+                }
             }
         }
     }
