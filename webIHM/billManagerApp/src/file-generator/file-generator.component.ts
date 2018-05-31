@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {EpicRecuperatorModule} from '../epic-recuperator/epic-recuperator.module';
 import { HttpClient } from '@angular/common/http';
+import {DevisRequesterModule} from '../devis-requester/devis-requester.module';
+import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
 
 @Component({
   selector: 'app-file-generator',
@@ -14,7 +16,7 @@ export class FileGeneratorComponent implements OnInit {
   private devisScope;
   private factureScope;
   private fileScope; 
-  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient) {
+  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
    }
@@ -65,9 +67,14 @@ export class FileGeneratorComponent implements OnInit {
             let option = document.createElement("option");
             option.text = epics[i];
             selector.appendChild(option);
-           }
+           }           
            let fileGeneratorContext = document.getElementById('fileGenerator');
-           fileGeneratorContext.appendChild(selector);
+           fileGeneratorContext.appendChild(selector); 
+           let ev : Event;
+           selector.onchange = () => {
+            this.devisRequester.getProjectFromEpic(projects,selector.value);
+           };
+           
         });
       
         // let promises: Promise<any[]>[] = [];

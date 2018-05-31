@@ -21,8 +21,7 @@ export class DevisRequesterModule {
   private transmuter;
   private http: HttpClient;
 
-  constructor(RequestedEpic){
-    this.epic = RequestedEpic;
+  constructor(){
   }  
 
 
@@ -36,18 +35,17 @@ export class DevisRequesterModule {
   }
 
 
-  getProjectFromEpic(myProjectsIds){
-    let epics;
+  getProjectFromEpic(myProjects,RequestedEpic : any){
     let projectvalable = [];
     let epicsAdder = new Set();
     let epicsArray;
-    for(let idProjet in myProjectsIds)
+    for(let idProjet in myProjects)
     {
       let myCurrentProject : any;	
-      if(myProjectsIds[idProjet].epicName != undefined){
-        for(let Name in myProjectsIds[idProjet].epicName){
-          if(myProjectsIds[idProjet].epicName[Name].toLowerCase() === this.epic.toLowerCase()){
-            myCurrentProject = myProjectsIds[idProjet];
+      if(myProjects[idProjet].epicName != undefined){
+        for(let Name in myProjects[idProjet].epicName){
+          if(myProjects[idProjet].epicName[Name].toLowerCase() === RequestedEpic.toLowerCase()){
+            myCurrentProject = myProjects[idProjet];
             myCurrentProject.listeStories = [];
             projectvalable.push(myCurrentProject);
             //$('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');	
@@ -58,7 +56,8 @@ export class DevisRequesterModule {
     //$('#projets').show();
     //this.getProjectStories(projectvalable);
     //console.log('projectIds tout complet',projectvalable);
-    //_this.transMuter.transmuteProjects(projectvalable);		
+    //_this.transMuter.transmuteProjects(projectvalable);	
+    console.log("projectvalable",projectvalable);	
   }
   
   
