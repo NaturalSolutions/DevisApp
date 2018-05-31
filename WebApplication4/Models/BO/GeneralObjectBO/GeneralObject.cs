@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApplication4.Models.BO.StoriesBO;
 
 namespace WebApplication4.Models.BO
 {
@@ -20,7 +19,7 @@ namespace WebApplication4.Models.BO
                         p.save();
                         foreach (MasterStories s in p.Stories)
                         {
-                            StoriesBO.Stories_d stories_d = new StoriesBO.Stories_d(s);
+                            Stories_d stories_d = new Stories_d(s);
                             stories_d.save();
                             foreach (MasterTasks ts in s.Tasks)
                             {
@@ -37,7 +36,7 @@ namespace WebApplication4.Models.BO
                         p.save();
                         foreach (MasterStories s in p.Stories)
                         {
-                            StoriesBO.Stories_f stories_f = new StoriesBO.Stories_f(s);
+                            Stories_f stories_f = new Stories_f(s);
                             stories_f.save();
                             foreach (MasterTasks ts in s.Tasks)
                             {

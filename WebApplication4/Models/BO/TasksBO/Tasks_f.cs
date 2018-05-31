@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApplication4.Models.BO;
 
-namespace WebApplication4.Models.BO
+namespace WebApplication4.Models
 {
     public partial class Tasks_f : MasterTasks
     {
@@ -23,7 +22,9 @@ namespace WebApplication4.Models.BO
 
         public void save()
         {
-            this.db.Tasks_f.Add(this);
+            Models.Tasks_f taskTemp = this;
+            this.db.Tasks_f.Add(taskTemp);
+            this.db.SaveChanges();
         }
     }
 }
