@@ -13,6 +13,50 @@ Test de la génération du formulaire à partir du json.-7+7+7 VB+TL+JV
 
 
 
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 680 = 1360
+
+
+
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
+
+
+
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
+
+
+
 eCollection
 
 	Création d'un système de génération d'excel pour import     |  type : (dev)
@@ -86,6 +130,30 @@ Vérification de la conformité des structures de fichiers générés par le sys
 
 
 
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   4 x 530 = 2120
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   3 x 410 = 1230
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   4 x 530 = 2120
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   4,50 x 410 = 1845,00
+
+
+
 Balance_RFID
 
 
@@ -97,6 +165,10 @@ Corrections des maquettes suite aux retours de dbsupport.-3 AR
 
 
 
+DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
 FormBuilder
 
 
@@ -144,6 +216,22 @@ Intégration de la maquette individuals avec le pager, les symboles pour la gril
 
 
 
+DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 440 = 880
+
+
+
+DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   9 x 440 = 3960
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   1 x 410 = 410
+
+
+
 TRACK
 
 	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
@@ -181,6 +269,14 @@ Test des saisies et des imports, avec intégration d'un protocole arrivage/retou
 
 
 
+DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   4 x 440 = 1760
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   4 x 410 = 1640
+
+
+
 Reneco Data Centralization
 
 
