@@ -41,7 +41,6 @@ namespace WebApplication4.Models.BO
             this.dateDebut = firstOfTheMonth.AddMonths(1).ToLongDateString();
             this.livraisonFinal = firstOfTheMonth.AddMonths(2).AddDays(-1).ToLongDateString();
 
-            //Calculs des factu CDP et DT
             if (_tarCDP == null)
             {
                 decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet technique").Select(s => s.Tar5).First();

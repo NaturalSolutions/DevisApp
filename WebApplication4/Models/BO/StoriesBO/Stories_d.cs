@@ -26,13 +26,14 @@ namespace WebApplication4.Models
             this.OriginalId = s.OriginalId;
             this.URL = s.URL;
             this.Epic = s.Epic;
-            this.Fk_Project = s.Fk_Project;
+           // this.Fk_Project = s.Fk_Project;
         }
 
         public void save()
         {
             this.db.Stories_d.Add(this);
             this.db.SaveChanges();
+            
         }
     }
 }

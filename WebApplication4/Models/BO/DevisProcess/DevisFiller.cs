@@ -8,9 +8,9 @@ namespace WebApplication4.Models.BO.DevisProcess
     public class DevisFiller
     {
         private WordFileGenerator generator;
-        public DevisFiller(bool isFactu, DevisSumManager sumManager,GeneralObject genObject)
+        public DevisFiller(Devis devis,bool isFactu, DevisSumManager sumManager,GeneralObject genObject)
         {
-            this.generator = new WordFileGenerator(genObject,sumManager,isFactu);
+            this.generator = new WordFileGenerator(genObject,sumManager,devis,isFactu);
         }
     }
 }

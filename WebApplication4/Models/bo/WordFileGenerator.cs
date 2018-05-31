@@ -53,7 +53,7 @@ namespace WebApplication4.Models.BO
         //    this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
         //}
 
-        public WordFileGenerator(GeneralObject obj,DevisSumManager sumManager, bool isFactu = false)
+        public WordFileGenerator(GeneralObject obj,DevisSumManager sumManager,Devis devis, bool isFactu = false)
         {
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
@@ -71,9 +71,15 @@ namespace WebApplication4.Models.BO
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
             manageDevisTable(obj, sumManager);
-            insertElementsInFiles();
+            insertElementsInFiles(devis);
             this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
+            DevisFacturationEntities db = new DevisFacturationEntities();
+            devis.Filename = this.fileName;
+            devis.Date = DateTime.Now;
+
+            db.Devis.Add(devis);
+            db.SaveChanges();
         }
 
         private DocX loadTemplate()
@@ -97,7 +103,7 @@ namespace WebApplication4.Models.BO
             this.final.ReplaceText("[" + balise + "]", toSet);
         }
 
-        private void insertElementsInFiles(decimal? tarCDP = null, decimal? tarDT = null)
+        private void insertElementsInFiles(Devis devis,decimal? tarCDP = null, decimal? tarDT = null)
         {
             DevisElements infos = new DevisElements(this.fileName, this.tableSubTotal + this.tableSubTotalBonus, isFactu, tarCDP, tarDT);
             JObject json = JObject.FromObject(infos);
@@ -105,6 +111,7 @@ namespace WebApplication4.Models.BO
             {
                 setValue(property.Name, property.Value.ToString());
             }
+            devis.Montant = infos.totalCumule;
         }
 
           private void manageDevisTable(GeneralObject obj,DevisSumManager sumManager)
@@ -140,8 +147,7 @@ namespace WebApplication4.Models.BO
                     }
                 }
                 this.tableSubTotal += (decimal) sumManager.getProjectCost(projet.Nom);
-            }
-
+            }            
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
             if (this.isFactu)

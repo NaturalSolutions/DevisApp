@@ -84,7 +84,7 @@ namespace WebApplication4.Controllers
         //}
 
         // POST: api/Devis
-        public void Post( object genObjec_d) // DEVRA CREER UN DEVIS 
+        public HttpResponseMessage Post( object genObjec_d) // DEVRA CREER UN DEVIS 
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
             //try
             //{
@@ -96,26 +96,11 @@ namespace WebApplication4.Controllers
                 DevisCalculator devisCalculator = new DevisCalculator(newGenObject);
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
                 DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
+                Devis devis = new Devis();
+                DevisFiller filler = new DevisFiller(devis,false,resultFromcallCalculator,newGenObject);
 
-                DevisFiller filler = new DevisFiller(false,resultFromcallCalculator,newGenObject);
-
-                //foreach (Projet p in newGenObject.projets)
-                //{
-                //    db.Projet.Add(p);
-                //    foreach (MasterStories s in p.Stories)
-                //    {
-                //        Stories_d temp = new Stories_d(s);
-                //        db.Stories_d.Add(temp);
-                //        foreach (MasterTasks t in s.Tasks)
-                //        {
-                //            Models.Tasks_d tempTasks = new Models.Tasks_d(t);
-                //            db.Tasks_d.Add(tempTasks);
-                //        }
-
-                //    }
-                //}
-                //db.Devis.Add(EnormeObjetyaToutDedans); 
-                //db.SaveChanges();
+                newGenObject.SaveToDb(false,devis);
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
             //{

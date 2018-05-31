@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
-using WebApplication4.Models.BO.StoriesBO;
+using WebApplication4.Models.BO;
 using Newtonsoft.Json;
 
 namespace WebApplication4.Controllers
