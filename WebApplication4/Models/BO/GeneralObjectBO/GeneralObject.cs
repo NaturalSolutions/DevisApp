@@ -7,6 +7,16 @@ namespace WebApplication4.Models.BO
 {
     public class GeneralObject
     {
+        private DevisFacturationEntities db;
         public List<Projet> projets {get; set;}
+
+        public void SaveToDb()
+        {
+            this.db = new DevisFacturationEntities();
+            foreach(Projet p in this.projets)
+            {
+                db.Projet.Add(p);
+            }
+        }
     }
 }
