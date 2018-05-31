@@ -75,7 +75,7 @@ export class FileGeneratorComponent implements OnInit {
             this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
               console.log("rezzz",rezzz);
               this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
-                console.log("rez",rez);
+                console.log("rez",rez.Project);
               })
             })
            };

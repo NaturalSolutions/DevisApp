@@ -159,7 +159,7 @@ export class DevisRequesterModule {
               for(let u in result){
                 if(result[u].story_id == strfiltered[s].id){
                   tasks.push(result[u]);
-                  /*strfiltered[s].listeTaches.push(result[u]);*/
+                  strfiltered[s].listeTaches.push(result[u]);
                   //$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
                 }
               }
@@ -179,7 +179,10 @@ export class DevisRequesterModule {
           }				
         }
         Promise.all(promises).then(() => {
-          resolve(listeModifie);
+          let objectToSend : any = {};
+          objectToSend.Taches = listeModifie;
+          objectToSend.Project = projectIds;
+          resolve(objectToSend);
         })
       });     
      // _this.transMuter.transmuteTasks(listeModifie);
