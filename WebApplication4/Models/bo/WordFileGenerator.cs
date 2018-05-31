@@ -72,7 +72,7 @@ namespace WebApplication4.Models.BO
             setValue("dateCreation", longDate.ToShortDateString());
             manageDevisTable(obj, sumManager);
             insertElementsInFiles();
-            this.final.SaveAs(this.basePath + @"\Content\" + this.fileName);
+            this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
         }
 

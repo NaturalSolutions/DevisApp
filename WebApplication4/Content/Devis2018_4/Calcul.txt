@@ -1,0 +1,187 @@
+Reneco Apps
+
+	Gestion du backlog et planification    |  type : (dev)
+
+Gestion du backlog et planification.-1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE
+
+
+	Choix de la stratégie de la validation des forms    |  type : (amo)
+
+Test de la validation par schéma du json issu du formbuilder.-7+7+7 VB+TL+JV
+
+Test de la génération du formulaire à partir du json.-7+7+7 VB+TL+JV
+
+
+
+eCollection
+
+	Création d'un système de génération d'excel pour import     |  type : (dev)
+
+Récupération de la configuration des objets en fonction des contextes (sujets, échantillons, évènements).-2 TL
+
+Création d'un moteur de génération de fichier excel en fonction des configurations.-7 TL
+
+Intégration à l'appli existante de la fonctionnalité.-1 TL
+
+Permettre la sauvegarde d'une liste de subject_id (pool).-4 TL
+
+
+	Mise à jour du module d'import avec modification de la base de données    |  type : (dev)
+
+Mise à jour de la configuration de l'import avec la structure de la base de données.-4 TL
+
+Intégration du développement à la branche du code source et tests.-5 TL
+
+
+	Intégration des icones eCollection    |  type : (dev)
+
+Intégration des icônes issus de icomoon.-3+1 NF+DL
+
+
+	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)    |  type : (dev)
+
+Intégration de l'écran de visualisation des détails d'un sujet.-14+1+2 NF+AR+DL
+
+
+	Traitement des retours de Mai suite à la MAJ de Mai    |  type : (dev)
+
+Un mode "only create" a été mis en place au niveau d'un objet (event, sample, subject) identique à celui existant pour les champs.-4 DL
+
+Modification du système d'import pour accepter une configuration par défaut de certaines propriétés et modification des templates d'imports par défaut.-0 DL
+
+Dans les imports, il est désormais nécessaire de renseigner un nom lorsqu'un champ "operateur" est requis, et non plus un ID.-4 DL
+
+Le wording suite à une erreur dans la procédure d'import a été revu.-1 DL
+
+L'import des events "split" et "extract subsample" a été désactivé.-0 DL
+
+Un moyen permettant d'importer des évènements d'extraction a été trouvé.-2+1 DL+JV
+
+Revue de la configuration des ListOfSubForms pour les évènements d'extraction.-4 DL
+
+Suite à la remise en place du filtre de type Thésaurus, les filtres portant sur les champs Position, Sex, Container, Preservation et Type category sont passés en filtrage mode thésaurus.-1 DL
+
+Les anciennes données ont subies une modification pour s'adapter au nouveau format de la propriété "identification year".-2 DL
+
+L'onglet des positions dans la vue sample déroulle bien les cellules dont la valeur est trop longue.-2 DL
+
+
+	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.    |  type : (dev)
+
+Intégration des maquettes de page d'accueil.-4 NF
+
+
+	Mise en place de règles pour les fichiers d'import    |  type : (dev)
+
+Des règles de valeur par défaut ont été mises en place pour les imports.-12+3 HE+TL
+
+Test des règles de valeur par défaut et corrections des problèmes.-4+1 HE+DL
+
+
+	Vérification de la robustesse du système d'import selon la configuration, les types d'objets et les types d'import    |  type : (dev)
+
+Vérification de la conformité  (configuration, format des données) du processus d'import pour tous les évènements.-12+2 HE+DL
+
+Vérification de la conformité des structures de fichiers générés par le système d'import.-2 HE
+
+
+
+Balance_RFID
+
+
+Positions
+
+	Corrections des maquettes de gestion des événements    |  type : (des)
+
+Corrections des maquettes suite aux retours de dbsupport.-3 AR
+
+
+
+FormBuilder
+
+
+ecoRelevé-data
+
+	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
+
+Modification des maquettes en fonction des commentaires de DBSupport.-7 AR
+
+
+	Maquette de la page individuals pour intégrer la nouvelle grille avec pager    |  type : (des)
+
+Réorganisation de la page pour intégrer le pager.-2+2 AR+JV
+
+Ajout d'un symbole qui avertit qu'un filtre est actif dans la grille.-2 AR
+
+Ajout d'un symbole qui avertit qu'un filtre est actif dans le player.-2 AR
+
+Validation et corrections éventuelles.-1 AR
+
+
+	Mise en place d'un pré-filtrage des données pour la page individus    |  type : (dev)
+
+Rajout de la pagination côté back sur la route individual location.-10 JV
+
+Prise en compte des filtres : plage de dates, ID, latitude, longitude, precision, region, type, fieldactivity côté back sur la route individual location.-10 JV
+
+Tests et corrections des nouveaux paramétrages de la route individual location.-4 JV
+
+Modification du type de grille pour permettre la pagination.-5 JV
+
+Construction du filtre par défaut au chargement de la page et envoie au back (et pré-sets des filtres).-3 JV
+
+Modification des filtres pour générer une URL pour le back.-7 JV
+
+Tests et amélioration de performances sur la communication front/back avec des individus possédant des nombres de locations très importants.-10 JV
+
+Vérification du bon fonctionnement du player avec de gros volumes de données et optimisations du parsing des dates.-4 JV
+
+Déploiement dev  sur les sites de missour et du narc.-3 JV
+
+Déploiement Prod pour l'ensemble des instances.- 7 JV
+
+Intégration de la maquette individuals avec le pager, les symboles pour la grille et le player.-5 NF
+
+
+
+TRACK
+
+	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
+
+Revue de l'ensemble des écrans par rapport au workflow existant.-7 AR
+
+Modification des maquettes en fonction des premiers retours.-14 AR
+
+Analyse UX de l'application actuelle.-7 AR
+
+
+	Répercution de la centralisation des référentiels    |  type : (dev)
+
+Test de l'actualisation automatique des formulaires après modification du référentiel.-2 HE
+
+Modification de la sp d'export des protocoles pour détecter des modifications de référentiel.-4 HE
+
+
+	Export des colonnes dans l'ordre de TObs_Ordre    |  type : (dev)
+
+Modification des sp d'export des protocoles pour prendre en compte le TObs_Ordre et création des pipes.-1 HE
+
+Tests.-1 HE
+
+
+	Intégration du système de reconstruction d'un état à une date donnée pour la gestion des saisies et import, pour des protocoles avec importapressortie = 0    |  type : (dev)
+
+Modification de la sp pr_Check_BirthDeathValidity pour intégrer la reconstruction d'un état à la date de saisie donnée et validation de la condition d'import apres sortie.-5 HE
+
+Modification du code de la page ViewForm.aspx pour intégrer la reconstruction d'un état de l'individu à la date de saisie donnée et validation de la condition d'import après sortie.-3 HE
+
+Génération des messages d'erreurs traduits dans la page viewForm.aspx.-2 HE
+
+Test des saisies et des imports, avec intégration d'un protocole arrivage/retour au centre.-7 HE
+
+
+
+Reneco Data Centralization
+
+
+

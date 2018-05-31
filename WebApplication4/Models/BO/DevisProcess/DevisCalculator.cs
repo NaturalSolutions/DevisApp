@@ -102,14 +102,16 @@ namespace WebApplication4.Models.BO.DevisProcess
             this.db = new DevisFacturationEntities();
             this.ResultSumManager = new DevisSumManager();
             this.genObject = myGeneralObject;
-           // this.logFile = new StreamWriter(@"C:\Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\calcul\CalculDevis.txt");
+            DateTime longDate = DateTime.Now;
+            Directory.CreateDirectory(@"C: \Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month);
+            this.logFile = new StreamWriter(@"C:\Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month+ @"\Calcul.txt");
         }
 
         public DevisSumManager CalculateDevis()
         {
             foreach (Projet p in this.genObject.projets)
             {
-                //logFile.WriteLine(p.Nom + '\n' + '\r');
+                this.logFile.WriteLine(p.Nom + '\n' + '\r');
                 if (p.Nom.ToLower() == "ecollection")
                 {
                     var test = "tst";
@@ -122,12 +124,12 @@ namespace WebApplication4.Models.BO.DevisProcess
                 truc.Add("DEV", new Dictionary<string, decimal>());
                 foreach (MasterStories s in p.Stories)
                 {              
-                 //   logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
+                 this.logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
                     decimal? StoriesCost = 0; // variale qui va définir le cout d'une story en fonction de ces taches
                     foreach (MasterTasks t in s.Tasks)
                     {
                         string dicSelector = s.Type.ToUpper();                
-                     //   logFile.WriteLine(t.Description + '\n' + '\r');
+                        this.logFile.WriteLine(t.Description + '\n' + '\r');
                         if (t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
                         {
                             t.isMultiProgramming = true;
@@ -165,25 +167,22 @@ namespace WebApplication4.Models.BO.DevisProcess
                             //List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
                             if (truc[dicSelector].Where(o => o.Key == t.Initials).Count() > 0)
                             {
-                                truc[dicSelector][t.Initials] += decimal.Parse(t.Initials);
-                                // StoriesTasksInfoDic[tempInitial] += decimal.Parse(tempDuration);//La valeur a ajouter en heure;
+                                truc[dicSelector][t.Initials] += decimal.Parse(t.Duration);
                             }
                             else
                             {
-                                truc[dicSelector].Add(t.Initials, decimal.Parse(t.Initials));
-                                //StoriesTasksInfoDic.Add(tempInitial, decimal.Parse(tempDuration));
+                                truc[dicSelector].Add(t.Initials, decimal.Parse(t.Duration));
                             }
                         }
                     }
-                   // logFile.WriteLine('\r');
+                   this.logFile.WriteLine('\r');
                 }
-               // logFile.WriteLine('\r');
+                this.logFile.WriteLine('\r');
                 projectCost += calculateStoriesCost(truc); // Ajout du cout de la stoy au cout du projet
                 ResultSumManager.setProjectCost(p.Nom, projectCost);
             }
-            //logFile.WriteLine('\r');
-            //logFile.Close();
-            
+            this.logFile.WriteLine('\r');
+            this.logFile.Close();
             return this.ResultSumManager;
         }
 
@@ -197,7 +196,7 @@ namespace WebApplication4.Models.BO.DevisProcess
             {
                 foreach(KeyValuePair<string,decimal> entryT in entry.Value)
                 {
-                    Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == entry.Key).FirstOrDefault(); // Recuperation de la ressource correspondante
+                    Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == entryT.Key).FirstOrDefault(); // Recuperation de la ressource correspondante
                     //List<long> tarRessTemp = db.Tarification_Ressource.Where(tarRess => tarRess.FK_Ressource == ressourceTemp.ID).Select(z => z.FK_Tarification).ToList(); // Identification de la tarification ressource
                     decimal? dailyValue = entry.Value != null ? Math.Round(Convert.ToDecimal(entryT.Value / 7), 2) : 0; // conversion en jour
                     dailyValue = getDecimalPart(dailyValue); //Arrondie au supérieur      

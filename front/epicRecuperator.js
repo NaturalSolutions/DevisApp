@@ -58,7 +58,7 @@
 			});	
 			//console.log("testComplet",res);
 			let toAdd = [];
-			let projects = res//.filter(o => o.description == 'reneco');
+			let projects = res.filter(o => o.description == 'reneco');
 			for(let i in projects) {
 					projects.sort(function (a, b) {
 					if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
