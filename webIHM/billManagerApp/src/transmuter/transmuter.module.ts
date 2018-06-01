@@ -5,6 +5,7 @@ import {PtConfModule} from '../pt-conf/pt-conf.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {AlertDisplayerService} from '../alert-displayer.service';
+import {LogMessageComponent} from '../log-message/log-message.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,7 @@ export class TransmuterModule {
   private listeStories : any;
   private listeProjets : any;
 
-  constructor(private config : PtConfModule, private http : HttpClient,private Structurer : StructurerModule,private alerter : AlertDisplayerService){
+  constructor(private config : PtConfModule, private http : HttpClient,private Structurer : StructurerModule,private alerter : LogMessageComponent){
 		//this.formatConf = conf;
 		this.listeTaches = undefined;
 		this.listeStories = undefined;
@@ -167,7 +168,12 @@ export class TransmuterModule {
     // xhr.send(JSON.stringify(GeneralObject));
 
     this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
-      this.alerter.insertLog("Process Terminé");
+      this.alerter.setlogMessage("Process Terminé :)");
+      console.log("terminé ! ");
+      this.alerter.setLoadingProperty();
+    }).catch((error) => {
+      this.alerter.setlogMessage("Il y a eu une erreur");
+      console.log("Il y a eu une erreur");
     });
   }
  }

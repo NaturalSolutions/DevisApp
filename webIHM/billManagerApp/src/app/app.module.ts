@@ -10,17 +10,18 @@ import {StructurerModule} from '../structurer/structurer.module';
 import {PtConfModule} from '../pt-conf/pt-conf.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
 import {AlertDisplayerService} from '../alert-displayer.service';
+import { LogMessageComponent } from '../log-message/log-message.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    FileGeneratorComponent,
+    FileGeneratorComponent, LogMessageComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [EpicRecuperatorModule,DevisRequesterModule,TasksParserModule,StructurerModule,PtConfModule,TransmuterModule,AlertDisplayerService],
+  providers: [EpicRecuperatorModule,DevisRequesterModule,TasksParserModule,StructurerModule,PtConfModule,TransmuterModule,AlertDisplayerService,LogMessageComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

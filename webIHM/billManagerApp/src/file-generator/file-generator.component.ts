@@ -3,6 +3,7 @@ import {EpicRecuperatorModule} from '../epic-recuperator/epic-recuperator.module
 import { HttpClient } from '@angular/common/http';
 import {DevisRequesterModule} from '../devis-requester/devis-requester.module';
 import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
+import {LogMessageComponent} from '../log-message/log-message.component'
 
 @Component({
   selector: 'app-file-generator',
@@ -16,7 +17,7 @@ export class FileGeneratorComponent implements OnInit {
   private devisScope;
   private factureScope;
   private fileScope; 
-  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule) {
+  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
    }
@@ -51,6 +52,7 @@ export class FileGeneratorComponent implements OnInit {
       }, 2000);
       this.DevisProcessLauched = true;
       let objetTransition;
+      this.alerter.setLoadingProperty();
       this.epicRecuperator.getAllProjectsId().then(projects => {
         console.log("res",projects);
         this.epicRecuperator.getAllEpics(projects).then(epics => {
@@ -71,7 +73,9 @@ export class FileGeneratorComponent implements OnInit {
            let fileGeneratorContext = document.getElementById('fileGenerator');
            fileGeneratorContext.appendChild(selector); 
            let ev : Event;
-           selector.onchange = () => {          
+           this.alerter.setLoadingProperty();
+           selector.onchange = () => {      
+            this.alerter.setLoadingProperty();    
             this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
               console.log("rezzz",rezzz);
               this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
