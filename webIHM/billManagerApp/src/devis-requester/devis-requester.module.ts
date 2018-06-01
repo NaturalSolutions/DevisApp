@@ -54,10 +54,8 @@ export class DevisRequesterModule {
         }			
       }
     }
-    //$('#projets').show();
-    //this.getProjectStories(projectvalable);
-    //_this.transMuter.transmuteProjects(projectvalable);	
-    // console.log("projectvalable",projectvalable);	
+    //$('#projets').show(); TO DO AFFICHAGE 
+    //this.transMuter.transmuteProjects(projectvalable);	TO DO 
     return projectvalable;
   }
   
@@ -88,18 +86,15 @@ export class DevisRequesterModule {
         .toPromise().then((res : any) => {
           let myCurrentStory : any;
           for(let u in res){
-            // console.log("result[u]",result[u]); 
             myCurrentStory = res[u];
             myCurrentStory.listeTaches = [];
             if(myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)){
-              /*console.log('myCurrentStory',myCurrentStory);*/
                // renvoie les stories d'un projet correspondant a un epic 	
               //console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
               res[u].listeTaches = new Array();
               myCurrentStory.story_type = "";
               let stringLabels = "";
               for(let o in myCurrentStory.labels){
-                //alert(result[i].labels[o].name.toLowerCase());
                 if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
                   myCurrentStory.story_type = myCurrentStory.labels[o].name;
                 }
@@ -119,10 +114,9 @@ export class DevisRequesterModule {
                  projectIds[i].listeStories.push(myCurrentStory);
                 }
               }
-             // $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>');
+             // $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>'); TO DO AFFICHAGE 
             }
-            //$('#stories').show();
-            //console.log("projectIds debug",projectIds)
+            //$('#stories').show(); TO DO AFFICHAGE 
           }
       });
       promises.push(res);
@@ -134,9 +128,7 @@ export class DevisRequesterModule {
         resolve(objectToSend);
       })
     });    
-    //this.transMuter.transmuteStories(stories);
-    //this.getTasks(stories,projectIds);
-    //this.transMuter.transmuteStories(stories);
+    //this.transMuter.transmuteStories(stories); TO DO TRANSMMUTER 
   }
  
     getTasks(storiesIds,projectIds){
