@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
 using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Stories_fController : ApiController // MasterStories associé a une facturation
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base

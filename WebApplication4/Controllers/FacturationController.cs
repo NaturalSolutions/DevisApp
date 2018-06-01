@@ -7,9 +7,11 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class FacturationController : ApiController
     {
         private DevisFacturationEntities db;

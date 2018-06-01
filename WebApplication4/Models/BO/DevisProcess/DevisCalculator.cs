@@ -109,8 +109,10 @@ namespace WebApplication4.Models.BO.DevisProcess
 
         public DevisSumManager CalculateDevis()
         {
+           // this.logFile.Close();
             foreach (Projet p in this.genObject.projets)
             {
+                
                 this.logFile.WriteLine(p.Nom + '\n' + '\r');
                 if (p.Nom.ToLower() == "ecollection")
                 {

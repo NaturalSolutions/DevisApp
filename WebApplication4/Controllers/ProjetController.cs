@@ -7,9 +7,11 @@ using System.Web.Http;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
 using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ProjetController : ApiController
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base

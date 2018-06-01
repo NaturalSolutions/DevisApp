@@ -6,9 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
 using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Tasks_dController : ApiController // Taches lié aux devis
     {
         // GET: api/Tasks

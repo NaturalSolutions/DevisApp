@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
+import {TransmuterModule} from '../transmuter/transmuter.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ export class DevisRequesterModule {
   private epic;
   private transmuter;
 
-  constructor(private http: HttpClient,private tasksParser : TasksParserModule){
+  constructor(private http: HttpClient,private tasksParser : TasksParserModule,private  TransMuter : TransmuterModule){
   }  
 
 
@@ -55,7 +56,8 @@ export class DevisRequesterModule {
       }
     }
     //$('#projets').show(); TO DO AFFICHAGE 
-    //this.transMuter.transmuteProjects(projectvalable);	TO DO 
+    console.log("this.TransMuter",this.TransMuter);
+    this.TransMuter.transmuteProjects(projectvalable);
     return projectvalable;
   }
   
@@ -126,9 +128,9 @@ export class DevisRequesterModule {
         objectToSend.stories = stories;
         objectToSend.Projects = projectIds; 
         resolve(objectToSend);
+        this.TransMuter.transmuteStories(stories);
       })
     });    
-    //this.transMuter.transmuteStories(stories); TO DO TRANSMMUTER 
   }
  
     getTasks(storiesIds,projectIds){
@@ -152,7 +154,7 @@ export class DevisRequesterModule {
                 if(result[u].story_id == strfiltered[s].id){
                   tasks.push(result[u]);
                   strfiltered[s].listeTaches.push(result[u]);
-                  //$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>');
+                  //$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>'); TO DO AFFICHAGE
                 }
               }
               //$('#taks').show();
@@ -165,7 +167,7 @@ export class DevisRequesterModule {
               if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
                 listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
               }
-              /*console.log('projectIds tout complet',projectIds);*/		//this.transMuter.sendToServer();
+              /*console.log('projectIds tout complet',projectIds);*/ //TO DO AFFICHAGE
             });
             promises.push(result);            
           }				
@@ -174,10 +176,10 @@ export class DevisRequesterModule {
           let objectToSend : any = {};
           objectToSend.Taches = listeModifie;
           objectToSend.Project = projectIds;
+          this.TransMuter.transmuteTasks(listeModifie); 
           resolve(objectToSend);
         })
       });     
-     // _this.transMuter.transmuteTasks(listeModifie);
     }	
   
  }

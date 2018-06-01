@@ -9,9 +9,11 @@ using WebApplication4.Models.BO;
 using WebApplication4.Models.BO.DevisProcess;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DevisController : ApiController
     {
         private DevisFacturationEntities db;

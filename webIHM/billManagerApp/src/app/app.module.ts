@@ -6,6 +6,10 @@ import {FileGeneratorComponent} from '../file-generator/file-generator.component
 import {EpicRecuperatorModule} from '../epic-recuperator/epic-recuperator.module';
 import {DevisRequesterModule} from '../devis-requester/devis-requester.module';
 import {TasksParserModule}  from '../tasks-parser/tasks-parser.module';
+import {StructurerModule} from '../structurer/structurer.module';
+import {PtConfModule} from '../pt-conf/pt-conf.module';
+import {TransmuterModule} from '../transmuter/transmuter.module';
+import {AlertDisplayerService} from '../alert-displayer.service';
 
 @NgModule({
   declarations: [
@@ -16,7 +20,7 @@ import {TasksParserModule}  from '../tasks-parser/tasks-parser.module';
     BrowserModule,
     HttpClientModule,
   ],
-  providers: [EpicRecuperatorModule,DevisRequesterModule,TasksParserModule],
+  providers: [EpicRecuperatorModule,DevisRequesterModule,TasksParserModule,StructurerModule,PtConfModule,TransmuterModule,AlertDisplayerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

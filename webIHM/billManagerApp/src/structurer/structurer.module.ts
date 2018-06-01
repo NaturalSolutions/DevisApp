@@ -13,16 +13,11 @@ export class StructurerModule {
 	constructor(private http : HttpClient){
 	}
 
-  Angularget(configUrl) {
-    return this.http.get(configUrl, {
-      headers: {
-        'X-TrackerToken': 'b4a752782f711a7c564221c2b0c2d5dc',
-        'Content-Type': 'application/json'
-      }
-    });
+  public Angularget(configUrl) {
+    return this.http.get(configUrl);
   }
 	
-	getProjetStructure(){
+	public getProjetStructure(){
 		return new Promise((resolve,reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Projet/getStructure").toPromise().then((res) => {
 				resolve(res);
@@ -32,7 +27,7 @@ export class StructurerModule {
 		});
 	}
 
-	getStoriesStructure(){
+	public getStoriesStructure(){
 		return new Promise((resolve,reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Stories_d/getStructure").toPromise().then((res) => {
 				resolve(res);
@@ -42,7 +37,7 @@ export class StructurerModule {
 		});
 	}
 
-	getTasksStructure(){
+	public getTasksStructure(){
 		return new Promise((resolve,reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Tasks_d/getStructure").toPromise().then((res) => {
 				resolve(res);

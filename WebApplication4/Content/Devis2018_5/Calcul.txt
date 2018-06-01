@@ -1,62 +1,6 @@
-Reneco Apps
-
-	Gestion du backlog et planification    |  type : (dev)
-
-Gestion du backlog et planification.-1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE
+Balance_RFID
 
 
-	Choix de la stratégie de la validation des forms    |  type : (amo)
-
-Test de la validation par schéma du json issu du formbuilder.-7+7+7 VB+TL+JV
-
-Test de la génération du formulaire à partir du json.-7+7+7 VB+TL+JV
-
-
-
-AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 680 = 1360
-
-
-
-AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
-
-
-
-AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
-
-
-
-DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
-
-
-
 eCollection
 
 	Création d'un système de génération d'excel pour import     |  type : (dev)
@@ -154,24 +98,6 @@ DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   
 
 
 
-Balance_RFID
-
-
-Positions
-
-	Corrections des maquettes de gestion des événements    |  type : (des)
-
-Corrections des maquettes suite aux retours de dbsupport.-3 AR
-
-
-
-DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
-
-
-
-FormBuilder
-
-
 ecoRelevé-data
 
 	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
@@ -232,6 +158,83 @@ DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   
 
 
 
+FormBuilder
+
+
+Positions
+
+	Corrections des maquettes de gestion des événements    |  type : (des)
+
+Corrections des maquettes suite aux retours de dbsupport.-3 AR
+
+
+
+DES  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+Reneco Apps
+
+	Gestion du backlog et planification    |  type : (dev)
+
+Gestion du backlog et planification.-1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE
+
+
+	Choix de la stratégie de la validation des forms    |  type : (amo)
+
+Test de la validation par schéma du json issu du formbuilder.-7+7+7 VB+TL+JV
+
+Test de la génération du formulaire à partir du json.-7+7+7 VB+TL+JV
+
+
+
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 680 = 1360
+
+
+
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
+
+
+
+AMO  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   2 x 610 = 1220
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 530 = 265,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 440 = 220,00
+
+
+
+DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   |   0,50 x 410 = 205,00
+
+
+
+Reneco Data Centralization
+
+
 TRACK
 
 	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
@@ -277,7 +280,4 @@ DEV  |  System.Collections.Generic.Dictionary`2[System.String,System.Decimal]   
 
 
 
-Reneco Data Centralization
-
-
 

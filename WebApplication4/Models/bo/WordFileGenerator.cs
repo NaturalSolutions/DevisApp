@@ -73,7 +73,7 @@ namespace WebApplication4.Models.BO
             manageDevisTable(obj, sumManager);
             insertElementsInFiles(devis);
             this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
-            this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
+            this.encoded = File.ReadAllBytes(this.basePath + @"\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             DevisFacturationEntities db = new DevisFacturationEntities();
             devis.Filename = this.fileName;
             devis.Date = DateTime.Now;

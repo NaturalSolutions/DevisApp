@@ -76,7 +76,7 @@ export class FileGeneratorComponent implements OnInit {
               console.log("rezzz",rezzz);
               this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
                 console.log("rez",rez.Project);
-              })
+              });
             })
            };
            
