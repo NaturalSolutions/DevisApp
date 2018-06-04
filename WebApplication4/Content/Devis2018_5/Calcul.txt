@@ -1,0 +1,82 @@
+Appli Repro
+
+	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
+
+
+
+Balance_RFID
+
+
+eCollection
+
+	Création d'un système de génération d'excel pour import     |  type : (dev)
+
+
+	Mise à jour du module d'import avec modification de la base de données    |  type : (dev)
+
+
+	Intégration des icones eCollection    |  type : (dev)
+
+
+	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)    |  type : (dev)
+
+
+	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.    |  type : (dev)
+
+
+	Traitement des retours de Mai suite à la MAJ de Mai    |  type : (dev)
+
+
+	Mise en place de règles pour les fichiers d'import    |  type : (dev)
+
+
+	Vérification de la robustesse du système d'import selon la configuration, les types d'objets et les types d'import    |  type : (dev)
+
+
+
+ecoRelevé-data
+
+	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
+
+
+	Maquette de la page individuals pour intégrer la nouvelle grille avec pager    |  type : (des)
+
+
+	Mise en place d'un pré-filtrage des données pour la page individus    |  type : (dev)
+
+
+
+FormBuilder
+
+
+Positions
+
+	Corrections des maquettes de gestion des événements    |  type : (des)
+
+
+
+Reneco Apps
+
+	Gestion du backlog et planification    |  type : (dev)
+
+
+	Choix de la stratégie de la validation des forms    |  type : (amo)
+
+
+
+Reneco Data Centralization
+
+
+TRACK
+
+	Répercution de la centralisation des référentiels    |  type : (dev)
+
+
+	Export des colonnes dans l'ordre de TObs_Ordre    |  type : (dev)
+
+
+	Intégration du système de reconstruction d'un état à une date donnée pour la gestion des saisies et import, pour des protocoles avec importapressortie = 0    |  type : (dev)
+
+
+
+

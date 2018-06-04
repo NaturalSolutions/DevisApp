@@ -136,10 +136,8 @@ export class DevisRequesterModule {
         let promises:Promise<any>[] = [];
         for(let i in projectIds)
         {
-          console.log("projectIds[i]",projectIds[i]);
           let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
           projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-          //i = parseInt(i);
           for(let s in strfiltered)
           {
           	projectIds[i].listeStories[s].listeTaches = new Array(); 
@@ -149,20 +147,16 @@ export class DevisRequesterModule {
                 if(result[u].story_id == strfiltered[s].id){
                   tasks.push(result[u]);
                   strfiltered[s].listeTaches.push(result[u]);
-                  //$('#resultOptionTasks').append('<br><p>'+result[u].description+'<p><br>'); TO DO AFFICHAGE
                 }
               }
-              //$('#taks').show();
               let projetid =  projectIds.map(o => o.id);
               let storiesid = [];
               for(let k in projectIds){
                 storiesid.push(projectIds[k].id); 
               }
-              //let parser = new TasksParser();
               if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
                 listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
               }
-              /*console.log('projectIds tout complet',projectIds);*/ //TO DO AFFICHAGE
             });
             promises.push(result);            
           }				

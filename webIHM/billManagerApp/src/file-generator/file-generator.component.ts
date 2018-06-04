@@ -192,9 +192,31 @@ export class FileGeneratorComponent implements OnInit {
 
                 document.getElementById('continue').onclick = () => {
                   infoLogContext.style.visibility = "hidden";
+                  console.log("error.stories",error.stories);
                   let ProperStories = error.stories;
-                  let allStories = this.devisRequester.getProjectStories(projects).then((e) => {
-                    console.log("all stories",e);
+                  let nonAcceptedStories : [any];
+                  let bonnusStories : [any];
+                  let allStories = this.devisRequester.getProjectStories(projects).then((e : any) => {
+                    for(let couilles in e){
+                      if(e[couilles].labels != undefined){
+                        if(e[couilles].labels.includes("bonus") && e[couilles].current_state == "accepted"){
+                          bonnusStories.push(e[couilles]);
+                        }else if(e[couilles].current_state != "accepted"){
+                          nonAcceptedStories.push(e[couilles]);
+                        }
+                      }
+                    }
+                    this.devisRequester.getTasks(projects,bonnusStories).then((bonusTasks) =>{
+                      console.log("bonusTasks",bonusTasks);
+                    });
+
+                    this.devisRequester.getTasks(projects,nonAcceptedStories).then((nonAcceptedTasks) => {
+                      console.log("nonAcceptedTasks",nonAcceptedTasks);
+                    });
+
+                    this.devisRequester.getTasks(projects,ProperStories).then((properTasks) => {
+                      console.log("properTasks",properTasks);
+                    });
                   })
                 }
                 document.getElementById('stop').onclick = () => {
