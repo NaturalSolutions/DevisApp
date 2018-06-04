@@ -159,37 +159,55 @@ export class FileGeneratorComponent implements OnInit {
             //Ici traitement devis ou facturation
             if(type.toLowerCase() == "devis")    
             {
-              console.log("JE PASSE PAR ICI ALORS QUE JE DEVRAIS PAS");
               this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
                 console.log("rezzz",rezzz);
                 this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
                   console.log("rez",rez.Project);
                 });
               })
-            }else
-              console.log("I'M GOING HERE ");
+            }else if(type.toLowerCase() == "facture"){
               this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((resFactu) => {
-                console.log("res factu",resFactu);
+                console.log("res factu",resFactu);                
               }).catch((error) => {
+                console.log(error);
                 let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez séléctionnez, veuillez noter que si vous continuez elle ne seront pas prise en compte dans la tarification :</p> '\n'";
-                for(let a in error){
-                  logMessage += '<a href="'+error[a].url+'" target="_blank">story</a>' + '\n';
+                for(let a in error.storiesSansEpics){
+                  logMessage += '<a href="'+error.storiesSansEpics[a].url+'" target="_blank">story['+a+']</a>' + '&nbsp ' + '&nbsp ' + '\n';
                 }
                 infoLogContext.innerHTML = "<p>"+logMessage+"</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
                 infoLogContext.style.visibility = "visible";
+                document.getElementById('continue').style.borderRadius = "15px";
+                document.getElementById('continue').style.backgroundColor = "black";
+                document.getElementById('continue').style.margin = "10px";
+                document.getElementById('continue').style.color = "white";
+                document.getElementById('continue').style.border = "none";
+                document.getElementById('continue').style.padding = "5px";
+
+                document.getElementById('stop').style.backgroundColor = "black";
+                document.getElementById('stop').style.borderRadius = "15px";
+                document.getElementById('stop').style.margin = "10px";
+                document.getElementById('stop').style.color = "white";
+                document.getElementById('stop').style.border = "none";
+                document.getElementById('stop').style.padding = "5px";
+
                 document.getElementById('continue').onclick = () => {
                   infoLogContext.style.visibility = "hidden";
+                  let ProperStories = error.stories;
+                  let allStories = this.devisRequester.getProjectStories(projects).then((e) => {
+                    console.log("all stories",e);
+                  })
                 }
                 document.getElementById('stop').onclick = () => {
                   window.location.reload();
                 }
               });
+            }
            };
            
         });
       });
     }else{
-      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
+      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, "+type+" process is already processing !"
       infoLogContext.style.visibility = "visible";
       setTimeout(() => {
         infoLogContext.style.visibility = "hidden";

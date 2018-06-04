@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
+import {LogMessageComponent} from '../log-message/log-message.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ export class DevisRequesterModule {
   private epic;
   private transmuter;
 
-  constructor(private http: HttpClient,private tasksParser : TasksParserModule,private  TransMuter : TransmuterModule){
+  constructor(private http: HttpClient,private tasksParser : TasksParserModule,private  TransMuter : TransmuterModule, private log : LogMessageComponent){
   }  
 
 
@@ -80,7 +81,6 @@ export class DevisRequesterModule {
     getProjectStories(projects) {
     return new Promise<any>((resolve,reject) => {
       let stories = [];
-      console.log("going to search Stories");
       let promises:Promise<any>[] = [];
       console.log("this.epic",this.epic);
       for(let i in projects){
@@ -131,7 +131,6 @@ export class DevisRequesterModule {
  
     getTasks(storiesIds,projectIds){
       return new Promise<any>((resolve,reject) => {
-        console.log("projectIds",projectIds);
         let tasks = [];
         let listeModifie = [];
         let promises:Promise<any>[] = [];
@@ -177,14 +176,23 @@ export class DevisRequesterModule {
         })
       });     
     }
+
+    containsEpic(labels,epic) : boolean{
+      for(let lab in labels){
+        if(labels[lab] != undefined && labels[lab].name != undefined){
+          if(labels[lab].name.toLowerCase() == this.epic.toLowerCase()){
+            return true;
+          }
+        }        
+      }
+      return false;
+    }
     
     getAcceptedProjectStories(projects) : any {
       return new Promise<any>((resolve,reject) => {
         let stories = [];
         let storiesSansEpics = [];
-        console.log("going to search accepted Stories");
         let promises:Promise<any>[] = [];
-        console.log("this.epic",this.epic);
         for(let i in projects){
           //Example en dur a dynamiser avec du front
           let startdate = new Date(2018, 5, 1);
@@ -198,31 +206,29 @@ export class DevisRequesterModule {
               if(myCurrentStory.story_type.toLowerCase() != 'release'){
                 myCurrentStory.listeTaches = new Array();
                 myCurrentStory.story_type = "";
+                if(this.containsEpic(myCurrentStory.labels,this.epic)){
+                  stories.push(myCurrentStory);
+                }else {
+                  storiesSansEpics.push(myCurrentStory);
+                }
+
                 for(let o in myCurrentStory.labels){
-                  stringLabels += myCurrentStory.labels[o].name + " ";
-                  if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
-                    myCurrentStory.story_type = myCurrentStory.labels[o].name;
-                    if(myCurrentStory.labels[o].name == "amo"){
-                      myCurrentStory.AMO = true;
-                    }
-                    if(myCurrentStory.labels[o].name == this.epic){                     
-                      stories.push(myCurrentStory);
-                      if(!(projects[i].listeStories == undefined) && !(myCurrentStory == undefined)){
-                        if(myCurrentStory.project_id == projects[i].id){
-                          projects[i].listeStories.push(myCurrentStory);
-                        }
-                      } 
-                    }else{
-                      storiesSansEpics.push(myCurrentStory);
-                    }
-                    myCurrentStory.labels = stringLabels;
+                  if(myCurrentStory.labels[o] != undefined){
+                    stringLabels += myCurrentStory.labels[o].name + ";";
+                    if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
+                      myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                      if(myCurrentStory.labels[o].name == "amo"){
+                        myCurrentStory.AMO = true;
+                      }                    
+                    }                 
+                    myCurrentStory.listeTaches = [];             
+                    myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
+                    if(myCurrentStory.AMO == undefined){
+                      myCurrentStory.AMO = false;
+                    }  
+                  }                  
                 }
-                  myCurrentStory.listeTaches = [];             
-                  myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
-                  if(myCurrentStory.AMO == undefined){
-                    myCurrentStory.AMO = false;
-                  }
-                }
+                myCurrentStory.labels = stringLabels;
               }
               
             }
@@ -231,11 +237,17 @@ export class DevisRequesterModule {
         }
         Promise.all(promises).then(() => {
           if(storiesSansEpics.length > 0 ){
-            reject(storiesSansEpics);
-          }else {
             let objectToSend : any = {};
             objectToSend.stories = stories;
+            objectToSend.storiesSansEpics = storiesSansEpics;
+            reject(objectToSend);
+            this.log.setLoadingProperty();
+          }else {
+            let objectToSend : any = {};
+            console.log("stories",stories);
+            objectToSend.stories = stories;
             resolve(objectToSend);
+            this.log.setLoadingProperty();
             //this.TransMuter.transmuteStories(stories);
           }          
         })
