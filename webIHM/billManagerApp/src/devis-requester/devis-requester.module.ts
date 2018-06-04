@@ -136,30 +136,33 @@ export class DevisRequesterModule {
         let promises:Promise<any>[] = [];
         for(let i in projectIds)
         {
-          let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-          projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-          for(let s in strfiltered)
-          {
-          	projectIds[i].listeStories[s].listeTaches = new Array(); 
-            let result = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks")
-            .toPromise().then((result) => {
-              for(let u in result){
-                if(result[u].story_id == strfiltered[s].id){
-                  tasks.push(result[u]);
-                  strfiltered[s].listeTaches.push(result[u]);
+          if(storiesIds != undefined){
+            let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+            projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
+            console.log("strfiltered",strfiltered);
+            for(let s in strfiltered)
+            {
+            	projectIds[i].listeStories[s].listeTaches = new Array(); 
+              let result = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks")
+              .toPromise().then((result) => {
+                for(let u in result){
+                  if(result[u].story_id == strfiltered[s].id){
+                    tasks.push(result[u]);
+                    strfiltered[s].listeTaches.push(result[u]);
+                  }
                 }
-              }
-              let projetid =  projectIds.map(o => o.id);
-              let storiesid = [];
-              for(let k in projectIds){
-                storiesid.push(projectIds[k].id); 
-              }
-              if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-                listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
-              }
-            });
-            promises.push(result);            
-          }				
+                let projetid =  projectIds.map(o => o.id);
+                let storiesid = [];
+                for(let k in projectIds){
+                  storiesid.push(projectIds[k].id); 
+                }
+                if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
+                  listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+                }
+              });
+              promises.push(result);            
+            }
+          }                    				
         }
         Promise.all(promises).then(() => {
           let objectToSend : any = {};

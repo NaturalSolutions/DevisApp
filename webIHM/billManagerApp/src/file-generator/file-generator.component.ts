@@ -206,15 +206,15 @@ export class FileGeneratorComponent implements OnInit {
                         }
                       }
                     }
-                    this.devisRequester.getTasks(projects,bonnusStories).then((bonusTasks) =>{
+                    this.devisRequester.getTasks(bonnusStories,projects).then((bonusTasks) =>{
                       console.log("bonusTasks",bonusTasks);
                     });
 
-                    this.devisRequester.getTasks(projects,nonAcceptedStories).then((nonAcceptedTasks) => {
+                    this.devisRequester.getTasks(nonAcceptedStories,projects).then((nonAcceptedTasks) => {
                       console.log("nonAcceptedTasks",nonAcceptedTasks);
                     });
 
-                    this.devisRequester.getTasks(projects,ProperStories).then((properTasks) => {
+                    this.devisRequester.getTasks(ProperStories,projects).then((properTasks) => {
                       console.log("properTasks",properTasks);
                     });
                   })
