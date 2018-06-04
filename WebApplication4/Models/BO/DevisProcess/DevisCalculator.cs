@@ -103,8 +103,9 @@ namespace WebApplication4.Models.BO.DevisProcess
             this.ResultSumManager = new DevisSumManager();
             this.genObject = myGeneralObject;
             DateTime longDate = DateTime.Now;
-            Directory.CreateDirectory(@"C: \Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month);
-            this.logFile = new StreamWriter(@"C:\Users\Tom\Desktop\Remi_projet_web\webApi_natural_solutions\WebApplication4\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month+ @"\Calcul.txt");
+            string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
+            Directory.CreateDirectory(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month);
+            this.logFile = new StreamWriter(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month+ @"\Calcul.txt");
         }
 
         public DevisSumManager CalculateDevis()
