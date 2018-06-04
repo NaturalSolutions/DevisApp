@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
-import { start } from 'repl';
 
 @NgModule({
   imports: [
@@ -190,7 +189,7 @@ export class DevisRequesterModule {
           //Example en dur a dynamiser avec du front
           let startdate = new Date(2018, 5, 1);
           let nowDate = new Date();
-          let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?with_label=" + this.epic + "&accepted_after=" + startdate.toISOString() + "&accepted_before=" + nowDate.toISOString())
+          let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?accepted_after=" + startdate.toISOString() + "&accepted_before=" + nowDate.toISOString())
           .toPromise().then((res : any) => {            
             for(let u in res){
               let myCurrentStory : any;
@@ -199,42 +198,46 @@ export class DevisRequesterModule {
               if(myCurrentStory.story_type.toLowerCase() != 'release'){
                 myCurrentStory.listeTaches = new Array();
                 myCurrentStory.story_type = "";
-                stringLabels += myCurrentStory.labels[o].name + " ";
-              }
-              for(let o in myCurrentStory.labels){
-                if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
-                  myCurrentStory.story_type = myCurrentStory.labels[o].name;
-                  if(myCurrentStory.labels[o].name == "amo"){
-                    myCurrentStory.AMO = true;
-                  }
-                  if(myCurrentStory.labels[o].name == this.epic){
-                    storiesSansEpics.push(myCurrentStory);
-                  }else{
-                    stories.push(myCurrentStory);
-                  }
-                  myCurrentStory.labels = stringLabels;
-              }
-              myCurrentStory.listeTaches = [];             
-                myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
-                if(myCurrentStory.AMO == undefined){
-                  myCurrentStory.AMO = false;
+                for(let o in myCurrentStory.labels){
+                  stringLabels += myCurrentStory.labels[o].name + " ";
+                  if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
+                    myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                    if(myCurrentStory.labels[o].name == "amo"){
+                      myCurrentStory.AMO = true;
+                    }
+                    if(myCurrentStory.labels[o].name == this.epic){                     
+                      stories.push(myCurrentStory);
+                      if(!(projects[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+                        if(myCurrentStory.project_id == projects[i].id){
+                          projects[i].listeStories.push(myCurrentStory);
+                        }
+                      } 
+                    }else{
+                      storiesSansEpics.push(myCurrentStory);
+                    }
+                    myCurrentStory.labels = stringLabels;
                 }
-                if(!(projects[i].listeStories == undefined) && !(myCurrentStory == undefined)){
-                  if(myCurrentStory.project_id == projects[i].id){
-                   projects[i].listeStories.push(myCurrentStory);
+                  myCurrentStory.listeTaches = [];             
+                  myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
+                  if(myCurrentStory.AMO == undefined){
+                    myCurrentStory.AMO = false;
                   }
                 }
               }
+              
             }
         });
         promises.push(res);
         }
         Promise.all(promises).then(() => {
-          let objectToSend : any = {};
-          objectToSend.stories = stories;
-          objectToSend.Projects = projects; 
-          resolve(objectToSend);
-          this.TransMuter.transmuteStories(stories);
+          if(storiesSansEpics.length > 0 ){
+            reject(storiesSansEpics);
+          }else {
+            let objectToSend : any = {};
+            objectToSend.stories = stories;
+            resolve(objectToSend);
+            //this.TransMuter.transmuteStories(stories);
+          }          
         })
 
       });

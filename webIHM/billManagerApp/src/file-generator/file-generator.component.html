@@ -2,11 +2,11 @@
   <span>Générer un fichier</span>
 </div>
 <section id="fileGenerator">
-  <div id="devis" (click) = "lauchDevis()">
+  <div id="devis" (click) = "lauchProcess('devis')">
     <span>Devis</span>
   </div>
   
-  <div id="facture">
+  <div id="facture" (click) = "lauchProcess('facture')">
     <span>Facture</span>
   </div>  
 </section>

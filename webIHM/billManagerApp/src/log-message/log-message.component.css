@@ -11,17 +11,16 @@
 }
 
 #loader {
-    position: relative;
+    position: absolute;
     visibility: hidden;
-    left: 50%;
-    top: 200px;
-    right: 50%;
+    left: 5%;
+    top: 50px;
     border: 16px solid #050505; 
     border-top: 16px solid #ffffff;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 2s linear infinite;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {

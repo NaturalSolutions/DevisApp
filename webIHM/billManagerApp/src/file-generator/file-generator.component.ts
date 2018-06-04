@@ -42,88 +42,88 @@ export class FileGeneratorComponent implements OnInit {
     }
   } 
 
-  lauchDevis() :void {
-    let infoLogContext = document.getElementById('infoLog');
-    if(this.DevisProcessLauched == false){      
-      infoLogContext.style.visibility = "visible";
-      infoLogContext.innerHTML = "<p> Devis process lauched </p>"
-      setTimeout(() => {
-        infoLogContext.style.visibility = "hidden";
-      }, 2000);
-      this.DevisProcessLauched = true;
-      let objetTransition;
-      this.alerter.setLoadingProperty();
-      this.epicRecuperator.getAllProjectsId().then(projects => {
-        console.log("res",projects);
-        this.epicRecuperator.getAllEpics(projects).then(epics => {
-          let selector = document.createElement("select");
-          selector.style.borderRadius = "15px";
-          selector.style.padding = "10px"; 
-          selector.style.position = "absolute";
-          selector.style.bottom = "0px";
-          selector.style.left = "50%";
-          selector.style.transform ="translateX(-50%)";
-          selector.style.width = "30%";
+  // lauchDevis() :void {
+  //   let infoLogContext = document.getElementById('infoLog');
+  //   if(this.DevisProcessLauched == false){      
+  //     infoLogContext.style.visibility = "visible";
+  //     infoLogContext.innerHTML = "<p> Devis process lauched </p>"
+  //     setTimeout(() => {
+  //       infoLogContext.style.visibility = "hidden";
+  //     }, 2000);
+  //     this.DevisProcessLauched = true;
+  //     let objetTransition;
+  //     this.alerter.setLoadingProperty();
+  //     this.epicRecuperator.getAllProjectsId().then(projects => {
+  //       console.log("res",projects);
+  //       this.epicRecuperator.getAllEpics(projects).then(epics => {
+  //         let selector = document.createElement("select");
+  //         selector.style.borderRadius = "15px";
+  //         selector.style.padding = "10px"; 
+  //         selector.style.position = "absolute";
+  //         selector.style.bottom = "0px";
+  //         selector.style.left = "50%";
+  //         selector.style.transform ="translateX(-50%)";
+  //         selector.style.width = "30%";
 
-          for(let i in epics){
-            let option = document.createElement("option");
-            option.text = epics[i];
-            selector.appendChild(option);
-           }           
-           let fileGeneratorContext = document.getElementById('fileGenerator');
-           fileGeneratorContext.appendChild(selector); 
-           this.alerter.setLoadingProperty();
-           selector.onchange = () => {      
-            this.alerter.setLoadingProperty();
-            this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
-              console.log("rezzz",rezzz);
-              this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
-                console.log("rez",rez.Project);
-              });
-            })
-           };
+  //         for(let i in epics){
+  //           let option = document.createElement("option");
+  //           option.text = epics[i];
+  //           selector.appendChild(option);
+  //          }           
+  //          let fileGeneratorContext = document.getElementById('fileGenerator');
+  //          fileGeneratorContext.appendChild(selector); 
+  //          this.alerter.setLoadingProperty();
+  //          selector.onchange = () => {      
+  //           this.alerter.setLoadingProperty();
+  //           this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
+  //             console.log("rezzz",rezzz);
+  //             this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
+  //               console.log("rez",rez.Project);
+  //             });
+  //           })
+  //          };
            
-        });
+  //       });
       
-        // let promises: Promise<any[]>[] = [];
-        // projects.forEach(project => {
-        //   let promise: Promise<any[]> = this.http.get<any[]>('')
-        //   .toPromise()
-        //   .then(stories => {
-        //     //stories iterations
-        //     project.stories = stories;
+  //       // let promises: Promise<any[]>[] = [];
+  //       // projects.forEach(project => {
+  //       //   let promise: Promise<any[]> = this.http.get<any[]>('')
+  //       //   .toPromise()
+  //       //   .then(stories => {
+  //       //     //stories iterations
+  //       //     project.stories = stories;
 
 
-        //     return stories;
+  //       //     return stories;
 
 
-        //   }, error => {
-        //     project.stories = [];
-        //     return [];
-        //   })
-        //   .then(stories => {
-        //     return stories;
-        //   });
+  //       //   }, error => {
+  //       //     project.stories = [];
+  //       //     return [];
+  //       //   })
+  //       //   .then(stories => {
+  //       //     return stories;
+  //       //   });
 
-        //   promises.push(promise);
-        // });
-        // Promise.all(promises).then(success => {
+  //       //   promises.push(promise);
+  //       // });
+  //       // Promise.all(promises).then(success => {
 
-        // }, error => {
+  //       // }, error => {
 
-        // });
-      });
-    }else{
-      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
-      infoLogContext.style.visibility = "visible";
-      setTimeout(() => {
-        infoLogContext.style.visibility = "hidden";
-      }, 2000);
-    }
+  //       // });
+  //     });
+  //   }else{
+  //     infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
+  //     infoLogContext.style.visibility = "visible";
+  //     setTimeout(() => {
+  //       infoLogContext.style.visibility = "hidden";
+  //     }, 2000);
+  //   }
     
-  }
+  // }
 
-  lauchProcess(type : string) :void {
+  lauchProcess(type : any) :void {
     let infoLogContext = document.getElementById('infoLog');
     if(this.DevisProcessLauched == false){      
       infoLogContext.style.visibility = "visible";
@@ -153,13 +153,13 @@ export class FileGeneratorComponent implements OnInit {
            }           
            let fileGeneratorContext = document.getElementById('fileGenerator');
            fileGeneratorContext.appendChild(selector); 
-           let ev : Event;
            this.alerter.setLoadingProperty();
            selector.onchange = () => {      
             this.alerter.setLoadingProperty();    
             //Ici traitement devis ou facturation
             if(type.toLowerCase() == "devis")    
             {
+              console.log("JE PASSE PAR ICI ALORS QUE JE DEVRAIS PAS");
               this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
                 console.log("rezzz",rezzz);
                 this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
@@ -167,41 +167,26 @@ export class FileGeneratorComponent implements OnInit {
                 });
               })
             }else
-            //Facturation
-            {
-                
-            }
+              console.log("I'M GOING HERE ");
+              this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((resFactu) => {
+                console.log("res factu",resFactu);
+              }).catch((error) => {
+                let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez séléctionnez, veuillez noter que si vous continuez elle ne seront pas prise en compte dans la tarification :</p> '\n'";
+                for(let a in error){
+                  logMessage += '<a href="'+error[a].url+'" target="_blank">story</a>' + '\n';
+                }
+                infoLogContext.innerHTML = "<p>"+logMessage+"</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
+                infoLogContext.style.visibility = "visible";
+                document.getElementById('continue').onclick = () => {
+                  infoLogContext.style.visibility = "hidden";
+                }
+                document.getElementById('stop').onclick = () => {
+                  window.location.reload();
+                }
+              });
            };
            
         });
-      
-        // let promises: Promise<any[]>[] = [];
-        // projects.forEach(project => {
-        //   let promise: Promise<any[]> = this.http.get<any[]>('')
-        //   .toPromise()
-        //   .then(stories => {
-        //     //stories iterations
-        //     project.stories = stories;
-
-
-        //     return stories;
-
-
-        //   }, error => {
-        //     project.stories = [];
-        //     return [];
-        //   })
-        //   .then(stories => {
-        //     return stories;
-        //   });
-
-        //   promises.push(promise);
-        // });
-        // Promise.all(promises).then(success => {
-
-        // }, error => {
-
-        // });
       });
     }else{
       infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, Devis process is already processing !"
