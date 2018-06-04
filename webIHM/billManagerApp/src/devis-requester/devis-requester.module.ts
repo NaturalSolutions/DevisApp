@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
+import { start } from 'repl';
 
 @NgModule({
   imports: [
@@ -77,22 +78,20 @@ export class DevisRequesterModule {
       return false;
     }
   
-    getProjectStories(projectIds) {
+    getProjectStories(projects) {
     return new Promise<any>((resolve,reject) => {
       let stories = [];
       console.log("going to search Stories");
       let promises:Promise<any>[] = [];
       console.log("this.epic",this.epic);
-      for(let i in projectIds){
-        let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projectIds[i].id + "/stories"+"?with_label="+this.epic)
+      for(let i in projects){
+        let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories"+"?with_label="+this.epic)
         .toPromise().then((res : any) => {
           let myCurrentStory : any;
           for(let u in res){
             myCurrentStory = res[u];
             myCurrentStory.listeTaches = [];
             if(myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)){
-               // renvoie les stories d'un projet correspondant a un epic 	
-              //console.log("liste stories existe dans ce projet ",projectIds[i].listeStories);
               res[u].listeTaches = new Array();
               myCurrentStory.story_type = "";
               let stringLabels = "";
@@ -110,15 +109,13 @@ export class DevisRequesterModule {
               if(myCurrentStory.AMO == undefined){
                 myCurrentStory.AMO = false;
               }
-              if(!(projectIds[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+              if(!(projects[i].listeStories == undefined) && !(myCurrentStory == undefined)){
                 stories.push(myCurrentStory);
-                if(myCurrentStory.project_id == projectIds[i].id){
-                 projectIds[i].listeStories.push(myCurrentStory);
+                if(myCurrentStory.project_id == projects[i].id){
+                 projects[i].listeStories.push(myCurrentStory);
                 }
               }
-             // $('#resultOptionStories').append('<br><p>'+result[u].name+'<p><br>'); TO DO AFFICHAGE 
             }
-            //$('#stories').show(); TO DO AFFICHAGE 
           }
       });
       promises.push(res);
@@ -126,7 +123,7 @@ export class DevisRequesterModule {
       Promise.all(promises).then(() => {
         let objectToSend : any = {};
         objectToSend.stories = stories;
-        objectToSend.Projects = projectIds; 
+        objectToSend.Projects = projects; 
         resolve(objectToSend);
         this.TransMuter.transmuteStories(stories);
       })
@@ -180,6 +177,66 @@ export class DevisRequesterModule {
           resolve(objectToSend);
         })
       });     
-    }	
-  
+    }
+    
+    getAcceptedProjectStories(projects) : any {
+      return new Promise<any>((resolve,reject) => {
+        let stories = [];
+        let storiesSansEpics = [];
+        console.log("going to search accepted Stories");
+        let promises:Promise<any>[] = [];
+        console.log("this.epic",this.epic);
+        for(let i in projects){
+          //Example en dur a dynamiser avec du front
+          let startdate = new Date(2018, 5, 1);
+          let nowDate = new Date();
+          let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?with_label=" + this.epic + "&accepted_after=" + startdate.toISOString() + "&accepted_before=" + nowDate.toISOString())
+          .toPromise().then((res : any) => {            
+            for(let u in res){
+              let myCurrentStory : any;
+              let stringLabels = "";
+              myCurrentStory = res[u];
+              if(myCurrentStory.story_type.toLowerCase() != 'release'){
+                myCurrentStory.listeTaches = new Array();
+                myCurrentStory.story_type = "";
+                stringLabels += myCurrentStory.labels[o].name + " ";
+              }
+              for(let o in myCurrentStory.labels){
+                if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
+                  myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                  if(myCurrentStory.labels[o].name == "amo"){
+                    myCurrentStory.AMO = true;
+                  }
+                  if(myCurrentStory.labels[o].name == this.epic){
+                    storiesSansEpics.push(myCurrentStory);
+                  }else{
+                    stories.push(myCurrentStory);
+                  }
+                  myCurrentStory.labels = stringLabels;
+              }
+              myCurrentStory.listeTaches = [];             
+                myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
+                if(myCurrentStory.AMO == undefined){
+                  myCurrentStory.AMO = false;
+                }
+                if(!(projects[i].listeStories == undefined) && !(myCurrentStory == undefined)){
+                  if(myCurrentStory.project_id == projects[i].id){
+                   projects[i].listeStories.push(myCurrentStory);
+                  }
+                }
+              }
+            }
+        });
+        promises.push(res);
+        }
+        Promise.all(promises).then(() => {
+          let objectToSend : any = {};
+          objectToSend.stories = stories;
+          objectToSend.Projects = projects; 
+          resolve(objectToSend);
+          this.TransMuter.transmuteStories(stories);
+        })
+
+      });
+    }
  }
