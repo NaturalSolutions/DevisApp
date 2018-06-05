@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http/';
 import {TasksParserModule} from '../tasks-parser/tasks-parser.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
 import {LogMessageComponent} from '../log-message/log-message.component';
+import * as moment from 'moment';
 
 @NgModule({
   imports: [
@@ -57,7 +58,7 @@ export class DevisRequesterModule {
       }
     }
     //$('#projets').show(); TO DO AFFICHAGE 
-    console.log("this.TransMuter",this.TransMuter);
+   // console.log("this.TransMuter",this.TransMuter);
     this.TransMuter.transmuteProjects(projectvalable);
     return projectvalable;
   }
@@ -82,7 +83,7 @@ export class DevisRequesterModule {
     return new Promise<any>((resolve,reject) => {
       let stories = [];
       let promises:Promise<any>[] = [];
-      console.log("this.epic",this.epic);
+     // console.log("this.epic",this.epic);
       for(let i in projects){
         let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories"+"?with_label="+this.epic)
         .toPromise().then((res : any) => {
@@ -122,14 +123,13 @@ export class DevisRequesterModule {
       Promise.all(promises).then(() => {
         let objectToSend : any = {};
         objectToSend.stories = stories;
-        objectToSend.Projects = projects; 
         resolve(objectToSend);
         this.TransMuter.transmuteStories(stories);
       })
     });    
   }
  
-    getTasks(storiesIds,projectIds){
+    getTasks(storiesIds,projectIds,isFactu){
       return new Promise<any>((resolve,reject) => {
         let tasks = [];
         let listeModifie = [];
@@ -138,11 +138,10 @@ export class DevisRequesterModule {
         {
           if(storiesIds != undefined){
             let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-            projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-            console.log("strfiltered",strfiltered);
+           // projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
             for(let s in strfiltered)
             {
-            	projectIds[i].listeStories[s].listeTaches = new Array(); 
+            	//projectIds[i].listeStories[s].listeTaches = new Array(); 
               let result = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks")
               .toPromise().then((result) => {
                 for(let u in result){
@@ -157,7 +156,11 @@ export class DevisRequesterModule {
                   storiesid.push(projectIds[k].id); 
                 }
                 if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-                  listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+                  if(isFactu){
+                    listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,true);
+                  }else{
+                    listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
+                  }
                 }
               });
               promises.push(result);            
@@ -167,7 +170,6 @@ export class DevisRequesterModule {
         Promise.all(promises).then(() => {
           let objectToSend : any = {};
           objectToSend.Taches = listeModifie;
-          objectToSend.Project = projectIds;
           this.TransMuter.transmuteTasks(listeModifie); 
           resolve(objectToSend);
         })
@@ -185,16 +187,18 @@ export class DevisRequesterModule {
       return false;
     }
     
-    getAcceptedProjectStories(projects) : any {
+    getAcceptedProjectStories(projects,date) : any {
       return new Promise<any>((resolve,reject) => {
         let stories = [];
         let storiesSansEpics = [];
+        console.log('ladate', date);
+        let correctedDate = moment(date).startOf('month').format('YYYY-MM-DD[T]HH:mm:ss.SSS');
+        console.log('correctedDate', correctedDate)
         let promises:Promise<any>[] = [];
         for(let i in projects){
           //Example en dur a dynamiser avec du front
-          let startdate = new Date(2018, 5, 1);
-          let nowDate = new Date();
-          let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?accepted_after=" + startdate.toISOString() + "&accepted_before=" + nowDate.toISOString())
+          let nowDate = moment();
+          let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?accepted_after=" + correctedDate + "&accepted_before=" + nowDate.toISOString())
           .toPromise().then((res : any) => {            
             for(let u in res){
               let myCurrentStory : any;

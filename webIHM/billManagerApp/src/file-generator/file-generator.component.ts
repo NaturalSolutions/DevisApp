@@ -3,7 +3,8 @@ import {EpicRecuperatorModule} from '../epic-recuperator/epic-recuperator.module
 import { HttpClient } from '@angular/common/http';
 import {DevisRequesterModule} from '../devis-requester/devis-requester.module';
 import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
-import {LogMessageComponent} from '../log-message/log-message.component'
+import {LogMessageComponent} from '../log-message/log-message.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-file-generator',
@@ -123,6 +124,29 @@ export class FileGeneratorComponent implements OnInit {
     
   // }
 
+  setLocalMessageLog(result){
+    let infoLogContext = document.getElementById('infoLog');
+    let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez séléctionnez, veuillez noter que si vous continuez elle ne seront pas prise en compte dans la tarification :</p> '\n'";
+    for(let a in result.storiesSansEpics){
+      logMessage += '<a href="'+result.storiesSansEpics[a].url+'" target="_blank">story['+a+']</a>' + '&nbsp ' + '&nbsp ' + '\n';
+    }
+    infoLogContext.innerHTML = "<p>"+logMessage+"</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
+    infoLogContext.style.visibility = "visible";
+    document.getElementById('continue').style.borderRadius = "15px";
+    document.getElementById('continue').style.backgroundColor = "black";
+    document.getElementById('continue').style.margin = "10px";
+    document.getElementById('continue').style.color = "white";
+    document.getElementById('continue').style.border = "none";
+    document.getElementById('continue').style.padding = "5px";
+
+    document.getElementById('stop').style.backgroundColor = "black";
+    document.getElementById('stop').style.borderRadius = "15px";
+    document.getElementById('stop').style.margin = "10px";
+    document.getElementById('stop').style.color = "white";
+    document.getElementById('stop').style.border = "none";
+    document.getElementById('stop').style.padding = "5px";
+  }
+
   lauchProcess(type : any) :void {
     let infoLogContext = document.getElementById('infoLog');
     if(this.DevisProcessLauched == false){      
@@ -135,7 +159,7 @@ export class FileGeneratorComponent implements OnInit {
       let objetTransition;
       this.alerter.setLoadingProperty();
       this.epicRecuperator.getAllProjectsId().then(projects => {
-        console.log("res",projects);
+      //  console.log("res",projects);
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
           selector.style.borderRadius = "15px";
@@ -160,69 +184,78 @@ export class FileGeneratorComponent implements OnInit {
             if(type.toLowerCase() == "devis")    
             {
               this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
-                console.log("rezzz",rezzz);
-                this.devisRequester.getTasks(rezzz.stories,rezzz.Projects).then((rez) => {
-                  console.log("rez",rez.Project);
+                this.devisRequester.getTasks(rezzz.stories,rezzz.Projects,false).then((rez) => {
                 });
               })
             }else if(type.toLowerCase() == "facture"){
-              this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((resFactu) => {
-                console.log("res factu",resFactu);                
-              }).catch((error) => {
-                console.log(error);
-                let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez séléctionnez, veuillez noter que si vous continuez elle ne seront pas prise en compte dans la tarification :</p> '\n'";
-                for(let a in error.storiesSansEpics){
-                  logMessage += '<a href="'+error.storiesSansEpics[a].url+'" target="_blank">story['+a+']</a>' + '&nbsp ' + '&nbsp ' + '\n';
-                }
-                infoLogContext.innerHTML = "<p>"+logMessage+"</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
-                infoLogContext.style.visibility = "visible";
-                document.getElementById('continue').style.borderRadius = "15px";
-                document.getElementById('continue').style.backgroundColor = "black";
-                document.getElementById('continue').style.margin = "10px";
-                document.getElementById('continue').style.color = "white";
-                document.getElementById('continue').style.border = "none";
-                document.getElementById('continue').style.padding = "5px";
+              let monthPicker = document.createElement('input');
+              monthPicker.type = "month";
+              monthPicker.id = "month";
+              monthPicker.pattern = '[0-9]{4}/[0-9]{2}';
+              monthPicker.style.borderRadius = "15px";
+              monthPicker.style.padding = "10px"; 
+              monthPicker.style.position = "absolute";
+              monthPicker.style.bottom = "-80px";
+              monthPicker.style.left = "50%";
+              monthPicker.style.transform ="translateX(-50%)";
+              monthPicker.style.width = "25%";
 
-                document.getElementById('stop').style.backgroundColor = "black";
-                document.getElementById('stop').style.borderRadius = "15px";
-                document.getElementById('stop').style.margin = "10px";
-                document.getElementById('stop').style.color = "white";
-                document.getElementById('stop').style.border = "none";
-                document.getElementById('stop').style.padding = "5px";
-
-                document.getElementById('continue').onclick = () => {
-                  infoLogContext.style.visibility = "hidden";
-                  console.log("error.stories",error.stories);
-                  let ProperStories = error.stories;
-                  let nonAcceptedStories : [any];
-                  let bonnusStories : [any];
-                  let allStories = this.devisRequester.getProjectStories(projects).then((e : any) => {
-                    for(let couilles in e){
-                      if(e[couilles].labels != undefined){
-                        if(e[couilles].labels.includes("bonus") && e[couilles].current_state == "accepted"){
-                          bonnusStories.push(e[couilles]);
-                        }else if(e[couilles].current_state != "accepted"){
-                          nonAcceptedStories.push(e[couilles]);
+              fileGeneratorContext.appendChild(monthPicker);
+              monthPicker.onchange = () => {
+                console.log('inthepicker', this)
+                this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value),monthPicker.value).then((resFactu) => {       
+                }).catch((treatmeantStoriesWithoutEpics) => {               
+                  this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
+                  document.getElementById('continue').onclick = () => {
+                    infoLogContext.style.visibility = "hidden";
+                    console.log("treatmeantStoriesWithoutEpics.stories",treatmeantStoriesWithoutEpics.stories);
+                    let ProperStories = [];
+                    let nonAcceptedStories = [];
+                    let bonnusStories = [];   
+                    for(let z in  treatmeantStoriesWithoutEpics.stories){
+                      if(treatmeantStoriesWithoutEpics.stories[z].labels != undefined){                      
+                        if(treatmeantStoriesWithoutEpics.stories[z].labels.includes('bonus')){
+                          bonnusStories.push(treatmeantStoriesWithoutEpics.stories[z]);
+                        }else{
+                          ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
                         }
                       }
                     }
-                    this.devisRequester.getTasks(bonnusStories,projects).then((bonusTasks) =>{
-                      console.log("bonusTasks",bonusTasks);
-                    });
-
-                    this.devisRequester.getTasks(nonAcceptedStories,projects).then((nonAcceptedTasks) => {
-                      console.log("nonAcceptedTasks",nonAcceptedTasks);
-                    });
-
-                    this.devisRequester.getTasks(ProperStories,projects).then((properTasks) => {
-                      console.log("properTasks",properTasks);
-                    });
-                  })
-                }
-                document.getElementById('stop').onclick = () => {
-                  window.location.reload();
-                }
-              });
+                    let allStories = this.devisRequester.getProjectStories(projects).then((e : any) => {
+                      for(let cpt in e){
+                        if(e[cpt].labels != undefined){
+                          if(e[cpt].current_state != "accepted"){
+                            nonAcceptedStories.push(e[cpt]);
+                          }
+                        }
+                      }
+                      console.log("ProperStories ",ProperStories);
+                      console.log("nonAcceptedStories",nonAcceptedStories);
+                      console.log("bonnusStories",bonnusStories);
+                      if(bonnusStories.length > 0){                      
+                        this.devisRequester.getTasks(bonnusStories,projects,true).then((bonusTasks) =>{
+                          console.log("bonusTasks",bonusTasks);
+                        });
+                      }
+  
+                      if(nonAcceptedStories.length > 0){                      
+                        this.devisRequester.getTasks(nonAcceptedStories,projects,true).then((nonAcceptedTasks) => {
+                          console.log("nonAcceptedTasks",nonAcceptedTasks);
+                        });
+                      }
+  
+                      if(ProperStories.length > 0){                      
+                        this.devisRequester.getTasks(ProperStories,projects,true).then((properTasks) => {
+                          console.log("properTasks",properTasks);
+                        });
+                      }
+                    })
+                  }
+                  document.getElementById('stop').onclick = () => {
+                    window.location.reload();
+                  }
+                });
+              }              
             }
            };
            

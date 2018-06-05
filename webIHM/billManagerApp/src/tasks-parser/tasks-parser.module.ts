@@ -37,17 +37,19 @@ export class TasksParserModule {
 				tabDescrInfo = tasks[i].description.split('. -');
 			}
 			var isWE = false;
-			var bonusState = null;
+			var isFerie = false;
+			var realizedState = null;
 			if (isFactu) {
 				var regexWE = /(\@[wW])$/;
 				if (tabDescrInfo[1].trim().match(regexWE)) {				
 					isWE = true;
-					bonusState = 'we';
+					realizedState = 'we';
 					tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regexWE, "");
 				} else {
 					var regexF = /(\@[fF])$/;
 					if (tabDescrInfo[1].trim().match(regexF)) {
-						bonusState = 'f';
+						isFerie = true;
+						realizedState = 'f';
 						tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regexF, "");
 					}
 				}
@@ -76,6 +78,8 @@ export class TasksParserModule {
 							} else {
 								tasks[i].initials = "";
 								tasks[i].duree = "";
+								tasks[i].isWE = isWE;
+								tasks[i].isFerie = isFerie;
 								let somme = "";
 								for(let l in tabDuree){
 									somme += tabDuree[l] + '+';
@@ -95,10 +99,10 @@ export class TasksParserModule {
 								/*for(let du in tabDuree){
 									tasks[i].duree += tabDuree +',';	
 								}*/
-								if(bonusState == undefined || bonusState == null){
+								if(realizedState == undefined || realizedState == null){
 								tasks[i].isBonnus = false;	
 								}else{
-									tasks[i].isBonnus = bonusState;
+									tasks[i].isBonnus = realizedState;
 								}
 								tasksModified.push(tasks[i]);
 								cpt++;
@@ -136,11 +140,13 @@ export class TasksParserModule {
 							tabDescrInfo[1] = tabDescrInfo[1].trim().replace(regex, "");
 							tasks[i].initials = owner_initial;
 							var regexParenth = /(\(|\))/gmi;
+							tasks[i].isWE = isWE;
+							tasks[i].isFerie = isFerie;
 							tasks[i].duree = duree.replace(regexParenth,"");;
-							if(bonusState == undefined || bonusState == null){
+							if(realizedState == undefined || realizedState == null){
 								tasks[i].isBonnus = false;	
 							}else{
-								tasks[i].isBonnus = bonusState;
+								tasks[i].isBonnus = realizedState;
 							}
 							tasksModified.push(tasks[i]);
 							cpt++;
