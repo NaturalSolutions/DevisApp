@@ -5,6 +5,7 @@ import {DevisRequesterModule} from '../devis-requester/devis-requester.module';
 import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
 import {LogMessageComponent} from '../log-message/log-message.component';
 import * as moment from 'moment';
+import {TransmuterModule} from "../transmuter/transmuter.module";
 
 @Component({
   selector: 'app-file-generator',
@@ -18,7 +19,7 @@ export class FileGeneratorComponent implements OnInit {
   private devisScope;
   private factureScope;
   private fileScope; 
-  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent) {
+  constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent, private myTransMuter : TransmuterModule) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
    }
@@ -159,7 +160,6 @@ export class FileGeneratorComponent implements OnInit {
       let objetTransition;
       this.alerter.setLoadingProperty();
       this.epicRecuperator.getAllProjectsId().then(projects => {
-      //  console.log("res",projects);
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
           selector.style.borderRadius = "15px";
@@ -183,10 +183,26 @@ export class FileGeneratorComponent implements OnInit {
             //Ici traitement devis ou facturation
             if(type.toLowerCase() == "devis")    
             {
-              this.devisRequester.getProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value)).then((rezzz) => {
-                this.devisRequester.getTasks(rezzz.stories,rezzz.Projects,false).then((rez) => {
-                });
-              })
+              let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
+              this.myTransMuter.transmuteProjects(projets).then((zeubi) => {
+                let transformedProject = zeubi;
+                this.devisRequester.getProjectStories(projets).then((rezzz) => {
+                  console.log(rezzz); 
+                  this.myTransMuter.transmuteStories(rezzz.stories).then((race) => {
+                    let transformedStories = race;
+                    console.log("transformedStories",transformedStories);
+                    this.devisRequester.getTasks(rezzz.stories,projects,false).then((rez) => {
+                      console.log(rez.Taches);
+                      this.myTransMuter.transmuteTasks(rez.Taches).then((couilles) => {
+                        let transformedTasks = couilles;
+                        this.myTransMuter.encapsulateObjects(transformedProject,transformedStories,transformedTasks);
+                        console.log('envoir en cours');
+                      });
+                    });
+                  })                  
+                })
+              });
+              
             }else if(type.toLowerCase() == "facture"){
               let monthPicker = document.createElement('input');
               monthPicker.type = "month";
@@ -202,20 +218,22 @@ export class FileGeneratorComponent implements OnInit {
 
               fileGeneratorContext.appendChild(monthPicker);
               monthPicker.onchange = () => {
-                console.log('inthepicker', this)
-                this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projects,selector.value),monthPicker.value).then((resFactu) => {       
+                // console.log('inthepicker', this)
+                let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
+                this.myTransMuter.transmuteProjects(projets).then((projetM) => {                  
+                  let projetmidified = projetM;
+                  this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets,selector.value),monthPicker.value).then((resFactu) => {  
+                  this.myTransMuter.transmuteStories(resFactu);     
                 }).catch((treatmeantStoriesWithoutEpics) => {               
                   this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
                   document.getElementById('continue').onclick = () => {
                     infoLogContext.style.visibility = "hidden";
                     console.log("treatmeantStoriesWithoutEpics.stories",treatmeantStoriesWithoutEpics.stories);
                     let ProperStories = [];
-                    let nonAcceptedStories = [];
-                    let bonnusStories = [];   
                     for(let z in  treatmeantStoriesWithoutEpics.stories){
                       if(treatmeantStoriesWithoutEpics.stories[z].labels != undefined){                      
                         if(treatmeantStoriesWithoutEpics.stories[z].labels.includes('bonus')){
-                          bonnusStories.push(treatmeantStoriesWithoutEpics.stories[z]);
+                          ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
                         }else{
                           ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
                         }
@@ -225,36 +243,31 @@ export class FileGeneratorComponent implements OnInit {
                       for(let cpt in e){
                         if(e[cpt].labels != undefined){
                           if(e[cpt].current_state != "accepted"){
-                            nonAcceptedStories.push(e[cpt]);
+                            ProperStories.push(e[cpt]);
                           }
                         }
                       }
-                      console.log("ProperStories ",ProperStories);
-                      console.log("nonAcceptedStories",nonAcceptedStories);
-                      console.log("bonnusStories",bonnusStories);
-                      if(bonnusStories.length > 0){                      
-                        this.devisRequester.getTasks(bonnusStories,projects,true).then((bonusTasks) =>{
-                          console.log("bonusTasks",bonusTasks);
-                        });
-                      }
-  
-                      if(nonAcceptedStories.length > 0){                      
-                        this.devisRequester.getTasks(nonAcceptedStories,projects,true).then((nonAcceptedTasks) => {
-                          console.log("nonAcceptedTasks",nonAcceptedTasks);
-                        });
-                      }
-  
-                      if(ProperStories.length > 0){                      
-                        this.devisRequester.getTasks(ProperStories,projects,true).then((properTasks) => {
-                          console.log("properTasks",properTasks);
-                        });
-                      }
-                    })
+                      this.myTransMuter.transmuteStories(ProperStories).then((stories) => {
+                        let storiesmodified = stories;
+                        console.log("TRANSMUTED STORIES",stories);
+                        if(ProperStories.length > 0){                      
+                          this.devisRequester.getTasks(ProperStories,projects,true).then((properTasks) => {
+                            console.log("properTasks",properTasks.Taches);
+                            this.myTransMuter.transmuteTasks(properTasks.Taches).then((taches) => {
+                              let tachemodified = taches;
+                              this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified);
+                              console.log('j\'envoi !');
+                            });
+                          });
+                        }
+                      })                      
+                    });
                   }
                   document.getElementById('stop').onclick = () => {
                     window.location.reload();
                   }
                 });
+                });                                
               }              
             }
            };

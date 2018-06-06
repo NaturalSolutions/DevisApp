@@ -4,10 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c17c77d69fdb46a4a15ec90885b708d6" Name="Diagram1" ZoomLevel="81">
+      <Diagram DiagramId="c17c77d69fdb46a4a15ec90885b708d6" Name="Diagram1" ZoomLevel="58">
         <EntityTypeShape EntityType="DevisFacturationModel.Devis" Width="1.5" PointX="3" PointY="12.125" />
         <EntityTypeShape EntityType="DevisFacturationModel.Facturation" Width="1.5" PointX="5.25" PointY="12.125" />
-        <EntityTypeShape EntityType="DevisFacturationModel.Projet" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="DevisFacturationModel.Projet" Width="1.5" PointX="7.625" PointY="5.75" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_d" Width="1.5" PointX="3" PointY="1.25" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_Devis" Width="1.5" PointX="5.25" PointY="2.375" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_f" Width="1.5" PointX="3" PointY="6.375" />

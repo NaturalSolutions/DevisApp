@@ -59,7 +59,6 @@ export class DevisRequesterModule {
     }
     //$('#projets').show(); TO DO AFFICHAGE 
    // console.log("this.TransMuter",this.TransMuter);
-    this.TransMuter.transmuteProjects(projectvalable);
     return projectvalable;
   }
   
@@ -124,7 +123,6 @@ export class DevisRequesterModule {
         let objectToSend : any = {};
         objectToSend.stories = stories;
         resolve(objectToSend);
-        this.TransMuter.transmuteStories(stories);
       })
     });    
   }
@@ -138,10 +136,8 @@ export class DevisRequesterModule {
         {
           if(storiesIds != undefined){
             let strfiltered = storiesIds.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
-           // projectIds[i].listeStories.filter(o => o.project_id == projectIds[i].id && o.story_type != 'release');
             for(let s in strfiltered)
-            {
-            	//projectIds[i].listeStories[s].listeTaches = new Array(); 
+            { 
               let result = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + strfiltered[s].project_id + "/stories/" + strfiltered[s].id + "/tasks")
               .toPromise().then((result) => {
                 for(let u in result){
@@ -156,9 +152,9 @@ export class DevisRequesterModule {
                   storiesid.push(projectIds[k].id); 
                 }
                 if(strfiltered[s].id != undefined && tasks != undefined && strfiltered[s].project_id != undefined){
-                  if(isFactu){
+                  if(isFactu == true){
                     listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,true);
-                  }else{
+                  }else if(isFactu == false){
                     listeModifie = this.tasksParser.getInfoFromTasks(tasks,strfiltered[s].id,strfiltered[s].project_id,false);
                   }
                 }
@@ -170,7 +166,6 @@ export class DevisRequesterModule {
         Promise.all(promises).then(() => {
           let objectToSend : any = {};
           objectToSend.Taches = listeModifie;
-          this.TransMuter.transmuteTasks(listeModifie); 
           resolve(objectToSend);
         })
       });     
@@ -245,11 +240,9 @@ export class DevisRequesterModule {
             this.log.setLoadingProperty();
           }else {
             let objectToSend : any = {};
-            console.log("stories",stories);
             objectToSend.stories = stories;
             resolve(objectToSend);
             this.log.setLoadingProperty();
-            //this.TransMuter.transmuteStories(stories);
           }          
         })
 

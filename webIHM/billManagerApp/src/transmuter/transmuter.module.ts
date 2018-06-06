@@ -23,67 +23,76 @@ export class TransmuterModule {
 		this.listeTaches = undefined;
 		this.listeStories = undefined;
 		this.listeProjets = undefined;
-	}
+  }
+  
+
 	// TO DO prendre en compte initials et duration pour les taches 
   public transmuteTasks(TaskObject){
-    console.log("transmuting tasks");
-   /* console.log("TaskObject",TaskObject);    */
-		let tasksStructure;
-		this.Structurer.getTasksStructure().then((res : any) => {
-      tasksStructure = JSON.parse(res);
-      let finalListOfObjects = [];
-      //Boucle sur object configConverterTasks
-			for(let u in TaskObject){	
-				let finalObjects = {};
-      	for(let i  in this.config.ConverterTasks){
-          //console.log("tasksStructure[i]",tasksStructure[ConverterTasks[i]]);
-          //console.log("TaskObject[u][i]",TaskObject[u][i]);
-      		if(tasksStructure[this.config.ConverterTasks[i]] !== undefined && TaskObject[u][i] !== undefined){
+    let finalListOfObjects = [];
+    return new Promise<any>((resolve,reject) => {
+      console.log("transmuting tasks");
+      /* console.log("TaskObject",TaskObject);    */
+		  let tasksStructure;
+		  this.Structurer.getTasksStructure().then((res : any) => {
+        tasksStructure = JSON.parse(res); 
+        //Boucle sur object configConverterTasks
+	  		for(let u in TaskObject){	
+		  		let finalObjects = {};
+         	for(let i  in this.config.ConverterTasks){
+            //console.log("tasksStructure[i]",tasksStructure[ConverterTasks[i]]);
             //console.log("TaskObject[u][i]",TaskObject[u][i]);
-            //console.log("ConverterTasks[i]",ConverterTasks[i]);
-      			finalObjects[this.config.ConverterTasks[i]] = TaskObject[u][i];      			
-      		}      			
-      	}	
-      	finalListOfObjects.push(finalObjects);
-       /* console.log("finalObjects",finalObjects);        */
-			}
-      this.listeTaches = finalListOfObjects;
-      this.encapsulateObjects();
-    });	
+         		if(tasksStructure[this.config.ConverterTasks[i]] !== undefined && TaskObject[u][i] !== undefined){
+              //console.log("TaskObject[u][i]",TaskObject[u][i]);
+             //console.log("ConverterTasks[i]",ConverterTasks[i]);
+         			finalObjects[this.config.ConverterTasks[i]] = TaskObject[u][i];      			
+        		}      			
+         	}	
+        	finalListOfObjects.push(finalObjects);
+         /* console.log("finalObjects",finalObjects);        */
+	  		}
+        this.listeTaches = finalListOfObjects;
+      }).then(() => {
+        resolve(finalListOfObjects);
+      })
+    });    	
 	}
 
 	public transmuteStories(StoryObject){
-    console.log("Transmuting Stories");
-		let storyStructure;
-		this.Structurer.getStoriesStructure().then((res : any) => {
-        	storyStructure = JSON.parse(res);
-      		let finalListOfObjects = [];
+    let finalListOfObjects = [];
+    console.log('StoryObject', StoryObject)
+    return new Promise<any> ((resolve,reject) => {
+      console.log("Transmuting Stories");
+		  let storyStructure;
+		  this.Structurer.getStoriesStructure().then((res : any) => {
+        	storyStructure = JSON.parse(res);      		
       		//console.log(storyStructure);
       		//Boucle sur object config
 			for(let u in StoryObject){
-				let finalObjects = {};
+        let finalObjects = {};
       			for(let i in this.config.ConverterStories){
       			 	//console.log('toujours plus', i, storyStructure[i],StoryObject[u],  StoryObject[u][ConverterProjet[i]]  )
       				if(storyStructure[i] !== undefined && StoryObject[u][this.config.ConverterStories[i]] !== undefined){
       					finalObjects[i] = StoryObject[u][this.config.ConverterStories[i]];      			
       				}      			
       			}
-      			finalListOfObjects.push(finalObjects);	
+      	finalListOfObjects.push(finalObjects);	
 			}
 			this.listeStories = finalListOfObjects;
-    /*  console.log('listeStories', this.listeStories)*/
-    });
+      }).then(() =>{
+      resolve(finalListOfObjects);
+      })
+    })    
 	}
 
 	public transmuteProjects(ProjectsObjects){
     //obj bdd
+    let finalListOfObjects = [];
     return new Promise<any>((resolve,reject) => {
       console.log("Transmuting Projects");
     let projectStructure;
     //console.log("this.Structurer",this.Structurer);
 		this.Structurer.getProjetStructure().then((res : any) => {
         	projectStructure = JSON.parse(res);
-      		let finalListOfObjects = [];
       		//Boucle sur object config
 			for(let u in ProjectsObjects){
 				let finalObjects = {};
@@ -97,21 +106,23 @@ export class TransmuterModule {
 			}
       this.listeProjets = finalListOfObjects;
       // console.log("mes enormes couilles sur ton nez " ,finalListOfObjects);
-      	});
+        }).then(() => {
+          resolve(finalListOfObjects);
+        })
     });
 	}
 
-	public encapsulateObjects()
+	public encapsulateObjects(projects,stories,tasks)
   {
     /*console.log("this.listeTaches",this.listeTaches);*/
     let GeneralObject : any = {};
-    	if( this.listeTaches != undefined && this.listeStories != undefined && this.listeProjets != undefined)
+    	if( projects != undefined && stories != undefined && tasks != undefined)
       {
-    		GeneralObject.projets = this.listeProjets;
+    		GeneralObject.projets = projects;
     		for(let p in GeneralObject.projets){
-          GeneralObject.projets[p].Stories = this.listeStories.filter(o => o.Fk_Project == GeneralObject.projets[p].ID);
+          GeneralObject.projets[p].Stories = stories.filter(o => o.Fk_Project == GeneralObject.projets[p].ID);
           for(let t in GeneralObject.projets[p].Stories){
-            GeneralObject.projets[p].Stories[t].Tasks = this.listeTaches.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
+            GeneralObject.projets[p].Stories[t].Tasks = tasks.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
           }
         }
 
