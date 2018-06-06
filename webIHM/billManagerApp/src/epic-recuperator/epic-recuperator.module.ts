@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http/';
 import { observable } from 'rxjs/internal/symbol/observable';
 import { Observable } from 'rxjs/internal/Observable';
 import { resetFakeAsyncZone } from '@angular/core/testing';
+import {LogMessageComponent} from '../log-message/log-message.component';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import { resetFakeAsyncZone } from '@angular/core/testing';
   declarations: []
 })
 export class EpicRecuperatorModule {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private log : LogMessageComponent) { }
 
   Angularget(configUrl) {
     return this.http.get(configUrl, {
@@ -29,6 +30,8 @@ export class EpicRecuperatorModule {
 
 
   getAllProjectsId(): Promise<any[]> {
+    this.log.setProcessViewverProperty();
+    this.log.setlogProcess('Getting all projects');
     return new Promise<any[]>((resolve, reject) => {
       this.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe((res: Array<any>) => {
         let projects = [];
@@ -44,6 +47,7 @@ export class EpicRecuperatorModule {
   }
 
   getAllEpics(myProjectsIds){ /* va parcourir tout les projets et récuperer les epics et les foutre dans un tableaux */
+    this.log.setlogProcess('Getting all epics');
     return new Promise<any[]>((resolve,reject) => {
       let epics;
 		  let epicsAdder = new Set();

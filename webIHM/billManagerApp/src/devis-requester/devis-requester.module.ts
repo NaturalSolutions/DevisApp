@@ -40,6 +40,7 @@ export class DevisRequesterModule {
 
   getProjectFromEpic(myProjects,RequestedEpic : any){
     let projectvalable = [];
+    this.log.setlogProcess("Getting project from requested epic");
     this.epic = RequestedEpic;
     let epicsAdder = new Set();
     let epicsArray;
@@ -76,6 +77,7 @@ export class DevisRequesterModule {
     }
   
     getProjectStories(projects) {
+    this.log.setlogProcess("Getting stories from project");
     return new Promise<any>((resolve,reject) => {
       let stories = [];
       let promises:Promise<any>[] = [];
@@ -125,6 +127,7 @@ export class DevisRequesterModule {
   }
  
     getTasks(storiesIds,projectIds,isFactu){
+      this.log.setlogProcess('Getting Tasks from stories');
       return new Promise<any>((resolve,reject) => {
         let tasks = [];
         let listeModifie = [];

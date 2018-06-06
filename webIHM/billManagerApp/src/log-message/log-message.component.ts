@@ -8,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class LogMessageComponent implements OnInit {
 
   private loaderState : boolean;
+  private processViewverState : boolean
   constructor() { 
     this.loaderState =  false;
+    this.processViewverState = false;
   }
 
   ngOnInit() {
@@ -33,6 +35,32 @@ export class LogMessageComponent implements OnInit {
     setTimeout(() => {
       infolog.style.visibility = "hidden";
     },2000);
+  }
+
+  setlogProcess(message : any){
+    let processLog = document.getElementById('consoleProcess');
+    let newMessage = document.createElement('p');
+    newMessage.innerHTML = message;
+    newMessage.style.color = "black";
+    newMessage.style.borderRadius = "15px";
+    newMessage.style.backgroundColor = "white";
+    newMessage.style.width = "70%";
+    newMessage.style.margin = "auto";
+    newMessage.style.padding = "5px";
+    newMessage.style.marginBottom = "10px";
+    newMessage.style.marginTop = "10px";
+    processLog.appendChild(newMessage);
+  }
+
+  setProcessViewverProperty(){
+    let process = document.getElementById('processState');
+    if(this.processViewverState == false){
+      process.style.visibility = "visible";
+      this.processViewverState =  true;
+    }else{
+      this.processViewverState = false;
+      process.style.visibility = "hidden";
+    }
   }
 
 }
