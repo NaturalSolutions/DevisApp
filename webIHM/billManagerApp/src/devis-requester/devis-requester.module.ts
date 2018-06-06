@@ -52,13 +52,10 @@ export class DevisRequesterModule {
             myCurrentProject = myProjects[idProjet];
             myCurrentProject.listeStories = [];
             projectvalable.push(myCurrentProject);
-            //$('#resultOption').append('<br><p>'+myProjectsIds[idProjet].name+'<p><br>');	
           }
         }			
       }
     }
-    //$('#projets').show(); TO DO AFFICHAGE 
-   // console.log("this.TransMuter",this.TransMuter);
     return projectvalable;
   }
   

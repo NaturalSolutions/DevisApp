@@ -87,18 +87,10 @@ export class TasksParserModule {
 								var regexParenth = /(\(|\))/gmi;
 								somme = somme.replace(regexParenth,"");
 								tasks[i].duree = somme.substr(0,somme.length-1);
-								// if(tasks[i].duree.trim().match(regexParenth)){
-								// 	tasks[i].duree = regexParenth.exec(tasks[i].duree.trim());
-								// 	tasks[i].duree = tasks[i].duree;  
-								// }
-
 								for(let ow in owners){
 									tasks[i].initials += owners[ow] +'+';	
 								}
 								tasks[i].initials = tasks[i].initials.substr(0,tasks[i].initials.length-1);
-								/*for(let du in tabDuree){
-									tasks[i].duree += tabDuree +',';	
-								}*/
 								if(realizedState == undefined || realizedState == null){
 								tasks[i].isBonnus = false;	
 								}else{
@@ -106,11 +98,7 @@ export class TasksParserModule {
 								}
 								tasksModified.push(tasks[i]);
 								cpt++;
-								/*for (var i in owners) {
-									tasks[i]. = _this.fillUserTab(ressource, owners[i], tabDuree[i], bonusState);
-								}*/
 							}
-							//this.description = this.description.trim().replace(regex, "");
 						} else {
 							tasks[i].duree = null;
 							alert('Probleme d\'estimation dans la tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id +'/tasks/' + tasks[i].id)
