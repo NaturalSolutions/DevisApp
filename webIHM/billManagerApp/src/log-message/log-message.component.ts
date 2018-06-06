@@ -63,4 +63,9 @@ export class LogMessageComponent implements OnInit {
     }
   }
 
+  hideProcessViewver(){
+    let process = document.getElementById('processState');
+    process.style.visibility = "hidden";
+  }
+
 }
