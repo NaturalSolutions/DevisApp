@@ -37,7 +37,7 @@ export class TransmuterModule {
 	  		for(let u in TaskObject){	
 		  		let finalObjects = {};
          	for(let i  in this.config.ConverterTasks){
-         		if(tasksStructure[this.config.ConverterTasks[i]] !== undefined && TaskObject[u][i] !== undefined){
+         		if(TaskObject[u][i] !== undefined){
          			finalObjects[this.config.ConverterTasks[i]] = TaskObject[u][i];      			
         		}      			
          	}	
@@ -59,10 +59,10 @@ export class TransmuterModule {
 		  this.Structurer.getStoriesStructure().then((res : any) => {
         	storyStructure = JSON.parse(res);      		
       		//Boucle sur object config
-			for(let u in StoryObject){
+			for(let u in StoryObject){   
         let finalObjects = {};
       			for(let i in this.config.ConverterStories){
-      				if(storyStructure[i] !== undefined && StoryObject[u][this.config.ConverterStories[i]] !== undefined){
+      				if(StoryObject[u][this.config.ConverterStories[i]] !== undefined){
       					finalObjects[i] = StoryObject[u][this.config.ConverterStories[i]];      			
       				}      			
       			}

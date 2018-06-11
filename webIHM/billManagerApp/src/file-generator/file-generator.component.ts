@@ -90,6 +90,10 @@ export class FileGeneratorComponent implements OnInit {
 
           for(let i in epics){
             let option = document.createElement("option");
+     
+     
+     
+     
             option.text = epics[i];
             selector.appendChild(option);
            }           
@@ -173,6 +177,7 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             this.myTransMuter.transmuteTasks(properTasks.Taches).then((taches) => {
                               let tachemodified = taches;
+                              console.log('transformed tâches',taches);
                               this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified);
                               console.log('j\'envoi !');
                             });
