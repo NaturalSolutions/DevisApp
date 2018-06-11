@@ -172,11 +172,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\BO\DevisElements.cs" />
-    <Compile Include="Models\BO\DevisProcess\DevisCalculator.cs" />
-    <Compile Include="Models\BO\DevisProcess\DevisFiller.cs" />
-    <Compile Include="Models\BO\DevisProcess\DevisSumManager.cs" />
+    <Compile Include="Models\BO\ProcessFiles\Calculator.cs" />
+    <Compile Include="Models\BO\ProcessFiles\FileFiller.cs" />
+    <Compile Include="Models\BO\ProcessFiles\SumManager.cs" />
     <Compile Include="Models\BO\FactuConstante.cs" />
-    <Compile Include="Models\BO\Process.cs" />
+    <Compile Include="Models\BO\ProcessCalcul.cs" />
     <Compile Include="Models\BO\ProcessBonus.cs" />
     <Compile Include="Models\BO\ProcessTotal.cs" />
     <Compile Include="Models\BO\GeneralObjectBO\GeneralObject.cs" />

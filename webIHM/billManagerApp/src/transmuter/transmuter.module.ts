@@ -28,11 +28,8 @@ export class TransmuterModule {
 
   public transmuteTasks(TaskObject){
     let finalListOfObjects = [];
-    return new Promise<any>((resolve,reject) => {
       console.log("transmuting tasks");
 		  let tasksStructure;
-		  this.Structurer.getTasksStructure().then((res : any) => {
-        tasksStructure = JSON.parse(res); 
         //Boucle sur object configConverterTasks
 	  		for(let u in TaskObject){	
 		  		let finalObjects = {};
@@ -44,21 +41,15 @@ export class TransmuterModule {
         	finalListOfObjects.push(finalObjects);
 	  		}
         this.listeTaches = finalListOfObjects;
-      }).then(() => {
-        resolve(finalListOfObjects);
-      })
-    });    	
+        return finalListOfObjects;
 	}
 
 	public transmuteStories(StoryObject){
     let finalListOfObjects = [];
     console.log('StoryObject', StoryObject)
-    return new Promise<any> ((resolve,reject) => {
       console.log("Transmuting Stories");
-		  let storyStructure;
-		  this.Structurer.getStoriesStructure().then((res : any) => {
-        	storyStructure = JSON.parse(res);      		
-      		//Boucle sur object config
+		  let storyStructure;  		
+      //Boucle sur object config
 			for(let u in StoryObject){   
         let finalObjects = {};
       			for(let i in this.config.ConverterStories){
@@ -69,35 +60,26 @@ export class TransmuterModule {
       	finalListOfObjects.push(finalObjects);	
 			}
 			this.listeStories = finalListOfObjects;
-      }).then(() =>{
-      resolve(finalListOfObjects);
-      })
-    })    
+      return finalListOfObjects;
 	}
 
 	public transmuteProjects(ProjectsObjects){
     //obj bdd
     let finalListOfObjects = [];
-    return new Promise<any>((resolve,reject) => {
-      console.log("Transmuting Projects");
+    console.log("Transmuting Projects");
     let projectStructure;
-		this.Structurer.getProjetStructure().then((res : any) => {
-        	projectStructure = JSON.parse(res);
-      		//Boucle sur object config
+    //Boucle sur object config
 			for(let u in ProjectsObjects){
 				let finalObjects = {};
       			for(let i  in this.config.ConverterProjet){
-      				if(projectStructure[i] !== undefined && ProjectsObjects[u][this.config.ConverterProjet[i]] !== undefined){
+      				if(ProjectsObjects[u][this.config.ConverterProjet[i]] !== undefined){
       					finalObjects[i] = ProjectsObjects[u][this.config.ConverterProjet[i]];      			
       				}      			
       			}
       			finalListOfObjects.push(finalObjects);	
 			}
       this.listeProjets = finalListOfObjects;
-        }).then(() => {
-          resolve(finalListOfObjects);
-        })
-    });
+      return finalListOfObjects;
 	}
 
 	public encapsulateObjects(projects,stories,tasks)

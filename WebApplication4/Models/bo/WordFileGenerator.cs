@@ -9,7 +9,7 @@ using Xceed.Words.NET;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.IO;
-using WebApplication4.Models.BO.DevisProcess;
+using WebApplication4.Models.BO.Process;
 
 
 namespace WebApplication4.Models.BO
@@ -53,7 +53,7 @@ namespace WebApplication4.Models.BO
         //    this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
         //}
 
-        public WordFileGenerator(GeneralObject obj,DevisSumManager sumManager,Devis devis, bool isFactu = false)
+        public WordFileGenerator(GeneralObject obj,SumManager sumManager,Devis devis, bool isFactu = false)
         {
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
@@ -114,7 +114,7 @@ namespace WebApplication4.Models.BO
             devis.Montant = infos.totalCumule;
         }
 
-          private void manageDevisTable(GeneralObject obj,DevisSumManager sumManager)
+          private void manageDevisTable(GeneralObject obj,SumManager sumManager)
           {
           Table tab = this.final.Tables[2];
 

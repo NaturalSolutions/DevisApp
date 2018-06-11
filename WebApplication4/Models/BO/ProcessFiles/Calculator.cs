@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.IO;
 
-namespace WebApplication4.Models.BO.DevisProcess
+namespace WebApplication4.Models.BO.Process
 {
-    public class DevisCalculator // Classe de calcul du devis a partir de l'objet general renvoyer par le controller Devis
+    public class Calculator // Classe de calcul du devis a partir de l'objet general renvoyer par le controller Devis
     {
         private DevisFacturationEntities db;
-        private DevisSumManager ResultSumManager;
+        private SumManager ResultSumManager;
         private GeneralObject genObject;
         private StreamWriter logFile;
 
@@ -97,10 +97,10 @@ namespace WebApplication4.Models.BO.DevisProcess
 
         }
 
-        public DevisCalculator(GeneralObject myGeneralObject)
+        public Calculator(GeneralObject myGeneralObject)
         {
             this.db = new DevisFacturationEntities();
-            this.ResultSumManager = new DevisSumManager();
+            this.ResultSumManager = new SumManager();
             this.genObject = myGeneralObject;
             DateTime longDate = DateTime.Now;
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -108,7 +108,7 @@ namespace WebApplication4.Models.BO.DevisProcess
             this.logFile = new StreamWriter(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month+ @"\Calcul.txt");
         }
 
-        public DevisSumManager CalculateDevis()
+        public SumManager CalculateDevis()
         {
            // this.logFile.Close();
             foreach (Projet p in this.genObject.projets)

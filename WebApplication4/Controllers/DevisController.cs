@@ -6,10 +6,11 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
-using WebApplication4.Models.BO.DevisProcess;
+using WebApplication4.Models.BO.ProcessFiles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Web.Http.Cors;
+using WebApplication4.Models.BO.Process;
 
 namespace WebApplication4.Controllers
 {
@@ -95,11 +96,11 @@ namespace WebApplication4.Controllers
                 var escouilles = genObjec_d.ToString();
                 GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
                 //GeneralObject genTest = CreateATestingContext();
-                DevisCalculator devisCalculator = new DevisCalculator(newGenObject);
+                Calculator devisCalculator = new Calculator(newGenObject);
                 //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
-                DevisSumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
+                SumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
                 Devis devis = new Devis();
-                DevisFiller filler = new DevisFiller(devis,false,resultFromcallCalculator,newGenObject);
+                FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
 
                 newGenObject.SaveToDb(false,devis);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);

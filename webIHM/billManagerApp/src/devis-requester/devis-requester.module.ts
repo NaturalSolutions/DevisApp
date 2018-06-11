@@ -196,8 +196,8 @@ export class DevisRequesterModule {
           let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?accepted_after=" + correctedDate + "&accepted_before=" + nowDate.toISOString())
           .toPromise().then((res : any) => {            
             for(let u in res){
+              let stringLabels : string = "  " ;
               let myCurrentStory : any;
-              let stringLabels = "";
               myCurrentStory = res[u];
               if(myCurrentStory.story_type.toLowerCase() != 'release'){
                 myCurrentStory.listeTaches = new Array();
@@ -210,21 +210,28 @@ export class DevisRequesterModule {
 
                 for(let o in myCurrentStory.labels){
                   if(myCurrentStory.labels[o] != undefined){
-                    stringLabels += myCurrentStory.labels[o].name + ";";
+                    if(myCurrentStory.labels[o].name.trim().toLowerCase() == 'bonus'){
+                      myCurrentStory.Bonus = true;
+                    }                    
+                    stringLabels += myCurrentStory.labels[o].name + " ; ";
                     if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
-                      myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                      myCurrentStory.story_type = myCurrentStory.labels[o].name;                      
                       if(myCurrentStory.labels[o].name == "amo"){
                         myCurrentStory.AMO = true;
-                      }                    
+                      }                                       
                     }                 
                     myCurrentStory.listeTaches = [];             
                     myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString(); 
                     if(myCurrentStory.AMO == undefined){
                       myCurrentStory.AMO = false;
-                    }  
+                    } 
+                    else if(myCurrentStory.Bonus == undefined || myCurrentStory.Bonus == null){
+                      myCurrentStory.Bonus = false;
+                    }   
                   }                  
                 }
                 myCurrentStory.labels = stringLabels;
+                stringLabels = " ";
               }
               
             }

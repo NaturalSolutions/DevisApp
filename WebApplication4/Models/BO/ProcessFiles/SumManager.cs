@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApplication4.Models.BO.DevisProcess
+namespace WebApplication4.Models.BO.Process
 {
-    public class DevisSumManager // objet renvoyer par le DevisCalculator 
+    public class SumManager // objet renvoyer par le DevisCalculator 
     {
         private Dictionary<string, decimal?> projectCost; // Dictionnaire qui associe le nom du projet a son cout
-        public DevisSumManager()
+        public SumManager()
         {
             this.projectCost = new Dictionary<string, decimal?>();
         }

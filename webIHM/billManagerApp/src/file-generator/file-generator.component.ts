@@ -106,24 +106,21 @@ export class FileGeneratorComponent implements OnInit {
             if(type.toLowerCase() == "devis")    
             {
               let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
-              this.myTransMuter.transmuteProjects(projets).then((zeubi) => {
+              let zeubi = this.myTransMuter.transmuteProjects(projets);
                 let transformedProject = zeubi;
                 this.devisRequester.getProjectStories(projets).then((rezzz) => {
                   console.log(rezzz); 
-                  this.myTransMuter.transmuteStories(rezzz.stories).then((race) => {
+                  let race = this.myTransMuter.transmuteStories(rezzz.stories);
                     let transformedStories = race;
                     console.log("transformedStories",transformedStories);
                     this.devisRequester.getTasks(rezzz.stories,projects,false).then((rez) => {
                       console.log(rez.Taches);
-                      this.myTransMuter.transmuteTasks(rez.Taches).then((couilles) => {
+                      let couilles = this.myTransMuter.transmuteTasks(rez.Taches)
                         let transformedTasks = couilles;
                         this.myTransMuter.encapsulateObjects(transformedProject,transformedStories,transformedTasks);
                         console.log('envoir en cours');
-                      });
-                    });
-                  })                  
+                    });              
                 })
-              });
               
             }else if(type.toLowerCase() == "facture"){
               let monthPicker = document.createElement('input');
@@ -142,8 +139,8 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.onchange = () => {
                 // console.log('inthepicker', this)
                 let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
-                this.myTransMuter.transmuteProjects(projets).then((projetM) => {                  
-                  let projetmidified = projetM;
+                console.log('projets',projets);
+                let projetmidified = this.myTransMuter.transmuteProjects(projets);                 
                   this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets,selector.value),monthPicker.value).then((resFactu) => {  
                   this.myTransMuter.transmuteStories(resFactu);     
                 }).catch((treatmeantStoriesWithoutEpics) => {               
@@ -169,28 +166,25 @@ export class FileGeneratorComponent implements OnInit {
                           }
                         }
                       }
-                      this.myTransMuter.transmuteStories(ProperStories).then((stories) => {
+                      let stories = this.myTransMuter.transmuteStories(ProperStories);
                         let storiesmodified = stories;
                         console.log("TRANSMUTED STORIES",stories);
                         if(ProperStories.length > 0){                      
                           this.devisRequester.getTasks(ProperStories,projects,true).then((properTasks) => {
                             console.log("properTasks",properTasks.Taches);
-                            this.myTransMuter.transmuteTasks(properTasks.Taches).then((taches) => {
+                            let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
                               console.log('transformed tâches',taches);
                               this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified);
                               console.log('j\'envoi !');
-                            });
                           });
-                        }
-                      })                      
+                        }                    
                     });
                   }
                   document.getElementById('stop').onclick = () => {
                     window.location.reload();
                   }
-                });
-                });                                
+                });                               
               }              
             }
            };
