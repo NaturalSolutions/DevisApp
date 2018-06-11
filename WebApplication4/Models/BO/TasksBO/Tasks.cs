@@ -15,6 +15,8 @@ namespace WebApplication4.Models
         public string Initials { get; set; }
         public string Duration { get; set; }
         public string Fk_Ressource_Initials { get; set; }
+        public bool ferie { get; set; }
+        public bool weekend { get; set; }
 
         public virtual Stories_d Stories_d { get; set; }
 
@@ -49,14 +51,6 @@ namespace WebApplication4.Models
 
         public MasterTasks()
         {
-            //  this.isMultiProgramming = false;
-            //  if(this.Duration.IndexOf('+') != -1 && this.Duration.IndexOf('+') != 0 && this.Initials.IndexOf('+') != -1 && this.Initials.IndexOf('+') != 0)
-            //  {
-            //      this.isMultiProgramming = true;
-            //  }else
-            //  {
-            //      this.isMultiProgramming = false;
-            //  }
         }
 
         public object getStructure()

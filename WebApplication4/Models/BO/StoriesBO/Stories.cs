@@ -60,7 +60,7 @@ namespace WebApplication4.Models.BO
             this.URL = url;
             this.Epic = epic;
             this.isAMO = isAmo;
-            this.Fk_Project = fkprojet;
+            this.Fk_Project = fkprojet;            
             this.Tasks = new List<MasterTasks> ();
             this.structure = new Dictionary<string, string>();
             //this.structure.Add("ID", this.ID.GetType().ToString().Split(',')[0].Replace("System.", "").Replace("32", "").Replace("64", "").Trim());
