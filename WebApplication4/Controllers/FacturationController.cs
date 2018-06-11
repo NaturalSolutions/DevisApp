@@ -8,6 +8,8 @@ using Newtonsoft.Json;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
 using System.Web.Http.Cors;
+using WebApplication4.Models.BO.Process;
+using WebApplication4.Models.BO.ProcessFiles;
 
 namespace WebApplication4.Controllers
 {
@@ -57,24 +59,23 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Facturation
-        public void Post([FromBody] GeneralObject genObject)
+        public HttpResponseMessage Post(object genObjec_f)
         {
-            try
-            {
-                if (genObject != null)
-                {
-                   // pas trop vite garçon this.db.Facturation.Add(genObject); // Ajout d'un nouvel objet dans la table
-                   // this.db.SaveChanges(); // mise a jour de la table
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
-                }
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
-            }
+            var escouilles = genObjec_f.ToString();
+            GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+            Calculator devisCalculator = new Calculator(newGenObject);
+            //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
+            SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
+            Devis devis = new Devis();
+            FileFiller filler = new FileFiller(devis, false, resultFromcallCalculator, newGenObject);
+
+            newGenObject.SaveToDb(false, devis);
+            return new HttpResponseMessage(HttpStatusCode.Accepted);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si un attribut dans l'objet est nulle
+            //}
         }
 
         // PUT: api/Facturation/5
@@ -122,29 +123,29 @@ namespace WebApplication4.Controllers
             }
         }
 
-        [ActionName("factu")]
-        public string GetFactu(ProcessTotal laFactu)
-        {
-            laFactu.updateValue();
-            return JsonConvert.SerializeObject(laFactu);
-        }
+        //[ActionName("factu")]
+        //public string GetFactu(ProcessTotal laFactu)
+        //{
+        //    laFactu.updateValue();
+        //    return JsonConvert.SerializeObject(laFactu);
+        //}
 
-        [ActionName("postfactu")]
-        public string PostFactu(ProcessTotal laFactu)
-        {
-            laFactu.updateValue();
-            return JsonConvert.SerializeObject(laFactu);
-        }
+        //[ActionName("postfactu")]
+        //public string PostFactu(ProcessTotal laFactu)
+        //{
+        //    laFactu.updateValue();
+        //    return JsonConvert.SerializeObject(laFactu);
+        //}
 
-        [ActionName("postfactuWBonus")]
-        public string PostFactuWBOnus(ProcessBonus lesFactus)
-        {
-            //FacturationWBonus result = new FacturationWBonus();
-            if (lesFactus != null)
-            {
-                lesFactus.updateValue();
-            }
-            return JsonConvert.SerializeObject(lesFactus);
-        }
+        //[ActionName("postfactuWBonus")]
+        //public string PostFactuWBOnus(ProcessBonus lesFactus)
+        //{
+        //    //FacturationWBonus result = new FacturationWBonus();
+        //    if (lesFactus != null)
+        //    {
+        //        lesFactus.updateValue();
+        //    }
+        //    return JsonConvert.SerializeObject(lesFactus);
+        //}
     }
 }

@@ -143,7 +143,7 @@ namespace WebApplication4.Models.BO
                         }
                         toAdd.Cells[1].InsertList(bulletedList);
                         //Cout
-                        toAdd.Cells[2].InsertParagraph(sumManager.getProjectCost(projet.Nom).ToString() + "€");
+                        toAdd.Cells[2].InsertParagraph((decimal)sumManager.getProjectCost(projet.Nom).ToString() + "€");
                     }
                 }
                 this.tableSubTotal += (decimal) sumManager.getProjectCost(projet.Nom);
@@ -152,6 +152,7 @@ namespace WebApplication4.Models.BO
 
             if (this.isFactu)
             {
+                Dictionary<string, decimal?> truc = (Dictionary<string, decimal?>)sumManager.getProjectCost("test");
                // Table tabBonus = this.final.Tables[3];
                // Table tabUnfinished = this.final.Tables[4];
                // Row ToCopy = tab.Rows[1];

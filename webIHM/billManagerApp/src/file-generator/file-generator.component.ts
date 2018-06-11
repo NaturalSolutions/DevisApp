@@ -117,7 +117,7 @@ export class FileGeneratorComponent implements OnInit {
                       console.log(rez.Taches);
                       let couilles = this.myTransMuter.transmuteTasks(rez.Taches)
                         let transformedTasks = couilles;
-                        this.myTransMuter.encapsulateObjects(transformedProject,transformedStories,transformedTasks);
+                        this.myTransMuter.encapsulateObjects(transformedProject,transformedStories,transformedTasks,false);
                         console.log('envoir en cours');
                     });              
                 })
@@ -175,7 +175,7 @@ export class FileGeneratorComponent implements OnInit {
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
                               console.log('transformed tâches',taches);
-                              this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified);
+                              this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true);
                               console.log('j\'envoi !');
                           });
                         }                    

@@ -82,7 +82,7 @@ export class TransmuterModule {
       return finalListOfObjects;
 	}
 
-	public encapsulateObjects(projects,stories,tasks)
+	public encapsulateObjects(projects,stories,tasks,isFactu)
   {
     let GeneralObject : any = {};
     	if( projects != undefined && stories != undefined && tasks != undefined)
@@ -94,7 +94,7 @@ export class TransmuterModule {
             GeneralObject.projets[p].Stories[t].Tasks = tasks.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
           }
         }
-      this.sendToServer(GeneralObject);
+      this.sendToServer(GeneralObject,isFactu);
     	}
   }
 
@@ -108,8 +108,20 @@ export class TransmuterModule {
     });
   }
 
-  public sendToServer(GeneralObject){
-    console.log("sending object : ", GeneralObject);
+  public sendToServer(GeneralObject,isFactu){
+    if(isFactu){
+      console.log("sending object : ", GeneralObject);
+    this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
+      this.alerter.setlogMessage("Process Terminé :)");
+      console.log("terminé ! ");
+      this.alerter.setLoadingProperty();
+    }).catch((error) => {
+      this.alerter.setlogMessage("Il y a eu une erreur");
+      this.alerter.setLoadingProperty();
+      console.log("Il y a eu une erreur");
+    });
+    }else{
+      console.log("sending object : ", GeneralObject);
     this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
       this.alerter.setlogMessage("Process Terminé :)");
       console.log("terminé ! ");
@@ -119,5 +131,6 @@ export class TransmuterModule {
       this.alerter.setLoadingProperty();
       console.log("Il y a eu une erreur");
     });
+    }
   }
  }

@@ -13,23 +13,29 @@ namespace WebApplication4.Models.BO.Process
             this.projectCost = new Dictionary<string, decimal?>();
         }
        
-        public decimal? getProjectCost(string key)
+        public dynamic getProjectCost(string key, bool isFactu = false)
         {
-            decimal? result;
-            if(this.projectCost != null && key != null)
+            dynamic result;
+            if (!isFactu)
             {
-                if (this.projectCost.ContainsKey(key))
+                if(this.projectCost != null && key != null)
                 {
-                    result = this.projectCost[key];
+                    if (this.projectCost.ContainsKey(key))
+                    {
+                        result = this.projectCost[key];
+                    }
+                    else
+                    {
+                        result = -1;
+                    }
                 }
                 else
                 {
-                    result = -1;
+                    result = -2;
                 }
-            }
-            else
+            }else
             {
-                result = -2;
+                result = new Dictionary<string, decimal?>();
             }
             return result;
         }
