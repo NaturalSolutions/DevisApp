@@ -25,6 +25,8 @@ namespace WebApplication4.Models.BO
         public string isAMO {get; set; }
         public Nullable<long> Fk_Project {get; set; }
 
+        public bool nonEffetue;
+
         public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MasterTasks> Tasks { get; set; }

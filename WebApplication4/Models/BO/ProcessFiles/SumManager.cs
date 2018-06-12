@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using WebApplication4.Models.BO.ProcessFiles;
 
 namespace WebApplication4.Models.BO.Process
 {
     public class SumManager // objet renvoyer par le DevisCalculator 
     {
         private Dictionary<string, decimal?> projectCost; // Dictionnaire qui associe le nom du projet a son cout
+        private Dictionary<string, FactuStoriesTabs> factuProjectCost; // Dictionnaire qui associe le nom du projet à un objet contenant les stories bonus les stories non réalisé et les stories réalisé
         public SumManager()
         {
+            this.factuProjectCost = new Dictionary<string, FactuStoriesTabs>();
             this.projectCost = new Dictionary<string, decimal?>();
         }
        
@@ -35,7 +38,7 @@ namespace WebApplication4.Models.BO.Process
                 }
             }else
             {
-                result = new Dictionary<string, decimal?>();
+                result = new FactuStoriesTabs();
             }
             return result;
         }
@@ -44,34 +47,9 @@ namespace WebApplication4.Models.BO.Process
             this.projectCost.Add(projectName, priceCash);
         }
 
-        private decimal? supportCost; // cout du support
-        public decimal? getSupportCost()
+        public void setProjectCostfactu(string projectName, FactuStoriesTabs priceCash)
         {
-            return this.supportCost;
-        }
-        public void setSupport(decimal? supportValue)
-        {
-            this.supportCost = supportValue;
-        }
-
-        private decimal? projectDirectionCost; // cout de la direction du projet
-        public decimal? getProjectDirectionCost()
-        {
-            return this.projectDirectionCost;
-        }
-        public void setProjectDirectionCost(decimal? directionCost)
-        {
-            this.projectDirectionCost = directionCost;
-        }
-
-        private decimal? totalAmout; // Montant total du devis
-        public decimal? getTotalAmout()
-        {
-            return this.projectDirectionCost;
-        }
-        public void setTotalAmout (decimal? directionCost)
-        {
-            this.projectDirectionCost = directionCost;
-        }
+            this.factuProjectCost.Add(projectName, priceCash);
+        }        
     }
 }

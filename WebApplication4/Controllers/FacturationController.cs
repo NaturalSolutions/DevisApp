@@ -63,6 +63,22 @@ namespace WebApplication4.Controllers
         {
             var escouilles = genObjec_f.ToString();
             GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+            foreach(Projet p in newGenObject.projets)
+            {
+                p.découpageStories.Add("B", new List<MasterStories>());
+                p.découpageStories.Add("PR", new List<MasterStories>());
+                p.découpageStories.Add("PNR", new List<MasterStories>());
+                foreach(MasterStories s in p.Stories)
+                {
+                    if ((bool)s.Bonus) {
+                        p.découpageStories["B"].Add(s);
+                    }else if(s.nonEffetue){
+                        p.découpageStories["PNR"].Add(s);
+                    }else{
+                        p.découpageStories["PR"].Add(s);
+                    }
+                }
+            }
             Calculator devisCalculator = new Calculator(newGenObject);
             //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
             SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
