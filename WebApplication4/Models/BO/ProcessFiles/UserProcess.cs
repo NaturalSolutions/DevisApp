@@ -7,6 +7,7 @@ namespace WebApplication4.Models
 {
     public partial class UserProcess 
     {
+        // mes couilles
         public string name;
         public bool isAmo;
         protected decimal final;
