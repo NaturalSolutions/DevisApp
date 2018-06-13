@@ -9,8 +9,15 @@ namespace WebApplication4.Models.BO
     {
         public List<Projet> projets {get; set;}
 
-        public void SaveToDb(bool isFactu,Devis devis)
+        public void SaveToDb(bool isFactu,dynamic fichier)
         {
+            if (isFactu)
+            {
+                fichier = (Devis)fichier;
+            }else
+            {
+                fichier = (Facturation)fichier;
+            }
             switch (isFactu)
             {
                 case false:
@@ -22,7 +29,7 @@ namespace WebApplication4.Models.BO
                             Stories_d stories_d = new Stories_d(s);
                             Stories_Devis stories_Devis = new Stories_Devis();
                             stories_d.Fk_Project = p.Id;
-                            stories_Devis.FK_Devis = devis.ID;                            
+                            stories_Devis.FK_Devis = fichier.ID;                            
                             stories_d.save();
                             stories_Devis.FK_Stories_d = stories_d.ID;
                             DevisFacturationEntities db = new DevisFacturationEntities();

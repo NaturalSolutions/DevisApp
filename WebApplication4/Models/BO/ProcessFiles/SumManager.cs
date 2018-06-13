@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using WebApplication4.Models.BO.ProcessFiles;
 
-namespace WebApplication4.Models.BO.Process
+namespace WebApplication4.Models.BO.ProcessFiles
 {
     public class SumManager // objet renvoyer par le DevisCalculator 
     {
@@ -38,7 +38,21 @@ namespace WebApplication4.Models.BO.Process
                 }
             }else
             {
-                result = new FactuStoriesTabs();
+                if (this.projectCost != null && key != null)
+                {
+                    if (this.factuProjectCost.ContainsKey(key))
+                    {
+                        result = this.factuProjectCost[key];
+                    }
+                    else
+                    {
+                        result = -1;
+                    }
+                }
+                else
+                {
+                    result = -2;
+                }
             }
             return result;
         }

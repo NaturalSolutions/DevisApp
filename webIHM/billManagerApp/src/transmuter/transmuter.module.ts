@@ -111,7 +111,7 @@ export class TransmuterModule {
   public sendToServer(GeneralObject,isFactu){
     if(isFactu){
       console.log("sending object : ", GeneralObject);
-    this.Angularget('http://localhost:19369/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
+    this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
       this.alerter.setlogMessage("Process Terminé :)");
       console.log("terminé ! ");
       this.alerter.setLoadingProperty();
@@ -122,7 +122,7 @@ export class TransmuterModule {
     });
     }else{
       console.log("sending object : ", GeneralObject);
-    this.Angularget('http://localhost:19369/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
+    this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
       this.alerter.setlogMessage("Process Terminé :)");
       console.log("terminé ! ");
       this.alerter.setLoadingProperty();

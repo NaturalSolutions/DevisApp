@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.IO;
 
-namespace WebApplication4.Models.BO.Process
+namespace WebApplication4.Models.BO.ProcessFiles
 {
     public class Calculator // Classe de calcul du devis a partir de l'objet general renvoyer par le controller Devis
     {
@@ -192,12 +192,12 @@ namespace WebApplication4.Models.BO.Process
             foreach (Projet p in this.genObject.projets)
             {
                 //  this.logFile.WriteLine(p.Nom + '\n' + '\r');
-                decimal? projectCost = 0;             
+                FactuStoriesTabs projectCost = new FactuStoriesTabs();
                 // this.logFile.WriteLine('\r');
-                projectCost += calculateStoriesCostfactu(this.manageStories(p.découpageStories["B"])); // Ajout du cout de la story au cout du projet
-                projectCost += calculateStoriesCostfactu(this.manageStories(p.découpageStories["PNR"])); // Ajout du cout de la story au cout du projet
-                projectCost += calculateStoriesCostfactu(this.manageStories(p.découpageStories["PR"])); // Ajout du cout de la story au cout du projet
-                ResultSumManager.setProjectCost(p.Nom, projectCost);
+                projectCost.setB(calculateStoriesCostfactu(this.manageStories(p.découpageStories["B"]))); // Ajout du cout de la story au cout du projet
+                projectCost.setPN(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PNR"]))); // Ajout du cout de la story au cout du projet
+                projectCost.setPR(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PR"]))); // Ajout du cout de la story au cout du projet
+                ResultSumManager.setProjectCostfactu(p.Nom, projectCost);
             }
             //  this.logFile.WriteLine('\r');
             //  this.logFile.Close();

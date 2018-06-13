@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApplication4.Models.BO.Process;
+using WebApplication4.Models.BO.ProcessFiles;
 
 namespace WebApplication4.Models.BO.ProcessFiles
 {
     public class FileFiller
     {
         private WordFileGenerator generator;
-        public FileFiller(Devis devis,bool isFactu, SumManager sumManager,GeneralObject genObject)
+        public FileFiller(dynamic fichier,bool isFactu, SumManager sumManager,GeneralObject genObject)
         {
-            this.generator = new WordFileGenerator(genObject,sumManager,devis,isFactu);
+            this.generator = new WordFileGenerator(genObject,sumManager,fichier,isFactu);
         }
     }
 }

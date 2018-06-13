@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
 using System.Web.Http.Cors;
-using WebApplication4.Models.BO.Process;
 using WebApplication4.Models.BO.ProcessFiles;
 
 namespace WebApplication4.Controllers
@@ -82,10 +81,10 @@ namespace WebApplication4.Controllers
             Calculator devisCalculator = new Calculator(newGenObject);
             //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
             SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
-            Devis devis = new Devis();
-            FileFiller filler = new FileFiller(devis, false, resultFromcallCalculator, newGenObject);
+            Facturation facturation = new Facturation();
+            FileFiller filler = new FileFiller(facturation, true, resultFromcallCalculator, newGenObject);
 
-            newGenObject.SaveToDb(false, devis);
+            newGenObject.SaveToDb(false, facturation);
             return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
