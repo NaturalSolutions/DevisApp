@@ -11,7 +11,7 @@ namespace WebApplication4.Models
         private DevisFacturationEntities db = new DevisFacturationEntities();
         public List<MasterStories> Stories { get; set; }
         public Dictionary<string, string> structure;
-        public Dictionary<string, List<MasterStories>> découpageStories;
+        public Dictionary<string, List<MasterStories>> découpageStories =  new Dictionary<string, List<MasterStories>>();
 
         
 

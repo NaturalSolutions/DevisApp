@@ -16,7 +16,7 @@
     <RootNamespace>WebApplication4</RootNamespace>
     <AssemblyName>WebApplication4</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>false</UseIISExpress>
+    <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -151,7 +152,9 @@
     </Content>
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -173,11 +176,13 @@
     </Compile>
     <Compile Include="Models\BO\DevisElements.cs" />
     <Compile Include="Models\BO\ProcessFiles\Calculator.cs" />
+    <Compile Include="Models\BO\ProcessFiles\FactuStoriesTabs.cs" />
     <Compile Include="Models\BO\ProcessFiles\FileFiller.cs" />
     <Compile Include="Models\BO\ProcessFiles\SumManager.cs" />
     <Compile Include="Models\BO\FactuConstante.cs" />
     <Compile Include="Models\BO\ProcessCalcul.cs" />
     <Compile Include="Models\BO\ProcessBonus.cs" />
+    <Compile Include="Models\BO\ProcessFiles\UserProcess.cs" />
     <Compile Include="Models\BO\ProcessTotal.cs" />
     <Compile Include="Models\BO\GeneralObjectBO\GeneralObject.cs" />
     <Compile Include="Models\BO\ProjetBO\Projet.cs" />
@@ -282,9 +287,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>19369</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/DevisAPI</IISUrl>
-          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
-          <IISAppRootUrl>http://localhost/DevisAPI</IISAppRootUrl>
+          <IISUrl>http://localhost:19369/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

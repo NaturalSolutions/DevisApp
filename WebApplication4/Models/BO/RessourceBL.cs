@@ -39,7 +39,7 @@ namespace WebApplication4.Models
             return result;
         }
 
-        public decimal getCurrentTarification(string type)
+        public decimal getCurrentTarification(bool type)
         {
             Tarification result;
             decimal tarResult;
@@ -47,51 +47,50 @@ namespace WebApplication4.Models
             {
                 List<Tarification_Ressource> test = cont.Tarification_Ressource.Where(o => o.FK_Ressource == this.ID).ToList();
                 bool boolFullAmo = this.isFullAMO();
-                switch (type.ToLower())
+                if (type)
                 {
-                    case "amo":
-                        if (boolFullAmo)
+                    if (boolFullAmo)
+                    {
+                        result = test.OrderByDescending(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
+                        tarResult = result.Tar5;
+                    }
+                    else
+                    {
+                        if (this.hasAmo())
                         {
-                            result = test.OrderByDescending(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
+                            result = test.Where(o => o.Tarification.IsAmo == true).Select(o => o.Tarification).FirstOrDefault();
                             tarResult = result.Tar5;
                         }
                         else
                         {
-                            if (this.hasAmo())
+                            if (this.Niveau == 3)
                             {
-                                result = test.Where(o => o.Tarification.IsAmo == true).Select(o => o.Tarification).FirstOrDefault();
-                                tarResult = result.Tar5;
+                                result = test.OrderByDescending(o => o.Tarification.Tar3).Select(o => o.Tarification).FirstOrDefault();
+                                tarResult = (decimal)result.Tar3;
                             }
                             else
                             {
-                                if (this.Niveau == 3)
-                                {
-                                    result = test.OrderByDescending(o => o.Tarification.Tar3).Select(o => o.Tarification).FirstOrDefault();
-                                    tarResult = (decimal) result.Tar3;
-                                }
-                                else
-                                {
-                                    result = test.OrderByDescending(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
-                                    tarResult = result.Tar5;
-                                }
+                                result = test.OrderByDescending(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
+                                tarResult = result.Tar5;
                             }
                         }
-                        break;
-                    default:
-                        if (boolFullAmo)
-                        {
-                            result = test.OrderBy(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
-                            tarResult = result.Tar5;
-                        }
-                        else
-                        {                               
-                            result = test.Where(o => o.Tarification.IsAmo == false).Select(o => o.Tarification).FirstOrDefault();
-                            tarResult = this.Niveau == 3 ? (decimal) result.Tar3 : result.Tar5;
-                        }
-                        break;
+                    }
                 }
-                return tarResult;
-            }
+                else
+                {
+                    if (boolFullAmo)
+                    {
+                        result = test.OrderBy(o => o.Tarification.Tar5).Select(o => o.Tarification).FirstOrDefault();
+                        tarResult = result.Tar5;
+                    }
+                    else
+                    {
+                        result = test.Where(o => o.Tarification.IsAmo == false).Select(o => o.Tarification).FirstOrDefault();
+                        tarResult = this.Niveau == 3 ? (decimal)result.Tar3 : result.Tar5;
+                    }
+                }
+             }
+            return tarResult;
         }
     }
 }

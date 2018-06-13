@@ -152,8 +152,10 @@ export class FileGeneratorComponent implements OnInit {
                     for(let z in  treatmeantStoriesWithoutEpics.stories){
                       if(treatmeantStoriesWithoutEpics.stories[z].labels != undefined){                      
                         if(treatmeantStoriesWithoutEpics.stories[z].labels.includes('bonus')){
+                          treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
                           ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
                         }else{
+                          treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
                           ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
                         }
                       }
@@ -162,6 +164,8 @@ export class FileGeneratorComponent implements OnInit {
                       for(let cpt in e){
                         if(e[cpt].labels != undefined){
                           if(e[cpt].current_state != "accepted"){
+                            console.log("e[cpt]",e[cpt]);
+                            e[cpt].nonEffetue = true;
                             ProperStories.push(e[cpt]);
                           }
                         }
