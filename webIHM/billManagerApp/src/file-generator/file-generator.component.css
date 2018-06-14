@@ -6,12 +6,14 @@
     margin: auto;
     padding: 2%;
     border-radius: 15px;
+    will-change: box-shadow;
 }
 
 #fic:hover{
     -webkit-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
+    transition: 1s ease-in-out;
 }
 
 #devis{

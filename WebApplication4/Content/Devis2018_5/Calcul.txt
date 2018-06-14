@@ -1,0 +1,862 @@
+﻿Appli Repro
+
+
+	Implémentation d'une fonction qui permet de calculer le "range" pour l'ensemble des couples proposés (le range reflète le classement effectué par les boucles while de l'outil ACCESS) en se basant sur les données génétiques    |  type : (amo)
+
+Conception de l'algorithme.-2 MV
+
+Implémentation de l'algorithme en python.-1 MV
+
+Test de l'algorithme.-1 MV
+
+
+	Réunion sur le workflow complet de l'outil repro ACCESS, démonstrations, processus    |  type : (amo)
+
+Réunion sur le workflow complet de l'outil repro ACCESS, démonstrations, processus.-6+6+6 MV+AR+TL
+
+
+	Analyse de l'architecture de l'outil actuel    |  type : (amo)
+
+Analyse de l'architecture de l'outil actuel.-3 MV
+
+
+	Analyse des règles et classification pour la transposition    |  type : (amo)
+
+Analyse des règles et classification pour la transposition.-4 MV
+
+
+	Analyse du code VB de l'outil ACCESS    |  type : (amo)
+
+Etude du code VB.-3 MV
+
+Etude de la boucle de sélection des appariements et réflexion autour de la transposition web.-4 MV
+
+
+	Réflexion autour de la conception du moteur de règles    |  type : (amo)
+
+Réflexion autour de la conception du moteur de règles.-3+6+3+3 MV+TP+TL+VB
+
+Revue des règles pour la recherche des cycles d'appels.-2+4+1 MV+TP+VB
+
+
+	Définition de la fonction d'utilité (périmètre, contexte)    |  type : (amo)
+
+Définition de la fonction d'utilité (périmètre, contexte).-1+1 VB+MV
+
+
+	Revue des maquettes Appli Repro pour la partie data entry avec dbsupport    |  type : (des)
+
+Revue des maquettes Appli Repro pour la partie data entry avec dbsupport.-2+2 AR+MV
+
+
+	Analyse de la documentation de l'outil ACCESS et définition d'une stratégie de gestion des différentes règles.    |  type : (amo)
+
+Analyse de la documentation de l'outil ACCESS et définition d'une stratégie de gestion des différentes règles.-10 TP
+
+
+MV  |  Valeur FE    0 x 680 = 0
+
+MV  |  Valeur WE    0 x 680 = 0
+
+MV  |  Valeur WEFE   0 x 680 = 0
+
+MV  |  Valeur Normal   4,50 x 680 = 3060,00
+
+
+
+AR  |  Valeur FE    0 x 610 = 0
+
+AR  |  Valeur WE    0 x 610 = 0
+
+AR  |  Valeur WEFE   0 x 610 = 0
+
+AR  |  Valeur Normal   1 x 610 = 610
+
+
+
+TL  |  Valeur FE    0 x 610 = 0
+
+TL  |  Valeur WE    0 x 610 = 0
+
+TL  |  Valeur WEFE   0 x 610 = 0
+
+TL  |  Valeur Normal   1,50 x 610 = 915,00
+
+
+
+TP  |  Valeur FE    0 x 610 = 0
+
+TP  |  Valeur WE    0 x 610 = 0
+
+TP  |  Valeur WEFE   0 x 610 = 0
+
+TP  |  Valeur Normal   3 x 610 = 1830
+
+
+
+VB  |  Valeur FE    0 x 680 = 0
+
+VB  |  Valeur WE    0 x 680 = 0
+
+VB  |  Valeur WEFE   0 x 680 = 0
+
+VB  |  Valeur Normal   1 x 680 = 680
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+MV  |  Valeur FE    0 x 660 = 0
+
+MV  |  Valeur WE    0 x 660 = 0
+
+MV  |  Valeur WEFE   0 x 660 = 0
+
+MV  |  Valeur Normal   0,50 x 660 = 330,00
+
+
+
+Balance_RFID
+
+
+	Démonstration des nouveaux écrans pour la balance (7 secteurs+Ink) à dbsupport et  comparaison des solutions    |  type : (dev)
+
+Démonstration des nouveaux écrans pour la balance (7 secteurs & Ink) à dbsupport.-1 CL
+
+
+CL  |  Valeur FE    0 x 440 = 0
+
+CL  |  Valeur WE    0 x 440 = 0
+
+CL  |  Valeur WEFE   0 x 440 = 0
+
+CL  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+	Montage et tests du nouveau matériel    |  type : (dev)
+
+Assemblage et test du nouveau matériel.-21 CL
+
+Programmation d'affichage pour les nouveaux écrans.-7 CL
+
+Fixation du lecteur RFID sur le socle balance.-3 CL
+
+Aménagement du conteneur pour protection de l'électronique système.-2 CL
+
+
+	Recherche d'une solution optimisée de communication entre le RaspberryPi et un PC de saisie pour récupérer le fichier de pesée.    |  type : (dev)
+
+Tests avec un cable RJ45.-4 CL
+
+Tests avec un branchement USB.-4 CL
+
+
+CL  |  Valeur FE    0 x 440 = 0
+
+CL  |  Valeur WE    0 x 440 = 0
+
+CL  |  Valeur WEFE   0 x 440 = 0
+
+CL  |  Valeur Normal   6 x 440 = 2640
+
+
+
+eCollection
+
+
+	Correction du système d'import    |  type : (dev)
+
+Les imports fonctionnent de nouveau avec les headers et la donnée liée aux positions des samples a été retirée.-4 DL
+
+
+	Traitement des retours suite à la mise en production, partie 2    |  type : (dev)
+
+La date de création d'un sample est désormais référencée dans la grille des samples.-3 DL
+
+Les inputs numériques n'affichent plus "0" par défaut.-3 DL
+
+Seuls les chemins courts apparaissent dans la liste des child samples.-2 DL
+
+Le filtre "IS NOT NULL" fonctionne correctement.-4 DL
+
+Le champ "identification year" est bloqué à l'année de la date de l'évènement.-4 DL
+
+Créer un sample fils et en éditer l'event create modifiera bien les propriétés du sample et l'event created fils, et cela ne modifiera pas le compteur du père.-6 DL
+
+Quand on clique sur Cancel dans l'edition d'un form, aucune confirmation n'est plus requise.-1 DL
+
+
+DL  |  Valeur FE    0 x 530 = 0
+
+DL  |  Valeur WE    0 x 530 = 0
+
+DL  |  Valeur WEFE   0 x 530 = 0
+
+DL  |  Valeur Normal   4 x 530 = 2120
+
+
+
+ecoRelevé-data
+
+
+	Ajout de contraintes d'unicité et de foreign key manquantes dans la base de données ecoRelevé    |  type : (dev)
+
+Ajout d'un index unique(startDate,FK_Obj,FK_Dynprop) sur tout les table DynPropValue.-1 RF
+
+Ajout d'une clé étrangère sur Parent_Observation de la table Observation et sur Fk_MontoredSite de Equipment.-1 RF
+
+Vérification l'état des SP Message.-0 RF
+
+Modification des SP Message avec isMessageComplete.-1 RF
+
+Ajout d'un index unique sur le champs Name de ProtocoleType.-0 RF
+
+Ajout d'index unique sur le champs Name des DynProp.-1 RF
+
+Ajout d'un index unique sur FK_Observation de Equipment.-0 RF
+
+Création des scripts.-3 RF
+
+Test et correction de données pour satisfaire les contraintes.-4 RF
+
+
+	Intégration des retours suite à la présentation de la nouvelle maquette player    |  type : (des)
+
+Intégration des retours suite à la présentation de la nouvelle maquette player : -ampoule d'astuce -labeling -tracé (voir mail fred) .-5 NH
+
+
+	Rédaction du cahier des charges pour un outil de reconnaissance des outardes    |  type : (amo)
+
+##Première lecture de deux cahiers des charges existants.-3 JD
+
+##Rédaction du plan.-1  JD
+
+Voir détails technique pour compléter le cahier  des charges.-2+2   JD+JV
+
+##Cahier  des charges complété.-2  JD
+
+##Rédaction d'un premier jet du cahier des charges.-6  JD
+
+Intégration d'une présentation visuelle de la fonction à ajouter.-1+1 AR+JD
+
+##Correction suite à la relecture du cahier  des charges.-4  JD
+
+Relecture du cahier  des charges avec le chef de projet. -2  JD
+
+Revérification de la rédaction du cahier  des charges.-2  JD
+
+
+	Maquette pour la gestion d'ensembles complexes d'images    |  type : (des)
+
+Création de la maquette avec les boutons d'édition relatifs aux images et aux stations au niveau du pager.-6 NF
+
+
+	Recette de l'intégration de la maquette cameraTrap (phase 1)    |  type : (des)
+
+Recette et corrections liées aux modifications de la maquette.-7 NF
+
+Intégration de la maquette de gestion des ensembles complexes.-7 NF
+
+
+	Revue du document : cahier des charges pour la création d'un outil de reconnaissance automatique des outardes d'aprés les photographies de caméra trap    |  type : (amo)
+
+Revue du document.-2+1 JD+JV
+
+
+	Création des icones pour les maquettes des camera traps    |  type : (des)
+
+Création de l'icone des tags pour la toolbar et déploiement sur icomoon.-2 AR
+
+Création des icones des boutons d'actions des images et déploiement sur icomoon.-2 AR
+
+
+RF  |  Valeur FE    0 x 530 = 0
+
+RF  |  Valeur WE    0 x 530 = 0
+
+RF  |  Valeur WEFE   0 x 530 = 0
+
+RF  |  Valeur Normal   2 x 530 = 1060
+
+
+
+NH  |  Valeur FE    0 x 440 = 0
+
+NH  |  Valeur WE    0 x 440 = 0
+
+NH  |  Valeur WEFE   0 x 440 = 0
+
+NH  |  Valeur Normal   1 x 440 = 440
+
+
+
+JD  |  Valeur FE    0 x 610 = 0
+
+JD  |  Valeur WE    0 x 610 = 0
+
+JD  |  Valeur WEFE   0 x 610 = 0
+
+JD  |  Valeur Normal   4 x 610 = 2440
+
+
+
+JV  |  Valeur FE    0 x 610 = 0
+
+JV  |  Valeur WE    0 x 610 = 0
+
+JV  |  Valeur WEFE   0 x 610 = 0
+
+JV  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+AR  |  Valeur FE    0 x 610 = 0
+
+AR  |  Valeur WE    0 x 610 = 0
+
+AR  |  Valeur WEFE   0 x 610 = 0
+
+AR  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   3 x 410 = 1230
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+	Analyse de l'ergonomie de la gestion des protocoles dans la page station    |  type : (des)
+
+Analyse de l'ergonomie de la gestion des protocoles dans la page station en vue d'une refonte ergonomique.-4+4 AR+NH
+
+Création d'une maquette d'optimisation du management des protocoles.-14 AR 
+
+
+	Création de la route Observation    |  type : (dev)
+
+Création d’une nouvelle route qui attaque directement les observations et qui display le protocole qui la contient, avec observation=[0-9] en URL.-4 JV
+
+Propagation de la modification dans eCollection.-1 JV
+
+
+	Vérification de la cohérence des données pour les propriétés dynamiques de type statebox    |  type : (dev)
+
+Check de la branche statebox, pour l'enregistrement de l'ensemble des valeurs d'une sous observation et corrections éventuelles.-5 JV
+
+Verification de l'ensemble des tables observationdynpropvalue en prod.-2 JV
+
+Création et application d'un script de correction de données.-4 JV 
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   3 x 440 = 1320
+
+
+
+NH  |  Valeur FE    0 x 440 = 0
+
+NH  |  Valeur WE    0 x 440 = 0
+
+NH  |  Valeur WEFE   0 x 440 = 0
+
+NH  |  Valeur Normal   1 x 440 = 440
+
+
+
+JV  |  Valeur FE    0 x 440 = 0
+
+JV  |  Valeur WE    0 x 440 = 0
+
+JV  |  Valeur WEFE   0 x 440 = 0
+
+JV  |  Valeur Normal   2,50 x 440 = 1100,00
+
+
+
+FormBuilder
+
+
+Positions
+
+
+	Réunion sur l'utilisation du canevas bootstrap pour l'intégration    |  type : (dev)
+
+Réunion sur l'utilisation du canevas bootstrap pour l'intégration.-1+1+1+1 NH+NF+VB+TL
+
+
+	Démonstrations des dernières intégrations et réflexions sur les informations de la page d'accueil    |  type : (dev)
+
+Démonstrations des dernières intégrations et réflexions sur les informations de la page d'accueil.-1 TL
+
+
+NH  |  Valeur FE    0 x 440 = 0
+
+NH  |  Valeur WE    0 x 440 = 0
+
+NH  |  Valeur WEFE   0 x 440 = 0
+
+NH  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+VB  |  Valeur FE    0 x 610 = 0
+
+VB  |  Valeur WE    0 x 610 = 0
+
+VB  |  Valeur WEFE   0 x 610 = 0
+
+VB  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   0,50 x 530 = 265,00
+
+
+
+	Intégration de la page d'accueil    |  type : (dev)
+
+Intégration de la page d'accueil.-14 NF
+
+Préparation des webservices qui renvoie les informations de la page d'accueil.-3 TL
+
+
+	modification de la vue de consultation pour la prise en compte de propriétés dynamiques d'évènements    |  type : (dev)
+
+Rajout des propriétés dynamiques remplis des évènements dans l'onglet propriété d'une consultation position.-5 TL
+
+Mise en place d'un bouton et création de la route pour la création d'un évènement lié a une position.-2 TL
+
+
+	Recette de l'application pour la gestion des évènements    |  type : (dev)
+
+Recette de l'application pour la gestion des évènements.-7 TL
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   2 x 410 = 820
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   2,50 x 530 = 1325,00
+
+
+
+Reneco Apps
+
+
+	Gestion du backlog et planification    |  type : (dev)
+
+Gestion du backlog et planification.-1+1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+CG+HE
+
+
+	Spike handsontable    |  type : (amo)
+
+spike sur la bibliothèque Handsontable.-3 VB
+
+
+	Analyse de l'article sur les photographies d'oeuf qui pourrait permettre de remplir le protocole description d'oeuf automatiquement et même déterminer sa masse    |  type : (amo)
+
+Lecture de l'article et étude de faisabilité.-4 JD
+
+Etat de l'art sur des problèmes similaires.-1 JD
+
+Rédaction d'un document résumant la problématique.-1 JD
+
+Conclusion sur la faisabilité.-2 JD
+
+
+	Réunion sur les heures GMT dans ecoRelevé avec dbsupport    |  type : (amo)
+
+Réunion sur les heures GMT dans ecoRelevé avec dbsupport.-1 JV
+
+
+	Réunion de discussion sur le script SQL d'identification des indexes avec dbsupport    |  type : (dev)
+
+Réunion de discussion sur le script SQL d'identification des indexes.-1 JV
+
+
+	Réunion d'évaluation des différentes bibliothèques js pour la création des nouveaux outils reneco (Appli Repro et Track NG)    |  type : (amo)
+
+Réunion d'évaluation des différentes bibliothèques js pour la création des nouveaux outils reneco (Appli Repro et Track NG).-1+1+1 TL+JV+VB
+
+
+	Mission Sandra démonstration des outils de reconnaissance d'outardes et de la mesure d'oeufs    |  type : (amo)
+
+Démonstration des outils de reconnaissance d'outardes.-1+1+1+1 JD+CL+MV+VB
+
+Démonstration des outils de mesure d'oeufs.-1+1+1+1 JD+CL+MV+VB
+
+
+JV  |  Valeur FE    0 x 440 = 0
+
+JV  |  Valeur WE    0 x 440 = 0
+
+JV  |  Valeur WEFE   0 x 440 = 0
+
+JV  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+DL  |  Valeur FE    0 x 530 = 0
+
+DL  |  Valeur WE    0 x 530 = 0
+
+DL  |  Valeur WEFE   0 x 530 = 0
+
+DL  |  Valeur Normal   0,50 x 530 = 265,00
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   0,50 x 530 = 265,00
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+CL  |  Valeur FE    0 x 440 = 0
+
+CL  |  Valeur WE    0 x 440 = 0
+
+CL  |  Valeur WEFE   0 x 440 = 0
+
+CL  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+JD  |  Valeur FE    0 x 440 = 0
+
+JD  |  Valeur WE    0 x 440 = 0
+
+JD  |  Valeur WEFE   0 x 440 = 0
+
+JD  |  Valeur Normal   1 x 440 = 440
+
+
+
+CG  |  Valeur FE    0 x 610 = 0
+
+CG  |  Valeur WE    0 x 610 = 0
+
+CG  |  Valeur WEFE   0 x 610 = 0
+
+CG  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+VB  |  Valeur FE    0 x 680 = 0
+
+VB  |  Valeur WE    0 x 680 = 0
+
+VB  |  Valeur WEFE   0 x 680 = 0
+
+VB  |  Valeur Normal   1 x 680 = 680
+
+
+
+JD  |  Valeur FE    0 x 610 = 0
+
+JD  |  Valeur WE    0 x 610 = 0
+
+JD  |  Valeur WEFE   0 x 610 = 0
+
+JD  |  Valeur Normal   1 x 610 = 610
+
+
+
+JV  |  Valeur FE    0 x 610 = 0
+
+JV  |  Valeur WE    0 x 610 = 0
+
+JV  |  Valeur WEFE   0 x 610 = 0
+
+JV  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+TL  |  Valeur FE    0 x 610 = 0
+
+TL  |  Valeur WE    0 x 610 = 0
+
+TL  |  Valeur WEFE   0 x 610 = 0
+
+TL  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+CL  |  Valeur FE    0 x 610 = 0
+
+CL  |  Valeur WE    0 x 610 = 0
+
+CL  |  Valeur WEFE   0 x 610 = 0
+
+CL  |  Valeur Normal   0,50 x 610 = 305,00
+
+
+
+MV  |  Valeur FE    0 x 680 = 0
+
+MV  |  Valeur WE    0 x 680 = 0
+
+MV  |  Valeur WEFE   0 x 680 = 0
+
+MV  |  Valeur Normal   0,50 x 680 = 340,00
+
+
+
+	Vérification des configurations SQL    |  type : (dev)
+
+Vérification des fichiers de configuration de la console d'admin sur tous les serveurs.-1 HE
+
+Vérification du déploiement de NsApp sur toutes les bdds.-1 HE
+
+
+	POC Intégration de Redis (technologie d'optimisation d'accès aux données) pour la gestion des données en cache pour le thésaurus    |  type : (amo)
+
+Analyse de la documentation.-3 TL
+
+POC d'intégration de Redis pour la gestion des données en cache du thésaurus.-7 TL
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+TL  |  Valeur FE    0 x 610 = 0
+
+TL  |  Valeur WE    0 x 610 = 0
+
+TL  |  Valeur WEFE   0 x 610 = 0
+
+TL  |  Valeur Normal   1,50 x 610 = 915,00
+
+
+
+TRACK
+
+
+	Amélioration de la génération de logs et correction des données    |  type : (dev)
+
+Corrections des logs en base et création de pipes.-4 HE
+
+Corrections des procédure stockées générant des logs et création des pipes correspondants.-7 HE
+
+
+	Création d'un webservice de génération d'arbre plat traduit    |  type : (dev)
+
+Création du webservice de génération d'arbre plat traduit (suppression de la récursivité).-7 TL
+
+
+	Transformation de l'accès a la base sécurité en accès synonyme Vlog    |  type : (dev)
+
+modification de l'appel a TUser pour utiliser le synonyme dans la classe clsVLogs.-3+3 HE+TL
+
+
+	Création du pictogramme "On site"    |  type : (des)
+
+Création du pictogramme"On site".-4 AR
+
+Intégration à la reneco font de l’icône "On site".-1 AR
+
+
+	Intégration des nouveaux boutons dans les pages de consultation et édition pour les application Position et Thésaurus    |  type : (dev)
+
+Intégration de l'icone "cible" et redesign  dans l'application Positions et repositionnement du bouton.-2 NF
+
+Intégration de l'icone "cible" et redesign  dans l'application Thésaurus et repositionnement du bouton.-2 NF
+
+Redesign des boutons d'édition et sauvegarde sur les pages de consultation et édition pour l'application Positions.-2 NF
+
+Redesign des boutons d'édition et sauvegarde sur les pages de consultation et édition pour l'application Thesaurus.-2 NF
+
+
+	Ajout d'une colonne TExport_Date    |  type : (dev)
+
+Ajout d'une colonne TExport_Date dans la table TExport, par création d'un pipe console.-1 HE 
+
+Modification des sps pour utiliser le nouveau champ, regroupement des alter dans un pipe console.-2 HE
+
+Modification dans le code de l'appel à la procédure pr_TExport_Insert, pr_TExport_SelectOneWTExp_PK_IDLogic, pr_TExport_SelectAll  suite à l'ajout de la colonne TExport_Date dans les tables TExport.-4 HE
+
+
+	Intégration des nouveaux icones au code : icone On Site, Data Transfer    |  type : (dev)
+
+Intégration des icones dans le code de TRACK aux endroits adéquats.-2 HE
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   3,50 x 410 = 1435,00
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   1,50 x 530 = 795,00
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   1 x 440 = 440
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   1,50 x 410 = 615,00
+
+
+
+	Vérification de la cohérence entre les icones icomoon et track    |  type : (dev)
+
+Vérification des appels aux icones icomoon depuis les pages de track.-2 HE
+
+
+	Modification de l'affichage de l'age pour les oeufs morts    |  type : (dev)
+
+Modification de la page viewindividu.aspx pour intégrer le nouveau calcul d'age pour les oeufs morts.-4 HE
+
+Tests.-1 HE
+
+
+	Création d'un bouton pour la création d'une saisie, directement à partir de la page fiche individu. La page de saisie a le champ bagueId Id pré-rempli.    |  type : (dev)
+
+Création du bouton depuis la page fiche individu et passage en paramètre de la bague.-0 HE
+
+Dans la page de saisie, la bague est récupérée et pré-rempli le champs bague. Modification de la page NouvelleSaisie1.aspx.-4 HE
+
+
+	Problème de sauvegarde des logs    |  type : (dev)
+
+La console de log visualise les log_type_message sans conversion int to string.-5 HE
+
+Correction du stockage du log_type_message.-3 HE
+
+Correction des données sur l'ensemble des sites.-4 HE
+
+Correction du stockage des informations de log liées aux modifications de protocole. Le champ contenant le numéro de protocole n 'est plus dans la colonne TLog_source (cf narc).-4 HE
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   4 x 410 = 1640
+
+
+
+

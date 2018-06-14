@@ -81,8 +81,8 @@ namespace WebApplication4.Models.BO
             fichier.Date = DateTime.Now;
             if (this.isFactu)
             {
-                db.Facturation.Add(fichier);
-                db.SaveChanges();
+                //db.Facturation.Add(fichier);
+                //db.SaveChanges();
             }
             else
             {

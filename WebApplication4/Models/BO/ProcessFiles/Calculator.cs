@@ -188,141 +188,155 @@ namespace WebApplication4.Models.BO.ProcessFiles
 
         public SumManager CalculateFactu()
         {
-            this.logFile.Close();
-            foreach (Projet p in this.genObject.projets)
+            try
             {
-                //  this.logFile.WriteLine(p.Nom + '\n' + '\r');
-                FactuStoriesTabs projectCost = new FactuStoriesTabs();
-                // this.logFile.WriteLine('\r');
-                projectCost.setB(calculateStoriesCostfactu(this.manageStories(p.découpageStories["B"]))); // Ajout du cout de la story au cout du projet
-                projectCost.setPN(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PNR"]))); // Ajout du cout de la story au cout du projet
-                projectCost.setPR(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PR"]))); // Ajout du cout de la story au cout du projet
-                ResultSumManager.setProjectCostfactu(p.Nom, projectCost);
+                foreach (Projet p in this.genObject.projets)
+                {
+                    this.logFile.WriteLine(p.Nom + '\n' + '\r');
+                    FactuStoriesTabs projectCost = new FactuStoriesTabs();
+                    this.logFile.WriteLine('\r');
+                    projectCost.setB(calculateStoriesCostfactu(this.manageStories(p.découpageStories["B"]))); // Ajout du cout de la story au cout du projet
+                    projectCost.setPN(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PNR"]))); // Ajout du cout de la story au cout du projet
+                    projectCost.setPR(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PR"]))); // Ajout du cout de la story au cout du projet
+                    ResultSumManager.setProjectCostfactu(p.Nom, projectCost);
+                }
+                this.logFile.WriteLine('\r');
+                this.logFile.Close();
+                return this.ResultSumManager;
             }
-            //  this.logFile.WriteLine('\r');
-            //  this.logFile.Close();
-            return this.ResultSumManager;
+            catch(Exception e)
+            {              
+                this.logFile.Close();
+                return null;              
+            }
         }
 
         private List<UserProcess> manageStories(List<MasterStories> masterStories)
         {
-            List<UserProcess> truc = new List<UserProcess>();
-            foreach (MasterStories s in masterStories)
+            try
             {
-                //  this.logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
-                decimal? StoriesCost = 0;
-                foreach (MasterTasks t in s.Tasks)
+                List<UserProcess> truc = new List<UserProcess>();
+                foreach (MasterStories s in masterStories)
                 {
-                    string dicSelector = s.Type.ToUpper();
-                    //  this.logFile.WriteLine(t.Description + '\n' + '\r');
-                    if (t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
+                    this.logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
+                    decimal? StoriesCost = 0;
+                    foreach (MasterTasks t in s.Tasks)
                     {
-                        t.isMultiProgramming = true;
-                    }
-                    if (t.isMultiProgramming == true) // c'est une tache de N programming
-                    {
-                        string[] Initiales = t.Initials.Split('+');
-                        string[] Durations = t.Duration.Split('+');
-                        for (int i = 0; i < Durations.Length; i++)
+                        string dicSelector = s.Type.ToUpper();
+                        this.logFile.WriteLine(t.Description + '\n' + '\r');
+                        if (t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
                         {
-                            factuConst factu = new factuConst();
-                            string tempDuration = Durations[i];
-                            string tempInitial = Initiales[i];
-                            if (truc.Where(o => o.name == tempInitial && o.isAmo == Convert.ToBoolean(s.isAMO)).Count() > 0)
-                            //if (truc[dicSelector].Where(o => o.Key == tempInitial).Count() > 0)
+                            t.isMultiProgramming = true;
+                        }
+                        if (t.isMultiProgramming == true) // c'est une tache de N programming
+                        {
+                            string[] Initiales = t.Initials.Split('+');
+                            string[] Durations = t.Duration.Split('+');
+                            for (int i = 0; i < Durations.Length; i++)
                             {
-                                UserProcess currentUser = truc.Where(o => o.name == tempInitial).FirstOrDefault();
+                                factuConst factu = new factuConst();
+                                string tempDuration = Durations[i];
+                                string tempInitial = Initiales[i];
+                                if (truc.Where(o => o.name == tempInitial && o.isAmo == Convert.ToBoolean(s.isAMO)).Count() > 0)
+                                {
+                                    UserProcess currentUser = truc.Where(o => o.name == tempInitial).FirstOrDefault();
+                                    if (t.ferie == true && t.weekend == false) // que férié
+                                    {
+                                        currentUser.setFe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == false && t.weekend == true)
+                                    { // que weekend
+                                        currentUser.setWe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == true && t.weekend == true)
+                                    { // ferier et weekend en meme temps
+                                        currentUser.setWefe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == false && t.weekend == false)
+                                    { // ni ferier ni weekend
+                                        currentUser.setNo(decimal.Parse(tempDuration));
+                                    }
+                                    //truc.Add(currentUser);
+                                }
+                                else
+                                {
+                                    UserProcess currentUser = new UserProcess(tempInitial, Convert.ToBoolean(s.isAMO));
+                                    if (t.ferie == true && t.weekend == false) // que férié
+                                    {
+                                        currentUser.setFe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == false && t.weekend == true)
+                                    { // que weekend
+                                        currentUser.setWe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == true && t.weekend == true)
+                                    { // ferier et weekend en meme temps
+                                        currentUser.setWefe(decimal.Parse(tempDuration));
+                                    }
+                                    else if (t.ferie == false && t.weekend == false)
+                                    { // ni ferier ni weekend
+                                        currentUser.setNo(decimal.Parse(tempDuration));
+                                    }
+                                    truc.Add(currentUser);
+                                }
+                            }
+                        }
+                        else //c'est pas une tache de N programming
+                        {
+                            if (truc.Where(o => o.name == t.Initials && o.isAmo == Convert.ToBoolean(s.isAMO)).Count() > 0)
+                            {
+                                UserProcess currentUser = truc.Where(o => o.name == t.Initials).FirstOrDefault();
                                 if (t.ferie == true && t.weekend == false) // que férier
                                 {
-                                    currentUser.setFe(decimal.Parse(tempDuration));
+                                    currentUser.setFe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == false && t.weekend == true)
                                 { // que weekend
-                                    currentUser.setWe(decimal.Parse(tempDuration));
+                                    currentUser.setWe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == true && t.weekend == true)
                                 { // ferier et weekend en meme temps
-                                    currentUser.setWefe(decimal.Parse(tempDuration));
+                                    currentUser.setWefe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == false && t.weekend == false)
                                 { // ni ferier ni weekend
-                                    currentUser.setNo(decimal.Parse(tempDuration));
+                                    currentUser.setNo(decimal.Parse(t.Duration));
                                 }
                                 //truc.Add(currentUser);
                             }
                             else
                             {
-                                UserProcess currentUser = new UserProcess(tempInitial, Convert.ToBoolean(s.isAMO));
+                                UserProcess currentUser = new UserProcess(t.Initials, Convert.ToBoolean(s.isAMO));
                                 if (t.ferie == true && t.weekend == false) // que férier
                                 {
-                                    currentUser.setFe(decimal.Parse(tempDuration));
+                                    currentUser.setFe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == false && t.weekend == true)
                                 { // que weekend
-                                    currentUser.setWe(decimal.Parse(tempDuration));
+                                    currentUser.setWe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == true && t.weekend == true)
                                 { // ferier et weekend en meme temps
-                                    currentUser.setWefe(decimal.Parse(tempDuration));
+                                    currentUser.setWefe(decimal.Parse(t.Duration));
                                 }
                                 else if (t.ferie == false && t.weekend == false)
                                 { // ni ferier ni weekend
-                                    currentUser.setNo(decimal.Parse(tempDuration));
+                                    currentUser.setNo(decimal.Parse(t.Duration));
                                 }
                                 truc.Add(currentUser);
                             }
                         }
                     }
-                    else //c'est pas une tache de N programming
-                    {
-                        if (truc.Where(o => o.name == t.Initials && o.isAmo == Convert.ToBoolean(s.isAMO)).Count() > 0)
-                        //if (truc[dicSelector].Where(o => o.Key == tempInitial).Count() > 0)
-                        {
-                            UserProcess currentUser = truc.Where(o => o.name == t.Initials).FirstOrDefault();
-                            if (t.ferie == true && t.weekend == false) // que férier
-                            {
-                                currentUser.setFe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == false && t.weekend == true)
-                            { // que weekend
-                                currentUser.setWe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == true && t.weekend == true)
-                            { // ferier et weekend en meme temps
-                                currentUser.setWefe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == false && t.weekend == false)
-                            { // ni ferier ni weekend
-                                currentUser.setNo(decimal.Parse(t.Duration));
-                            }
-                            //truc.Add(currentUser);
-                        }
-                        else
-                        {
-                            UserProcess currentUser = new UserProcess(t.Initials, Convert.ToBoolean(s.isAMO));
-                            if (t.ferie == true && t.weekend == false) // que férier
-                            {
-                                currentUser.setFe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == false && t.weekend == true)
-                            { // que weekend
-                                currentUser.setWe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == true && t.weekend == true)
-                            { // ferier et weekend en meme temps
-                                currentUser.setWefe(decimal.Parse(t.Duration));
-                            }
-                            else if (t.ferie == false && t.weekend == false)
-                            { // ni ferier ni weekend
-                                currentUser.setNo(decimal.Parse(t.Duration));
-                            }
-                            truc.Add(currentUser);
-                        }
-                    }
+                    this.logFile.WriteLine('\r');
                 }
-                //   this.logFile.WriteLine('\r');
+                return truc;
             }
-            return truc; 
+            catch(Exception e)
+            {
+                this.logFile.Close();
+                return null;
+            }
+    
         }
 
 
@@ -357,30 +371,42 @@ namespace WebApplication4.Models.BO.ProcessFiles
 
         public decimal calculateStoriesCostfactu(List<UserProcess> myList)
         {
-            decimal storycost = 0;
-            foreach (UserProcess user in myList)
+            try
             {
-             Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == user.name).FirstOrDefault(); // Recuperation de la ressource correspondante
-             decimal? dailyValueFE = user.fe != null ? Math.Round(Convert.ToDecimal(user.fe / 7), 2) : 0; // conversion en jour
-             decimal? dailyValueWE = user.we != null ? Math.Round(Convert.ToDecimal(user.we / 7), 2) : 0; // conversion en jour
-             decimal? dailyValueWEFE = user.wefe != null ? Math.Round(Convert.ToDecimal(user.wefe / 7), 2) : 0; // conversion en jour
-             decimal? dailyValueNO = user.no != null ? Math.Round(Convert.ToDecimal(user.no / 7), 2) : 0; // conversion en jour
-             dailyValueFE = getDecimalPart(dailyValueFE); //Arrondie au supérieur      
-             dailyValueWE = getDecimalPart(dailyValueWE); //Arrondie au supérieur      
-             dailyValueWEFE = getDecimalPart(dailyValueWEFE); //Arrondie au supérieur      
-             dailyValueNO = getDecimalPart(dailyValueNO); //Arrondie au supérieur      
-             decimal resFact = ressourceTemp.getCurrentTarification(user.isAmo);
-             storycost += resFact * (decimal)dailyValueFE;
-             storycost += resFact * (decimal)dailyValueWE;
-             storycost += resFact * (decimal)dailyValueWEFE;
-             storycost += resFact * (decimal)dailyValueNO;
-             // this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
-             // this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');
-             // this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValueWEFE + " x " + resFact + " = " + dailyValueWEFE * resFact + '\n' + '\r');
-             // this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValueNO + " x " + resFact + " = " + dailyValueNO * resFact + '\n' + '\r');
-             // this.logFile.WriteLine('\n');
+                decimal storycost = 0;
+                foreach (UserProcess user in myList)
+                {                    
+                    Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == user.name).FirstOrDefault(); // Recuperation de la ressource correspondante
+                    if (user.name == "AR")
+                    {
+                        decimal mescouilles = ressourceTemp.getCurrentTarification(true);
+                    }
+                    decimal? dailyValueFE = user.fe != null ? Math.Round(Convert.ToDecimal(user.fe / 7), 2) : 0; // conversion en jour
+                    decimal? dailyValueWE = user.we != null ? Math.Round(Convert.ToDecimal(user.we / 7), 2) : 0; // conversion en jour
+                    decimal? dailyValueWEFE = user.wefe != null ? Math.Round(Convert.ToDecimal(user.wefe / 7), 2) : 0; // conversion en jour
+                    decimal? dailyValueNO = user.no != null ? Math.Round(Convert.ToDecimal(user.no / 7), 2) : 0; // conversion en jour
+                    dailyValueFE = getDecimalPart(dailyValueFE); //Arrondie au supérieur      
+                    dailyValueWE = getDecimalPart(dailyValueWE); //Arrondie au supérieur      
+                    dailyValueWEFE = getDecimalPart(dailyValueWEFE); //Arrondie au supérieur      
+                    dailyValueNO = getDecimalPart(dailyValueNO); //Arrondie au supérieur      
+                    decimal resFact = ressourceTemp.getCurrentTarification(user.isAmo);
+                    storycost += resFact * (decimal)dailyValueFE;
+                    storycost += resFact * (decimal)dailyValueWE;
+                    storycost += resFact * (decimal)dailyValueWEFE;
+                    storycost += resFact * (decimal)dailyValueNO;
+                    this.logFile.WriteLine(user.name + "  |  "  +"Valeur FE    " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
+                    this.logFile.WriteLine(user.name + "  |  " + "Valeur WE    " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');
+                    this.logFile.WriteLine(user.name + "  |  " + "Valeur WEFE   " + dailyValueWEFE + " x " + resFact + " = " + dailyValueWEFE * resFact + '\n' + '\r');
+                    this.logFile.WriteLine(user.name + "  |  " + "Valeur Normal   " + dailyValueNO + " x " + resFact + " = " + dailyValueNO * resFact + '\n' + '\r');
+                    this.logFile.WriteLine('\n');
+                }
+                return storycost;
             }
-            return storycost;
+            catch (Exception e)
+            {
+                this.logFile.Close();
+                return -1;
+            }           
         }
 
 

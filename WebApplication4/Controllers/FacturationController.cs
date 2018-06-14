@@ -84,7 +84,7 @@ namespace WebApplication4.Controllers
             Facturation facturation = new Facturation();
             FileFiller filler = new FileFiller(facturation, true, resultFromcallCalculator, newGenObject);
 
-            newGenObject.SaveToDb(false, facturation);
+            //newGenObject.SaveToDb(false, facturation);
             return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
