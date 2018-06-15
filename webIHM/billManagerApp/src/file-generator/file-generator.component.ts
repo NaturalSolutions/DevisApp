@@ -160,15 +160,13 @@ export class FileGeneratorComponent implements OnInit {
                         }
                       }
                     }
-                    let allStories = this.devisRequester.getProjectStories(projects).then((e : any) => {
-                      for(let cpt in e){
-                        if(e[cpt].labels != undefined){
-                          if(e[cpt].current_state != "accepted"){
+                    this.devisRequester.getProjectStories(projects).then((e : any) => {
+                      for(let cpt in e.stories){
+                          if(e.stories[cpt].current_state != "accepted"){
                             console.log("e[cpt]",e[cpt]);
-                            e[cpt].nonEffetue = true;
-                            ProperStories.push(e[cpt]);
+                            e.stories[cpt].nonEffetue = true;
+                            ProperStories.push(e.stories[cpt]);
                           }
-                        }
                       }
                       let stories = this.myTransMuter.transmuteStories(ProperStories);
                         let storiesmodified = stories;
