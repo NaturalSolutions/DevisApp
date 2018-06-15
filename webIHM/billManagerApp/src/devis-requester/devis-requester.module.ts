@@ -87,12 +87,14 @@ export class DevisRequesterModule {
         .toPromise().then((res : any) => {
           let myCurrentStory : any;
           for(let u in res){
-            myCurrentStory = res[u];
+            myCurrentStory = res[u];            
             myCurrentStory.listeTaches = [];
             if(myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)){
               res[u].listeTaches = new Array();
               myCurrentStory.story_type = "";
               let stringLabels = "";
+              myCurrentStory.nonEffetue = false;
+              myCurrentStory.Bonus = false;
               for(let o in myCurrentStory.labels){
                 if(myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo"){
                   myCurrentStory.story_type = myCurrentStory.labels[o].name;

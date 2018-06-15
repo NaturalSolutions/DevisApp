@@ -166,7 +166,8 @@ namespace WebApplication4.Models.BO
                         }
                     }
                 }
-                this.tableSubTotal += (decimal) sumManager.getProjectCost(projet.Nom);
+                FactuStoriesTabs totalCost = (FactuStoriesTabs)sumManager.getProjectCost(projet.Nom, true);
+                this.tableSubTotal += (decimal) totalCost.getPR();
             }            
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 

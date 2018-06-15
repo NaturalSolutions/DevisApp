@@ -94,10 +94,30 @@ namespace WebApplication4.Controllers
 
                 var escouilles = genObjec_d.ToString();
                 GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
-                //GeneralObject genTest = CreateATestingContext();
+                foreach (Projet p in newGenObject.projets)
+                {
+                    p.découpageStories.Add("B", new List<MasterStories>());
+                    p.découpageStories.Add("PR", new List<MasterStories>());
+                    p.découpageStories.Add("PNR", new List<MasterStories>());
+                    foreach (MasterStories s in p.Stories)
+                    {
+                        if ((bool)s.Bonus)
+                        {
+                            p.découpageStories["B"].Add(s);
+                        }
+                        else if (s.nonEffetue)
+                        {
+                            p.découpageStories["PNR"].Add(s);
+                        }
+                        else
+                        {
+                            p.découpageStories["PR"].Add(s);
+                        }
+                    }
+                }
+            //GeneralObject genTest = CreateATestingContext();
                 Calculator devisCalculator = new Calculator(newGenObject);
-                //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
-                SumManager resultFromcallCalculator = devisCalculator.CalculateDevis();
+                SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
                 Devis devis = new Devis();
                 FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
 
@@ -106,7 +126,7 @@ namespace WebApplication4.Controllers
             //}
             //catch (Exception e)
             //{
-            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si un attribut dans l'objet est nulle
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si y'a eu un problème
             //}
         }
 

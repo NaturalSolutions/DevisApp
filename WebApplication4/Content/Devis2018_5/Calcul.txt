@@ -179,6 +179,7 @@ Les imports fonctionnent de nouveau avec les headers et la donnée liée aux pos
 
 
 	Traitement des retours suite à la mise en production, partie 2    |  type : (dev)
+
 
 La date de création d'un sample est désormais référencée dans la grille des samples.-3 DL
 
@@ -209,6 +210,7 @@ ecoRelevé-data
 
 
 	Ajout de contraintes d'unicité et de foreign key manquantes dans la base de données ecoRelevé    |  type : (dev)
+.
 
 Ajout d'un index unique(startDate,FK_Obj,FK_Dynprop) sur tout les table DynPropValue.-1 RF
 
@@ -227,11 +229,21 @@ Ajout d'un index unique sur FK_Observation de Equipment.-0 RF
 Création des scripts.-3 RF
 
 Test et correction de données pour satisfaire les contraintes.-4 RF
+
+
+
+
+
 
 
 	Intégration des retours suite à la présentation de la nouvelle maquette player    |  type : (des)
 
 Intégration des retours suite à la présentation de la nouvelle maquette player : -ampoule d'astuce -labeling -tracé (voir mail fred) .-5 NH
+
+
+
+
+
 
 
 	Rédaction du cahier des charges pour un outil de reconnaissance des outardes    |  type : (amo)
@@ -253,11 +265,21 @@ Intégration d'une présentation visuelle de la fonction à ajouter.-1+1 AR+JD
 Relecture du cahier  des charges avec le chef de projet. -2  JD
 
 Revérification de la rédaction du cahier  des charges.-2  JD
+
+
+
+
+
+
 
 
 	Maquette pour la gestion d'ensembles complexes d'images    |  type : (des)
 
 Création de la maquette avec les boutons d'édition relatifs aux images et aux stations au niveau du pager.-6 NF
+
+
+
+
 
 
 	Recette de l'intégration de la maquette cameraTrap (phase 1)    |  type : (des)
@@ -265,11 +287,19 @@ Création de la maquette avec les boutons d'édition relatifs aux images et aux 
 Recette et corrections liées aux modifications de la maquette.-7 NF
 
 Intégration de la maquette de gestion des ensembles complexes.-7 NF
+
+
+
+
 
 
 	Revue du document : cahier des charges pour la création d'un outil de reconnaissance automatique des outardes d'aprés les photographies de caméra trap    |  type : (amo)
 
 Revue du document.-2+1 JD+JV
+
+
+
+
 
 
 	Création des icones pour les maquettes des camera traps    |  type : (des)
@@ -277,6 +307,10 @@ Revue du document.-2+1 JD+JV
 Création de l'icone des tags pour la toolbar et déploiement sur icomoon.-2 AR
 
 Création des icones des boutons d'actions des images et déploiement sur icomoon.-2 AR
+
+
+
+
 
 
 RF  |  Valeur FE    0 x 530 = 0
@@ -286,7 +320,7 @@ RF  |  Valeur WE    0 x 530 = 0
 RF  |  Valeur WEFE   0 x 530 = 0
 
 RF  |  Valeur Normal   2 x 530 = 1060
-
+ OK
 
 
 NH  |  Valeur FE    0 x 440 = 0
@@ -296,7 +330,7 @@ NH  |  Valeur WE    0 x 440 = 0
 NH  |  Valeur WEFE   0 x 440 = 0
 
 NH  |  Valeur Normal   1 x 440 = 440
-
+	OK
 
 
 JD  |  Valeur FE    0 x 610 = 0
@@ -306,7 +340,7 @@ JD  |  Valeur WE    0 x 610 = 0
 JD  |  Valeur WEFE   0 x 610 = 0
 
 JD  |  Valeur Normal   4 x 610 = 2440
-
+	OK
 
 
 JV  |  Valeur FE    0 x 610 = 0
@@ -346,6 +380,10 @@ AR  |  Valeur WE    0 x 440 = 0
 AR  |  Valeur WEFE   0 x 440 = 0
 
 AR  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+
 
 
 
@@ -354,6 +392,10 @@ AR  |  Valeur Normal   0,50 x 440 = 220,00
 Analyse de l'ergonomie de la gestion des protocoles dans la page station en vue d'une refonte ergonomique.-4+4 AR+NH
 
 Création d'une maquette d'optimisation du management des protocoles.-14 AR 
+
+
+
+
 
 
 	Création de la route Observation    |  type : (dev)
@@ -361,6 +403,10 @@ Création d'une maquette d'optimisation du management des protocoles.-14 AR
 Création d’une nouvelle route qui attaque directement les observations et qui display le protocole qui la contient, avec observation=[0-9] en URL.-4 JV
 
 Propagation de la modification dans eCollection.-1 JV
+
+
+
+
 
 
 	Vérification de la cohérence des données pour les propriétés dynamiques de type statebox    |  type : (dev)
@@ -370,6 +416,10 @@ Check de la branche statebox, pour l'enregistrement de l'ensemble des valeurs d'
 Verification de l'ensemble des tables observationdynpropvalue en prod.-2 JV
 
 Création et application d'un script de correction de données.-4 JV 
+
+
+
+
 
 
 AR  |  Valeur FE    0 x 440 = 0
@@ -500,48 +550,6 @@ TL  |  Valeur Normal   2,50 x 530 = 1325,00
 Reneco Apps
 
 
-	Gestion du backlog et planification    |  type : (dev)
-
-Gestion du backlog et planification.-1+1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+CG+HE
-
-
-	Spike handsontable    |  type : (amo)
-
-spike sur la bibliothèque Handsontable.-3 VB
-
-
-	Analyse de l'article sur les photographies d'oeuf qui pourrait permettre de remplir le protocole description d'oeuf automatiquement et même déterminer sa masse    |  type : (amo)
-
-Lecture de l'article et étude de faisabilité.-4 JD
-
-Etat de l'art sur des problèmes similaires.-1 JD
-
-Rédaction d'un document résumant la problématique.-1 JD
-
-Conclusion sur la faisabilité.-2 JD
-
-
-	Réunion sur les heures GMT dans ecoRelevé avec dbsupport    |  type : (amo)
-
-Réunion sur les heures GMT dans ecoRelevé avec dbsupport.-1 JV
-
-
-	Réunion de discussion sur le script SQL d'identification des indexes avec dbsupport    |  type : (dev)
-
-Réunion de discussion sur le script SQL d'identification des indexes.-1 JV
-
-
-	Réunion d'évaluation des différentes bibliothèques js pour la création des nouveaux outils reneco (Appli Repro et Track NG)    |  type : (amo)
-
-Réunion d'évaluation des différentes bibliothèques js pour la création des nouveaux outils reneco (Appli Repro et Track NG).-1+1+1 TL+JV+VB
-
-
-	Mission Sandra démonstration des outils de reconnaissance d'outardes et de la mesure d'oeufs    |  type : (amo)
-
-Démonstration des outils de reconnaissance d'outardes.-1+1+1+1 JD+CL+MV+VB
-
-Démonstration des outils de mesure d'oeufs.-1+1+1+1 JD+CL+MV+VB
-
 
 JV  |  Valeur FE    0 x 440 = 0
 
@@ -550,7 +558,7 @@ JV  |  Valeur WE    0 x 440 = 0
 JV  |  Valeur WEFE   0 x 440 = 0
 
 JV  |  Valeur Normal   0,50 x 440 = 220,00
-
+ OK
 
 
 DL  |  Valeur FE    0 x 530 = 0
@@ -560,7 +568,7 @@ DL  |  Valeur WE    0 x 530 = 0
 DL  |  Valeur WEFE   0 x 530 = 0
 
 DL  |  Valeur Normal   0,50 x 530 = 265,00
-
+ OK
 
 
 TL  |  Valeur FE    0 x 530 = 0
@@ -630,7 +638,7 @@ HE  |  Valeur WE    0 x 410 = 0
 HE  |  Valeur WEFE   0 x 410 = 0
 
 HE  |  Valeur Normal   0,50 x 410 = 205,00
-
+ OK
 
 
 VB  |  Valeur FE    0 x 680 = 0
@@ -691,20 +699,6 @@ MV  |  Valeur WEFE   0 x 680 = 0
 
 MV  |  Valeur Normal   0,50 x 680 = 340,00
 
-
-
-	Vérification des configurations SQL    |  type : (dev)
-
-Vérification des fichiers de configuration de la console d'admin sur tous les serveurs.-1 HE
-
-Vérification du déploiement de NsApp sur toutes les bdds.-1 HE
-
-
-	POC Intégration de Redis (technologie d'optimisation d'accès aux données) pour la gestion des données en cache pour le thésaurus    |  type : (amo)
-
-Analyse de la documentation.-3 TL
-
-POC d'intégration de Redis pour la gestion des données en cache du thésaurus.-7 TL
 
 
 HE  |  Valeur FE    0 x 410 = 0
