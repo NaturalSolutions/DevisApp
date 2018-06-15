@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 import {AlertDisplayerService} from '../alert-displayer.service';
 import {LogMessageComponent} from '../log-message/log-message.component';
+import { HttpResponse } from '@angular/common/http/src/response';
+import { Binary } from 'selenium-webdriver/firefox';
 
 @NgModule({
   imports: [
@@ -17,7 +19,7 @@ export class TransmuterModule {
   private listeTaches : any;
   private listeStories : any;
   private listeProjets : any;
-
+  private blob : Blob;
   constructor(private config : PtConfModule, private http : HttpClient,private Structurer : StructurerModule,private alerter : LogMessageComponent){
 		//this.formatConf = conf;
 		this.listeTaches = undefined;
@@ -84,6 +86,7 @@ export class TransmuterModule {
 
 	public encapsulateObjects(projects,stories,tasks,isFactu)
   {
+    this.alerter.setlogProcess("encapsulating objects");
     let GeneralObject : any = {};
     	if( projects != undefined && stories != undefined && tasks != undefined)
       {
@@ -108,27 +111,38 @@ export class TransmuterModule {
     });
   }
 
-  public sendToServer(GeneralObject,isFactu){
+  public sendToServer(GeneralObject,isFactu){    
     if(isFactu){
+      this.alerter.setlogProcess("Sending objects for Facturation");
       console.log("sending object : ", GeneralObject);
-    this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
-      this.alerter.setlogMessage("Process Terminé :)");
-      console.log("terminé ! ");
-      this.alerter.setLoadingProperty();
+    this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res ) => {
+    this.alerter.setLoadingProperty();  
+    this.alerter.setlogMessage("Process Terminé :)");
+    this.blob = new Blob([res]);      
+    console.log("terminé ! ");
+    let link = document.createElement("a")
+    link.href = URL.createObjectURL(this.blob)
+    link.setAttribute('visibility','hidden')
+    link.download = `${"factu"}.${"docx"}`
+    link.onload = function() { URL.revokeObjectURL(link.href) }
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
     }).catch((error) => {
       this.alerter.setlogMessage("Il y a eu une erreur");
       this.alerter.setLoadingProperty();
-      console.log("Il y a eu une erreur");
+      console.log("Il y a eu une erreur",error);
     });
     }else{
+      this.alerter.setlogProcess("Sending objects for Devis");
       console.log("sending object : ", GeneralObject);
     this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
       this.alerter.setlogMessage("Process Terminé :)");
       console.log("terminé ! ");
       this.alerter.setLoadingProperty();
     }).catch((error) => {
-      this.alerter.setlogMessage("Il y a eu une erreur");
       this.alerter.setLoadingProperty();
+      this.alerter.setlogMessage("Il y a eu une erreur");
       console.log("Il y a eu une erreur");
     });
     }

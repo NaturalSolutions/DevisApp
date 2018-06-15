@@ -100,8 +100,7 @@ export class FileGeneratorComponent implements OnInit {
            let fileGeneratorContext = document.getElementById('fileGenerator');
            fileGeneratorContext.appendChild(selector); 
            this.alerter.setLoadingProperty();
-           selector.onchange = () => {      
-            this.alerter.setLoadingProperty();    
+           selector.onchange = () => {         
             //Ici traitement devis ou facturation
             if(type.toLowerCase() == "devis")    
             {
@@ -138,6 +137,7 @@ export class FileGeneratorComponent implements OnInit {
               fileGeneratorContext.appendChild(monthPicker);
               monthPicker.onchange = () => {
                 // console.log('inthepicker', this)
+                this.alerter.setLoadingProperty();
                 let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
                 console.log('projets',projets);
                 let projetmidified = this.myTransMuter.transmuteProjects(projets);                 
@@ -146,6 +146,7 @@ export class FileGeneratorComponent implements OnInit {
                 }).catch((treatmeantStoriesWithoutEpics) => {               
                   this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
                   document.getElementById('continue').onclick = () => {
+                    this.alerter.setLoadingProperty();
                     infoLogContext.style.visibility = "hidden";
                     console.log("treatmeantStoriesWithoutEpics.stories",treatmeantStoriesWithoutEpics.stories);
                     let ProperStories = [];

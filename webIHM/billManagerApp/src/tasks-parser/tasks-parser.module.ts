@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {LogMessageComponent} from '../log-message/log-message.component'
 
 @NgModule({
   imports: [
@@ -9,7 +10,10 @@ import { CommonModule } from '@angular/common';
 })
 export class TasksParserModule {
 
-  
+	constructor(private log : LogMessageComponent){
+
+	}	
+
 	setError(url, tasksId) {
 		//console.log('errors', arguments)
 	  //$('#errorLink').append('<a href="' + url + '">' + tasksId + '</a><br>')
@@ -29,7 +33,7 @@ export class TasksParserModule {
 	getInfoFromTasks(tasks, storyId, projectId, isFactu) : any
 	{
 		var tasksModified = []; 							//initialisation tableaux vide
-		var cpt = 0; 										// récupération contexte
+		var cpt = 0; 						
 		for(let i in tasks)
 		{			
 			var tabDescrInfo = tasks[i].description.split('.-');

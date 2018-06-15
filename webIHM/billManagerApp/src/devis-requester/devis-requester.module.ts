@@ -168,6 +168,7 @@ export class DevisRequesterModule {
         Promise.all(promises).then(() => {
           let objectToSend : any = {};
           objectToSend.Taches = listeModifie;
+          this.log.setlogProcess("Tasks have been parsed");
           resolve(objectToSend);
         })
       });     

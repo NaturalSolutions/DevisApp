@@ -9,6 +9,8 @@ using WebApplication4.Models;
 using WebApplication4.Models.BO;
 using System.Web.Http.Cors;
 using WebApplication4.Models.BO.ProcessFiles;
+using System.IO;
+using System.Net.Http.Headers;
 
 namespace WebApplication4.Controllers
 {
@@ -83,9 +85,21 @@ namespace WebApplication4.Controllers
             SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
             Facturation facturation = new Facturation();
             FileFiller filler = new FileFiller(facturation, true, resultFromcallCalculator, newGenObject);
-
+            //StreamWriter logFile = new StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\test.txt");
+            //logFile.WriteLine("je suis juste un petit fichier de test qui va me permettre de savoir si j'arriva a renvoyer des fichiers au clients");
+            //logFile.Close();
+            DateTime longDate = DateTime.Now;
+            var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            var stream = new FileStream(path, FileMode.Open);
+            result.Content = new StreamContent(stream);
+            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+            result.Content.Headers.ContentLength = stream.Length;
+            return result;
             //newGenObject.SaveToDb(false, facturation);
-            return new HttpResponseMessage(HttpStatusCode.Accepted);
+            //return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
             //{
