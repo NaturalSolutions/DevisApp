@@ -111,23 +111,30 @@ export class TransmuterModule {
     });
   }
 
+  public getfile(configUrl){
+    return this.http.get(configUrl);
+  }
+
   public sendToServer(GeneralObject,isFactu){    
     if(isFactu){
       this.alerter.setlogProcess("Sending objects for Facturation");
       console.log("sending object : ", GeneralObject);
-    this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then((res ) => {
-    this.alerter.setLoadingProperty();  
-    this.alerter.setlogMessage("Process Terminé :)");
-    this.blob = new Blob([res]);      
-    console.log("terminé ! ");
-    let link = document.createElement("a")
-    link.href = URL.createObjectURL(this.blob)
-    link.setAttribute('visibility','hidden')
-    link.download = `${"factu"}.${"docx"}`
-    link.onload = function() { URL.revokeObjectURL(link.href) }
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+      this.Angularget('http://localhost/DevisAPI/api/Facturation/',JSON.stringify(GeneralObject)).toPromise().then(( file : HttpResponse<string>) => {
+      this.alerter.setLoadingProperty();  
+      this.alerter.setlogMessage("Process Terminé :)");
+      this.getfile("http://localhost/DevisAPI/api/Facturation/").toPromise().then((file : any) => { 
+        console.log("file",file);
+        // this.blob = new Blob([file.body],  { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});      
+        // console.log("terminé ! ");
+        // let link = document.createElement("a");
+        // link.href = URL.createObjectURL(this.blob);
+        // link.setAttribute('visibility','hidden');
+        // link.download = `${"factuCalcul"}.${"docx"}`
+        // link.onload = function() { URL.revokeObjectURL(link.href) }
+        // document.body.appendChild(link)
+        // link.click()
+        // document.body.removeChild(link);
+      });    
     }).catch((error) => {
       this.alerter.setlogMessage("Il y a eu une erreur");
       this.alerter.setLoadingProperty();

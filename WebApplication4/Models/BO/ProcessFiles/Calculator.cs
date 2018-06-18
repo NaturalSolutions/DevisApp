@@ -285,7 +285,7 @@ namespace WebApplication4.Models.BO.ProcessFiles
                         {
                             if (truc.Where(o => o.name == t.Initials && o.isAmo == Convert.ToBoolean(s.isAMO)).Count() > 0)
                             {
-                                UserProcess currentUser = truc.Where(o => o.name == t.Initials).FirstOrDefault();
+                                UserProcess currentUser = truc.Where(o => o.name == t.Initials && o.isAmo == Convert.ToBoolean(s.isAMO)).FirstOrDefault();
                                 if (t.ferie == true && t.weekend == false) // que férier
                                 {
                                     currentUser.setFe(decimal.Parse(t.Duration));

@@ -28,7 +28,7 @@ namespace WebApplication4.Models
 
         public void setFe(decimal value)
         {
-            if (this.fe == default(decimal))
+            if (this.fe == 0)
             {
                 this.fe = value;
             }else
@@ -38,7 +38,7 @@ namespace WebApplication4.Models
         }
         public void setWe(decimal value)
         {
-            if (this.we == default(decimal))
+            if (this.we == 0)
             {
                 this.we = value;
             }
@@ -49,7 +49,7 @@ namespace WebApplication4.Models
         }
         public void setWefe(decimal value)
         {
-            if (this.wefe == default(decimal))
+            if (this.wefe == 0)
             {
                 this.wefe = value;
             }
@@ -60,7 +60,7 @@ namespace WebApplication4.Models
         }
         public void setNo(decimal value)
         {
-            if (this.no == default(decimal))
+            if (this.no == 0)
             {
                 this.no = value;
             }

@@ -11,6 +11,7 @@ using System.Web.Http.Cors;
 using WebApplication4.Models.BO.ProcessFiles;
 using System.IO;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace WebApplication4.Controllers
 {
@@ -25,24 +26,35 @@ namespace WebApplication4.Controllers
 
 
         // GET: api/Facturation
-        public IEnumerable<Facturation> Get()
+        public HttpResponseMessage Get()
         {
-            try
-            {
-                List<Facturation> factus = db.Facturation.ToList();
-                if ((!factus.Any()) && (factus != null)) // verification de la nullité de la liste renvoyé
-                {
-                    return factus; // si c'est bon on renvoi la liste des taches
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Aucun élément dans la liste"));
-                }
-            }
-            catch(Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
-            }
+            DateTime longDate = DateTime.Now;
+            //var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+            //HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            //var stream = new FileStream(path, FileMode.Open);
+            //result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            //result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+            //result.Content.Headers.ContentLength = stream.Length;
+
+            string strdocPath;
+            //strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul" + ".txt";
+            strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+
+            //FileStream objfilestream = new FileStream(strdocPath, FileMode.Open, FileAccess.Read);
+            //int len = (int)objfilestream.Length;
+            Byte[] documentcontents = File.ReadAllBytes(strdocPath);
+            // objfilestream.Read(documentcontents, 0, len);
+            // objfilestream.Close();
+
+            string stringFile = Convert.ToBase64String(documentcontents);
+
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
+            //response.Content = new StringContent(stringFile, Encoding.UTF8);
+            
+            //response.Content = new ObjectContent(stringFile,
+            return response;
         }
 
         // GET: api/Facturation/5
@@ -60,10 +72,10 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Facturation
-        public HttpResponseMessage Post(object genObjec_f)
+        public void Post(object genObjec_f)
         {
-            var escouilles = genObjec_f.ToString();
-            GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+            var stringed = genObjec_f.ToString();
+            GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(stringed);
             foreach(Projet p in newGenObject.projets)
             {
                 p.découpageStories.Add("B", new List<MasterStories>());
@@ -88,16 +100,34 @@ namespace WebApplication4.Controllers
             //StreamWriter logFile = new StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\test.txt");
             //logFile.WriteLine("je suis juste un petit fichier de test qui va me permettre de savoir si j'arriva a renvoyer des fichiers au clients");
             //logFile.Close();
-            DateTime longDate = DateTime.Now;
-            var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            var stream = new FileStream(path, FileMode.Open);
-            result.Content = new StreamContent(stream);
-            result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
-            result.Content.Headers.ContentLength = stream.Length;
-            return result;
+          //  DateTime longDate = DateTime.Now;
+            //var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+            //HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            //var stream = new FileStream(path, FileMode.Open);
+            //result.Content = new StreamContent(stream);
+            //result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            //result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
+            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+            //result.Content.Headers.ContentLength = stream.Length;
+
+           // string strdocPath;
+            //strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul" + ".txt";
+           // strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+
+            //FileStream objfilestream = new FileStream(strdocPath, FileMode.Open, FileAccess.Read);
+            //int len = (int)objfilestream.Length;
+           // Byte[] documentcontents = File.ReadAllBytes(strdocPath);
+           // objfilestream.Read(documentcontents, 0, len);
+           // objfilestream.Close();
+
+            //string stringFile = Convert.ToBase64String(documentcontents);
+
+            //HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
+            //response.Content = new StringContent(stringFile, Encoding.UTF8);
+            //response.Content = new StringContent(stringFile);
+            //response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+            //return response;
             //newGenObject.SaveToDb(false, facturation);
             //return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
