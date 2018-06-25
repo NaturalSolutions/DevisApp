@@ -71,6 +71,7 @@ header{
     left: 0px;
     top: 0px;
     bottom: 0px;
+    transition: all ease 0.5s;
 }
 
 #items{
@@ -78,8 +79,23 @@ header{
     top: 10%;
 }
 
+#items p{
+    color: white;
+    font-weight: bold;
+}
+
+.info{
+    transition: all ease 1.5s;
+}
+
 #user{
     height: 200px;    
+}
+
+#user img{
+    width: 40px; 
+    position: relative;
+    top: 30%;
 }
 
 #user:hover{
@@ -102,14 +118,25 @@ header{
 
 #apps{
     position: absolute;
-    left: 30%;
+    left: 35%;
     top: 30%;
     width: 50%;
+    transition: all ease 0.5s;
 }
 
 #apps img {
     width: 150px;
-    margin: 80px;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 50px;
+}
+
+#apps h2{
+    display: inline-block;
+    text-transform: uppercase;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 #Apps{

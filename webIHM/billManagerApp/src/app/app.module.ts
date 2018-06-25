@@ -11,11 +11,12 @@ import {PtConfModule} from '../pt-conf/pt-conf.module';
 import {TransmuterModule} from '../transmuter/transmuter.module';
 import {AlertDisplayerService} from '../alert-displayer.service';
 import { LogMessageComponent } from '../log-message/log-message.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent, 
-    FileGeneratorComponent, LogMessageComponent,
+    FileGeneratorComponent, LogMessageComponent, DashboardComponent,
   ],
   imports: [
     BrowserModule,
