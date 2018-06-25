@@ -19,11 +19,11 @@ export class AppComponent {
   retractMenu = (() =>{
     let menu = document.getElementById("menu");
     if(this.menuProperty){
-      menu.style.width = "10%";
+      menu.style.width = "5%";
       this.menuProperty = false;
     }else{
-      menu.style.width = "20%";
-      this.menuProperty = true;
+      menu.style.width = "15%";
+      this.menuProperty = true; 
     }
   });
 }
