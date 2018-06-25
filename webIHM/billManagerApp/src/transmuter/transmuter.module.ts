@@ -46,20 +46,19 @@ export class TransmuterModule {
         return finalListOfObjects;
 	}
 
-	public transmuteStories(StoryObject){
-    let finalListOfObjects = [];
+	public transmuteStories(StoryObject){ // Transformation des stories au format serveur
+    let finalListOfObjects = []; 
     console.log('StoryObject', StoryObject)
-      console.log("Transmuting Stories");
-		  let storyStructure;  		
+      console.log("Transmuting Stories");	
       //Boucle sur object config
-			for(let u in StoryObject){   
-        let finalObjects = {};
-      			for(let i in this.config.ConverterStories){
-      				if(StoryObject[u][this.config.ConverterStories[i]] !== undefined){
-      					finalObjects[i] = StoryObject[u][this.config.ConverterStories[i]];      			
+			for(let u in StoryObject){ // parcours de toute les stories dans la liste de stories 
+        let finalObjects = {}; // création de l'objet qui va contenir les info et qui sera sous le format serveur
+      			for(let i in this.config.ConverterStories){ // parcours du fichier de configuration
+      				if(StoryObject[u][this.config.ConverterStories[i]] !== undefined){ // si la story actuel contient le nom d'attribut actuel 
+      					finalObjects[i] = StoryObject[u][this.config.ConverterStories[i]];  // alors on ajoute au nouvel objet serveur un attribut "serveur" qui va contenir l'info de la story correspondante    			
       				}      			
       			}
-      	finalListOfObjects.push(finalObjects);	
+      	finalListOfObjects.push(finalObjects);	// on ajoute le nouvel objet à la
 			}
 			this.listeStories = finalListOfObjects;
       return finalListOfObjects;
@@ -84,7 +83,7 @@ export class TransmuterModule {
       return finalListOfObjects;
 	}
 
-	public encapsulateObjects(projects,stories,tasks,isFactu)
+	public encapsulateObjects(projects,stories,tasks,isFactu,tarCDP = null , tarDT = null)
   {
     this.alerter.setlogProcess("encapsulating objects");
     let GeneralObject : any = {};
@@ -97,6 +96,8 @@ export class TransmuterModule {
             GeneralObject.projets[p].Stories[t].Tasks = tasks.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
           }
         }
+        GeneralObject.JourDT = tarDT
+        GeneralObject.jourCdp = tarCDP;
       this.sendToServer(GeneralObject,isFactu);
     	}
   }

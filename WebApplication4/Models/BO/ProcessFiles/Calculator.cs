@@ -390,9 +390,9 @@ namespace WebApplication4.Models.BO.ProcessFiles
                     dailyValueWEFE = getDecimalPart(dailyValueWEFE); //Arrondie au supérieur      
                     dailyValueNO = getDecimalPart(dailyValueNO); //Arrondie au supérieur      
                     decimal resFact = ressourceTemp.getCurrentTarification(user.isAmo);
-                    storycost += resFact * (decimal)dailyValueFE;
-                    storycost += resFact * (decimal)dailyValueWE;
-                    storycost += resFact * (decimal)dailyValueWEFE;
+                    storycost += resFact * (decimal)dailyValueFE * (decimal)1.5 ;
+                    storycost += resFact * (decimal)dailyValueWE * (decimal) 2 ;
+                    storycost += resFact * (decimal)dailyValueWEFE * (decimal) 2 ;
                     storycost += resFact * (decimal)dailyValueNO;
                     this.logFile.WriteLine(user.name + "  |  "  +"Valeur FE    " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
                     this.logFile.WriteLine(user.name + "  |  " + "Valeur WE    " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');

@@ -51,8 +51,10 @@ namespace WebApplication4.Models.BO
             }
             else
             {
-                this.facturationCDP = Convert.ToDecimal(_tarCDP);
-                this.facturationDT = Convert.ToDecimal(_tarDT);
+                decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet technique").Select(s => s.Tar5).First();
+                decimal dt = db.Tarification.Where(s => s.Type == "Directeur technique").Select(s => s.Tar5).First();
+                this.facturationCDP = Convert.ToDecimal(_tarCDP) * cdp;
+                this.facturationDT = Convert.ToDecimal(_tarDT) * dt;
             }
             this.estimationDTCDP = this.facturationDT + this.facturationCDP;
             this.totalCumule = this.estimationDTCDP + this.totalTable + this.support;

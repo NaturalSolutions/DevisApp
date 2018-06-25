@@ -73,7 +73,14 @@ namespace WebApplication4.Models.BO
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
             manageDevisTable(obj, sumManager);
-            insertElementsInFiles(fichier);
+            if (isFactu)
+            {
+                insertElementsInFiles(fichier, obj.getJourCdp(), obj.getJourDT());
+            }
+            else
+            {
+                insertElementsInFiles(fichier );
+            }            
             this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             DevisFacturationEntities db = new DevisFacturationEntities();

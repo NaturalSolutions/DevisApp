@@ -10,7 +10,7 @@ import {TransmuterModule} from "../transmuter/transmuter.module";
 @Component({
   selector: 'app-file-generator',
   templateUrl: './file-generator.component.html',
-  styleUrls: ['./file-generator.component.css'],
+  styleUrls: ['./file-generator.component.css']
 })
 export class FileGeneratorComponent implements OnInit {
 
@@ -133,8 +133,7 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.left = "50%";
               monthPicker.style.transform ="translateX(-50%)";
               monthPicker.style.width = "25%";
-
-              fileGeneratorContext.appendChild(monthPicker);
+              fileGeneratorContext.appendChild(monthPicker); 
               monthPicker.onchange = () => {
                 // console.log('inthepicker', this)
                 this.alerter.setLoadingProperty();
@@ -177,9 +176,21 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
-                              console.log('transformed tâches',taches);
-                              this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true);
-                              console.log('j\'envoi !');
+                              console.log('transformed tâches',taches);                                              
+                              let DTCDP = document.getElementById("DTCDP");
+                              DTCDP.style.display = "block";
+                              let btnEnvoi = document.getElementById('sendObject');
+                              btnEnvoi.onclick =(() =>{
+                                let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
+                                let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
+                                if(cdp.value != '0'|| dt.value != '0'){
+                                  console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
+                                  this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
+                                  console.log('j\'envoi !');
+                                }else{
+                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                }
+                              })
                           });
                         }                    
                     });

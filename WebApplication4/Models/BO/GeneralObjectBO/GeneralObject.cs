@@ -8,6 +8,18 @@ namespace WebApplication4.Models.BO
     public class GeneralObject
     {
         public List<Projet> projets {get; set;}
+        public decimal JourDT;
+        public decimal jourCdp;
+
+        public decimal getJourDT()
+        {
+            return this.JourDT;
+        }
+
+        public decimal getJourCdp()
+        {
+            return this.jourCdp;
+        }
 
         public void SaveToDb(bool isFactu,dynamic fichier)
         {
