@@ -1,13 +1,14 @@
 #infoLog{
     visibility: hidden;
     position: relative;
-    top: 250px;
+    top: 50px;
     background-color: white;
     border-radius: 15px;
     width: 20%;
     color:green;
     margin: auto;
     padding: 2%;
+    margin-top: 10%;
 }
 
 ::-webkit-scrollbar {
