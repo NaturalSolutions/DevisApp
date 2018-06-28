@@ -5,9 +5,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class TarificationRessourceController : ApiController //Objet qui lie les Tarification aux ressources
     {
         private DevisFacturationEntities db; // attribut de contexte de bd (objet qui permet de faire les requetes a la base

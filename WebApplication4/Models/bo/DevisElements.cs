@@ -41,11 +41,9 @@ namespace WebApplication4.Models.BO
             this.dateDebut = firstOfTheMonth.AddMonths(1).ToLongDateString();
             this.livraisonFinal = firstOfTheMonth.AddMonths(2).AddDays(-1).ToLongDateString();
 
-            //Calculs des factu CDP et DT
             if (_tarCDP == null)
             {
-                //Atttention ta base est pourrie pense a changer les labels pour les finaux
-                decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet fonctionnel").Select(s => s.Tar5).First();
+                decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet technique").Select(s => s.Tar5).First();
                 decimal dt = db.Tarification.Where(s => s.Type == "Directeur technique").Select(s => s.Tar5).First();
                 //TODO possibiliter de saisir le nombre de jour
                 this.facturationCDP = 20 * cdp;
@@ -53,8 +51,10 @@ namespace WebApplication4.Models.BO
             }
             else
             {
-                this.facturationCDP = Convert.ToDecimal(_tarCDP);
-                this.facturationDT = Convert.ToDecimal(_tarDT);
+                decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet technique").Select(s => s.Tar5).First();
+                decimal dt = db.Tarification.Where(s => s.Type == "Directeur technique").Select(s => s.Tar5).First();
+                this.facturationCDP = Convert.ToDecimal(_tarCDP) * cdp;
+                this.facturationDT = Convert.ToDecimal(_tarDT) * dt;
             }
             this.estimationDTCDP = this.facturationDT + this.facturationCDP;
             this.totalCumule = this.estimationDTCDP + this.totalTable + this.support;

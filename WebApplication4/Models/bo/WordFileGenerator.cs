@@ -9,6 +9,7 @@ using Xceed.Words.NET;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using WebApplication4.Models.BO.ProcessFiles;
 
 
 namespace WebApplication4.Models.BO
@@ -24,7 +25,35 @@ namespace WebApplication4.Models.BO
         public bool isFactu { get; set; }
         public byte[] encoded { get; set; }
 
-        public WordFileGenerator(FactuConstante obj, bool isFactu = false)
+        //public WordFileGenerator(FactuConstante obj, bool isFactu = false)
+        //{
+        //    DateTime longDate = DateTime.Now;
+        //    this.isFactu = isFactu;
+        //    this.basePath = System.AppDomain.CurrentDomain.BaseDirectory;
+        //    this.tableSubTotal = 0;
+        //    this.tableSubTotalBonus = 0;
+        //    if (isFactu)
+        //    {
+        //        this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+        //    }
+        //    else
+        //    {
+
+        //        this.fileName = "Devis_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(1).Month + ".docx";
+        //    }
+        //    obj.chefProjet.updateValue();
+        //    obj.directeur.updateValue();
+        //    this.final = loadTemplate();
+        //    setValue("dateCreation", longDate.ToShortDateString());
+        //    //     manageDevisTable(obj.projet);
+        //    insertElementsInFiles(obj.chefProjet.sum, obj.directeur.sum);
+        //    //Save template to a new name same location
+        //    //TODO : convenir d'une convention de nommage 
+        //    this.final.SaveAs(this.basePath + @"\Content\" + this.fileName);
+        //    this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
+        //}
+
+        public WordFileGenerator(GeneralObject obj,SumManager sumManager,dynamic fichier, bool isFactu = false)
         {
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
@@ -33,48 +62,40 @@ namespace WebApplication4.Models.BO
             this.tableSubTotalBonus = 0;
             if (isFactu)
             {
+                fichier = (Facturation)fichier;
                 this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
             }
             else
             {
-
+                fichier = (Devis)fichier;
                 this.fileName = "Devis_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(1).Month + ".docx";
             }
-            obj.chefProjet.updateValue();
-            obj.directeur.updateValue();
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
-            manageDevisTable(obj.projet);
-            insertElementsInFiles(obj.chefProjet.sum, obj.directeur.sum);
-            //Save template to a new name same location
-            //TODO : convenir d'une convention de nommage 
-            this.final.SaveAs(this.basePath + @"\Content\" + this.fileName);
-            this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
-        }
-        public WordFileGenerator(List<GeneralObject> obj, bool isFactu = false)
-        {
-            DateTime longDate = DateTime.Now;
-            this.isFactu = isFactu;
-            this.basePath = System.AppDomain.CurrentDomain.BaseDirectory;
-            this.tableSubTotal = 0;
-            this.tableSubTotalBonus = 0;
+            manageDevisTable(obj, sumManager);
             if (isFactu)
             {
-                this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+                insertElementsInFiles(fichier, obj.getJourCdp(), obj.getJourDT());
             }
             else
             {
-
-                this.fileName = "Devis_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(1).Month + ".docx";
+                insertElementsInFiles(fichier );
+            }            
+            this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
+            this.encoded = File.ReadAllBytes(this.basePath + @"\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
+            DevisFacturationEntities db = new DevisFacturationEntities();
+            fichier.Filename = this.fileName;
+            fichier.Date = DateTime.Now;
+            if (this.isFactu)
+            {
+                //db.Facturation.Add(fichier);
+                //db.SaveChanges();
             }
-            this.final = loadTemplate();
-            setValue("dateCreation", longDate.ToShortDateString());
-            manageDevisTable(obj);
-            insertElementsInFiles();
-            //Save template to a new name same location
-            //TODO : convenir d'une convention de nommage 
-            this.final.SaveAs(this.basePath + @"\Content\" + this.fileName);
-            this.encoded = File.ReadAllBytes(this.basePath + @"\Content\" + this.fileName);
+            else
+            {
+                db.Devis.Add(fichier);
+                db.SaveChanges();
+            }
         }
 
         private DocX loadTemplate()
@@ -98,7 +119,7 @@ namespace WebApplication4.Models.BO
             this.final.ReplaceText("[" + balise + "]", toSet);
         }
 
-        private void insertElementsInFiles(decimal? tarCDP = null, decimal? tarDT = null)
+        private void insertElementsInFiles(dynamic fichie,decimal? tarCDP = null, decimal? tarDT = null)
         {
             DevisElements infos = new DevisElements(this.fileName, this.tableSubTotal + this.tableSubTotalBonus, isFactu, tarCDP, tarDT);
             JObject json = JObject.FromObject(infos);
@@ -106,95 +127,111 @@ namespace WebApplication4.Models.BO
             {
                 setValue(property.Name, property.Value.ToString());
             }
+            if (this.isFactu)
+            {
+                fichie = (Facturation)fichie;
+            }else
+            {
+                fichie = (Devis)fichie;
+            }
+            fichie.Montant = infos.totalCumule;
         }
 
-        private void manageDevisTable(List<GeneralObject> obj)
-        {
-            Table tab = this.final.Tables[2];
-            //Row templateToCopy = tab.Rows[1];
-            foreach (GeneralObject insert in obj)
+          private void manageDevisTable(GeneralObject obj,SumManager sumManager)
+          {
+          Table tab = this.final.Tables[2];
+
+           Row templateToCopy = tab.Rows[1];
+            foreach (Projet projet in obj.projets)
             {
-                if (insert.stories != null)
+                if (projet.Stories != null)
                 {
                     Row toAdd = tab.InsertRow(tab.RowCount - 2);
                     //project
-                    toAdd.Cells[0].InsertParagraph(insert.projet);
+                    toAdd.Cells[0].InsertParagraph(projet.Nom);
                     List bulletedList = null;
                     //stories
-                    foreach (string story in insert.stories.Keys)
+                    if(projet.découpageStories.Count > 0)
                     {
-                        if (bulletedList == null)
+                        foreach (MasterStories story in projet.découpageStories["PR"])
                         {
-                            bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
+                            if (bulletedList == null)
+                            {
+                                bulletedList = this.final.AddList(story.Description, 0, ListItemType.Bulleted, 1);
+                            }
+                            else
+                            {
+                                this.final.AddListItem(bulletedList, story.Description);
+                            }
                         }
-                        else
+                        if(bulletedList != null)
                         {
-                            this.final.AddListItem(bulletedList, story);
+                            toAdd.Cells[1].InsertList(bulletedList);
+                            //Cout
+                            FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(projet.Nom, true);
+                            toAdd.Cells[2].InsertParagraph(total.getPR() + "€");
                         }
                     }
-                    toAdd.Cells[1].InsertList(bulletedList);
-                    //Cout
-                    toAdd.Cells[2].InsertParagraph(insert.total.ToString() + "€");
                 }
-                this.tableSubTotal += insert.total;
-            }
-
+                FactuStoriesTabs totalCost = (FactuStoriesTabs)sumManager.getProjectCost(projet.Nom, true);
+                this.tableSubTotal += (decimal) totalCost.getPR();
+            }            
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
             if (this.isFactu)
             {
                 Table tabBonus = this.final.Tables[3];
                 Table tabUnfinished = this.final.Tables[4];
-                //Row templateToCopy = tab.Rows[1];
-                //foreach (GeneralObject insert in obj)
-                //{
-               //     if (insert.storiesBonus.Values != null && insert.storiesBonus.Values.Count > 0 && insert.storiesBonus.Keys.Count > 0)
-               //     {
-               //         Row toAdd = tabBonus.InsertRow(tabBonus.RowCount - 2);
-               //         //project
-                //        toAdd.Cells[0].InsertParagraph(insert.projet);
-                //        List bulletedList = null;
-                //        //stories
-                //        foreach (string story in insert.storiesBonus.Keys)
-                //        {
-                //            if (bulletedList == null)
-                 //           {
-                //                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
-                //            }
-                //            else
-                //            {
-                //                this.final.AddListItem(bulletedList, story);
-                //            }
-                //        }
-                //        toAdd.Cells[1].InsertList(bulletedList);
-                //        //Cout
-                //        toAdd.Cells[2].InsertParagraph(insert.totalBonus.ToString() + "€");
-                //        this.tableSubTotalBonus += insert.totalBonus;
-                //    }
-                //
-
-                //    if (insert.unfinished != null && insert.unfinished.Values.Count > 0 && insert.unfinished.Keys.Count > 0)
-                //    {
-                //        Row toAdd = tabUnfinished.InsertRow(tabUnfinished.RowCount - 1);
-                //        //project
-                //        toAdd.Cells[0].InsertParagraph(insert.projet);
-                //        List bulletedList = null;
+                Row ToCopy = tab.Rows[1];
+                foreach (Projet insert in obj.projets)
+                {
+                    if (insert.découpageStories["B"] != null && insert.découpageStories["B"].Count > 0)
+                    {
+                        Row toAdd = tabBonus.InsertRow(tabBonus.RowCount - 2);
+                        //project
+                        toAdd.Cells[0].InsertParagraph(insert.Nom);
+                        List bulletedList = null;
                         //stories
-                //        foreach (string story in insert.unfinished.Keys)
-                //        {
-                //            if (bulletedList == null)
-                //            {
-                //                bulletedList = this.final.AddList(story, 0, ListItemType.Bulleted, 1);
-                //            }
-                //            else
-                //            {
-                //                this.final.AddListItem(bulletedList, story);
-                //            }
-                //        }
-                //        toAdd.Cells[1].InsertList(bulletedList);
-                //    }
-                //}
-                //tabBonus.Rows[tabBonus.RowCount - 1].Cells[1].ReplaceText("[totalTableBonus]", this.tableSubTotalBonus.ToString());
+                        foreach (MasterStories story in insert.découpageStories["B"])
+                        {
+                            if (bulletedList == null)
+                            {
+                                bulletedList = this.final.AddList(story.Description, 0, ListItemType.Bulleted, 1);
+                            }
+                            else
+                            {
+                                this.final.AddListItem(bulletedList, story.Description);
+                            }
+                        }
+                        toAdd.Cells[1].InsertList(bulletedList);
+                        //Cout
+                        FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(insert.Nom, true);
+                        toAdd.Cells[2].InsertParagraph( total.getB() + "€");
+                        this.tableSubTotalBonus += total.getB();
+                    }
+
+                    if (insert.découpageStories["PNR"] != null && insert.découpageStories["PNR"].Count > 0)
+                    {
+                        Row toAdd = tabUnfinished.InsertRow(tabUnfinished.RowCount - 1);
+                        //project
+                        toAdd.Cells[0].InsertParagraph(insert.Nom);
+                        List bulletedList = null;
+                        //stories
+                        foreach (MasterStories story in insert.découpageStories["PNR"])
+                        {
+                            if (bulletedList == null)
+                            {
+                                bulletedList = this.final.AddList(story.Description, 0, ListItemType.Bulleted, 1);
+                            }
+                            else
+                            {
+                                this.final.AddListItem(bulletedList, story.Description);
+                            }
+                        }
+                        toAdd.Cells[1].InsertList(bulletedList);
+                    }
+                }
+                tabBonus.Rows[tabBonus.RowCount - 1].Cells[1].ReplaceText("[totalTableBonus]", this.tableSubTotalBonus.ToString());
 
             }
         }

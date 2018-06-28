@@ -8,9 +8,9 @@ namespace WebApplication4.Models.BO
 {
     public class ProcessTotal
     {
-        public List<Process> amo { get; set; }
-        public List<Process> dev { get; set; }
-        public List<Process> des { get; set; }
+        public List<ProcessCalcul> amo { get; set; }
+        public List<ProcessCalcul> dev { get; set; }
+        public List<ProcessCalcul> des { get; set; }
 
         public ProcessTotal()
         {
