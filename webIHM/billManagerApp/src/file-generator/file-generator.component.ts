@@ -45,7 +45,7 @@ export class FileGeneratorComponent implements OnInit {
   } 
   setLocalMessageLog(result){
     let infoLogContext = document.getElementById('infoLog');
-    let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez séléctionné, veuillez noter que si vous continuer elle ne seront pas prises en compte dans la tarification :</p> '\n'";
+    let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez sélectionnées, veuillez noter que si vous continuez elle ne seront pas prises en compte dans la tarification:</p> '\n'";
     for(let a in result.storiesSansEpics){
       logMessage += '<a href="'+result.storiesSansEpics[a].url+'" target="_blank">story['+a+']</a>' + '&nbsp ' + '&nbsp ' + '\n';
     }
@@ -90,7 +90,6 @@ export class FileGeneratorComponent implements OnInit {
 
           for(let i in epics){
             let option = document.createElement("option");
-
             option.text = epics[i];
             selector.appendChild(option);
            }           
@@ -132,7 +131,6 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.width = "25%";
               fileGeneratorContext.appendChild(monthPicker); 
               monthPicker.onchange = () => {
-                // console.log('inthepicker', this)
                 this.alerter.setLoadingProperty();
                 let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
                 console.log('projets',projets);

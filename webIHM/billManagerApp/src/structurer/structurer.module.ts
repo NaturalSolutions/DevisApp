@@ -4,21 +4,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: []
+	imports: [
+		CommonModule
+	],
+	declarations: []
 })
 export class StructurerModule {
-	constructor(private http : HttpClient){
+	constructor(private http: HttpClient) {
 	}
 
-  public Angularget(configUrl) {
-    return this.http.get(configUrl);
-  }
-	
-	public getProjetStructure(){
-		return new Promise((resolve,reject) => {
+	public Angularget(configUrl) {
+		return this.http.get(configUrl);
+	}
+
+	public getProjetStructure() {
+		return new Promise((resolve, reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Projet/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
@@ -27,8 +27,8 @@ export class StructurerModule {
 		});
 	}
 
-	public getStoriesStructure(){
-		return new Promise((resolve,reject) => {
+	public getStoriesStructure() {
+		return new Promise((resolve, reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Stories_d/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
@@ -37,8 +37,8 @@ export class StructurerModule {
 		});
 	}
 
-	public getTasksStructure(){
-		return new Promise((resolve,reject) => {
+	public getTasksStructure() {
+		return new Promise((resolve, reject) => {
 			this.Angularget("http://localhost/DevisAPI/api/Tasks_d/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
@@ -47,4 +47,4 @@ export class StructurerModule {
 		});
 	}
 
- }
+}
