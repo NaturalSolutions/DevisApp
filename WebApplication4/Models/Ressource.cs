@@ -25,8 +25,8 @@ namespace WebApplication4.Models
         public string Mail { get; set; }
         public string Initial { get; set; }
         public Nullable<int> Niveau { get; set; }
-        public System.DateTime Date { get; set; }
-        public bool Obsolete { get; set; }
+        public Nullable<bool> Obsolete { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tarification_Ressource> Tarification_Ressource { get; set; }

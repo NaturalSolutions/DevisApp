@@ -5,9 +5,12 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
+using Newtonsoft.Json;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Tasks_dController : ApiController // Taches lié aux devis
     {
         // GET: api/Tasks
@@ -98,7 +101,6 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
             }
-
         }
 
         // DELETE: api/Tasks/5
@@ -115,6 +117,13 @@ namespace WebApplication4.Controllers
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
             }
+        }
+
+        [Route("api/Tasks_d/getStructure")]
+        public object getStructure()
+        {
+            MasterTasks t = new MasterTasks("description" , "initials","45",4564654);
+            return JsonConvert.SerializeObject(t.getStructure());
         }
     }
 }
