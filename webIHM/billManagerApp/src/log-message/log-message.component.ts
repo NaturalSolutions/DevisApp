@@ -7,37 +7,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LogMessageComponent implements OnInit {
 
-  private loaderState : boolean;
-  private processViewverState : boolean
-  constructor() { 
-    this.loaderState =  false;
+  private loaderState: boolean;
+  private processViewverState: boolean
+  constructor() {
+    this.loaderState = false;
     this.processViewverState = false;
   }
 
   ngOnInit() {
   }
 
-  setLoadingProperty(){
+  setLoadingProperty() {
     let loader = document.getElementById('loader');
-    if(this.loaderState == false){
+    if (this.loaderState == false) {
       loader.style.visibility = "visible";
-      this.loaderState =  true;
-    }else{
+      this.loaderState = true;
+    } else {
       this.loaderState = false;
       loader.style.visibility = "hidden";
     }
   }
 
-  setlogMessage(message : any){
+  setlogMessage(message: any) {
     let infolog = document.getElementById("infoLog");
     infolog.innerHTML = message;
     infolog.style.visibility = "visible";
     setTimeout(() => {
       infolog.style.visibility = "hidden";
-    },2000);
+    }, 2000);
   }
 
-  setlogProcess(message : any){
+  setlogProcess(message: any) {
     let processLog = document.getElementById('consoleProcess');
     let newMessage = document.createElement('p');
     newMessage.innerHTML = message;
@@ -52,18 +52,18 @@ export class LogMessageComponent implements OnInit {
     processLog.appendChild(newMessage);
   }
 
-  setProcessViewverProperty(){
+  setProcessViewverProperty() {
     let process = document.getElementById('processState');
-    if(this.processViewverState == false){
+    if (this.processViewverState == false) {
       process.style.visibility = "visible";
-      this.processViewverState =  true;
-    }else{
+      this.processViewverState = true;
+    } else {
       this.processViewverState = false;
       process.style.visibility = "hidden";
     }
   }
 
-  hideProcessViewver(){
+  hideProcessViewver() {
     let process = document.getElementById('processState');
     process.style.visibility = "hidden";
   }
