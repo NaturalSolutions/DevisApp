@@ -15,12 +15,14 @@ export class AppComponent {
   constructor(){
     this.menuProperty = true;
   }
-
+  public test() : void{
+    alert('alert');
+  }
   retractMenu = (() =>{
     let menu = document.getElementById("menu");
     let div = document.getElementById("apps");
-    var x = document.getElementsByClassName("info");
-
+    let x : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName("info") as HTMLCollectionOf<HTMLElement>;
+    let billManager = document.getElementById('bill');
     if(this.menuProperty){
       menu.style.width = "5%";
       this.menuProperty = false;
@@ -37,4 +39,14 @@ export class AppComponent {
       }
     }
   });
+
+
+  // appendBillApp = (() => {
+  //   // let menu = document.getElementById("menu");
+  //   console.log('couilles');
+  //   alert("coucoucoucoucou");
+  //   // menu.style.display = "none";
+  //   // let billApp : HTMLElement = document.getElementById('billApp') as HTMLElement;
+  //   // billApp.style.display = "block";      
+  // });
 }

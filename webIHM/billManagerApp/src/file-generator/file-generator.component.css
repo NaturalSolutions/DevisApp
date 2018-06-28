@@ -5,6 +5,7 @@
     top: 70px;
     margin: auto;
     padding: 2%;
+    left: 190px;
     border-radius: 15px;
     will-change: box-shadow;
 }
@@ -76,6 +77,6 @@
     position: relative;
     top:100px;
     height : 400px;
-    width: 80%;
-    left: 20%;
+    width: 60%;
+    left: 30%;
 }

@@ -96,8 +96,8 @@ export class TransmuterModule {
             GeneralObject.projets[p].Stories[t].Tasks = tasks.filter(o => o.FK_Stories == GeneralObject.projets[p].Stories[t].OriginalId);
           }
         }
-        GeneralObject.JourDT = tarDT
-        GeneralObject.jourCdp = tarCDP;
+      GeneralObject.JourDT = tarDT
+      GeneralObject.jourCdp = tarCDP;
       this.sendToServer(GeneralObject,isFactu);
     	}
   }
@@ -142,12 +142,13 @@ export class TransmuterModule {
       console.log("Il y a eu une erreur",error);
     });
     }else{
+      this.alerter.setLoadingProperty();
       this.alerter.setlogProcess("Sending objects for Devis");
       console.log("sending object : ", GeneralObject);
     this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
       this.alerter.setlogMessage("Process Terminé :)");
       console.log("terminé ! ");
-      this.alerter.setLoadingProperty();
+      // this.alerter.setLoadingProperty();
     }).catch((error) => {
       this.alerter.setLoadingProperty();
       this.alerter.setlogMessage("Il y a eu une erreur");

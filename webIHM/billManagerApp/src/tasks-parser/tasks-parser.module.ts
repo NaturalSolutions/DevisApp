@@ -39,12 +39,17 @@ export class TasksParserModule {
 			var tabDescrInfo = tasks[i].description.split('.-');
 			if (tabDescrInfo.length <= 1) {
 				tabDescrInfo = tasks[i].description.split('. -');
-			}
+				if(tabDescrInfo.length <= 1){
+					alert("cette tâche n'est pas correctement formaté '" + tasks[i].description + "'");
+				}
+			}else{
+
 			var isWE = false;
 			var isFerie = false;
 			var realizedState = null;
 			if (isFactu) {
 				var regexWE = /(\@[wW])$/;
+				//console.log("tabDescrInfo[1]",tabDescrInfo[1],tasks[i]);
 				if (tabDescrInfo[1].trim().match(regexWE)) {				
 					isWE = true;
 					realizedState = 'we';
@@ -156,6 +161,7 @@ export class TasksParserModule {
 			} else { //Si la story ne peut pas etre découpée alors elle n'est pas estimée et ou attribuée
 				alert('La tâche : ' + tasks[i].id + ' de la storie n° : ' + tasks[i].story_id + ' n\'est pas attribué et/ou n\'est pas estimée.\r\n https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id);
 				this.setError('https://www.pivotaltracker.com/n/projects/' + projectId + '/stories/' + tasks[i].story_id + '/tasks/' + tasks[i].id,tasks[i].id);
+			}
 			}
 		}
 		return tasksModified;

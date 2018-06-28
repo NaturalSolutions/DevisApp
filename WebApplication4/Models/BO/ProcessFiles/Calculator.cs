@@ -192,13 +192,13 @@ namespace WebApplication4.Models.BO.ProcessFiles
             {
                 foreach (Projet p in this.genObject.projets)
                 {
-                    this.logFile.WriteLine(p.Nom + '\n' + '\r');
+                   // this.logFile.WriteLine(p.Nom + '\n' + '\r');
                     FactuStoriesTabs projectCost = new FactuStoriesTabs();
                     this.logFile.WriteLine('\r');
                     projectCost.setB(calculateStoriesCostfactu(this.manageStories(p.découpageStories["B"]))); // Ajout du cout de la story au cout du projet
                     projectCost.setPN(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PNR"]))); // Ajout du cout de la story au cout du projet
                     projectCost.setPR(calculateStoriesCostfactu(this.manageStories(p.découpageStories["PR"]))); // Ajout du cout de la story au cout du projet
-                    ResultSumManager.setProjectCostfactu(p.Nom, projectCost);
+                     this.ResultSumManager.setProjectCostfactu(p.Nom, projectCost);
                 }
                 this.logFile.WriteLine('\r');
                 this.logFile.Close();
