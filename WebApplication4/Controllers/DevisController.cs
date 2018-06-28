@@ -6,9 +6,14 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication4.Models;
 using WebApplication4.Models.BO;
+using WebApplication4.Models.BO.ProcessFiles;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Web.Http.Cors;
 
 namespace WebApplication4.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class DevisController : ApiController
     {
         private DevisFacturationEntities db;
@@ -21,15 +26,16 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
+                if ((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
                 {
                     return db.Devis.ToList(); // TO DO Jsonifier le renvoie de la liste des devis pour pouvoir acceder aux attributs des objets
                 }
                 else
                 {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"liste vide")); // lance une exception si la liste est vide
+                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
                 }
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
             }
@@ -38,44 +44,90 @@ namespace WebApplication4.Controllers
         // GET: api/Devis/5
         public Devis Get(int id) //Devra return l'emmplacement d'un DEVIS existant en particulier
         {
-            if(db.Devis.Where(res => res.ID == id).FirstOrDefault() != null)
+            if (db.Devis.Where(res => res.ID == id).FirstOrDefault() != null)
             {
                 return db.Devis.Where(res => res.ID == id).FirstOrDefault(); // return l'objet Devis jsonifier
-            }else
+            }
+            else
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Pas d'objet pour cet ID")); // lance une exception si il n'y a pas d'objet pour l'id visé
             }
-            
+
         }
 
+        //public GeneralObject CreateATestingContext()
+        //{
+        //  //  Tasks taskTest = new Tasks();
+        //  //  taskTest.Description = "une tache de merde bien chiante";
+        //  //  taskTest.Duration = 2;
+        //  //  taskTest.Initials = "TL";
+        //  //  List<Tasks> TasksTest = new List<Tasks>();
+        //  //  TasksTest.Add(taskTest);
+
+        //    // LA TACHE
+
+        //    //MasterStories storyTest = new MasterStories();
+        //   // storyTest.Type = "DEV";
+        //   // storyTest.Tasks = TasksTest;
+        //    List<MasterStories> storiesTest = new List<MasterStories>();
+        //    //   storiesTest.Add(storyTest);
+
+        //    // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
+        //    //projetTest.Nom = "nom Test";
+
+        //    //projetTest.MasterStories = storiesTest;
+        //    List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
+        //    //projetsTest.Add(projetTest);
+         
+        //    GeneralObject myTestGenObject = new GeneralObject();
+        //    myTestGenObject.projets = projetsTest;
+
+        //    return myTestGenObject;
+        //}
+
         // POST: api/Devis
-        public void Post([FromBody] GeneralObject genObjec_d) // DEVRA CREER UN DEVIS 
+        public HttpResponseMessage Post( object genObjec_d) // DEVRA CREER UN DEVIS 
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
-            try
-            {
-                if(genObjec_d != null)
+            //try
+            //{
+                //JObject job = JObject.Parse(genObjec_d);
+
+                var escouilles = genObjec_d.ToString();
+                GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+                foreach (Projet p in newGenObject.projets)
                 {
-                    List<string> NomProjet = new List<string>(); // liste contenant tout les nom de projets
-                    List<string> DescriptionProjet = new List<string>(); // liste contenant toutes les descrîption projet
-                    foreach(WebApplication4.Models.BO.Projet p in genObjec_d.projets) // Parcours de tout les projets et ajout de leur informations dans des listes 
+                    p.découpageStories.Add("B", new List<MasterStories>());
+                    p.découpageStories.Add("PR", new List<MasterStories>());
+                    p.découpageStories.Add("PNR", new List<MasterStories>());
+                    foreach (MasterStories s in p.Stories)
                     {
-                        NomProjet.Add(p.Nom);
-                        DescriptionProjet.Add(p.Description);
-                        foreach()
+                        if ((bool)s.Bonus)
+                        {
+                            p.découpageStories["B"].Add(s);
+                        }
+                        else if (s.nonEffetue)
+                        {
+                            p.découpageStories["PNR"].Add(s);
+                        }
+                        else
+                        {
+                            p.découpageStories["PR"].Add(s);
+                        }
                     }
-                    // Parcours et découpage de l'objet et on récupère aussi les info nécessaire a la creation des objet d'apres
-                    //db.Devis.Add(EnormeObjetyaToutDedans); 
-                    db.SaveChanges();
                 }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,"Objet source null")); //lance exception si objet source est nulle
-                }
-            }
-            catch(Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound,e.Message)); //lance exception si un attribut dans l'objet est nulle
-            }
+            //GeneralObject genTest = CreateATestingContext();
+                Calculator devisCalculator = new Calculator(newGenObject);
+                SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
+                Devis devis = new Devis();
+                FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
+
+               // newGenObject.SaveToDb(false,devis);
+                return new HttpResponseMessage(HttpStatusCode.Accepted);
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si y'a eu un problème
+            //}
         }
 
         // PUT: api/Devis/5
@@ -83,7 +135,7 @@ namespace WebApplication4.Controllers
         {
             try
             {
-                if(value != null)
+                if (value != null)
                 {
                     Devis res = db.Devis.Where(s => s.ID == id).FirstOrDefault();
                     db.Devis.Attach(res); // ecouteur de chamgement de l'objet
@@ -98,9 +150,9 @@ namespace WebApplication4.Controllers
                 {
                     throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
                 }
-                
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
             }

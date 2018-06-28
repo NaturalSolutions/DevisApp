@@ -18,7 +18,7 @@ namespace WebApplication4.Models
         public long FK_Ressource { get; set; }
         public long FK_Tarification { get; set; }
     
-        public virtual Ressource Ressource { get; set; }
         public virtual Tarification Tarification { get; set; }
+        public virtual Ressource Ressource { get; set; }
     }
 }

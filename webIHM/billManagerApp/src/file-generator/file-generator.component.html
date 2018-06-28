@@ -1,0 +1,19 @@
+<div id="fic" (click) = "displayOptions()">
+  <span>Générer un fichier</span>
+</div>
+<section id="fileGenerator">
+  <div id="devis" (click) = "lauchProcess('devis')">
+    <span>Devis</span>
+  </div>
+  
+  <div id="facture" (click) = "lauchProcess('facture')">
+    <span>Facture</span>
+  </div>  
+
+  <div id="DTCDP" style="display: none;">
+    <label for="cdp">Jour de Chef de projet</label> <br><input type="number" id="cdp" value=0><br>
+    <label  for="dt"> Jour de Directeur technique</label> <br><input type="number" id="dt" value=0><br>
+    <button id="sendObject">Send</button>
+  </div>
+</section>
+

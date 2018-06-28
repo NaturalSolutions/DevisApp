@@ -6,18 +6,18 @@ using WebApplication4.Models;
 
 namespace WebApplication4.Models.BO
 {
-    public class Process
+    public class ProcessCalcul
     {
         public string initials { get; set; } // initials de la personne sur la facturation
         public decimal? value { get; set; } // ValeurNormal
         public decimal? valueWE { get; set; } // valeur weekend
         public decimal valueF { get; set; } // valeur jour férié
         public decimal sum { get; set; } // somme 
-        private Devis_Entities db;
+        private DevisFacturationEntities db;
 
-        public Process()
+        public ProcessCalcul()
         {
-            this.db = new Devis_Entities();
+            this.db = new DevisFacturationEntities();
         }
 
         public void updateValue(bool isAmo)
