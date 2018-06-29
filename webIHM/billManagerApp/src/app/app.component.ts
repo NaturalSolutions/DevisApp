@@ -15,8 +15,14 @@ export class AppComponent {
   constructor(){
     this.menuProperty = true;
   }
-  public test() : void{
-    alert('alert');
+
+  appendApps(){
+    let appsMenu = document.getElementById('apps');
+    appsMenu.style.display = "block";
+    let elemclassapp : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('currentApps') as HTMLCollectionOf<HTMLElement>;
+    for(var i = 0; i < elemclassapp.length; i++){
+      elemclassapp[i].style.display = "none"; // depending on what you're doing
+    }
   }
   retractMenu = (() =>{
     let menu = document.getElementById("menu");
@@ -40,13 +46,10 @@ export class AppComponent {
     }
   });
 
-
-  // appendBillApp = (() => {
-  //   // let menu = document.getElementById("menu");
-  //   console.log('couilles');
-  //   alert("coucoucoucoucou");
-  //   // menu.style.display = "none";
-  //   // let billApp : HTMLElement = document.getElementById('billApp') as HTMLElement;
-  //   // billApp.style.display = "block";      
-  // });
+  appendBillApp (){
+    let appsMenu = document.getElementById('apps');
+    appsMenu.style.display = "none";
+    let billApp : HTMLElement = document.getElementById('billApp') as HTMLElement;
+    billApp.style.display = "block";      
+  };
 }
