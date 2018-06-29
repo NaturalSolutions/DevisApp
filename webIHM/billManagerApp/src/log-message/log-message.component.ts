@@ -30,11 +30,23 @@ export class LogMessageComponent implements OnInit {
 
   setlogMessage(message: any) {
     let infolog = document.getElementById("infoLog");
+    let blur = document.getElementById("blur-background");
     infolog.innerHTML = message;
     infolog.style.visibility = "visible";
+    blur.style.visibility = "visible";
     setTimeout(() => {
       infolog.style.visibility = "hidden";
+      blur.style.visibility = "hidden";
     }, 2000);
+  }
+
+  setBlur(isActiv){
+    let blur = document.getElementById("blur-background");
+    if(!isActiv){
+      blur.style.visibility = "hidden";
+    }else {
+      blur.style.visibility = "visible";
+    }
   }
 
   setlogProcess(message: any) {

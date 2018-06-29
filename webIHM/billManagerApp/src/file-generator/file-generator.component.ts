@@ -45,6 +45,7 @@ export class FileGeneratorComponent implements OnInit {
   } 
   setLocalMessageLog(result){
     let infoLogContext = document.getElementById('infoLog');
+    this.alerter.setBlur(true);
     let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez sélectionnées, veuillez noter que si vous continuez elle ne seront pas prises en compte dans la tarification:</p> '\n'";
     for(let a in result.storiesSansEpics){
       logMessage += '<a href="'+result.storiesSansEpics[a].url+'" target="_blank">story['+a+']</a>' + '&nbsp ' + '&nbsp ' + '\n';
@@ -70,7 +71,7 @@ export class FileGeneratorComponent implements OnInit {
     let infoLogContext = document.getElementById('infoLog');
     if(this.DevisProcessLauched == false){      
       infoLogContext.style.visibility = "visible";
-      infoLogContext.innerHTML = '<p> ' + type + ' process lauched </p>'
+      this.alerter.setlogMessage( type + ' process lauched')
       setTimeout(() => {
         infoLogContext.style.visibility = "hidden";
       }, 2000);
@@ -83,7 +84,7 @@ export class FileGeneratorComponent implements OnInit {
           selector.style.borderRadius = "15px";
           selector.style.padding = "10px"; 
           selector.style.position = "absolute";
-          selector.style.bottom = "0px";
+          selector.style.bottom = "100px";
           selector.style.left = "50%";
           selector.style.transform ="translateX(-50%)";
           selector.style.width = "30%";
@@ -125,7 +126,7 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.borderRadius = "15px";
               monthPicker.style.padding = "10px"; 
               monthPicker.style.position = "absolute";
-              monthPicker.style.bottom = "-80px";
+              monthPicker.style.bottom = "40px";
               monthPicker.style.left = "50%";
               monthPicker.style.transform ="translateX(-50%)";
               monthPicker.style.width = "25%";
@@ -141,6 +142,7 @@ export class FileGeneratorComponent implements OnInit {
                   this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
                   document.getElementById('continue').onclick = () => {
                     this.alerter.setLoadingProperty();
+                    this.alerter.setBlur(false);
                     infoLogContext.style.visibility = "hidden";
                     console.log("treatmeantStoriesWithoutEpics.stories",treatmeantStoriesWithoutEpics.stories);
                     let ProperStories = [];

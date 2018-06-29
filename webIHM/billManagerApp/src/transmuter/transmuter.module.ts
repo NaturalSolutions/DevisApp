@@ -114,6 +114,7 @@ export class TransmuterModule {
   }
 
   public sendToServer(GeneralObject, isFactu) {
+    this.alerter.setLoadingProperty();
     if (isFactu) {
       this.alerter.setlogProcess("Sending objects for Facturation");
       console.log("sending object : ", GeneralObject);
