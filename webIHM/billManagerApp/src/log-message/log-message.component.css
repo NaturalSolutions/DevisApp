@@ -64,7 +64,7 @@
     visibility: hidden;
     position: absolute;
     top: 250px;
-    left: 350px;
+    left: 10%;
     background-color: white;
     border-radius: 15px;
     width: 15%;
@@ -87,7 +87,7 @@
 #loader {
     position: absolute;
     visibility: hidden;
-    left: 20%;
+    left: 10%;
     top: 100px;
     border: 16px solid #050505; 
     border-top: 16px solid #ffffff;

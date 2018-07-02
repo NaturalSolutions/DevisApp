@@ -123,9 +123,8 @@ header{
 
 #apps{
     position: absolute;
-    left: 35%;
+    left: 25%;
     top: 30%;
-    width: 50%;
     transition: all ease 0.5s;
 }
 
@@ -210,5 +209,15 @@ header{
     40%, 60% {
       transform: translate3d(9px, 0, 0);
     }
+  }
+
+  #centerdiv{
+    background-color:#4e616b;
+    width: 85%;
+    height: 95%;
+    position: absolute;
+    right: 0px;
+    z-index: 2;
+    transition: all ease 0.5s;
   }
 

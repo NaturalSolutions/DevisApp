@@ -26,20 +26,20 @@ export class AppComponent {
   }
   retractMenu = (() =>{
     let menu = document.getElementById("menu");
-    let div = document.getElementById("apps");
+    let div = document.getElementById("centerdiv");
     let x : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName("info") as HTMLCollectionOf<HTMLElement>;
     let billManager = document.getElementById('bill');
     if(this.menuProperty){
       menu.style.width = "5%";
       this.menuProperty = false;
-      div.style.left = "30%";
+      div.style.width = "95%";
       for (let i = 0; i < x.length; i++) {
         x[i].style.display = "none";
       }
     }else{
       menu.style.width = "15%";
-      this.menuProperty = true; 
-      div.style.left = "35%";
+      this.menuProperty = true;
+      div.style.width = "85%"; 
       for (let i = 0; i < x.length; i++) {
         x[i].style.display = "block";
       }
