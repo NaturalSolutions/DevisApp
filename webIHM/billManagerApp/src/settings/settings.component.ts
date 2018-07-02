@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http/';
 
 @Component({
   selector: 'app-settings',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SettingsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http : HttpClient) { }
 
 
   appendRequestedApp(idElement){
@@ -20,6 +22,21 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  get(url){
+    return this.http.get(url,{
+      headers: {
+        "dataType": "json",
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    });
+  }
+
+  getEmployes(){
+    this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
+      console.log("resultat des ressources",res);
+    })
   }
 
 }
