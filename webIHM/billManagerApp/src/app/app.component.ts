@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-root',
@@ -52,4 +53,13 @@ export class AppComponent {
     let billApp : HTMLElement = document.getElementById('billApp') as HTMLElement;
     billApp.style.display = "block";      
   };
+
+  appendRequestedApp(idElement){
+    let elemclassapp : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName('currentApps') as HTMLCollectionOf<HTMLElement>;
+    for(var i = 0; i < elemclassapp.length; i++){
+      elemclassapp[i].style.display = "none"; // depending on what you're doing
+    }
+    let elementToShow = document.getElementById(idElement);
+    elementToShow.style.display = "block";
+  }
 }
