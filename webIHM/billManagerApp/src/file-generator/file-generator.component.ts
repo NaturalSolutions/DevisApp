@@ -250,6 +250,20 @@ export class FileGeneratorComponent implements OnInit {
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
 
+                              let fu = () => {
+                                alert('coucou')
+                              };
+
+                              let divTest = document.createElement('div');
+                              divTest.style.backgroundColor = "blue";
+                              divTest.style.width = "200px";
+                              
+                              let button = document.createElement('button');
+                              button.innerHTML = "appuie";
+                              button.onclick = fu;
+                              divTest.appendChild(button);
+                              this.alerter.setClosableAlert(divTest);
+
                               let initialEmployes = []
                               this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
                                 for(let emp in res){
@@ -265,9 +279,12 @@ export class FileGeneratorComponent implements OnInit {
                                     for(let currentOwner in owners){
                                       if(!initialEmployes.includes(owners[currentOwner]))
                                       {
-                                        alert('cette initial n\'existe pas dans les owners : ' + owners[currentOwner]);
+                                        alert('cette initial n\'existe pas  : ' + owners[currentOwner]);
+                                   
+
+
                                       }else{
-                                        alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);
+                                        // alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);
                                       }
                                     }
                                   }else{
@@ -275,7 +292,7 @@ export class FileGeneratorComponent implements OnInit {
                                     {
                                       alert('cette initial n\'existe pas : ' + taches[currentTasks].Initials);
                                     }else{
-                                      alert('Cette initial existe : ' + taches[currentTasks].Initials);
+                                      // alert('Cette initial existe : ' + taches[currentTasks].Initials);
                                     }
                                   }                                  
                                 }

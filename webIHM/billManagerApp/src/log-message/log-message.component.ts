@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common/src/dom_tokens';
 
 @Component({
   selector: 'app-log-message',
@@ -49,6 +50,14 @@ export class LogMessageComponent implements OnInit {
     }
   }
 
+  setClosableAlert(innerElement){
+    let closableAlertContext = document.getElementById('closableAlert');
+    closableAlertContext.style.visibility = "visible";
+
+    let contentClosableAlert = document.getElementById('content');
+    contentClosableAlert.appendChild(innerElement);
+  }
+
   setlogProcess(message: any) {
     let processLog = document.getElementById('consoleProcess');
     let newMessage = document.createElement('p');
@@ -73,6 +82,11 @@ export class LogMessageComponent implements OnInit {
       this.processViewverState = false;
       process.style.visibility = "hidden";
     }
+  }
+
+  hideClosableAlert(){
+    let ClosableAlert = document.getElementById('closableAlert');
+    ClosableAlert.style.visibility = 'hidden';
   }
 
   hideProcessViewver() {
