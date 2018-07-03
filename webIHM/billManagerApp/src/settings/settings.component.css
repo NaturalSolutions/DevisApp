@@ -29,8 +29,14 @@
 
 #employes{
     position: absolute;
-    top: 45%;
+    top: 20%;
     left: 30%;
     right: 30%;
-    width: 800px;
+    width:40%;
+    height: 60%;
+    overflow-y: scroll;
+}
+
+#employes p {
+    display: block;
 }
