@@ -134,7 +134,7 @@ namespace WebApplication4.Models.BO
             {
                 fichie = (Devis)fichie;
             }
-            fichie.Montant = infos.totalCumule;
+            fichie.Montant = decimal.Parse(infos.totalCumule);
         }
 
           private void manageDevisTable(GeneralObject obj,SumManager sumManager)
@@ -174,7 +174,8 @@ namespace WebApplication4.Models.BO
                     }
                 }
                 FactuStoriesTabs totalCost = (FactuStoriesTabs)sumManager.getProjectCost(projet.Nom, true);
-                this.tableSubTotal += (decimal) totalCost.getPR();
+                string totalCostStr = totalCost.getPR().ToString("G29");
+                this.tableSubTotal += decimal.Parse(totalCostStr);
             }            
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
@@ -207,7 +208,8 @@ namespace WebApplication4.Models.BO
                         //Cout
                         FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(insert.Nom, true);
                         toAdd.Cells[2].InsertParagraph( total.getB().ToString("G29") + "€");
-                        this.tableSubTotalBonus += total.getB();
+                        string totalBstr = total.getB().ToString("G29");
+                        this.tableSubTotalBonus += decimal.Parse(totalBstr);
                     }
 
                     if (insert.découpageStories["PNR"] != null && insert.découpageStories["PNR"].Count > 0)
