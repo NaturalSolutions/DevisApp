@@ -6,6 +6,7 @@ import { SimpleChange } from '@angular/core/src/change_detection/change_detectio
 import {LogMessageComponent} from '../log-message/log-message.component';
 import * as moment from 'moment';
 import {TransmuterModule} from "../transmuter/transmuter.module";
+import { resolve } from 'q';
 
 @Component({
   selector: 'app-file-generator',
@@ -19,6 +20,7 @@ export class FileGeneratorComponent implements OnInit {
   private devisScope;
   private factureScope;
   private fileScope; 
+
   constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent, private myTransMuter : TransmuterModule) {
     this.divVisibility = false; 
     this.DevisProcessLauched = false;
@@ -66,6 +68,16 @@ export class FileGeneratorComponent implements OnInit {
     document.getElementById('stop').style.border = "none";
     document.getElementById('stop').style.padding = "5px";
   }
+
+  get(url){
+    return this.http.get(url,{
+      headers: {
+        "dataType": "json",
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    });
+  }
+
 
   lauchProcess(type : any) :void {
     let infoLogContext = document.getElementById('infoLog');
@@ -167,21 +179,38 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
-                              console.log('transformed tâches',taches);                                              
-                              let DTCDP = document.getElementById("DTCDP");
-                              DTCDP.style.display = "block";
-                              let btnEnvoi = document.getElementById('sendObject');
-                              btnEnvoi.onclick =(() =>{
-                                let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
-                                let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
-                                if(cdp.value != '0'|| dt.value != '0'){
-                                  console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
-                                  this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
-                                  console.log('j\'envoi !');
-                                }else{
-                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                              let initialEmployes = []
+                              this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
+                                for(let emp in res){
+                                  console.log("res[emp].Initial",res[emp].Initial);
+                                  initialEmployes.push(res[emp].Initial)
                                 }
-                              })
+
+                                for(let currentTasks in tachemodified){
+                                  if(!initialEmployes.includes(tachemodified[currentTasks].Initial))
+                                  {
+                                    alert('cette initial n\'existe pas : ' + tachemodified[currentTasks].Initial);
+                                  }else{
+                                    alert('Cette initial existe : ' + tachemodified[currentTasks].Initial);
+                                  }
+                                }
+                                
+                                console.log('transformed tâches',taches);                                              
+                                let DTCDP = document.getElementById("DTCDP");
+                                DTCDP.style.display = "block";
+                                let btnEnvoi = document.getElementById('sendObject');
+                                btnEnvoi.onclick =(() =>{
+                                  let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
+                                  let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
+                                  if(cdp.value != '0'|| dt.value != '0'){
+                                    console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
+                                    this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
+                                    console.log('j\'envoi !');
+                                  }else{
+                                    this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                  }
+                                })
+                              });                                                      
                           });
                         }                    
                     });
@@ -220,21 +249,52 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
-                              console.log('transformed tâches',taches);                                              
-                              let DTCDP = document.getElementById("DTCDP");
-                              DTCDP.style.display = "block";
-                              let btnEnvoi = document.getElementById('sendObject');
-                              btnEnvoi.onclick =(() =>{
-                                let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
-                                let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
-                                if(cdp.value != '0'|| dt.value != '0'){
-                                  console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
-                                  this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
-                                  console.log('j\'envoi !');
-                                }else{
-                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+
+                              let initialEmployes = []
+                              this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
+                                for(let emp in res){
+                                  console.log("res[emp].Initial",res[emp].Initial);
+                                  initialEmployes.push(res[emp].Initial)
                                 }
-                              })
+
+
+
+                                for(let currentTasks in taches){
+                                  if(taches[currentTasks].Initials.length > 2){
+                                    let owners = taches[currentTasks].Initials.split("+");
+                                    for(let currentOwner in owners){
+                                      if(!initialEmployes.includes(owners[currentOwner]))
+                                      {
+                                        alert('cette initial n\'existe pas dans les owners : ' + owners[currentOwner]);
+                                      }else{
+                                        alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);
+                                      }
+                                    }
+                                  }else{
+                                    if(!initialEmployes.includes(taches[currentTasks].Initials))
+                                    {
+                                      alert('cette initial n\'existe pas : ' + taches[currentTasks].Initials);
+                                    }else{
+                                      alert('Cette initial existe : ' + taches[currentTasks].Initials);
+                                    }
+                                  }                                  
+                                }
+                                  console.log('transformed tâches',taches);                                              
+                                let DTCDP = document.getElementById("DTCDP");
+                                DTCDP.style.display = "block";
+                                let btnEnvoi = document.getElementById('sendObject');
+                                btnEnvoi.onclick =(() =>{
+                                  let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
+                                  let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
+                                  if(cdp.value != '0'|| dt.value != '0'){
+                                    console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
+                                    this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
+                                    console.log('j\'envoi !');
+                                  }else{
+                                    this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                  }
+                                })
+                              });                                
                           });
                         }                    
                     });
