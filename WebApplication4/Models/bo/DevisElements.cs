@@ -52,7 +52,8 @@ namespace WebApplication4.Models.BO
                 this.facturationDT = factuDT.ToString("G29");
                 decimal totalDTCDP = factuCDP + factuDT;
                 this.estimationDTCDP = totalDTCDP.ToString("G29");
-                this.totalCumule = this.estimationDTCDP + this.totalTable + this.support;
+                decimal total = decimal.Parse(this.estimationDTCDP) + decimal.Parse(this.totalTable) + this.support;
+                this.totalCumule = total.ToString("G29");
             }
             else
             {
