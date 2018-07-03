@@ -144,7 +144,7 @@ namespace WebApplication4.Models.BO
            Row templateToCopy = tab.Rows[1];
             foreach (Projet projet in obj.projets)
             {
-                if (projet.Stories != null)
+                if (projet.Stories != null && projet.Stories.Count > 0  && projet.découpageStories["PR"].Count > 0)
                 {
                     Row toAdd = tab.InsertRow(tab.RowCount - 2);
                     //project
@@ -169,7 +169,7 @@ namespace WebApplication4.Models.BO
                             toAdd.Cells[1].InsertList(bulletedList);
                             //Cout
                             FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(projet.Nom, true);
-                            toAdd.Cells[2].InsertParagraph(total.getPR() + "€");
+                            toAdd.Cells[2].InsertParagraph(total.getPR().ToString("G29") + "€");
                         }
                     }
                 }
@@ -179,7 +179,7 @@ namespace WebApplication4.Models.BO
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
             if (this.isFactu)
-            {
+            {               
                 Table tabBonus = this.final.Tables[3];
                 Table tabUnfinished = this.final.Tables[4];
                 Row ToCopy = tab.Rows[1];
@@ -206,7 +206,7 @@ namespace WebApplication4.Models.BO
                         toAdd.Cells[1].InsertList(bulletedList);
                         //Cout
                         FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(insert.Nom, true);
-                        toAdd.Cells[2].InsertParagraph( total.getB() + "€");
+                        toAdd.Cells[2].InsertParagraph( total.getB().ToString("G29") + "€");
                         this.tableSubTotalBonus += total.getB();
                     }
 

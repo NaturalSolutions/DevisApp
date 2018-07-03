@@ -113,6 +113,7 @@ export class TransmuterModule {
     return this.http.get(configUrl);
   }
 
+
   public sendToServer(GeneralObject, isFactu) {
     this.alerter.setLoadingProperty();
     if (isFactu) {

@@ -249,19 +249,6 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
-                              let fu = () => {
-                                alert('coucou')
-                              };
-
-                              let divTest = document.createElement('div');
-                              divTest.style.backgroundColor = "blue";
-                              
-                              let button = document.createElement('button');
-                              button.innerHTML = "appuie";
-                              button.onclick = fu;
-                              divTest.appendChild(button);                              
-                              this.alerter.setClosableAlert(divTest);
-
                               let initialEmployes = []
                               this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
                                 for(let emp in res){
@@ -269,18 +256,13 @@ export class FileGeneratorComponent implements OnInit {
                                   initialEmployes.push(res[emp].Initial)
                                 }
 
-
-
                                 for(let currentTasks in taches){
                                   if(taches[currentTasks].Initials.length > 2){
                                     let owners = taches[currentTasks].Initials.split("+");
                                     for(let currentOwner in owners){
                                       if(!initialEmployes.includes(owners[currentOwner]))
                                       {
-                                        alert('cette initial n\'existe pas  : ' + owners[currentOwner]);
-                                   
-
-
+                                        alert('cette initial n\'existe pas  : ' + owners[currentOwner]);                                
                                       }else{
                                         // alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);
                                       }
