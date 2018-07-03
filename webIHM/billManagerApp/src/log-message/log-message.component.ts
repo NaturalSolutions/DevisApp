@@ -50,12 +50,24 @@ export class LogMessageComponent implements OnInit {
     }
   }
 
+  setBlurBackground(isActiv){
+    let blur = document.getElementById("blur");
+    if(!isActiv){
+      blur.style.visibility = "hidden";
+    }else {
+      blur.style.visibility = "visible";
+    }
+  }
+
   setClosableAlert(innerElement){
     let closableAlertContext = document.getElementById('closableAlert');
     closableAlertContext.style.visibility = "visible";
-
+    innerElement.style.position = "relative";
+    innerElement.style.top = "10%";
+    innerElement.style.bottom = "10%";
     let contentClosableAlert = document.getElementById('content');
     contentClosableAlert.appendChild(innerElement);
+    this.setBlurBackground(true);
   }
 
   setlogProcess(message: any) {
@@ -87,6 +99,7 @@ export class LogMessageComponent implements OnInit {
   hideClosableAlert(){
     let ClosableAlert = document.getElementById('closableAlert');
     ClosableAlert.style.visibility = 'hidden';
+    this.setBlurBackground(false);
   }
 
   hideProcessViewver() {

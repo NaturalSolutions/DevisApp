@@ -49,16 +49,17 @@
   }
 
   .close{
-      color:white;
-      position: absolute;
-      top: -10px;
-      left: 10px;
+    color:white;
+    position: absolute;
+    top: -10px;
+    left: 10px;
     background-color: red;
     border-radius: 45px;
     padding: 2px;
     padding-left: 4px;
     padding-right: 4px;
     cursor: pointer;
+    z-index: 20;
   }
 #processState{
     visibility: hidden;
@@ -77,8 +78,9 @@
 #closableAlert{
   visibility: hidden;
   position: absolute;
-  top: 250px;
+  top: 45%;
   left: 25%;
+  right: 25%;
   background-color: white;
   border-radius: 15px;
   width: 15%;
@@ -93,8 +95,7 @@
   height: 100%;
   background-color: white;    
   border-radius: 15px;
-  padding: 0.5%;
-  overflow-y: scroll;
+  vertical-align: middle;
 }
 
 #consoleProcess{
@@ -121,6 +122,18 @@
 }
 
 #blur-background{
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.60);
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+}
+
+#blur{
   visibility: hidden;
   width: 100%;
   height: 100%;

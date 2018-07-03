@@ -249,19 +249,17 @@ export class FileGeneratorComponent implements OnInit {
                             console.log("properTasks",properTasks.Taches);
                             let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
                               let tachemodified = taches;
-
                               let fu = () => {
                                 alert('coucou')
                               };
 
                               let divTest = document.createElement('div');
                               divTest.style.backgroundColor = "blue";
-                              divTest.style.width = "200px";
                               
                               let button = document.createElement('button');
                               button.innerHTML = "appuie";
                               button.onclick = fu;
-                              divTest.appendChild(button);
+                              divTest.appendChild(button);                              
                               this.alerter.setClosableAlert(divTest);
 
                               let initialEmployes = []
