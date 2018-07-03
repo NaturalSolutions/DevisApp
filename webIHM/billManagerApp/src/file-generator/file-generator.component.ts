@@ -136,8 +136,55 @@ export class FileGeneratorComponent implements OnInit {
                 let projets = this.devisRequester.getProjectFromEpic(projects,selector.value);
                 console.log('projets',projets);
                 let projetmidified = this.myTransMuter.transmuteProjects(projets);                 
-                  this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets,selector.value),monthPicker.value).then((resFactu) => {  
-                  this.myTransMuter.transmuteStories(resFactu);     
+                this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets,selector.value),monthPicker.value).then((resFactu) => {                      
+                  
+                  this.myTransMuter.transmuteStories(resFactu);  
+                    let ProperStories = [];
+                    for(let z in  resFactu.stories){
+                      if(resFactu.stories[z].labels != undefined){                      
+                        if(resFactu.stories[z].labels.includes('bonus')){
+                          resFactu.stories[z].nonEffetue = false;
+                          ProperStories.push(resFactu.stories[z]);
+                        }else{
+                          resFactu.stories[z].nonEffetue = false;
+                          ProperStories.push(resFactu.stories[z]);
+                        }
+                      }
+                    }
+                    this.devisRequester.getProjectStories(projects).then((e : any) => {
+                      for(let cpt in e.stories){
+                          if(e.stories[cpt].current_state != "accepted"){
+                            console.log("e[cpt]",e[cpt]);
+                            e.stories[cpt].nonEffetue = true;
+                            ProperStories.push(e.stories[cpt]);
+                          }
+                      }
+                      let stories = this.myTransMuter.transmuteStories(ProperStories);
+                        let storiesmodified = stories;
+                        console.log("TRANSMUTED STORIES",stories);
+                        if(ProperStories.length > 0){                      
+                          this.devisRequester.getTasks(ProperStories,projects,true).then((properTasks) => {
+                            console.log("properTasks",properTasks.Taches);
+                            let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
+                              let tachemodified = taches;
+                              console.log('transformed tâches',taches);                                              
+                              let DTCDP = document.getElementById("DTCDP");
+                              DTCDP.style.display = "block";
+                              let btnEnvoi = document.getElementById('sendObject');
+                              btnEnvoi.onclick =(() =>{
+                                let cdp : HTMLInputElement = <HTMLInputElement> document.getElementById("cdp");
+                                let dt : HTMLInputElement  = <HTMLInputElement> document.getElementById("dt");
+                                if(cdp.value != '0'|| dt.value != '0'){
+                                  console.log("cdp dt ",document.getElementById("cdp").textContent + "    " +document.getElementById("dt").textContent)                                  
+                                  this.myTransMuter.encapsulateObjects(projetmidified,storiesmodified,tachemodified,true,cdp.value,dt.value);  
+                                  console.log('j\'envoi !');
+                                }else{
+                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                }
+                              })
+                          });
+                        }                    
+                    });
                 }).catch((treatmeantStoriesWithoutEpics) => {               
                   this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
                   document.getElementById('continue').onclick = () => {
