@@ -22,8 +22,8 @@ export class FileGeneratorComponent implements OnInit {
   private fileScope; 
 
   constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent, private myTransMuter : TransmuterModule) {
-    this.divVisibility = false; 
-    this.DevisProcessLauched = false;
+      this.divVisibility = false; 
+      this.DevisProcessLauched = false;  
    }
 
   ngOnInit() {
@@ -255,7 +255,7 @@ export class FileGeneratorComponent implements OnInit {
                                   console.log("res[emp].Initial",res[emp].Initial);
                                   initialEmployes.push(res[emp].Initial)
                                 }
-
+                                let initialInexistante = new Set();
                                 for(let currentTasks in taches){
                                   if(taches[currentTasks].Initials.length > 2){
                                     let owners = taches[currentTasks].Initials.split("+");
@@ -264,7 +264,9 @@ export class FileGeneratorComponent implements OnInit {
                                       {
                                         alert('cette initial n\'existe pas  : ' + owners[currentOwner]);                                
                                       }else{
-                                        // alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);
+                                        //alert('Cette initial existe  dans les owners : ' + owners[currentOwner]);                                        
+                                        initialInexistante.add(owners[currentOwner]);
+                                        //this.alerter.setClosableAlert();
                                       }
                                     }
                                   }else{
@@ -273,10 +275,42 @@ export class FileGeneratorComponent implements OnInit {
                                       alert('cette initial n\'existe pas : ' + taches[currentTasks].Initials);
                                     }else{
                                       // alert('Cette initial existe : ' + taches[currentTasks].Initials);
+                                      initialInexistante.add(taches[currentTasks].Initials);
                                     }
                                   }                                  
                                 }
-                                  console.log('transformed tâches',taches);                                              
+                                let tailleInitialP = document.getElementById('taille_init');
+                                console.log("initialInexistante",initialInexistante);
+                                console.log("initialInexistante.length",initialInexistante.size);
+                                tailleInitialP.innerHTML =  initialInexistante.size.toString();
+                                let divChoixPbInitial = document.getElementById('choixInitialInexistante');
+                                divChoixPbInitial.style.visibility = "visible";
+                                let buttonAjoutRessource = document.getElementById('ajouterInitial');
+                                let buttonEnvoiRessource= document.getElementById('validation_NewRessource');
+                                buttonEnvoiRessource.onclick = () => {
+                                  let ressource  : any = {};
+                                  let inputName  =  document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;                                  
+                                  ressource.Name = inputName.value;
+
+                                  let inputMail  = document.getElementById('Mail_NewRessource') as HTMLInputElement;
+                                  ressource.Mail = inputMail.value;
+
+                                  let inputInitial = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+                                  ressource.Inital = inputInitial.value;
+
+                                  let selectNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
+                                  let selectTarun  =  document.getElementById('Tarifications_NewRessource_un') as HTMLSelectElement;
+                                  let selectTardeux  =  document.getElementById('Tarifications_NewRessource_deux') as HTMLSelectElement;
+
+                                  console.log("ressource",ressource);
+                                };
+
+                                buttonAjoutRessource.onclick = () => {
+                                  document.getElementById('inital_info').style.visibility = "hidden";
+                                  document.getElementById('ajoutRessource').style.visibility = "visible";
+                                };
+                                this.alerter.setClosableAlert(divChoixPbInitial);
+                                console.log('transformed tâches',taches);                                              
                                 let DTCDP = document.getElementById("DTCDP");
                                 DTCDP.style.display = "block";
                                 let btnEnvoi = document.getElementById('sendObject');

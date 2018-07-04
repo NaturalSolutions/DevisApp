@@ -17,10 +17,22 @@
   </div>
 
 
-  <div id="choixInitialInexistante" style="display:none;">
-    <p>Vous pouvez ajouter une ressource ou modifier la tâche contenant l'erreur</p>
-    <button id="ajouterInitial">Ajouter une ressource</button>
-    <button id="modifierTache">Modifier la tâche</button>
+  <div id="choixInitialInexistante" style="visibility:hidden; color:black;" >
+    <p id="taille_init"></p>
+    <div id="inital_info">
+      <p>Vous pouvez ajouter une ressource ou modifier la tâche contenant l'erreur</p>
+      <button id="ajouterInitial">Ajouter une ressource</button>
+      <button id="modifierTache">Arreter le processus</button>
+    </div>
+    <div id="ajoutRessource" style="visibility:hidden; position:relative; top:-140px;">
+      <label for="Nom_Prenom_NewRessource">Nom Prénom</label><br><input type="text" name="Nom_Prenom" id="Nom_Prenom_NewRessource"><br>
+      <label for="Mail_NewRessource">Mail</label><br><input type="text" name="Mail" id="Mail_NewRessource"><br>
+      <label for="Initial_NewRessource">Initial</label><br><input type="text" name="Initial" id="Initial_NewRessource"><br>
+      <label for="Niveau_NewRessource">Niveau</label><br><select name="Niveau" id="Niveau_NewRessource">Niveau</select><br>
+      <label for="Tarifications_NewRessource_un">Tarification</label><br><select name="Tarification" id="Tarifications_NewRessource_un">Tarification</select><br>
+      <label for="Tarifications_NewRessource_deux">Tarification</label><br><select name="Tarification" id="Tarifications_NewRessource_deux">Tarification</select><br>
+      <button id="validation_NewRessource">Valider</button>
+    </div>
   </div>
 
 </section>

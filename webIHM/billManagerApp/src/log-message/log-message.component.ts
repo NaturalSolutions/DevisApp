@@ -59,12 +59,10 @@ export class LogMessageComponent implements OnInit {
     }
   }
 
-  setClosableAlert(innerElement){
+  setClosableAlert(innerElement : HTMLElement){
+    console.log("innerElement",innerElement);
     let closableAlertContext = document.getElementById('closableAlert');
     closableAlertContext.style.visibility = "visible";
-    innerElement.style.position = "relative";
-    innerElement.style.top = "10%";
-    innerElement.style.bottom = "10%";
     let contentClosableAlert = document.getElementById('content');
     contentClosableAlert.appendChild(innerElement);
     this.setBlurBackground(true);
@@ -100,6 +98,10 @@ export class LogMessageComponent implements OnInit {
     let ClosableAlert = document.getElementById('closableAlert');
     ClosableAlert.style.visibility = 'hidden';
     this.setBlurBackground(false);
+    let contentClosableAlert = document.getElementById('content');    
+    while (contentClosableAlert.firstChild) {
+      contentClosableAlert.removeChild(contentClosableAlert.firstChild);
+    }
   }
 
   hideProcessViewver() {

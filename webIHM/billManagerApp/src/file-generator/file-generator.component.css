@@ -17,6 +17,21 @@
     transition: 1s ease-in-out;
 }
 
+
+#taille_init{
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 60px;
+    vertical-align: middle;
+    padding: 5px;
+    position: absolute;
+    left: 90%;
+    top: -10px;
+    border: solid 2px white;
+    color: white;
+}
+
 #devis{
     width: 10%;
     position: relative;
