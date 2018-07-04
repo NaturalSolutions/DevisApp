@@ -280,8 +280,7 @@ export class FileGeneratorComponent implements OnInit {
                                   }                                  
                                 }
                                 let tailleInitialP = document.getElementById('taille_init');
-                                console.log("initialInexistante",initialInexistante);
-                                console.log("initialInexistante.length",initialInexistante.size);
+                                let tailleInitialInexistanteTemp = initialInexistante.size;
                                 tailleInitialP.innerHTML =  initialInexistante.size.toString();
                                 let divChoixPbInitial = document.getElementById('choixInitialInexistante');
                                 divChoixPbInitial.style.visibility = "visible";
@@ -296,13 +295,23 @@ export class FileGeneratorComponent implements OnInit {
                                   ressource.Mail = inputMail.value;
 
                                   let inputInitial = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+                                  inputInitial.value = initialInexistante[tailleInitialInexistanteTemp];
                                   ressource.Inital = inputInitial.value;
 
                                   let selectNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
                                   let selectTarun  =  document.getElementById('Tarifications_NewRessource_un') as HTMLSelectElement;
                                   let selectTardeux  =  document.getElementById('Tarifications_NewRessource_deux') as HTMLSelectElement;
 
-                                  console.log("ressource",ressource);
+                                  if(ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined){
+                                    alert('tout les champs doivent être remplies');
+                                  }else {
+                                    console.log("ressource",ressource);
+                                    --tailleInitialInexistanteTemp; 
+                                    tailleInitialP.innerHTML = tailleInitialInexistanteTemp.toString();
+                                    if(tailleInitialInexistanteTemp <= 0){
+                                    this.alerter.hideClosableAlert();
+                                  }
+                                  }                                  
                                 };
 
                                 buttonAjoutRessource.onclick = () => {
