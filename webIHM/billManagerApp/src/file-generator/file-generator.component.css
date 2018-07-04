@@ -17,6 +17,11 @@
     transition: 1s ease-in-out;
 }
 
+input{
+    text-align: center;
+    padding: 2px;
+}
+
 
 #taille_init{
     background-color: red;
