@@ -1,7 +1,7 @@
 #infoLog{
     visibility: hidden;
     position: absolute;
-    top: 20%;
+    top:-100px;
     background-color: white;
     border-radius: 15px;
     left: 40%;
@@ -12,6 +12,9 @@
     margin: auto;
     padding: 2%;
     margin-top: 10%;
+    -webkit-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+    -moz-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+    box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
 }
 
 ::-webkit-scrollbar {
@@ -87,6 +90,9 @@
   height: 10%;
   margin: auto;
   color: white;
+  -webkit-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
 }
 
 #content{

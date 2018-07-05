@@ -22,6 +22,48 @@ input{
     padding: 2px;
 }
 
+.multiselect {
+  width: 200px;
+  margin: auto;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+  background-color: white;
+  position: absolute;
+  left: 20px;
+  border-radius: 15px;
+  -webkit-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
 
 #taille_init{
     background-color: red;

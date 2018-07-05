@@ -17,6 +17,7 @@ namespace WebApplication4.Controllers
         {
             this.db = new DevisFacturationEntities();
         }
+
         // GET: api/Ressource
         public IEnumerable<Ressource> Get() // renvoie Toute les ressource existantes
         {

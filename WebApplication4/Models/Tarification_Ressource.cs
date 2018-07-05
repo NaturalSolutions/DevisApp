@@ -11,7 +11,8 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Tarification_Ressource
     {
         public long ID { get; set; }
@@ -19,6 +20,7 @@ namespace WebApplication4.Models
         public long FK_Tarification { get; set; }
     
         public virtual Tarification Tarification { get; set; }
+        [NotMapped]
         public virtual Ressource Ressource { get; set; }
     }
 }

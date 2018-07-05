@@ -20,6 +20,7 @@ export class FileGeneratorComponent implements OnInit {
   private devisScope;
   private factureScope;
   private fileScope; 
+  public tarifications;
 
   constructor(private epicRecuperator : EpicRecuperatorModule, private http: HttpClient,private devisRequester : DevisRequesterModule,private alerter : LogMessageComponent, private myTransMuter : TransmuterModule) {
       this.divVisibility = false; 
@@ -30,6 +31,19 @@ export class FileGeneratorComponent implements OnInit {
     this.devisScope = document.getElementById('devis');
     this.factureScope = document.getElementById('facture');
     this.fileScope = document.getElementById('fileGenerator');
+  }
+
+  private expanded = false;
+
+  showCheckboxes() {
+    var checkboxes = document.getElementById("checkboxes");
+    if (!this.expanded) {
+      checkboxes.style.display = "block";
+      this.expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      this.expanded = false;
+    }
   }
 
   displayOptions () :void {
@@ -281,8 +295,9 @@ export class FileGeneratorComponent implements OnInit {
                                 }
 
                                 if(initialInexistante.size >= 0){
-                                  let Tarification = this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
-                                    console.log("tarification",Tarification);
+                                  this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
+                                    this.tarifications = res;
+                                    console.log("tarification",res);
                                   let initialInexistanteArray = Array.from(initialInexistante);
                                   console.log("initialInexistanteArray",initialInexistanteArray);
                                   let tailleInitialP = document.getElementById('taille_init');

@@ -22,10 +22,10 @@ namespace WebApplication4.Controllers
         // GET: api/Tarification
         public List<Tarification> Get() // Renvoie toute les tarification
         {
-            try
-            {
+            //try
+            //{
                 List<Tarification> ts = db.Tarification.ToList();
-                if ((!ts.Any()) && (ts != null)) // verification de la nullité de la liste renvoyé
+                if (ts != null && ts.Count > 0) // verification de la nullité de la liste renvoyé
                 {
                     return ts; // si c'est bon on renvoi la liste des taches
                 }
@@ -33,11 +33,11 @@ namespace WebApplication4.Controllers
                 {
                     throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Aucun élément dans la liste"));
                 }
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
-            }
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
+            //}
         }
 
         // GET: api/Tarification/5

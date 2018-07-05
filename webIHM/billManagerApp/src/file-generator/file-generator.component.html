@@ -29,8 +29,20 @@
       <label for="Mail_NewRessource">Mail</label><br><input type="text" name="Mail" id="Mail_NewRessource"><br>
       <label for="Initial_NewRessource">Initial</label><br><input type="text" name="Initial" id="Initial_NewRessource"><br>
       <label for="Niveau_NewRessource">Niveau</label><br><select name="Niveau" id="Niveau_NewRessource">Niveau</select><br>
-      <label for="Tarifications_NewRessource_un">Tarification</label><br><select name="Tarification" id="Tarifications_NewRessource_un">Tarification</select><br>
-      <label for="Tarifications_NewRessource_deux">Tarification</label><br><select name="Tarification" id="Tarifications_NewRessource_deux">Tarification</select><br>
+      <label for="Tarifications_NewRessource_un">Tarification</label><br>
+      <div class="multiselect">
+        <div class="selectBox" (click)="showCheckboxes()">
+          <select>
+            <option>Select an option</option>
+          </select>
+          <div class="overSelect"></div>
+        </div>
+        <div id="checkboxes">
+          <label *ngFor="let tarif of tarifications">
+            <input type="checkbox" id= {{tarif.Type}} />{{tarif.Type}}</label>        
+        </div>
+      </div>
+      <br>
       <button id="validation_NewRessource">Valider</button>
     </div>
   </div>
