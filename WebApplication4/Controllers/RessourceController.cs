@@ -96,7 +96,6 @@ namespace WebApplication4.Controllers
                 Tarification tar = db.Tarification.Where(res => res.Type == nomTar).FirstOrDefault();
                 tarRes.FK_Tarification = tar.ID;
             }
-
             db.Ressource.Add(newRess);
             db.Tarification_Ressource.Add(tarRes);
             db.SaveChanges();
