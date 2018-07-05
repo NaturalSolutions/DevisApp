@@ -82,7 +82,24 @@ namespace WebApplication4.Controllers
         // POST: api/Ressource
         public void Post(ressClient rss) // Ajout d'une nouvelle ressource 
         {
-            rss.initial = "sdfqsdfqs";
+            Ressource newRess = new Ressource();
+            newRess.Initial = rss.initial;
+            newRess.Mail = rss.mail;
+            newRess.Name = rss.name;
+            newRess.Niveau = rss.niveau;
+            newRess.Obsolete = false;
+            newRess.Date = DateTime.Now;
+            Tarification_Ressource tarRes = new Tarification_Ressource();
+            foreach (string nomTar in rss.tarification)
+            {
+                tarRes.FK_Ressource = newRess.ID;
+                Tarification tar = db.Tarification.Where(res => res.Type == nomTar).FirstOrDefault();
+                tarRes.FK_Tarification = tar.ID;
+            }
+
+            db.Ressource.Add(newRess);
+            db.Tarification_Ressource.Add(tarRes);
+            db.SaveChanges();
         }
 
         // PUT: api/Ressource/5
