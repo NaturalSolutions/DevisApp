@@ -279,59 +279,65 @@ export class FileGeneratorComponent implements OnInit {
                                     }
                                   }                                  
                                 }
-                                let initialInexistanteArray = Array.from(initialInexistante);
-                                console.log("initialInexistanteArray",initialInexistanteArray);
-                                let tailleInitialP = document.getElementById('taille_init');
-                                let tailleInitialInexistanteTemp = 0;
-                                tailleInitialP.innerHTML =  initialInexistanteArray.length.toString();
-                                let divChoixPbInitial = document.getElementById('choixInitialInexistante');
-                                divChoixPbInitial.style.visibility = "visible";
-                                let buttonAjoutRessource = document.getElementById('ajouterInitial');
-                                let buttonEnvoiRessource= document.getElementById('validation_NewRessource');
-                                let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-                                inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
-                                console.log("initialInexistanteArray[0]",initialInexistanteArray[0])                                                          
-                                                                    
-                                buttonEnvoiRessource.onclick = () => {                                
-                                  console.log("tailleInitialInexistanteTemp",tailleInitialInexistanteTemp);
-                                  let ressource  : any = {};
-                                  let inputName  =  document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;                                  
-                                  ressource.Name = inputName.value;
 
-                                  let inputMail  = document.getElementById('Mail_NewRessource') as HTMLInputElement;
-                                  ressource.Mail = inputMail.value;
-                                  console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]",initialInexistanteArray[tailleInitialInexistanteTemp]);
-                                  ressource.Initial = inputInitials.value;
+                                if(initialInexistante.size >= 0){
+                                  let Tarification = this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
+                                    console.log("tarification",Tarification);
+                                  let initialInexistanteArray = Array.from(initialInexistante);
+                                  console.log("initialInexistanteArray",initialInexistanteArray);
+                                  let tailleInitialP = document.getElementById('taille_init');
+                                  let tailleInitialInexistanteTemp = 0;
+                                  tailleInitialP.innerHTML =  initialInexistanteArray.length.toString();
+                                  let divChoixPbInitial = document.getElementById('choixInitialInexistante');
+                                  divChoixPbInitial.style.visibility = "visible";
+                                  let buttonAjoutRessource = document.getElementById('ajouterInitial');
+                                  let buttonEnvoiRessource= document.getElementById('validation_NewRessource');
+                                  let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+                                  inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
+                                  console.log("initialInexistanteArray[0]",initialInexistanteArray[0])                                                          
+                                                                      
+                                  buttonEnvoiRessource.onclick = () => {                                
+                                    console.log("tailleInitialInexistanteTemp",tailleInitialInexistanteTemp);
+                                    let ressource  : any = {};
+                                    let inputName  =  document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;                                  
+                                    ressource.Name = inputName.value;
 
-                                  let selectNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
-                                  let selectTarun  =  document.getElementById('Tarifications_NewRessource_un') as HTMLSelectElement;
-                                  let selectTardeux  =  document.getElementById('Tarifications_NewRessource_deux') as HTMLSelectElement;
+                                    let inputMail  = document.getElementById('Mail_NewRessource') as HTMLInputElement;
+                                    ressource.Mail = inputMail.value;
+                                    console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]",initialInexistanteArray[tailleInitialInexistanteTemp]);
+                                    ressource.Initial = inputInitials.value;
 
-                                  if(ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined){
-                                    console.log("ressource.Name",ressource.Name);
-                                    console.log("ressource.Mail",ressource.Mail);
-                                    console.log("ressource.Initial",ressource.Initial);                              
-                                    alert('tout les champs doivent être remplies');
-                                  }else {                          
-                                    console.log('tailleInitialInexistanteTemp',tailleInitialInexistanteTemp);         
-                                    inputName.value = "";
-                                    inputMail.value = "";
-                                    console.log("ressource",ressource);
-                                    tailleInitialInexistanteTemp++;
-                                    tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
-                                    let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-                                    inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];                                    
-                                  if(tailleInitialInexistanteTemp >= initialInexistanteArray.length){
-                                      this.alerter.hideClosableAlert();
-                                    }
-                                  }                                  
-                                };
+                                    let selectNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
+                                    let selectTarun  =  document.getElementById('Tarifications_NewRessource_un') as HTMLSelectElement;
+                                    let selectTardeux  =  document.getElementById('Tarifications_NewRessource_deux') as HTMLSelectElement;
 
-                                buttonAjoutRessource.onclick = () => {
-                                  document.getElementById('inital_info').style.visibility = "hidden";
-                                  document.getElementById('ajoutRessource').style.visibility = "visible";
-                                };
-                                this.alerter.setClosableAlert(divChoixPbInitial);
+                                    if(ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined){
+                                      console.log("ressource.Name",ressource.Name);
+                                      console.log("ressource.Mail",ressource.Mail);
+                                      console.log("ressource.Initial",ressource.Initial);                              
+                                      alert('tout les champs doivent être remplies');
+                                    }else {                          
+                                      console.log('tailleInitialInexistanteTemp',tailleInitialInexistanteTemp);         
+                                      inputName.value = "";
+                                      inputMail.value = "";
+                                      console.log("ressource",ressource);
+                                      tailleInitialInexistanteTemp++;
+                                      tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
+                                      let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+                                      inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];                                    
+                                    if(tailleInitialInexistanteTemp >= initialInexistanteArray.length){
+                                        this.alerter.hideClosableAlert();
+                                      }
+                                    }                                  
+                                  };
+
+                                  buttonAjoutRessource.onclick = () => {
+                                    document.getElementById('inital_info').style.visibility = "hidden";
+                                    document.getElementById('ajoutRessource').style.visibility = "visible";
+                                  };
+                                  this.alerter.setClosableAlert(divChoixPbInitial);
+                                  })                                  
+                                }                                
                                 console.log('transformed tâches',taches);                                              
                                 let DTCDP = document.getElementById("DTCDP");
                                 DTCDP.style.display = "block";

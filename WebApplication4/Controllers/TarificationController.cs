@@ -20,7 +20,7 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Tarification
-        public IEnumerable<Tarification> Get() // Renvoie toute les tarification
+        public List<Tarification> Get() // Renvoie toute les tarification
         {
             try
             {

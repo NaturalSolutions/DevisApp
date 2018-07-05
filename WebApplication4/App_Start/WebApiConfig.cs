@@ -19,16 +19,15 @@ namespace WebApplication4
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "tarificationApi",
-                routeTemplate: "api/{controller}/{id}/{action}",
-                defaults: new { id = RouteParameter.Optional }
+                name: "tarification",
+                routeTemplate: "api/tarification/"
             );
 
             config.Routes.MapHttpRoute(
                 name: "FacturationApi",
                 routeTemplate: "api/Facturation/{action}",
                 defaults: new { controller = "Facturation" }
-            );
+            );            
 
             config.Routes.MapHttpRoute(
                 name: "WordFileApi",
