@@ -1,7 +1,7 @@
 #infoLog{
     visibility: hidden;
     position: absolute;
-    top:-100px;
+    top:-150px;
     background-color: white;
     border-radius: 15px;
     left: 40%;
@@ -81,7 +81,7 @@
 #closableAlert{
   visibility: hidden;
   position: absolute;
-  top: 25%;
+  top: 20%;
   left: 25%;
   right: 25%;
   background-color: white;

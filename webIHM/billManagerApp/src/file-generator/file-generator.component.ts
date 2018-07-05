@@ -7,6 +7,7 @@ import {LogMessageComponent} from '../log-message/log-message.component';
 import * as moment from 'moment';
 import {TransmuterModule} from "../transmuter/transmuter.module";
 import { resolve } from 'q';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-file-generator',
@@ -322,19 +323,38 @@ export class FileGeneratorComponent implements OnInit {
                                     console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]",initialInexistanteArray[tailleInitialInexistanteTemp]);
                                     ressource.Initial = inputInitials.value;
 
-                                    let selectNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
-                                    let selectTarun  =  document.getElementById('Tarifications_NewRessource_un') as HTMLSelectElement;
-                                    let selectTardeux  =  document.getElementById('Tarifications_NewRessource_deux') as HTMLSelectElement;
+                                    let inputNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
+                                    ressource.niveau = inputNiveau.value;
 
-                                    if(ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined){
+                                    let checkboxesTarification = document.getElementsByClassName('checkboxes_tarif') as HTMLCollectionOf<HTMLInputElement>;
+
+                                    ressource.tarification = "";
+                                    for(let c in checkboxesTarification){
+                                      console.log('checkboxesTarification.value',checkboxesTarification[c]);
+                                      if(checkboxesTarification[c].checked && checkboxesTarification[c].id != undefined){
+                                        ressource.tarification += checkboxesTarification[c].id + ";";
+                                      }                                      
+                                    } 
+
+                                    ressource.tarification = ressource.tarification.substring(0,ressource.tarification.length-1);
+                                    console.log("ressource.tarification",ressource.tarification);
+                                    ressource.tarification = ressource.tarification.split(';');
+
+                                    if(ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined || ressource.niveau == "" || ressource.tarification == "" || ressource.tarification == undefined){
                                       console.log("ressource.Name",ressource.Name);
                                       console.log("ressource.Mail",ressource.Mail);
                                       console.log("ressource.Initial",ressource.Initial);                              
-                                      alert('tout les champs doivent être remplies');
+                                      this.alerter.setlogMessage('tout les champs doivent être remplies');
                                     }else {                          
                                       console.log('tailleInitialInexistanteTemp',tailleInitialInexistanteTemp);         
                                       inputName.value = "";
                                       inputMail.value = "";
+                                      inputNiveau.value = "3";
+                                      for(let checkbox in checkboxesTarification){
+                                        if(checkboxesTarification[checkbox].id != undefined){
+                                          checkboxesTarification[checkbox].checked = false;
+                                        }                                        
+                                      }                                     
                                       console.log("ressource",ressource);
                                       tailleInitialInexistanteTemp++;
                                       tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();

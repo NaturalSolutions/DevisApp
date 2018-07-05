@@ -44,16 +44,26 @@ input{
   bottom: 0;
 }
 
+*{
+    outline: none;
+}
+
+input:focus{
+    outline: none;
+}
+
 #checkboxes {
   display: none;
   border: 1px #dadada solid;
   background-color: white;
   position: absolute;
-  left: 20px;
+  left: 10px;
   border-radius: 15px;
   -webkit-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
   box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  text-align: left;
+  padding: 5px;
 }
 
 #checkboxes label {
