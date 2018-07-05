@@ -70,25 +70,19 @@ namespace WebApplication4.Controllers
         //    }
         //}
 
-        // POST: api/Ressource
-        public void Post([FromBody]Ressource rss) // Ajout d'une nouvelle ressource 
+        public struct ressClient
         {
-            try
-            {
-                if (rss != null)
-                {
-                    this.db.Ressource.Add(rss); 
-                    this.db.SaveChanges(); // mise a jour de la table
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
-                }
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
-            }
+            public string initial;
+            public string mail;
+            public string name;
+            public int niveau;
+            public List<String> tarification;
+        }
+
+        // POST: api/Ressource
+        public void Post(ressClient rss) // Ajout d'une nouvelle ressource 
+        {
+            rss.initial = "sdfqsdfqs";
         }
 
         // PUT: api/Ressource/5

@@ -47,6 +47,15 @@ export class FileGeneratorComponent implements OnInit {
     }
   }
 
+  postNewRessource(url,objetAEnvoyer){
+    return this.http.post(url, objetAEnvoyer, {
+      headers: {
+        "dataType": "json",
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    });
+  }
+
   displayOptions () :void {
     if(this.divVisibility == false){
       this.fileScope.style.visibility = "visible";
@@ -356,6 +365,9 @@ export class FileGeneratorComponent implements OnInit {
                                         }                                        
                                       }                                     
                                       console.log("ressource",ressource);
+                                      this.postNewRessource('http://localhost/DevisAPI/api/ressource',ressource).toPromise().then(() => {
+                                        this.alerter.setlogMessage('Ressource ajouté à la base');
+                                      })                                    
                                       tailleInitialInexistanteTemp++;
                                       tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
                                       let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
