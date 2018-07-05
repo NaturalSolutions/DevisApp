@@ -68,6 +68,10 @@ export class LogMessageComponent implements OnInit {
     this.setBlurBackground(true);
   }
 
+  stopProcess()
+  {
+    location.reload();
+  }
   setlogProcess(message: any) {
     let processLog = document.getElementById('consoleProcess');
     let newMessage = document.createElement('p');
@@ -94,13 +98,16 @@ export class LogMessageComponent implements OnInit {
     }
   }
 
-  hideClosableAlert(){
+  hideClosableAlert(callback = null){
     let ClosableAlert = document.getElementById('closableAlert');
     ClosableAlert.style.visibility = 'hidden';
     this.setBlurBackground(false);
     let contentClosableAlert = document.getElementById('content');    
     while (contentClosableAlert.firstChild) {
       contentClosableAlert.removeChild(contentClosableAlert.firstChild);
+    }
+    if(callback != null){
+      callback();
     }
   }
 
