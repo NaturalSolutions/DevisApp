@@ -157,6 +157,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DevisController.cs" />
     <Compile Include="Controllers\FacturationController.cs" />
+    <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="Controllers\RessourceController.cs" />
     <Compile Include="Controllers\StoriesFacturationController.cs" />

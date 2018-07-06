@@ -128,7 +128,7 @@ export class FileGeneratorComponent implements OnInit {
         let initialInexistanteArray = Array.from(initialInexistante);
         if (initialInexistanteArray.length > 0) {
           this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
-            this.tarifications = res;            
+            this.tarifications = res;
             let tailleInitialP = document.getElementById('taille_init');
             let tailleInitialInexistanteTemp = 0;
             tailleInitialP.innerHTML = initialInexistanteArray.length.toString();
@@ -204,7 +204,7 @@ export class FileGeneratorComponent implements OnInit {
             };
             this.alerter.setClosableAlert(divChoixPbInitial);
           })
-        }else{
+        } else {
           resolve(true);
         }
       });
@@ -318,19 +318,24 @@ export class FileGeneratorComponent implements OnInit {
                         this.verifyInitial(taches).then((retour) => {
                           if (retour) {
                             console.log('transformed tâches', taches);
-                            let DTCDP = document.getElementById("DTCDP");
-                            DTCDP.style.display = "block";
-                            let btnEnvoi = document.getElementById('sendObject');
-                            btnEnvoi.onclick = (() => {
+                            this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
+                              alert('mes couilles');
                               let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
+                              cdp.value = params.NbJourCDP;
                               let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
-                              if (cdp.value != '0' || dt.value != '0') {
-                                console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
-                                console.log('j\'envoi !');
-                              } else {
-                                this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
-                              }
+                              dt.value = params.NbJourDT;
+                              let DTCDP = document.getElementById("DTCDP");
+                              DTCDP.style.display = "block";
+                              let btnEnvoi = document.getElementById('sendObject');
+                              btnEnvoi.onclick = (() => {
+                                if (cdp.value != '0' || dt.value != '0') {
+                                  console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
+                                  this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
+                                  console.log('j\'envoi !');
+                                } else {
+                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                }
+                              })
                             })
                           }
                         });
@@ -374,21 +379,26 @@ export class FileGeneratorComponent implements OnInit {
                           let tachemodified = taches;
                           this.verifyInitial(taches).then((retour) => {
                             if (retour) {
-                              console.log('transformed tâches', taches);
-                              let DTCDP = document.getElementById("DTCDP");
-                              DTCDP.style.display = "block";
-                              let btnEnvoi = document.getElementById('sendObject');
-                              btnEnvoi.onclick = (() => {
+                              this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
+                                console.log('transformed tâches', taches);                                
+                                let DTCDP = document.getElementById("DTCDP");
+                                DTCDP.style.display = "block";
                                 let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
+                                cdp.value = params.NbJourCDP;                                
                                 let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
-                                if (cdp.value != '0' || dt.value != '0') {
-                                  console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                  this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
-                                  console.log('j\'envoi !');
-                                } else {
-                                  this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
-                                }
-                              })
+                                dt.value = params.NbJourDT;
+                                let btnEnvoi = document.getElementById('sendObject');
+                                btnEnvoi.onclick = (() => {
+
+                                  if (cdp.value != '0' || dt.value != '0') {
+                                    console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
+                                    this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
+                                    console.log('j\'envoi !');
+                                  } else {
+                                    this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                  }
+                                })
+                              });
                             }
                           });
                         });
