@@ -212,6 +212,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Paramètres.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Projet.cs">
       <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>

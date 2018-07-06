@@ -28,6 +28,20 @@
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="Filename" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
+        <EntityType Name="Paramètres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MultiplicationWE" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationFE" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationWEFE" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="NbJourDT" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="NbJourCDP" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="PrixSupport" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="Obsolete" Type="bit" />
+          <Property Name="Date" Type="datetime" />
+        </EntityType>
         <EntityType Name="Projet">
           <Key>
             <PropertyRef Name="Id" />
@@ -281,6 +295,7 @@
         <EntityContainer Name="DevisFacturationModelStoreContainer">
           <EntitySet Name="Devis" EntityType="Self.Devis" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facturation" EntityType="Self.Facturation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Paramètres" EntityType="Self.Paramètres" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Projet" EntityType="Self.Projet" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Ressource" EntityType="Self.Ressource" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Stories_d" EntityType="Self.Stories_d" Schema="dbo" store:Type="Tables" />
@@ -397,6 +412,7 @@
             <End Role="Ressource" EntitySet="Ressource" />
             <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
           </AssociationSet>
+          <EntitySet Name="Paramètres" EntityType="DevisFacturationModel.Paramètres" />
         </EntityContainer>
         <EntityType Name="Devis">
           <Key>
@@ -693,6 +709,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Paramètres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MultiplicationWE" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationFE" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationWEFE" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NbJourDT" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="NbJourCDP" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="PrixSupport" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Obsolete" Type="Boolean" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -848,6 +878,21 @@
                 <ScalarProperty Name="Initial" ColumnName="Initial" />
                 <ScalarProperty Name="Mail" ColumnName="Mail" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Paramètres">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Paramètres">
+              <MappingFragment StoreEntitySet="Paramètres">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Obsolete" ColumnName="Obsolete" />
+                <ScalarProperty Name="PrixSupport" ColumnName="PrixSupport" />
+                <ScalarProperty Name="NbJourCDP" ColumnName="NbJourCDP" />
+                <ScalarProperty Name="NbJourDT" ColumnName="NbJourDT" />
+                <ScalarProperty Name="MultiplicationWEFE" ColumnName="MultiplicationWEFE" />
+                <ScalarProperty Name="MultiplicationFE" ColumnName="MultiplicationFE" />
+                <ScalarProperty Name="MultiplicationWE" ColumnName="MultiplicationWE" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

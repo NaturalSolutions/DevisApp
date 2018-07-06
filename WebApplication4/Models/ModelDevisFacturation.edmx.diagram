@@ -28,6 +28,7 @@
         <AssociationConnector Association="DevisFacturationModel.FK_Tarification" />
         <EntityTypeShape EntityType="DevisFacturationModel.Ressource" Width="1.5" PointX="7.75" PointY="1" />
         <AssociationConnector Association="DevisFacturationModel.FK_Tarification_Ressources" />
+        <EntityTypeShape EntityType="DevisFacturationModel.Paramètres" Width="1.5" PointX="14.125" PointY="9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

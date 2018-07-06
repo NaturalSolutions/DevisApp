@@ -37,5 +37,6 @@ namespace WebApplication4.Models
         public virtual DbSet<Tasks_f> Tasks_f { get; set; }
         public virtual DbSet<Tarification> Tarification { get; set; }
         public virtual DbSet<Ressource> Ressource { get; set; }
+        public virtual DbSet<Paramètres> Paramètres { get; set; }
     }
 }

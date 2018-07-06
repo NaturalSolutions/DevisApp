@@ -11,8 +11,7 @@ namespace WebApplication4.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Tarification
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,8 +27,8 @@ namespace WebApplication4.Models
         public Nullable<bool> IsAmo { get; set; }
         public Nullable<bool> Obsolete { get; set; }
         public Nullable<System.DateTime> Date { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        [NotMapped]
         public virtual ICollection<Tarification_Ressource> Tarification_Ressource { get; set; }
     }
 }

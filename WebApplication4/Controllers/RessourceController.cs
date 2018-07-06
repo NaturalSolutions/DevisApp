@@ -42,6 +42,7 @@ namespace WebApplication4.Controllers
         // GET: api/Ressource/5
         public Ressource Get(int id)// renvoie la ressource de par son ID
         {
+            Paramètres para = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
             Ressource res = this.db.Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {

@@ -28,6 +28,7 @@ namespace WebApplication4.Models.BO
         public DevisElements(string _nomFichier, decimal _totalTable, bool isFactu = false, decimal? _tarCDP = null, decimal? _tarDT = null)
         {
             this.db = new DevisFacturationEntities();
+            Paramètres param = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
             this.dateCreation = DateTime.Now.ToShortDateString();
             this.dateVersion = DateTime.Now.ToShortDateString();
             this.annee = DateTime.Now.Year.ToString();
@@ -36,7 +37,7 @@ namespace WebApplication4.Models.BO
             this.numEdition = 1;
             this.nomFichier = _nomFichier;
             this.totalTable = _totalTable.ToString("G29");
-            this.support = 8900m;
+            this.support = (decimal) param.PrixSupport;
             DateTime firstOfTheMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
             this.dateDebut = firstOfTheMonth.AddMonths(1).ToLongDateString();
             this.livraisonFinal = firstOfTheMonth.AddMonths(2).AddDays(-1).ToLongDateString();
@@ -46,9 +47,9 @@ namespace WebApplication4.Models.BO
                 decimal cdp = db.Tarification.Where(s => s.Type == "Chef de projet technique").Select(s => s.Tar5).First();
                 decimal dt = db.Tarification.Where(s => s.Type == "Directeur technique").Select(s => s.Tar5).First();
                 //TODO possibiliter de saisir le nombre de jour
-                decimal factuCDP = 20 * cdp;
+                decimal factuCDP = (decimal) param.NbJourCDP * cdp;
                 this.facturationCDP = factuCDP.ToString("G29");
-                decimal factuDT = 7 * dt;
+                decimal factuDT = (decimal) param.NbJourDT * dt;
                 this.facturationDT = factuDT.ToString("G29");
                 decimal totalDTCDP = factuCDP + factuDT;
                 this.estimationDTCDP = totalDTCDP.ToString("G29");
