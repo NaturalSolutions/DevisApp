@@ -88,6 +88,7 @@ export class DevisRequesterModule {
             for (let u in res) {
               myCurrentStory = res[u];
               myCurrentStory.listeTaches = [];
+              console.log("myCurrentStory.labels",myCurrentStory.labels);
               if (myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)) {
                 res[u].listeTaches = new Array();
                 myCurrentStory.story_type = "";

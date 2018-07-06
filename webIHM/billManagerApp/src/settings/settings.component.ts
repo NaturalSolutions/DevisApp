@@ -31,7 +31,6 @@ export class SettingsComponent implements OnInit {
 
   ngOnInit() {
   }
-
   getEmployes(){
     this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
       this.employees = res;

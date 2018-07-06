@@ -22,8 +22,7 @@ class DevisRequester{
 					}
 				}
 			}
-		xhr.open('GET',url,false);
-		xhr.setRequestHeader('X-TrackerToken','b4a752782f711a7c564221c2b0c2d5dc','Content-Type','application/json');
+		xhr.open('GET',url,false);	     
 		xhr.send();
 		return result;
 	};
