@@ -52,6 +52,7 @@ export class SettingsComponent implements OnInit {
   deleteRessource(id) {
     this.delete("http://localhost/DevisAPI/api/Ressource/"+id).toPromise().then((res) => {
       this.getEmployes();
+      this.log.setlogMessage('ressource')
     })
   }
 
@@ -63,7 +64,7 @@ export class SettingsComponent implements OnInit {
       },
     });
   }
-  modifyRessource() {
+  modifyRessource(emp) {
     alert('ressource mise à jour');
   }
 
