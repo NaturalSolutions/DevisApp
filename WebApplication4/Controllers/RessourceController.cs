@@ -133,19 +133,18 @@ namespace WebApplication4.Controllers
         }
 
         // DELETE: api/Ressource/5
-        public void Delete(int id) // detruit la ressource de par son ID
+        public void Delete(int id)
         {
-            try // vérrif si un objet a été trouvé pour l'id
+            Ressource ts = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+            List<Tarification_Ressource> tarRes = db.Tarification_Ressource.Where(t => t.FK_Ressource == id).ToList();
+            foreach(Tarification_Ressource tar in tarRes)
             {
-                Ressource ts = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Ressource.Attach(ts); // ecouter les changement de l'objet 
-                db.Ressource.Remove(ts); // remove l'objet ts
-                db.SaveChanges(); // mettre a jour la table
+                db.Tarification_Ressource.Attach(tar);
+                db.Tarification_Ressource.Remove(tar);                           
             }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
-            }
+            db.Ressource.Attach(ts); // ecouter les changement de l'objet 
+            db.Ressource.Remove(ts); // remove l'objet ts
+            db.SaveChanges(); // mettre a jour la table
         }
     }
 }

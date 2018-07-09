@@ -107,17 +107,19 @@ namespace WebApplication4.Controllers
         // DELETE: api/Tarification/5
         public void Delete(int id) // Détruit un objet Tarification a partir de son ID
         {
-            try // vérrif si un objet a été trouvé pour l'id
-            {
-                Tarification ts = db.Tarification.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Tarification.Attach(ts); // ecouter les changement de l'objet 
-                db.Tarification.Remove(ts); // remove l'objet ts
-                db.SaveChanges(); // mettre a jour la table
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
-            }
+            //try // vérrif si un objet a été trouvé pour l'id
+            //{
+            //    Tarification ts = db.Tarification.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+            //    db.Tarification.Attach(ts); // ecouter les changement de l'objet 
+            //    db.Tarification.Remove(ts); // remove l'objet ts
+            //    db.SaveChanges(); // mettre a jour la table
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
+            //}
+
+            id = 1;
         }
     }
 }
