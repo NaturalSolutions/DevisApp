@@ -13,6 +13,7 @@ import {AlertDisplayerService} from '../alert-displayer.service';
 import { LogMessageComponent } from '../log-message/log-message.component';
 import { DashboardComponent } from '../dashboard/dashboard.component';
 import { SettingsComponent } from '../settings/settings.component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SettingsComponent } from '../settings/settings.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    AngularFontAwesomeModule
   ],
   providers: [EpicRecuperatorModule,DevisRequesterModule,TasksParserModule,StructurerModule,PtConfModule,TransmuterModule,AlertDisplayerService,LogMessageComponent],
   bootstrap: [AppComponent]

@@ -27,14 +27,18 @@
     font-size: 1.2em;
 }
 
-#employes{
-    position: absolute;
-    top: 20%;
-    left: 30%;
-    right: 30%;
-    width:40%;
-    height: 60%;
+#employes{      
+}
+
+#tarif{
+    width: 30%;
+    height: 300px;
     overflow-y: scroll;
+    background-color:white;
+    border-radius:15px;
+    width:30%;
+    margin:auto;
+    height:300px; 
 }
 
 #employes p {
