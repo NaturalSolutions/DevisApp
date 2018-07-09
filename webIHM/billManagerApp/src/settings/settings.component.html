@@ -29,8 +29,8 @@
                                 <td>{{emp.Mail}}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-warning">M</button>
-                                        <button type="button" class="btn btn-danger">X</button>
+                                        <button type="button" class="btn btn-warning" (click)="modifyRessource()">M</button>
+                                        <button type="button" class="btn btn-danger" (click)="deleteRessource()">X</button>
                                     </div>
                                 </td>
                             </tr>
@@ -38,7 +38,7 @@
                     </table>
                 </div>
                 <div class="row" style="text-align:center;">
-                    <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;">Ajouter</button>
+                    <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addRessource()" >Ajouter</button>
                 </div>
             </div>
 
@@ -56,8 +56,8 @@
                                 <td>{{tarif.Tar5}}</td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-warning">M</button>
-                                        <button type="button" class="btn btn-danger">X</button>
+                                        <button type="button" class="btn btn-warning" (click)="modifyTarification()" >M</button>
+                                        <button type="button" class="btn btn-danger"(click)="deleteTarification()">X</button>
                                     </div>
                                 </td>
                             </tr>
@@ -65,7 +65,7 @@
                     </table>
                 </div>
                 <div class="row" style="text-align:center;">
-                    <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;">Ajouter</button>
+                    <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addTarification()">Ajouter</button>
                 </div>
             </div>
         </div>
