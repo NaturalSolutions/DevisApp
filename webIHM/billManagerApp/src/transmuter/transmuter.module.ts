@@ -83,7 +83,7 @@ export class TransmuterModule {
   }
 
   public encapsulateObjects(projects, stories, tasks, isFactu, tarCDP = null, tarDT = null) {
-    this.alerter.setlogProcess("encapsulating objects");
+   // this.alerter.setlogProcess("encapsulating objects");
     let GeneralObject: any = {};
     if (projects != undefined && stories != undefined && tasks != undefined) {
       GeneralObject.projets = projects;
@@ -115,31 +115,31 @@ export class TransmuterModule {
 
 
   public sendToServer(GeneralObject, isFactu) {
-    this.alerter.setLoadingProperty();
+   // this.alerter.setLoadingProperty();
     if (isFactu) {
-      this.alerter.setlogProcess("Sending objects for Facturation");
+     // this.alerter.setlogProcess("Sending objects for Facturation");
       console.log("sending object : ", GeneralObject);
       this.Angularget('http://localhost/DevisAPI/api/Facturation/', JSON.stringify(GeneralObject)).toPromise().then((file: HttpResponse<string>) => {
-        this.alerter.setLoadingProperty();
-        this.alerter.setlogMessage("Process Terminé :)");
+     //   this.alerter.setLoadingProperty();
+      //  this.alerter.setlogMessage("Process Terminé :)");
         this.getfile("http://localhost/DevisAPI/api/Facturation/").toPromise().then((file: any) => {
           console.log("file", file);
         });
       }).catch((error) => {
-        this.alerter.setlogMessage("Il y a eu une erreur");
-        this.alerter.setLoadingProperty();
+      //  this.alerter.setlogMessage("Il y a eu une erreur");
+      //  this.alerter.setLoadingProperty();
         console.log("Il y a eu une erreur", error);
       });
     } else {
-      this.alerter.setLoadingProperty();
-      this.alerter.setlogProcess("Sending objects for Devis");
+    //  this.alerter.setLoadingProperty();
+    //  this.alerter.setlogProcess("Sending objects for Devis");
       console.log("sending object : ", GeneralObject);
       this.Angularget('http://localhost/DevisAPI/api/Devis/', JSON.stringify(GeneralObject)).toPromise().then((res) => {
-        this.alerter.setlogMessage("Process Terminé :)");
+    //    this.alerter.setlogMessage("Process Terminé :)");
         console.log("terminé ! ");
       }).catch((error) => {
-        this.alerter.setLoadingProperty();
-        this.alerter.setlogMessage("Il y a eu une erreur");
+    //    this.alerter.setLoadingProperty();
+    //    this.alerter.setlogMessage("Il y a eu une erreur");
         console.log("Il y a eu une erreur");
       });
     }

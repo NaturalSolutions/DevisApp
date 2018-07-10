@@ -93,6 +93,14 @@ header{
     transition: all ease 1.5s;
 }
 
+.titreHeader{
+    z-index: 20;
+}
+
+.titreHeader img{
+width: 10%;
+}
+
 #user{
     height: 200px;    
 }
@@ -101,6 +109,10 @@ header{
     width: 40px; 
     position: relative;
     top: 30%;
+}
+
+.navitem{
+    text-align: center;
 }
 
 #user:hover{

@@ -38,7 +38,7 @@ export class TasksParserModule {
 			if (tabDescrInfo.length <= 1) {
 				tabDescrInfo = tasks[i].description.split('. -');
 				if (tabDescrInfo.length <= 1) {
-					this.log.setlogMessage("cette tâche n'est pas correctement formaté '" + tasks[i].description + '  ' +tasks[i].story_id + "'");
+	//				this.log.setlogMessage("cette tâche n'est pas correctement formaté '" + tasks[i].description + '  ' +tasks[i].story_id + "'");
 				}
 			} else {
 

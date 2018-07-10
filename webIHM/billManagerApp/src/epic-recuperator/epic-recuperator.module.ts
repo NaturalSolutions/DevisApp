@@ -30,8 +30,8 @@ export class EpicRecuperatorModule {
 
 
   getAllProjectsId(): Promise<any[]> {
-    this.log.setProcessViewverProperty();
-    this.log.setlogProcess('Getting all projects');
+   // this.log.setProcessViewverProperty();
+   // this.log.setlogProcess('Getting all projects');
     return new Promise<any[]>((resolve, reject) => {
       this.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe((res: Array<any>) => {
         let projects = [];
@@ -47,7 +47,7 @@ export class EpicRecuperatorModule {
   }
 
   getAllEpics(myProjectsIds) { /* va parcourir tout les projets et récuperer les epics et les foutre dans un tableaux */
-    this.log.setlogProcess('Getting all epics');
+   // this.log.setlogProcess('Getting all epics');
     return new Promise<any[]>((resolve, reject) => {
       let epics;
       let epicsAdder = new Set();

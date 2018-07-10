@@ -1,21 +1,50 @@
 import { Component } from '@angular/core';
 import * as moment from 'moment';
 import { element } from 'protractor';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import {TemplateRef } from '@angular/core';
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { NgModule } from '@angular/core';
+import {OnInit} from '@angular/core';
+import {AfterViewInit, Directive, ViewChild} from '@angular/core';
+import { AlertDialogService } from 'src/services/alert-dialog.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+@NgModule({
+  providers: [ 
+    BsModalService
+  ]
+})
+
 export class AppComponent {
   title = 'app';
   now = moment();
 
   private menuProperty;
 
-  constructor(){
+  modalRef: BsModalRef;
+ 
+  constructor(private modalService : BsModalService, private alertSrv: AlertDialogService){
     this.menuProperty = true;
   }
+
+  @ViewChild('template')
+  temp : TemplateRef<any>;
+
+  ngOnInit(){
+    this.openModal(this.temp);
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
 
   appendApps(){
     let appsMenu = document.getElementById('apps');
@@ -26,6 +55,9 @@ export class AppComponent {
     }
   }
   retractMenu = (() =>{
+    this.alertSrv.open('toto').result.then(closeValue => {
+      console.log(closeValue);
+    });
     let menu = document.getElementById("menu");
     let div = document.getElementById("centerdiv");
     let x : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName("info") as HTMLCollectionOf<HTMLElement>;
@@ -46,6 +78,8 @@ export class AppComponent {
       }
     }
   });
+
+  
 
   appendBillApp (){
     let appsMenu = document.getElementById('apps');

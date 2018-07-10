@@ -15,22 +15,36 @@ import { DashboardComponent } from '../dashboard/dashboard.component';
 import { SettingsComponent } from '../settings/settings.component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { RouterModule } from '@angular/router';
+import { AlertModule } from 'ngx-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap/modal/modal';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FileGeneratorComponent, LogMessageComponent, DashboardComponent, SettingsComponent,
+    FileGeneratorComponent, LogMessageComponent, DashboardComponent, SettingsComponent, NgbdModalContent
   ],
+  entryComponents: [NgbdModalContent],
   imports: [
+    AlertModule.forRoot(),
+    NgbModule.forRoot(),
     BrowserModule,
+    AccordionModule.forRoot(),
     HttpClientModule,
     AngularFontAwesomeModule,
+    ModalModule.forRoot(),
     RouterModule.forRoot([
       {path : 'billManager', component: FileGeneratorComponent},
       {path : 'parmeters', component: SettingsComponent}
     ])
   ],
-  providers: [EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent],
+  exports: [
+    ModalModule
+ ],
+  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent,AccordionModule,AlertModule,ModalModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

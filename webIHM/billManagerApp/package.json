@@ -22,9 +22,11 @@
     "@angular/router": "^6.0.2",
     "@ng-bootstrap/ng-bootstrap": "^2.2.0",
     "angular-font-awesome": "^3.1.2",
+    "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "moment": "^2.22.2",
+    "ngx-bootstrap": "^3.0.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

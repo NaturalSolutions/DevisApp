@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { TransmuterModule } from "../transmuter/transmuter.module";
 import { resolve } from 'q';
 import { $ } from 'protractor';
+import { AlertDialogService } from 'src/services/alert-dialog.service';
 
 @Component({
   selector: 'app-file-generator',
@@ -23,7 +24,7 @@ export class FileGeneratorComponent implements OnInit {
   private fileScope;
   public tarifications;
 
-  constructor(private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule) {
+  constructor(private alertSrv:AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule) {
     this.divVisibility = false;
     this.DevisProcessLauched = false;
   }
@@ -71,26 +72,26 @@ export class FileGeneratorComponent implements OnInit {
   }
   setLocalMessageLog(result) {
     let infoLogContext = document.getElementById('infoLog');
-    this.alerter.setBlur(true);
+ //   this.alerter.setBlur(true);
     let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez sélectionnées, veuillez noter que si vous continuez elle ne seront pas prises en compte dans la tarification:</p> '\n'";
     for (let a in result.storiesSansEpics) {
       logMessage += '<a href="' + result.storiesSansEpics[a].url + '" target="_blank">story[' + a + ']</a>' + '&nbsp ' + '&nbsp ' + '\n';
     }
-    infoLogContext.innerHTML = "<p>" + logMessage + "</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
-    infoLogContext.style.visibility = "visible";
-    document.getElementById('continue').style.borderRadius = "15px";
-    document.getElementById('continue').style.backgroundColor = "black";
-    document.getElementById('continue').style.margin = "10px";
-    document.getElementById('continue').style.color = "white";
-    document.getElementById('continue').style.border = "none";
-    document.getElementById('continue').style.padding = "5px";
+ //   infoLogContext.innerHTML = "<p>" + logMessage + "</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
+ //   infoLogContext.style.visibility = "visible";
+    // document.getElementById('continue').style.borderRadius = "15px";
+    // document.getElementById('continue').style.backgroundColor = "black";
+    // document.getElementById('continue').style.margin = "10px";
+    // document.getElementById('continue').style.color = "white";
+    // document.getElementById('continue').style.border = "none";
+    // document.getElementById('continue').style.padding = "5px";
 
-    document.getElementById('stop').style.backgroundColor = "black";
-    document.getElementById('stop').style.borderRadius = "15px";
-    document.getElementById('stop').style.margin = "10px";
-    document.getElementById('stop').style.color = "white";
-    document.getElementById('stop').style.border = "none";
-    document.getElementById('stop').style.padding = "5px";
+    // document.getElementById('stop').style.backgroundColor = "black";
+    // document.getElementById('stop').style.borderRadius = "15px";
+    // document.getElementById('stop').style.margin = "10px";
+    // document.getElementById('stop').style.color = "white";
+    // document.getElementById('stop').style.border = "none";
+    // document.getElementById('stop').style.padding = "5px";
   }
 
   get(url) {
@@ -215,14 +216,14 @@ export class FileGeneratorComponent implements OnInit {
   lauchProcess(type: any): void {
     let infoLogContext = document.getElementById('infoLog');
     if (this.DevisProcessLauched == false) {
-      infoLogContext.style.visibility = "visible";
-      this.alerter.setlogMessage(type + ' process lauched')
-      setTimeout(() => {
-        infoLogContext.style.visibility = "hidden";
-      }, 2000);
+      //infoLogContext.style.visibility = "visible";
+      // this.alerter.setlogMessage(type + ' process lauched')
+      // setTimeout(() => {
+      //   infoLogContext.style.visibility = "hidden";
+      // }, 2000);
       this.DevisProcessLauched = true;
       let objetTransition;
-      this.alerter.setLoadingProperty();
+     // this.alerter.setLoadingProperty();
       this.epicRecuperator.getAllProjectsId().then(projects => {
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
@@ -241,7 +242,7 @@ export class FileGeneratorComponent implements OnInit {
           }
           let fileGeneratorContext = document.getElementById('fileGenerator');
           fileGeneratorContext.appendChild(selector);
-          this.alerter.setLoadingProperty();
+     //     this.alerter.setLoadingProperty();
           selector.onchange = () => {
             if (type.toLowerCase() == "devis") {
               let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
@@ -279,7 +280,7 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.width = "25%";
               fileGeneratorContext.appendChild(monthPicker);
               monthPicker.onchange = () => {
-                this.alerter.setLoadingProperty();
+     //           this.alerter.setLoadingProperty();
                 let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
                 console.log('projets', projets);
                 let projetmidified = this.myTransMuter.transmuteProjects(projets);
@@ -343,10 +344,17 @@ export class FileGeneratorComponent implements OnInit {
                     }
                   });
                 }).catch((treatmeantStoriesWithoutEpics) => {
-                  this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
-                  document.getElementById('continue').onclick = () => {
-                    this.alerter.setLoadingProperty();
-                    this.alerter.setBlur(false);
+                  //this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
+                  let alertServeur = {
+                    content: 'stories without epics'+treatmeantStoriesWithoutEpics,
+                    buttons: [{
+                      label: 'continuer'
+                    }]
+                  }
+                  ;
+                  this.alertSrv.open(alertServeur).result.then( () => {
+                   // this.alerter.setLoadingProperty();
+                   // this.alerter.setBlur(false);
                     infoLogContext.style.visibility = "hidden";
                     console.log("treatmeantStoriesWithoutEpics.stories", treatmeantStoriesWithoutEpics.stories);
                     let ProperStories = [];
@@ -416,11 +424,11 @@ export class FileGeneratorComponent implements OnInit {
         });
       });
     } else {
-      infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, " + type + " process is already processing !"
-      infoLogContext.style.visibility = "visible";
-      setTimeout(() => {
-        infoLogContext.style.visibility = "hidden";
-      }, 2000);
+      // infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, " + type + " process is already processing !"
+      // infoLogContext.style.visibility = "visible";
+      // setTimeout(() => {
+      //   infoLogContext.style.visibility = "hidden";
+      // }, 2000);
     }
 
   }
