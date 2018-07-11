@@ -42,54 +42,6 @@
   </div>
 </ng-template>
 
-<!-- 
-<ng-template #templateRessourceModal let-c="close" let-d="dismiss" style="z-index:10000; position:absolute;
-top:0; ">
-  <div id="choixInitialInexistante" style="visibility:hidden; color:black;">
-    <p id="taille_init"></p>
-    <div id="inital_info" style="position:relative; top:20px;">
-      <p>Vous pouvez ajouter une ressource ou modifier la tâche contenant l'erreur</p>
-      <button id="ajouterInitial">Ajouter une ressource</button>
-      <button id="modifierTache">Arreter le processus</button>
-    </div>
-    <div id="ajoutRessource" style="visibility:hidden; position:relative; top:-80px;">
-      <label for="Nom_Prenom_NewRessource">Nom Prénom</label>
-      <br>
-      <input type="text" name="Nom_Prenom" id="Nom_Prenom_NewRessource">
-      <br>
-      <label for="Mail_NewRessource">Mail</label>
-      <br>
-      <input type="text" name="Mail" id="Mail_NewRessource">
-      <br>
-      <label for="Initial_NewRessource">Initial</label>
-      <br>
-      <input type="text" name="Initial" id="Initial_NewRessource">
-      <br>
-      <label for="Niveau_NewRessource">Niveau</label>
-      <br>
-      <input type="number" name="NiveauNewRessource" id="Niveau_NewRessource" step="2" value="3" min="3" max="5">
-      <br>
-      <label for="Tarifications_NewRessource_un">Tarification</label>
-      <br>
-      <div class="multiselect">
-        <div class="selectBox" (click)="showCheckboxes()">
-          <select>
-            <option>Tarifications</option>
-          </select>
-          <div class="overSelect"></div>
-        </div>
-        <div id="checkboxes">
-          <label *ngFor="let tarif of tarifications">
-            <input type="checkbox" class="checkboxes_tarif" id={ {tarif.Type}} /> &nbsp; {{tarif.Type}}</label>
-        </div>
-      </div>
-      <br>
-      <button id="validation_NewRessource">Valider</button>
-    </div>
-  </div>
-
-</ng-template> -->
-
 
 <ng-template #templateRessourceModal let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -112,35 +64,35 @@ top:0; ">
 
 <ng-template #ajoutRessources let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">{{currentRessource}}</h4>
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Initial : {{currentRessource}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
     <div class="row">
-      <div class="col-3">
+      <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Nom,Prénom
           <br>
           <input type="text" class="form-control" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
         </label>
       </div>
 
-      <div class="col-3">
+      <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Mail
           <br>
           <input type="mail" class="form-control" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
         </label>
       </div>
 
-      <div class="col-3">
+      <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Initial
           <br>
           <input type="text" class="form-control" disabled="true" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
         </label>
 
       </div>
-      <div class="col-3">
+      <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Niveau
           <br>
           <input type="number" step="2" min="3" max="5" class="form-control" placeholder=3 aria-label="Username" aria-describedby="basic-addon1">

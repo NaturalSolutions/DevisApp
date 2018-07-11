@@ -265,7 +265,12 @@ export class FileGeneratorComponent implements OnInit {
             this.currentRessource = this.initialInexistante[0];
             this.nbRessourceAAjouter = this.initialInexistante.length;
             alert(this.currentRessource);
-            this.setModalRessourcesInexistante();
+            this.setModalRessourcesInexistante().result.then(() => {
+              let n = this.modalRessourceRef as NgbModalRef;
+              n.result.then(() => {
+                resolve(true);
+              })
+            });
           })
         } else {
           resolve(true);
