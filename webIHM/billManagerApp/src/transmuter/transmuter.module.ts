@@ -8,6 +8,7 @@ import { AlertDisplayerService } from '../alert-displayer.service';
 import { LogMessageComponent } from '../log-message/log-message.component';
 import { HttpResponse } from '@angular/common/http/src/response';
 import { Binary } from 'selenium-webdriver/firefox';
+import { AlertDialogService } from 'src/services/alert-dialog.service';
 
 @NgModule({
   imports: [
@@ -20,7 +21,7 @@ export class TransmuterModule {
   private listeStories: any;
   private listeProjets: any;
   private blob: Blob;
-  constructor(private config: PtConfModule, private http: HttpClient, private Structurer: StructurerModule, private alerter: LogMessageComponent) {
+  constructor(private config: PtConfModule, private http: HttpClient, private Structurer: StructurerModule,private alerter : AlertDialogService) {
     this.listeTaches = undefined;
     this.listeStories = undefined;
     this.listeProjets = undefined;
@@ -115,31 +116,39 @@ export class TransmuterModule {
 
 
   public sendToServer(GeneralObject, isFactu) {
-   // this.alerter.setLoadingProperty();
     if (isFactu) {
-     // this.alerter.setlogProcess("Sending objects for Facturation");
       console.log("sending object : ", GeneralObject);
       this.Angularget('http://localhost/DevisAPI/api/Facturation/', JSON.stringify(GeneralObject)).toPromise().then((file: HttpResponse<string>) => {
-     //   this.alerter.setLoadingProperty();
-      //  this.alerter.setlogMessage("Process Terminé :)");
+      let alertProcess = {
+        title : "Terminé",
+        content : "Processus Terminé :)"
+      }
+      this.alerter.open(alertProcess);
         this.getfile("http://localhost/DevisAPI/api/Facturation/").toPromise().then((file: any) => {
           console.log("file", file);
         });
       }).catch((error) => {
-      //  this.alerter.setlogMessage("Il y a eu une erreur");
-      //  this.alerter.setLoadingProperty();
-        console.log("Il y a eu une erreur", error);
+        let alertProcess = {
+          title : "Erreur serveur",
+          content : "Il y à eu une erreur :("
+        }
+        this.alerter.open(alertProcess);
       });
     } else {
-    //  this.alerter.setLoadingProperty();
-    //  this.alerter.setlogProcess("Sending objects for Devis");
       console.log("sending object : ", GeneralObject);
       this.Angularget('http://localhost/DevisAPI/api/Devis/', JSON.stringify(GeneralObject)).toPromise().then((res) => {
-    //    this.alerter.setlogMessage("Process Terminé :)");
+        let alertProcess = {
+          title : "Terminé",
+          content : "Processus Terminé :)"
+        }
+        this.alerter.open(alertProcess);
         console.log("terminé ! ");
       }).catch((error) => {
-    //    this.alerter.setLoadingProperty();
-    //    this.alerter.setlogMessage("Il y a eu une erreur");
+        let alertProcess = {
+          title : "Erreur serveur",
+          content : "Il y à eu une erreur :("
+        }
+        this.alerter.open(alertProcess);
         console.log("Il y a eu une erreur");
       });
     }

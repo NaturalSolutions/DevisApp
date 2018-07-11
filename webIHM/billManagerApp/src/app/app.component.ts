@@ -34,15 +34,7 @@ export class AppComponent {
     this.menuProperty = true;
   }
 
-  @ViewChild('template')
-  temp : TemplateRef<any>;
-
   ngOnInit(){
-    this.openModal(this.temp);
-  }
-
-  openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template);
   }
 
 
@@ -55,9 +47,6 @@ export class AppComponent {
     }
   }
   retractMenu = (() =>{
-    this.alertSrv.open('toto').result.then(closeValue => {
-      console.log(closeValue);
-    });
     let menu = document.getElementById("menu");
     let div = document.getElementById("centerdiv");
     let x : HTMLCollectionOf<HTMLElement> = document.getElementsByClassName("info") as HTMLCollectionOf<HTMLElement>;

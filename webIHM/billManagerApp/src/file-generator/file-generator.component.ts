@@ -9,6 +9,10 @@ import { TransmuterModule } from "../transmuter/transmuter.module";
 import { resolve } from 'q';
 import { $ } from 'protractor';
 import { AlertDialogService } from 'src/services/alert-dialog.service';
+import { ViewChild } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 @Component({
   selector: 'app-file-generator',
@@ -23,8 +27,12 @@ export class FileGeneratorComponent implements OnInit {
   private factureScope;
   private fileScope;
   public tarifications;
+  private initialInexistante;
+  private compteurRessource = 0;
+  private currentRessource;
+  private modalRessourceRef; 
 
-  constructor(private alertSrv:AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule) {
+  constructor(private alertSrv: AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule, private modalService: NgbModal) {
     this.divVisibility = false;
     this.DevisProcessLauched = false;
   }
@@ -36,6 +44,17 @@ export class FileGeneratorComponent implements OnInit {
   }
 
   private expanded = false;
+  private storiesSansEpics;
+
+  setcurrentRess() {
+    console.log("this.compteurRessource",this.compteurRessource);
+    if (this.compteurRessource < this.initialInexistante.length-1) {
+      this.compteurRessource = this.compteurRessource + 1;
+      this.currentRessource = this.initialInexistante[this.compteurRessource];
+    }else{
+      this.modalRessourceRef.close();
+    }
+  }
 
   showCheckboxes() {
     var checkboxes = document.getElementById("checkboxes");
@@ -47,6 +66,8 @@ export class FileGeneratorComponent implements OnInit {
       this.expanded = false;
     }
   }
+
+
 
   postNewRessource(url, objetAEnvoyer) {
     return this.http.post(url, objetAEnvoyer, {
@@ -70,28 +91,25 @@ export class FileGeneratorComponent implements OnInit {
       this.divVisibility = false;
     }
   }
-  setLocalMessageLog(result) {
-    let infoLogContext = document.getElementById('infoLog');
- //   this.alerter.setBlur(true);
-    let logMessage = "<p>Ces Stories ne possède pas l'epic que vous avez sélectionnées, veuillez noter que si vous continuez elle ne seront pas prises en compte dans la tarification:</p> '\n'";
-    for (let a in result.storiesSansEpics) {
-      logMessage += '<a href="' + result.storiesSansEpics[a].url + '" target="_blank">story[' + a + ']</a>' + '&nbsp ' + '&nbsp ' + '\n';
-    }
- //   infoLogContext.innerHTML = "<p>" + logMessage + "</p>" + '<br><button id="continue">Continuer</button><button id="stop">Arreter le processus</button>'
- //   infoLogContext.style.visibility = "visible";
-    // document.getElementById('continue').style.borderRadius = "15px";
-    // document.getElementById('continue').style.backgroundColor = "black";
-    // document.getElementById('continue').style.margin = "10px";
-    // document.getElementById('continue').style.color = "white";
-    // document.getElementById('continue').style.border = "none";
-    // document.getElementById('continue').style.padding = "5px";
 
-    // document.getElementById('stop').style.backgroundColor = "black";
-    // document.getElementById('stop').style.borderRadius = "15px";
-    // document.getElementById('stop').style.margin = "10px";
-    // document.getElementById('stop').style.color = "white";
-    // document.getElementById('stop').style.border = "none";
-    // document.getElementById('stop').style.padding = "5px";
+  @ViewChild('templateRessourceModal') templateRessourceModal: NgbModalRef;
+  @ViewChild('treatmentStories') templateStoriesModal: NgbModalRef;
+  @ViewChild('ajoutRessources') ajoutRessources: NgbModalRef;
+
+  setModalStoriesSansEpics() {
+    let modalRef = this.modalService.open(this.templateStoriesModal);
+    return modalRef;
+  }
+
+  setModalRessourcesInexistante() {
+    let modalRef = this.modalService.open(this.templateRessourceModal);
+    return modalRef;
+  }
+
+  setModalAjoutRessource() {
+    let modalRef = this.modalService.open(this.ajoutRessources);
+    this.modalRessourceRef = modalRef;
+    return modalRef;
   }
 
   get(url) {
@@ -102,6 +120,117 @@ export class FileGeneratorComponent implements OnInit {
       }
     });
   }
+
+  // verifyInitial(taches) {
+  //   return new Promise((resolve, reject) => {
+  //     this.setModalRessourcesInexistante();
+  //     let initialEmployes = [];
+  //     this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
+  //       for (let emp in res) {
+  //         console.log("res[emp].Initial", res[emp].Initial);
+  //         initialEmployes.push(res[emp].Initial)
+  //       }
+  //       let initialInexistante = new Set();
+  //       for (let currentTasks in taches) {
+  //         if (taches[currentTasks].Initials.length > 2) {
+  //           let owners = taches[currentTasks].Initials.split("+");
+  //           for (let currentOwner in owners) {
+  //             if (!initialEmployes.includes(owners[currentOwner])) {
+  //               initialInexistante.add(owners[currentOwner]);
+  //             }
+  //           }
+  //         } else {
+  //           if (!initialEmployes.includes(taches[currentTasks].Initials)) {
+  //             initialInexistante.add(taches[currentTasks].Initials);
+  //           }
+  //         }
+  //       }
+  //       let initialInexistanteArray = Array.from(initialInexistante);
+  //       if (initialInexistanteArray.length > 0) {
+  //         this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
+  //           this.tarifications = res;
+  //           let tailleInitialP = document.getElementById('taille_init');
+  //           let tailleInitialInexistanteTemp = 0;
+  //           tailleInitialP.innerHTML = initialInexistanteArray.length.toString();
+  //           let divChoixPbInitial = document.getElementById('choixInitialInexistante');
+  //           divChoixPbInitial.style.visibility = "visible";
+  //           let buttonAjoutRessource = document.getElementById('ajouterInitial');
+  //           let buttonEnvoiRessource = document.getElementById('validation_NewRessource');
+  //           let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+  //           inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
+  //           console.log("initialInexistanteArray[0]", initialInexistanteArray[0])
+
+  //           buttonEnvoiRessource.onclick = () => {
+  //             console.log("tailleInitialInexistanteTemp", tailleInitialInexistanteTemp);
+  //             let : any = {};
+  //             let inputName = document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;
+  //             .Name = inputName.value;
+
+  //             let inputMail = document.getElementById('Mail_NewRessource') as HTMLInputElement;
+  //             .Mail = inputMail.value;
+  //             console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]", initialInexistanteArray[tailleInitialInexistanteTemp]);
+  //             .Initial = inputInitials.value;
+
+  //             let inputNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
+  //             .niveau = inputNiveau.value;
+
+  //             let checkboxesTarification = document.getElementsByClassName('checkboxes_tarif') as HTMLCollectionOf<HTMLInputElement>;
+
+  //             .tarification = "";
+  //             for (let c in checkboxesTarification) {
+  //               console.log('checkboxesTarification.value', checkboxesTarification[c]);
+  //               if (checkboxesTarification[c].checked && checkboxesTarification[c].id != undefined) {
+  //                 .tarification += checkboxesTarification[c].id + ";";
+  //               }
+  //             }
+
+  //             .tarification = .tarification.substring(0, .tarification.length - 1);
+  //             console.log(".tarification", .tarification);
+  //             .tarification = .tarification.split(';');
+
+  //             if (.Name == undefined || .Mail == undefined || .Initial == undefined || .niveau == "" || .tarification == "" || .tarification == undefined) {
+  //               console.log(".Name", .Name);
+  //               console.log(".Mail", .Mail);
+  //               console.log(".Initial", .Initial);
+  //               this.alerter.setlogMessage('tout les champs doivent être remplies');
+  //             } else {
+  //               console.log('tailleInitialInexistanteTemp', tailleInitialInexistanteTemp);
+  //               inputName.value = "";
+  //               inputMail.value = "";
+  //               inputNiveau.value = "3";
+  //               for (let checkbox in checkboxesTarification) {
+  //                 if (checkboxesTarification[checkbox].id != undefined) {
+  //                   checkboxesTarification[checkbox].checked = false;
+  //                 }
+  //               }
+  //               console.log("", );
+  //               this.postNewRessource('http://localhost/DevisAPI/api/', ).toPromise().then(() => {
+  //                 this.alerter.setlogMessage('Ressource ajouté à la base');
+  //               })
+  //               tailleInitialInexistanteTemp++;
+  //               tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
+  //               let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
+  //               inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
+  //               if (tailleInitialInexistanteTemp >= initialInexistanteArray.length) {
+  //                 this.alerter.hideClosableAlert();
+  //                 resolve(true);
+  //               }
+  //             }
+  //           };
+
+  //           buttonAjoutRessource.onclick = () => {
+  //             document.getElementById('inital_info').style.visibility = "hidden";
+  //             document.getElementById('ajoutRessource').style.visibility = "visible";
+  //           };
+  //           this.alerter.setClosableAlert(divChoixPbInitial);
+  //         })
+  //       } else {
+  //         resolve(true);
+  //       }
+  //     });
+  //   });
+  // }
+
 
   verifyInitial(taches) {
     return new Promise((resolve, reject) => {
@@ -116,12 +245,12 @@ export class FileGeneratorComponent implements OnInit {
           if (taches[currentTasks].Initials.length > 2) {
             let owners = taches[currentTasks].Initials.split("+");
             for (let currentOwner in owners) {
-              if (!initialEmployes.includes(owners[currentOwner])) {
+              if (initialEmployes.includes(owners[currentOwner])) {
                 initialInexistante.add(owners[currentOwner]);
               }
             }
           } else {
-            if (!initialEmployes.includes(taches[currentTasks].Initials)) {
+            if (initialEmployes.includes(taches[currentTasks].Initials)) {
               initialInexistante.add(taches[currentTasks].Initials);
             }
           }
@@ -130,80 +259,10 @@ export class FileGeneratorComponent implements OnInit {
         if (initialInexistanteArray.length > 0) {
           this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
             this.tarifications = res;
-            let tailleInitialP = document.getElementById('taille_init');
-            let tailleInitialInexistanteTemp = 0;
-            tailleInitialP.innerHTML = initialInexistanteArray.length.toString();
-            let divChoixPbInitial = document.getElementById('choixInitialInexistante');
-            divChoixPbInitial.style.visibility = "visible";
-            let buttonAjoutRessource = document.getElementById('ajouterInitial');
-            let buttonEnvoiRessource = document.getElementById('validation_NewRessource');
-            let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-            inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
-            console.log("initialInexistanteArray[0]", initialInexistanteArray[0])
-
-            buttonEnvoiRessource.onclick = () => {
-              console.log("tailleInitialInexistanteTemp", tailleInitialInexistanteTemp);
-              let ressource: any = {};
-              let inputName = document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;
-              ressource.Name = inputName.value;
-
-              let inputMail = document.getElementById('Mail_NewRessource') as HTMLInputElement;
-              ressource.Mail = inputMail.value;
-              console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]", initialInexistanteArray[tailleInitialInexistanteTemp]);
-              ressource.Initial = inputInitials.value;
-
-              let inputNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
-              ressource.niveau = inputNiveau.value;
-
-              let checkboxesTarification = document.getElementsByClassName('checkboxes_tarif') as HTMLCollectionOf<HTMLInputElement>;
-
-              ressource.tarification = "";
-              for (let c in checkboxesTarification) {
-                console.log('checkboxesTarification.value', checkboxesTarification[c]);
-                if (checkboxesTarification[c].checked && checkboxesTarification[c].id != undefined) {
-                  ressource.tarification += checkboxesTarification[c].id + ";";
-                }
-              }
-
-              ressource.tarification = ressource.tarification.substring(0, ressource.tarification.length - 1);
-              console.log("ressource.tarification", ressource.tarification);
-              ressource.tarification = ressource.tarification.split(';');
-
-              if (ressource.Name == undefined || ressource.Mail == undefined || ressource.Initial == undefined || ressource.niveau == "" || ressource.tarification == "" || ressource.tarification == undefined) {
-                console.log("ressource.Name", ressource.Name);
-                console.log("ressource.Mail", ressource.Mail);
-                console.log("ressource.Initial", ressource.Initial);
-                this.alerter.setlogMessage('tout les champs doivent être remplies');
-              } else {
-                console.log('tailleInitialInexistanteTemp', tailleInitialInexistanteTemp);
-                inputName.value = "";
-                inputMail.value = "";
-                inputNiveau.value = "3";
-                for (let checkbox in checkboxesTarification) {
-                  if (checkboxesTarification[checkbox].id != undefined) {
-                    checkboxesTarification[checkbox].checked = false;
-                  }
-                }
-                console.log("ressource", ressource);
-                this.postNewRessource('http://localhost/DevisAPI/api/ressource', ressource).toPromise().then(() => {
-                  this.alerter.setlogMessage('Ressource ajouté à la base');
-                })
-                tailleInitialInexistanteTemp++;
-                tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
-                let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-                inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
-                if (tailleInitialInexistanteTemp >= initialInexistanteArray.length) {
-                  this.alerter.hideClosableAlert();
-                  resolve(true);
-                }
-              }
-            };
-
-            buttonAjoutRessource.onclick = () => {
-              document.getElementById('inital_info').style.visibility = "hidden";
-              document.getElementById('ajoutRessource').style.visibility = "visible";
-            };
-            this.alerter.setClosableAlert(divChoixPbInitial);
+            this.initialInexistante = Array.from(initialInexistante);
+            this.currentRessource = this.initialInexistante[0];
+            alert(this.currentRessource);
+            this.setModalRessourcesInexistante();
           })
         } else {
           resolve(true);
@@ -213,17 +272,18 @@ export class FileGeneratorComponent implements OnInit {
   }
 
 
+
   lauchProcess(type: any): void {
     let infoLogContext = document.getElementById('infoLog');
     if (this.DevisProcessLauched == false) {
-      //infoLogContext.style.visibility = "visible";
-      // this.alerter.setlogMessage(type + ' process lauched')
-      // setTimeout(() => {
-      //   infoLogContext.style.visibility = "hidden";
-      // }, 2000);
+      let processLauchMessage = {
+        title: "Process Lauched",
+        content: "Process " + type + " Lauched"
+      }
+      this.alertSrv.open(processLauchMessage)
       this.DevisProcessLauched = true;
       let objetTransition;
-     // this.alerter.setLoadingProperty();
+      // this.alerter.setLoadingProperty();
       this.epicRecuperator.getAllProjectsId().then(projects => {
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
@@ -242,7 +302,7 @@ export class FileGeneratorComponent implements OnInit {
           }
           let fileGeneratorContext = document.getElementById('fileGenerator');
           fileGeneratorContext.appendChild(selector);
-     //     this.alerter.setLoadingProperty();
+          //     this.alerter.setLoadingProperty();
           selector.onchange = () => {
             if (type.toLowerCase() == "devis") {
               let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
@@ -280,7 +340,7 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.width = "25%";
               fileGeneratorContext.appendChild(monthPicker);
               monthPicker.onchange = () => {
-     //           this.alerter.setLoadingProperty();
+                //           this.alerter.setLoadingProperty();
                 let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
                 console.log('projets', projets);
                 let projetmidified = this.myTransMuter.transmuteProjects(projets);
@@ -320,7 +380,6 @@ export class FileGeneratorComponent implements OnInit {
                           if (retour) {
                             console.log('transformed tâches', taches);
                             this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
-                              alert('mes couilles');
                               let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
                               cdp.value = params.NbJourCDP;
                               let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
@@ -344,19 +403,9 @@ export class FileGeneratorComponent implements OnInit {
                     }
                   });
                 }).catch((treatmeantStoriesWithoutEpics) => {
-                  //this.setLocalMessageLog(treatmeantStoriesWithoutEpics);
-                  let alertServeur = {
-                    content: 'stories without epics'+treatmeantStoriesWithoutEpics,
-                    buttons: [{
-                      label: 'continuer'
-                    }]
-                  }
-                  ;
-                  this.alertSrv.open(alertServeur).result.then(() => {
-                   // this.alerter.setLoadingProperty();
-                   // this.alerter.setBlur(false);
-                  //infoLogContext.style.visibility = "hidden";
-                    console.log("treatmeantStoriesWithoutEpics.stories", treatmeantStoriesWithoutEpics.stories);
+                  console.log("treatmeantStoriesWithoutEpics", treatmeantStoriesWithoutEpics);
+                  this.storiesSansEpics = treatmeantStoriesWithoutEpics.storiesSansEpics;
+                  this.setModalStoriesSansEpics().result.then(() => {
                     let ProperStories = [];
                     for (let z in treatmeantStoriesWithoutEpics.stories) {
                       if (treatmeantStoriesWithoutEpics.stories[z].labels != undefined) {
@@ -388,11 +437,11 @@ export class FileGeneratorComponent implements OnInit {
                           this.verifyInitial(taches).then((retour) => {
                             if (retour) {
                               this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
-                                console.log('transformed tâches', taches);                                
+                                console.log('transformed tâches', taches);
                                 let DTCDP = document.getElementById("DTCDP");
                                 DTCDP.style.display = "block";
                                 let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
-                                cdp.value = params.NbJourCDP;                                
+                                cdp.value = params.NbJourCDP;
                                 let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
                                 dt.value = params.NbJourDT;
                                 let btnEnvoi = document.getElementById('sendObject');
@@ -412,7 +461,9 @@ export class FileGeneratorComponent implements OnInit {
                         });
                       }
                     });
-                  }
+                  }).catch(() => {
+                    location.reload();
+                  });
                 });
               }
             }
@@ -421,11 +472,6 @@ export class FileGeneratorComponent implements OnInit {
         });
       });
     } else {
-      // infoLogContext.innerHTML = "<p> Keep Calm and take a coffee, " + type + " process is already processing !"
-      // infoLogContext.style.visibility = "visible";
-      // setTimeout(() => {
-      //   infoLogContext.style.visibility = "hidden";
-      // }, 2000);
     }
 
   }

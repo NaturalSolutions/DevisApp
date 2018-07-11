@@ -1,26 +1,51 @@
-<div id="fic" (click) = "displayOptions()">
+<div id="fic" (click)="displayOptions()">
   <span>Générer un fichier</span>
 </div>
 <section id="fileGenerator">
-  <div id="devis" (click) = "lauchProcess('devis')">
+  <div id="devis" (click)="lauchProcess('devis')">
     <span>Devis</span>
   </div>
-  
-  <div id="facture" (click) = "lauchProcess('facture')">
+
+  <div id="facture" (click)="lauchProcess('facture')">
     <span>Facture</span>
-  </div>  
+  </div>
 
   <div id="DTCDP" style="display: none;">
-    <label for="cdp">Jour de Chef de projet</label> <br><input type="number" id="cdp" value=0><br>
-    <label  for="dt"> Jour de Directeur technique</label> <br><input type="number" id="dt" value=0><br>
+    <label for="cdp">Jour de Chef de projet</label>
+    <br>
+    <input type="number" id="cdp" value=0>
+    <br>
+    <label for="dt"> Jour de Directeur technique</label>
+    <br>
+    <input type="number" id="dt" value=0>
+    <br>
     <button id="sendObject">Send</button>
   </div>
 
 </section>
 
-<section style="z-index:10000; position:absolute;
+
+
+<ng-template #treatmentStories let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Des Stories sans Epics on été detecté</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngFor="let st of storiesSansEpics">
+    <a href="{{st.url}}" target="_blank">{{st.url}}</a>
+    <br>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Continuer</button>
+  </div>
+</ng-template>
+
+<!-- 
+<ng-template #templateRessourceModal let-c="close" let-d="dismiss" style="z-index:10000; position:absolute;
 top:0; ">
-<div id="choixInitialInexistante" style="visibility:hidden; color:black;" >
+  <div id="choixInitialInexistante" style="visibility:hidden; color:black;">
     <p id="taille_init"></p>
     <div id="inital_info" style="position:relative; top:20px;">
       <p>Vous pouvez ajouter une ressource ou modifier la tâche contenant l'erreur</p>
@@ -28,11 +53,24 @@ top:0; ">
       <button id="modifierTache">Arreter le processus</button>
     </div>
     <div id="ajoutRessource" style="visibility:hidden; position:relative; top:-80px;">
-      <label for="Nom_Prenom_NewRessource">Nom Prénom</label><br><input type="text" name="Nom_Prenom" id="Nom_Prenom_NewRessource"><br>
-      <label for="Mail_NewRessource">Mail</label><br><input type="text" name="Mail" id="Mail_NewRessource"><br>
-      <label for="Initial_NewRessource">Initial</label><br><input type="text" name="Initial" id="Initial_NewRessource"><br>
-      <label for="Niveau_NewRessource">Niveau</label><br><input type="number" name="NiveauNewRessource" id="Niveau_NewRessource" step="2" value="3" min="3" max="5"><br>
-      <label for="Tarifications_NewRessource_un">Tarification</label><br>
+      <label for="Nom_Prenom_NewRessource">Nom Prénom</label>
+      <br>
+      <input type="text" name="Nom_Prenom" id="Nom_Prenom_NewRessource">
+      <br>
+      <label for="Mail_NewRessource">Mail</label>
+      <br>
+      <input type="text" name="Mail" id="Mail_NewRessource">
+      <br>
+      <label for="Initial_NewRessource">Initial</label>
+      <br>
+      <input type="text" name="Initial" id="Initial_NewRessource">
+      <br>
+      <label for="Niveau_NewRessource">Niveau</label>
+      <br>
+      <input type="number" name="NiveauNewRessource" id="Niveau_NewRessource" step="2" value="3" min="3" max="5">
+      <br>
+      <label for="Tarifications_NewRessource_un">Tarification</label>
+      <br>
       <div class="multiselect">
         <div class="selectBox" (click)="showCheckboxes()">
           <select>
@@ -42,7 +80,7 @@ top:0; ">
         </div>
         <div id="checkboxes">
           <label *ngFor="let tarif of tarifications">
-            <input type="checkbox"  class="checkboxes_tarif" id= {{tarif.Type}} /> &nbsp; {{tarif.Type}}</label>        
+            <input type="checkbox" class="checkboxes_tarif" id={ {tarif.Type}} /> &nbsp; {{tarif.Type}}</label>
         </div>
       </div>
       <br>
@@ -50,5 +88,45 @@ top:0; ">
     </div>
   </div>
 
-</section>
+</ng-template> -->
 
+
+<ng-template #templateRessourceModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Des ressouces inconnu on été detecté</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Vous pouvez ajouter la ou les ressources manquante ou fermer le processus</p>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" (click)="c('close'); setModalAjoutRessource()">Ajouter la/les ressource(s)</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Fermer le processus</button>
+  </div>
+</ng-template>
+
+
+<ng-template #ajoutRessources let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{currentRessource}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="basic-addon1">@</span>
+      </div>
+      <input type="text" class="form-control" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="setcurrentRess()">Ajouter cette putain de ressource</button>
+  </div>
+</ng-template>
