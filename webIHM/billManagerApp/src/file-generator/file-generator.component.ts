@@ -31,6 +31,7 @@ export class FileGeneratorComponent implements OnInit {
   private compteurRessource = 0;
   private currentRessource;
   private modalRessourceRef; 
+  private nbRessourceAAjouter;
 
   constructor(private alertSrv: AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule, private modalService: NgbModal) {
     this.divVisibility = false;
@@ -51,6 +52,7 @@ export class FileGeneratorComponent implements OnInit {
     if (this.compteurRessource < this.initialInexistante.length-1) {
       this.compteurRessource = this.compteurRessource + 1;
       this.currentRessource = this.initialInexistante[this.compteurRessource];
+      this.nbRessourceAAjouter = this.nbRessourceAAjouter-1;
     }else{
       this.modalRessourceRef.close();
     }
@@ -261,6 +263,7 @@ export class FileGeneratorComponent implements OnInit {
             this.tarifications = res;
             this.initialInexistante = Array.from(initialInexistante);
             this.currentRessource = this.initialInexistante[0];
+            this.nbRessourceAAjouter = this.initialInexistante.length;
             alert(this.currentRessource);
             this.setModalRessourcesInexistante();
           })

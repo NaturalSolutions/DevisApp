@@ -153,3 +153,17 @@ input:focus{
     width: 60%;
     left: 35%;
 }
+
+p.cptRessource{
+    background-color: red;
+    color: white;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: -20px;
+    bottom: -30px;
+    border-radius: 30px;
+    border: solid 2px white;
+    text-align: center;
+    padding: 5px;
+}

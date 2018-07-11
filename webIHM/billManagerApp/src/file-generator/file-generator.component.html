@@ -112,21 +112,44 @@ top:0; ">
 
 <ng-template #ajoutRessources let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{currentRessource}}</h4>
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">{{currentRessource}}</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="basic-addon1">@</span>
+    <div class="row">
+      <div class="col-3">
+        <label>Nom,Prénom
+          <br>
+          <input type="text" class="form-control" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+        </label>
       </div>
-      <input type="text" class="form-control" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
-    </div>
 
+      <div class="col-3">
+        <label>Mail
+          <br>
+          <input type="mail" class="form-control" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+        </label>
+      </div>
+
+      <div class="col-3">
+        <label>Initial
+          <br>
+          <input type="text" class="form-control" disabled="true" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
+        </label>
+
+      </div>
+      <div class="col-3">
+        <label>Niveau
+          <br>
+          <input type="number" step="2" min="3" max="5" class="form-control" placeholder=3 aria-label="Username" aria-describedby="basic-addon1">
+        </label>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="setcurrentRess()">Ajouter cette putain de ressource</button>
+    <button type="button" class="btn btn-outline-dark" (click)="setcurrentRess()">Ajouter la ressource</button>
+    <p class="cptRessource">{{nbRessourceAAjouter}}</p>
   </div>
 </ng-template>
