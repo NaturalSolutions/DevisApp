@@ -352,10 +352,10 @@ export class FileGeneratorComponent implements OnInit {
                     }]
                   }
                   ;
-                  this.alertSrv.open(alertServeur).result.then( () => {
+                  this.alertSrv.open(alertServeur).result.then(() => {
                    // this.alerter.setLoadingProperty();
                    // this.alerter.setBlur(false);
-                    infoLogContext.style.visibility = "hidden";
+                  //infoLogContext.style.visibility = "hidden";
                     console.log("treatmeantStoriesWithoutEpics.stories", treatmeantStoriesWithoutEpics.stories);
                     let ProperStories = [];
                     for (let z in treatmeantStoriesWithoutEpics.stories) {
@@ -412,9 +412,6 @@ export class FileGeneratorComponent implements OnInit {
                         });
                       }
                     });
-                  }
-                  document.getElementById('stop').onclick = () => {
-                    window.location.reload();
                   }
                 });
               }
