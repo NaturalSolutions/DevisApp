@@ -71,31 +71,32 @@
   </div>
   <div class="modal-body">
     <div class="row">
+      <form action="" [formGroup]="ressourceForm"></form>
       <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Nom,Prénom
           <br>
-          <input type="text" class="form-control" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+          <input type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
         </label>
       </div>
 
       <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Mail
           <br>
-          <input type="mail" class="form-control" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+          <input type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
         </label>
       </div>
 
       <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Initial
           <br>
-          <input type="text" class="form-control" disabled="true" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
+          <input type="text" class="form-control" disabled="true" formControlName="initial" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
         </label>
 
       </div>
       <div class="col-lg-3 col-sm-12" style="text-align:center;">
         <label>Niveau
           <br>
-          <input type="number" step="2" min="3" max="5" class="form-control" placeholder=3 aria-label="Username" aria-describedby="basic-addon1">
+          <input type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username" aria-describedby="basic-addon1">
         </label>
       </div>
     </div>

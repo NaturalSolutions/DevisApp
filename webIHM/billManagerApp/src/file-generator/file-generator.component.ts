@@ -13,6 +13,7 @@ import { ViewChild } from '@angular/core';
 import { Injectable, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-file-generator',
@@ -32,6 +33,14 @@ export class FileGeneratorComponent implements OnInit {
   private currentRessource;
   private modalRessourceRef; 
   private nbRessourceAAjouter;
+
+  heroForm = new FormGroup ({
+    name: new FormControl(),
+    email : new FormControl(),
+    initial : new FormControl(),
+    niveau : new FormControl(),
+    Tarification : new FormControl()
+  });
 
   constructor(private alertSrv: AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule, private modalService: NgbModal) {
     this.divVisibility = false;
@@ -264,7 +273,6 @@ export class FileGeneratorComponent implements OnInit {
             this.initialInexistante = Array.from(initialInexistante);
             this.currentRessource = this.initialInexistante[0];
             this.nbRessourceAAjouter = this.initialInexistante.length;
-            alert(this.currentRessource);
             this.setModalRessourcesInexistante().result.then(() => {
               let n = this.modalRessourceRef as NgbModalRef;
               n.result.then(() => {
