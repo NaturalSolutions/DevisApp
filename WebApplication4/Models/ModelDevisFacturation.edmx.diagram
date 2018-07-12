@@ -4,17 +4,13 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c17c77d69fdb46a4a15ec90885b708d6" Name="Diagram1" ZoomLevel="58">
-        <EntityTypeShape EntityType="DevisFacturationModel.Devis" Width="1.5" PointX="3" PointY="12.125" />
-        <EntityTypeShape EntityType="DevisFacturationModel.Facturation" Width="1.5" PointX="5.25" PointY="12.125" />
+      <Diagram DiagramId="c17c77d69fdb46a4a15ec90885b708d6" Name="Diagram1" ZoomLevel="98">
         <EntityTypeShape EntityType="DevisFacturationModel.Projet" Width="1.5" PointX="7.625" PointY="5.75" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_d" Width="1.5" PointX="3" PointY="1.25" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_Devis" Width="1.5" PointX="5.25" PointY="2.375" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_f" Width="1.5" PointX="3" PointY="6.375" />
         <EntityTypeShape EntityType="DevisFacturationModel.Stories_Facturation" Width="1.5" PointX="5.25" PointY="7.25" />
         <EntityTypeShape EntityType="DevisFacturationModel.Tarification_Ressource" Width="1.5" PointX="10" PointY="1.25" />
-        <AssociationConnector Association="DevisFacturationModel.Fk_Devis_Stories_Devis" />
-        <AssociationConnector Association="DevisFacturationModel.FK_Facturation_Devis" />
         <AssociationConnector Association="DevisFacturationModel.FK_stotries_d_project" />
         <AssociationConnector Association="DevisFacturationModel.FK_stotries_f_project" />
         <AssociationConnector Association="DevisFacturationModel.FK_Stories_d_Stories_Devis" />
@@ -29,6 +25,10 @@
         <EntityTypeShape EntityType="DevisFacturationModel.Ressource" Width="1.5" PointX="7.75" PointY="1" />
         <AssociationConnector Association="DevisFacturationModel.FK_Tarification_Ressources" />
         <EntityTypeShape EntityType="DevisFacturationModel.Paramètres" Width="1.5" PointX="14.125" PointY="9" />
+        <EntityTypeShape EntityType="DevisFacturationModel.Devis" Width="1.5" PointX="7.375" PointY="9" />
+        <EntityTypeShape EntityType="DevisFacturationModel.Facturation" Width="1.5" PointX="9.625" PointY="9" />
+        <AssociationConnector Association="DevisFacturationModel.Fk_Devis_Stories_Devis" />
+        <AssociationConnector Association="DevisFacturationModel.FK_Facturation_Devis" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

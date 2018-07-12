@@ -24,7 +24,7 @@ namespace WebApplication4.Models
         public long ID { get; set; }
         public Nullable<System.DateTime> Mois { get; set; }
         public Nullable<decimal> Montant { get; set; }
-        public Nullable<int> Numéro { get; set; }
+        public string Commande { get; set; }
         public string Filename { get; set; }
         public System.DateTime Date { get; set; }
     

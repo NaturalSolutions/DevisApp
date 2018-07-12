@@ -121,7 +121,7 @@ namespace WebApplication4.Controllers
                 Devis devis = new Devis();
                 FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
 
-               // newGenObject.SaveToDb(false,devis);
+                newGenObject.SaveToDb(false,devis);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)

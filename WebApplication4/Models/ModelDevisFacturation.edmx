@@ -12,7 +12,7 @@
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Mois" Type="datetime" />
           <Property Name="Montant" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="Numéro" Type="int" />
+          <Property Name="Commande" Type="nvarchar(max)" />
           <Property Name="Filename" Type="nvarchar" MaxLength="200" />
           <Property Name="Date" Type="datetime" Nullable="false" />
         </EntityType>
@@ -21,7 +21,7 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Numéro" Type="bigint" Nullable="false" />
+          <Property Name="Commande" Type="nvarchar(max)" />
           <Property Name="Mois" Type="datetime" Nullable="false" />
           <Property Name="Montant" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="FK_Devis" Type="bigint" Nullable="false" />
@@ -33,12 +33,12 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="MultiplicationWE" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MultiplicationFE" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="MultiplicationWEFE" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="NbJourDT" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="NbJourCDP" Type="decimal" Precision="18" Scale="0" />
-          <Property Name="PrixSupport" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationWE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MultiplicationFE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="MultiplicationWEFE" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NbJourDT" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="NbJourCDP" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PrixSupport" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Obsolete" Type="bit" />
           <Property Name="Date" Type="datetime" />
         </EntityType>
@@ -147,7 +147,7 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Initials" Type="nvarchar(max)" />
           <Property Name="Duration" Type="nvarchar(max)" />
-          <Property Name="Fk_Ressource_Initials" Type="nvarchar" MaxLength="4" />
+          <Property Name="Fk_Ressource_Initials" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Tasks_f">
           <Key>
@@ -158,7 +158,7 @@
           <Property Name="Description" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Initials" Type="nvarchar(max)" />
           <Property Name="Duration" Type="nvarchar(max)" />
-          <Property Name="Fk_Ressource_Initials" Type="nvarchar" MaxLength="4" />
+          <Property Name="Fk_Ressource_Initials" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="Fk_Devis_Stories_Devis">
           <End Role="Devis" Type="Self.Devis" Multiplicity="1" />
@@ -356,22 +356,12 @@
     <edmx:ConceptualModels>
       <Schema Namespace="DevisFacturationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DevisFacturationEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Devis" EntityType="DevisFacturationModel.Devis" />
-          <EntitySet Name="Facturation" EntityType="DevisFacturationModel.Facturation" />
           <EntitySet Name="Projet" EntityType="DevisFacturationModel.Projet" />
           <EntitySet Name="Stories_d" EntityType="DevisFacturationModel.Stories_d" />
           <EntitySet Name="Stories_Devis" EntityType="DevisFacturationModel.Stories_Devis" />
           <EntitySet Name="Stories_f" EntityType="DevisFacturationModel.Stories_f" />
           <EntitySet Name="Stories_Facturation" EntityType="DevisFacturationModel.Stories_Facturation" />
           <EntitySet Name="Tarification_Ressource" EntityType="DevisFacturationModel.Tarification_Ressource" />
-          <AssociationSet Name="Fk_Devis_Stories_Devis" Association="DevisFacturationModel.Fk_Devis_Stories_Devis">
-            <End Role="Devis" EntitySet="Devis" />
-            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturation_Devis" Association="DevisFacturationModel.FK_Facturation_Devis">
-            <End Role="Devis" EntitySet="Devis" />
-            <End Role="Facturation" EntitySet="Facturation" />
-          </AssociationSet>
           <AssociationSet Name="FK_stotries_d_project" Association="DevisFacturationModel.FK_stotries_d_project">
             <End Role="Projet" EntitySet="Projet" />
             <End Role="Stories_d" EntitySet="Stories_d" />
@@ -413,33 +403,17 @@
             <End Role="Tarification_Ressource" EntitySet="Tarification_Ressource" />
           </AssociationSet>
           <EntitySet Name="Paramètres" EntityType="DevisFacturationModel.Paramètres" />
+          <EntitySet Name="Devis" EntityType="DevisFacturationModel.Devis" />
+          <EntitySet Name="Facturation" EntityType="DevisFacturationModel.Facturation" />
+          <AssociationSet Name="Fk_Devis_Stories_Devis" Association="DevisFacturationModel.Fk_Devis_Stories_Devis">
+            <End Role="Devis" EntitySet="Devis" />
+            <End Role="Stories_Devis" EntitySet="Stories_Devis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturation_Devis" Association="DevisFacturationModel.FK_Facturation_Devis">
+            <End Role="Devis" EntitySet="Devis" />
+            <End Role="Facturation" EntitySet="Facturation" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Devis">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Mois" Type="DateTime" Precision="3" />
-          <Property Name="Montant" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="Numéro" Type="Int32" />
-          <Property Name="Filename" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Stories_Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Devis" ToRole="Stories_Devis" />
-          <NavigationProperty Name="Facturation" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Devis" ToRole="Facturation" />
-        </EntityType>
-        <EntityType Name="Facturation">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Numéro" Type="Int64" Nullable="false" />
-          <Property Name="Mois" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Montant" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="FK_Devis" Type="Int64" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Filename" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Facturation" ToRole="Devis" />
-        </EntityType>
         <EntityType Name="Projet">
           <Key>
             <PropertyRef Name="Id" />
@@ -480,8 +454,8 @@
           <Property Name="FK_Stories_d" Type="Int64" Nullable="false" />
           <Property Name="FK_Devis" Type="Int64" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Stories_Devis" ToRole="Devis" />
           <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_Stories_d_Stories_Devis" FromRole="Stories_Devis" ToRole="Stories_d" />
+          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Stories_Devis" ToRole="Devis" />
         </EntityType>
         <EntityType Name="Stories_f">
           <Key>
@@ -527,30 +501,6 @@
           <NavigationProperty Name="Tarification" Relationship="DevisFacturationModel.FK_Tarification" FromRole="Tarification_Ressource" ToRole="Tarification" />
           <NavigationProperty Name="Ressource" Relationship="DevisFacturationModel.FK_Tarification_Ressources" FromRole="Tarification_Ressource" ToRole="Ressource" />
         </EntityType>
-        <Association Name="Fk_Devis_Stories_Devis">
-          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
-          <End Type="DevisFacturationModel.Stories_Devis" Role="Stories_Devis" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Devis">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Stories_Devis">
-              <PropertyRef Name="FK_Devis" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturation_Devis">
-          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
-          <End Type="DevisFacturationModel.Facturation" Role="Facturation" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Devis">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Facturation">
-              <PropertyRef Name="FK_Devis" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_stotries_d_project">
           <End Type="DevisFacturationModel.Projet" Role="Projet" Multiplicity="0..1" />
           <End Type="DevisFacturationModel.Stories_d" Role="Stories_d" Multiplicity="*" />
@@ -620,7 +570,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stories_d" Relationship="DevisFacturationModel.FK_Stories_d_Tasks_d" FromRole="Tasks_d" ToRole="Stories_d" />
         </EntityType>
         <EntityType Name="Tasks_f">
@@ -632,7 +582,7 @@
           <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Duration" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Fk_Ressource_Initials" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Stories_f" Relationship="DevisFacturationModel.FK_Stories_f_Tasks_f" FromRole="Tasks_f" ToRole="Stories_f" />
         </EntityType>
         <Association Name="FK_Stories_d_Tasks_d">
@@ -714,46 +664,71 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="MultiplicationWE" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="MultiplicationFE" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="MultiplicationWEFE" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="NbJourDT" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="NbJourCDP" Type="Decimal" Precision="18" Scale="0" />
-          <Property Name="PrixSupport" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="MultiplicationWE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MultiplicationFE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="MultiplicationWEFE" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NbJourDT" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="NbJourCDP" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PrixSupport" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Obsolete" Type="Boolean" />
           <Property Name="Date" Type="DateTime" Precision="3" />
         </EntityType>
+        <EntityType Name="Devis">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Mois" Type="DateTime" Precision="3" />
+          <Property Name="Montant" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="Commande" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Filename" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Stories_Devis" Relationship="DevisFacturationModel.Fk_Devis_Stories_Devis" FromRole="Devis" ToRole="Stories_Devis" />
+          <NavigationProperty Name="Facturation" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Devis" ToRole="Facturation" />
+        </EntityType>
+        <EntityType Name="Facturation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Commande" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Mois" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Montant" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="FK_Devis" Type="Int64" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Filename" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Devis" Relationship="DevisFacturationModel.FK_Facturation_Devis" FromRole="Facturation" ToRole="Devis" />
+        </EntityType>
+        <Association Name="Fk_Devis_Stories_Devis">
+          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Stories_Devis" Role="Stories_Devis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devis">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Stories_Devis">
+              <PropertyRef Name="FK_Devis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturation_Devis">
+          <End Type="DevisFacturationModel.Devis" Role="Devis" Multiplicity="1" />
+          <End Type="DevisFacturationModel.Facturation" Role="Facturation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devis">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Facturation">
+              <PropertyRef Name="FK_Devis" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DevisFacturationModelStoreContainer" CdmEntityContainer="DevisFacturationEntities">
-          <EntitySetMapping Name="Devis">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Devis">
-              <MappingFragment StoreEntitySet="Devis">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Filename" ColumnName="Filename" />
-                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
-                <ScalarProperty Name="Montant" ColumnName="Montant" />
-                <ScalarProperty Name="Mois" ColumnName="Mois" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Facturation">
-            <EntityTypeMapping TypeName="DevisFacturationModel.Facturation">
-              <MappingFragment StoreEntitySet="Facturation">
-                <ScalarProperty Name="Filename" ColumnName="Filename" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
-                <ScalarProperty Name="Montant" ColumnName="Montant" />
-                <ScalarProperty Name="Mois" ColumnName="Mois" />
-                <ScalarProperty Name="Numéro" ColumnName="Numéro" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Projet">
             <EntityTypeMapping TypeName="DevisFacturationModel.Projet">
               <MappingFragment StoreEntitySet="Projet">
@@ -893,6 +868,31 @@
                 <ScalarProperty Name="MultiplicationWEFE" ColumnName="MultiplicationWEFE" />
                 <ScalarProperty Name="MultiplicationFE" ColumnName="MultiplicationFE" />
                 <ScalarProperty Name="MultiplicationWE" ColumnName="MultiplicationWE" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Devis">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Devis">
+              <MappingFragment StoreEntitySet="Devis">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="Commande" ColumnName="Commande" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="Mois" ColumnName="Mois" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturation">
+            <EntityTypeMapping TypeName="DevisFacturationModel.Facturation">
+              <MappingFragment StoreEntitySet="Facturation">
+                <ScalarProperty Name="Filename" ColumnName="Filename" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="FK_Devis" ColumnName="FK_Devis" />
+                <ScalarProperty Name="Montant" ColumnName="Montant" />
+                <ScalarProperty Name="Mois" ColumnName="Mois" />
+                <ScalarProperty Name="Commande" ColumnName="Commande" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

@@ -19,7 +19,7 @@ namespace WebApplication4.Models
         public long FK_Devis { get; set; }
         public Nullable<System.DateTime> CreationDate { get; set; }
     
-        public virtual Devis Devis { get; set; }
         public virtual Stories_d Stories_d { get; set; }
+        public virtual Devis Devis { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace WebApplication4.Models
     public partial class Facturation
     {
         public long ID { get; set; }
-        public long Numéro { get; set; }
+        public string Commande { get; set; }
         public System.DateTime Mois { get; set; }
         public decimal Montant { get; set; }
         public long FK_Devis { get; set; }

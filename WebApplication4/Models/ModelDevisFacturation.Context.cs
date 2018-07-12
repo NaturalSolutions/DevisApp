@@ -25,8 +25,6 @@ namespace WebApplication4.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Devis> Devis { get; set; }
-        public virtual DbSet<Facturation> Facturation { get; set; }
         public virtual DbSet<Projet> Projet { get; set; }
         public virtual DbSet<Stories_d> Stories_d { get; set; }
         public virtual DbSet<Stories_Devis> Stories_Devis { get; set; }
@@ -38,5 +36,7 @@ namespace WebApplication4.Models
         public virtual DbSet<Tarification> Tarification { get; set; }
         public virtual DbSet<Ressource> Ressource { get; set; }
         public virtual DbSet<Paramètres> Paramètres { get; set; }
+        public virtual DbSet<Devis> Devis { get; set; }
+        public virtual DbSet<Facturation> Facturation { get; set; }
     }
 }

@@ -39,6 +39,7 @@ export class FileGeneratorComponent implements OnInit {
   private modalRessourceRef;
   private nbRessourceAAjouter;
   private FgTarificationData: FormControl[];
+  private epicCommande;
 
   ressourceForm: FormGroup;
 
@@ -261,6 +262,7 @@ export class FileGeneratorComponent implements OnInit {
           //     this.alerter.setLoadingProperty();
           selector.onchange = () => {
             if (type.toLowerCase() == "devis") {
+              this.epicCommande = selector.value;
               let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
               let zeubi = this.myTransMuter.transmuteProjects(projets);
               let transformedProject = zeubi;
@@ -275,7 +277,7 @@ export class FileGeneratorComponent implements OnInit {
                   let transformedTasks = couilles;
                   this.verifyInitial(couilles).then((retour) => {
                     if (retour) {
-                      this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0);
+                      this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0,this.epicCommande);
                       console.log('envoir en cours');
                     }
                   }).catch((retour) =>{
@@ -285,6 +287,7 @@ export class FileGeneratorComponent implements OnInit {
               })
 
             } else if (type.toLowerCase() == "facture") {
+              this.epicCommande = selector.value;
               let monthPicker = document.createElement('input');
               monthPicker.type = "month";
               monthPicker.id = "month";
@@ -348,7 +351,7 @@ export class FileGeneratorComponent implements OnInit {
                               btnEnvoi.onclick = (() => {
                                 if (cdp.value != '0' || dt.value != '0') {
                                   console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                  this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
+                                  this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value,this.epicCommande);
                                   console.log('j\'envoi !');
                                 } else {
                                   this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
@@ -409,7 +412,7 @@ export class FileGeneratorComponent implements OnInit {
 
                                   if (cdp.value != '0' || dt.value != '0') {
                                     console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                    this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value);
+                                    this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value,this.epicCommande);
                                     console.log('j\'envoi !');
                                   } else {
                                     this.alerter.setlogMessage('tous les champs doivent être remplis ! ')

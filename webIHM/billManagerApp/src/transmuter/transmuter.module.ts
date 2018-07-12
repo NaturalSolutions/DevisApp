@@ -83,7 +83,7 @@ export class TransmuterModule {
     return finalListOfObjects;
   }
 
-  public encapsulateObjects(projects, stories, tasks, isFactu, tarCDP = null, tarDT = null) {
+  public encapsulateObjects(projects, stories, tasks, isFactu, tarCDP = null, tarDT = null,epicCommande) {
    // this.alerter.setlogProcess("encapsulating objects");
     let GeneralObject: any = {};
     if (projects != undefined && stories != undefined && tasks != undefined) {
@@ -96,6 +96,7 @@ export class TransmuterModule {
       }
       GeneralObject.JourDT = tarDT
       GeneralObject.jourCdp = tarCDP;
+      GeneralObject.epic = epicCommande;
       this.sendToServer(GeneralObject, isFactu);
     }
   }
