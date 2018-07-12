@@ -14,6 +14,11 @@ import { Injectable, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AfterViewInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
+import {NgbDropdownConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-file-generator',
@@ -31,21 +36,30 @@ export class FileGeneratorComponent implements OnInit {
   private initialInexistante;
   private compteurRessource = 0;
   private currentRessource;
-  private modalRessourceRef; 
+  private modalRessourceRef;
   private nbRessourceAAjouter;
+  private FgTarificationData: FormControl[];
 
-  heroForm = new FormGroup ({
-    name: new FormControl(),
-    email : new FormControl(),
-    initial : new FormControl(),
-    niveau : new FormControl(),
-    Tarification : new FormControl()
-  });
+  ressourceForm: FormGroup;
 
-  constructor(private alertSrv: AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule, private modalService: NgbModal) {
+  createForm() {
+    this.ressourceForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      initial: '',
+      niveau: ['', Validators.required],
+      tarificationForm: new FormArray(this.FgTarificationData)
+    });
+  };
+
+
+  constructor(private fb: FormBuilder,private configDropDown: NgbDropdownConfig, private alertSrv: AlertDialogService, private epicRecuperator: EpicRecuperatorModule, private http: HttpClient, private devisRequester: DevisRequesterModule, private alerter: LogMessageComponent, private myTransMuter: TransmuterModule, private modalService: NgbModal) {
     this.divVisibility = false;
     this.DevisProcessLauched = false;
+    this.configDropDown.placement = 'bottom-left';
+    this.configDropDown.autoClose = false;
   }
+
 
   ngOnInit() {
     this.devisScope = document.getElementById('devis');
@@ -57,14 +71,34 @@ export class FileGeneratorComponent implements OnInit {
   private storiesSansEpics;
 
   setcurrentRess() {
-    console.log("this.compteurRessource",this.compteurRessource);
-    if (this.compteurRessource < this.initialInexistante.length-1) {
+    console.log("this.compteurRessource", this.compteurRessource);
+    if (this.compteurRessource < this.initialInexistante.length - 1) {
       this.compteurRessource = this.compteurRessource + 1;
       this.currentRessource = this.initialInexistante[this.compteurRessource];
-      this.nbRessourceAAjouter = this.nbRessourceAAjouter-1;
-    }else{
+      this.nbRessourceAAjouter = this.nbRessourceAAjouter - 1;
+    } else {
       this.modalRessourceRef.close();
     }
+  }
+
+  validerRessource() {
+    let data: any = this.ressourceForm.getRawValue();
+    let usersTarifications: boolean[] = data.tarificationForm;
+    let selectedTarifications: any[] = [];
+    usersTarifications.forEach((isSelected, index) => {
+      if (isSelected)
+        selectedTarifications.push(this.tarifications[index].ID);
+    });
+
+    let nouvelle_ressource: any = {};
+    nouvelle_ressource.nomComplet = data.name;
+    nouvelle_ressource.initial = data.initial;
+    nouvelle_ressource.mail = data.email;
+    nouvelle_ressource.niveau = data.niveau;
+    nouvelle_ressource.tarifications = selectedTarifications;
+    console.log(nouvelle_ressource);
+    this.ressourceForm.reset();
+
   }
 
   showCheckboxes() {
@@ -108,18 +142,22 @@ export class FileGeneratorComponent implements OnInit {
   @ViewChild('ajoutRessources') ajoutRessources: NgbModalRef;
 
   setModalStoriesSansEpics() {
-    let modalRef = this.modalService.open(this.templateStoriesModal);
+    let modalRef = this.modalService.open(this.templateStoriesModal,{backdrop : "static"});
     return modalRef;
   }
 
   setModalRessourcesInexistante() {
-    let modalRef = this.modalService.open(this.templateRessourceModal);
+    let modalRef = this.modalService.open(this.templateRessourceModal,{backdrop : "static"});
     return modalRef;
   }
 
   setModalAjoutRessource() {
-    let modalRef = this.modalService.open(this.ajoutRessources);
+    let modalRef = this.modalService.open(this.ajoutRessources,{backdrop : "static"});
     this.modalRessourceRef = modalRef;
+    this.FgTarificationData = this.tarifications.map(tarif => {
+      return new FormControl(false);
+    });
+    this.createForm();
     return modalRef;
   }
 
@@ -131,116 +169,6 @@ export class FileGeneratorComponent implements OnInit {
       }
     });
   }
-
-  // verifyInitial(taches) {
-  //   return new Promise((resolve, reject) => {
-  //     this.setModalRessourcesInexistante();
-  //     let initialEmployes = [];
-  //     this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
-  //       for (let emp in res) {
-  //         console.log("res[emp].Initial", res[emp].Initial);
-  //         initialEmployes.push(res[emp].Initial)
-  //       }
-  //       let initialInexistante = new Set();
-  //       for (let currentTasks in taches) {
-  //         if (taches[currentTasks].Initials.length > 2) {
-  //           let owners = taches[currentTasks].Initials.split("+");
-  //           for (let currentOwner in owners) {
-  //             if (!initialEmployes.includes(owners[currentOwner])) {
-  //               initialInexistante.add(owners[currentOwner]);
-  //             }
-  //           }
-  //         } else {
-  //           if (!initialEmployes.includes(taches[currentTasks].Initials)) {
-  //             initialInexistante.add(taches[currentTasks].Initials);
-  //           }
-  //         }
-  //       }
-  //       let initialInexistanteArray = Array.from(initialInexistante);
-  //       if (initialInexistanteArray.length > 0) {
-  //         this.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
-  //           this.tarifications = res;
-  //           let tailleInitialP = document.getElementById('taille_init');
-  //           let tailleInitialInexistanteTemp = 0;
-  //           tailleInitialP.innerHTML = initialInexistanteArray.length.toString();
-  //           let divChoixPbInitial = document.getElementById('choixInitialInexistante');
-  //           divChoixPbInitial.style.visibility = "visible";
-  //           let buttonAjoutRessource = document.getElementById('ajouterInitial');
-  //           let buttonEnvoiRessource = document.getElementById('validation_NewRessource');
-  //           let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-  //           inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
-  //           console.log("initialInexistanteArray[0]", initialInexistanteArray[0])
-
-  //           buttonEnvoiRessource.onclick = () => {
-  //             console.log("tailleInitialInexistanteTemp", tailleInitialInexistanteTemp);
-  //             let : any = {};
-  //             let inputName = document.getElementById('Nom_Prenom_NewRessource') as HTMLInputElement;
-  //             .Name = inputName.value;
-
-  //             let inputMail = document.getElementById('Mail_NewRessource') as HTMLInputElement;
-  //             .Mail = inputMail.value;
-  //             console.log("initialInexistanteArray[tailleInitialInexistanteTemp-1]", initialInexistanteArray[tailleInitialInexistanteTemp]);
-  //             .Initial = inputInitials.value;
-
-  //             let inputNiveau = document.getElementById('Niveau_NewRessource') as HTMLSelectElement;
-  //             .niveau = inputNiveau.value;
-
-  //             let checkboxesTarification = document.getElementsByClassName('checkboxes_tarif') as HTMLCollectionOf<HTMLInputElement>;
-
-  //             .tarification = "";
-  //             for (let c in checkboxesTarification) {
-  //               console.log('checkboxesTarification.value', checkboxesTarification[c]);
-  //               if (checkboxesTarification[c].checked && checkboxesTarification[c].id != undefined) {
-  //                 .tarification += checkboxesTarification[c].id + ";";
-  //               }
-  //             }
-
-  //             .tarification = .tarification.substring(0, .tarification.length - 1);
-  //             console.log(".tarification", .tarification);
-  //             .tarification = .tarification.split(';');
-
-  //             if (.Name == undefined || .Mail == undefined || .Initial == undefined || .niveau == "" || .tarification == "" || .tarification == undefined) {
-  //               console.log(".Name", .Name);
-  //               console.log(".Mail", .Mail);
-  //               console.log(".Initial", .Initial);
-  //               this.alerter.setlogMessage('tout les champs doivent être remplies');
-  //             } else {
-  //               console.log('tailleInitialInexistanteTemp', tailleInitialInexistanteTemp);
-  //               inputName.value = "";
-  //               inputMail.value = "";
-  //               inputNiveau.value = "3";
-  //               for (let checkbox in checkboxesTarification) {
-  //                 if (checkboxesTarification[checkbox].id != undefined) {
-  //                   checkboxesTarification[checkbox].checked = false;
-  //                 }
-  //               }
-  //               console.log("", );
-  //               this.postNewRessource('http://localhost/DevisAPI/api/', ).toPromise().then(() => {
-  //                 this.alerter.setlogMessage('Ressource ajouté à la base');
-  //               })
-  //               tailleInitialInexistanteTemp++;
-  //               tailleInitialP.innerHTML = (initialInexistanteArray.length - tailleInitialInexistanteTemp).toString();
-  //               let inputInitials = document.getElementById('Initial_NewRessource') as HTMLInputElement;
-  //               inputInitials.value = initialInexistanteArray[tailleInitialInexistanteTemp];
-  //               if (tailleInitialInexistanteTemp >= initialInexistanteArray.length) {
-  //                 this.alerter.hideClosableAlert();
-  //                 resolve(true);
-  //               }
-  //             }
-  //           };
-
-  //           buttonAjoutRessource.onclick = () => {
-  //             document.getElementById('inital_info').style.visibility = "hidden";
-  //             document.getElementById('ajoutRessource').style.visibility = "visible";
-  //           };
-  //           this.alerter.setClosableAlert(divChoixPbInitial);
-  //         })
-  //       } else {
-  //         resolve(true);
-  //       }
-  //     });
-  //   });
-  // }
 
 
   verifyInitial(taches) {
@@ -277,7 +205,11 @@ export class FileGeneratorComponent implements OnInit {
               let n = this.modalRessourceRef as NgbModalRef;
               n.result.then(() => {
                 resolve(true);
+              }).catch(() => {
+                reject(false);
               })
+            }).catch(() => {
+              reject(false);
             });
           })
         } else {
@@ -338,6 +270,8 @@ export class FileGeneratorComponent implements OnInit {
                       this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0);
                       console.log('envoir en cours');
                     }
+                  }).catch((retour) =>{
+                    location.reload(true);
                   })
                 });
               })
@@ -414,7 +348,9 @@ export class FileGeneratorComponent implements OnInit {
                               })
                             })
                           }
-                        });
+                        }).catch((retour) => {
+                          location.reload(true);
+                        })
                       });
                     }
                   });
@@ -473,7 +409,9 @@ export class FileGeneratorComponent implements OnInit {
                                 })
                               });
                             }
-                          });
+                          }).catch((retour) => {
+                            location.reload(true);
+                          })
                         });
                       }
                     });

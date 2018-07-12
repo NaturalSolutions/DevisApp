@@ -71,38 +71,56 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <form action="" [formGroup]="ressourceForm"></form>
-      <div class="col-lg-3 col-sm-12" style="text-align:center;">
-        <label>Nom,Prénom
-          <br>
-          <input type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
-        </label>
-      </div>
+      <form [formGroup]="ressourceForm" class="form-group col-lg-12">
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Nom,Prénom
+            <br>
+            <input type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
 
-      <div class="col-lg-3 col-sm-12" style="text-align:center;">
-        <label>Mail
-          <br>
-          <input type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
-        </label>
-      </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Mail
+            <br>
+            <input type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
 
-      <div class="col-lg-3 col-sm-12" style="text-align:center;">
-        <label>Initial
-          <br>
-          <input type="text" class="form-control" disabled="true" formControlName="initial" placeholder={{currentRessource}} aria-label="Username" aria-describedby="basic-addon1">
-        </label>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Initial
+            <br>
+            <input type="text" class="form-control" formControlName="initial" placeholder={{currentRessource}} aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
 
-      </div>
-      <div class="col-lg-3 col-sm-12" style="text-align:center;">
-        <label>Niveau
-          <br>
-          <input type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username" aria-describedby="basic-addon1">
-        </label>
-      </div>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Niveau
+            <br>
+            <input type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Tarifications
+            <br>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>Choix du/des Tarification(s)</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                <div class="col" formArrayName="tarificationForm" *ngFor="let tarif of tarifications; let i= index">
+                  <label>&nbsp;
+                    <input type="checkbox" [value]="tarif" [formControlName]="i" /> &nbsp; {{ tarif.Type }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="setcurrentRess()">Ajouter la ressource</button>
+    <button type="button" class="btn btn-outline-dark" (click)="setcurrentRess(); validerRessource()">Ajouter la ressource</button>
     <p class="cptRessource">{{nbRessourceAAjouter}}</p>
   </div>
 </ng-template>

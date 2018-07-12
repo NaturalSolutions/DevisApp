@@ -21,6 +21,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.service';
+import { ReactiveFormsModule } from '@angular/forms';  
 
 @NgModule({
   declarations: [
@@ -36,8 +37,16 @@ import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.
     HttpClientModule,
     AngularFontAwesomeModule,
     ModalModule.forRoot(),
+    ReactiveFormsModule,
     RouterModule.forRoot([
-      {path : 'billManager', component: FileGeneratorComponent},
+      {
+        path : 'billManager',
+      component: FileGeneratorComponent,
+        children: [{
+          path: 'orders',
+          component: FileGeneratorComponent
+        }]
+    },
       {path : 'parmeters', component: SettingsComponent}
     ])
   ],
