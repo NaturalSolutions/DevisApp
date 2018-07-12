@@ -84,21 +84,29 @@ export class FileGeneratorComponent implements OnInit {
   validerRessource() {
     let data: any = this.ressourceForm.getRawValue();
     let usersTarifications: boolean[] = data.tarificationForm;
-    let selectedTarifications: any[] = [];
+    let selectedTarifications: Int16Array[] = [];
     usersTarifications.forEach((isSelected, index) => {
       if (isSelected)
         selectedTarifications.push(this.tarifications[index].ID);
     });
 
     let nouvelle_ressource: any = {};
-    nouvelle_ressource.nomComplet = data.name;
+    nouvelle_ressource.name = data.name;
     nouvelle_ressource.initial = data.initial;
     nouvelle_ressource.mail = data.email;
     nouvelle_ressource.niveau = data.niveau;
-    nouvelle_ressource.tarifications = selectedTarifications;
+    nouvelle_ressource.tarification = selectedTarifications;
     console.log(nouvelle_ressource);
     this.ressourceForm.reset();
-
+    this.postNewRessource("http://localhost/DevisAPI/api/ressource",nouvelle_ressource).toPromise().then(() => {
+      alert("c'est bon c'est envoyer");
+    }).catch(() => {
+      this.alertSrv.open({title : "Une erreur est survenue",content : 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+        location.reload(true);
+      }).catch(() => {
+        location.reload(true);
+      })
+    })
   }
 
   showCheckboxes() {
@@ -184,12 +192,12 @@ export class FileGeneratorComponent implements OnInit {
           if (taches[currentTasks].Initials.length > 2) {
             let owners = taches[currentTasks].Initials.split("+");
             for (let currentOwner in owners) {
-              if (initialEmployes.includes(owners[currentOwner])) {
+              if (!initialEmployes.includes(owners[currentOwner])) {
                 initialInexistante.add(owners[currentOwner]);
               }
             }
           } else {
-            if (initialEmployes.includes(taches[currentTasks].Initials)) {
+            if (!initialEmployes.includes(taches[currentTasks].Initials)) {
               initialInexistante.add(taches[currentTasks].Initials);
             }
           }

@@ -77,7 +77,7 @@ namespace WebApplication4.Controllers
             public string mail;
             public string name;
             public int niveau;
-            public List<String> tarification;
+            public List<Int16> tarification;
         }
 
         // POST: api/Ressource
@@ -91,10 +91,10 @@ namespace WebApplication4.Controllers
             newRess.Obsolete = false;
             newRess.Date = DateTime.Now;
             Tarification_Ressource tarRes = new Tarification_Ressource();
-            foreach (string nomTar in rss.tarification)
+            foreach (Int16 idTar in rss.tarification)
             {
                 tarRes.FK_Ressource = newRess.ID;
-                Tarification tar = db.Tarification.Where(res => res.Type == nomTar).FirstOrDefault();
+                Tarification tar = db.Tarification.Where(res => res.ID == idTar).FirstOrDefault();
                 tarRes.FK_Tarification = tar.ID;
             }
             db.Ressource.Add(newRess);
