@@ -23,7 +23,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmployeesComponent } from '../settings/employees/employees.component';
-import { ConstanteCalculComponent } from '../settings/constante-calcul/constante-calcul.component';  
+import { ConstanteCalculComponent } from '../settings/constante-calcul/constante-calcul.component';
 
 @NgModule({
   declarations: [
@@ -42,20 +42,21 @@ import { ConstanteCalculComponent } from '../settings/constante-calcul/constante
     ReactiveFormsModule,
     RouterModule.forRoot([
       {
-        path : 'billManager',
-      component: FileGeneratorComponent,
-        children: [{
-          path: 'orders',
-          component: FileGeneratorComponent
-        }]
-    },
-      {path : 'parmeters', component: SettingsComponent}
+        path: 'billManager',
+        component: FileGeneratorComponent,
+      },
+      { path: 'parmeters', 
+      component: SettingsComponent,
+      children: [{
+        path: 'gestion-employes',
+        component: EmployeesComponent
+      }] }
     ])
   ],
   exports: [
     ModalModule
- ],
-  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent,AccordionModule,AlertModule,ModalModule],
+  ],
+  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent, AccordionModule, AlertModule, ModalModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -49,12 +49,17 @@
     padding: 4%;
 }
 
+.button-label{
+    padding: 5%;
+}
+
 .image-button{
     text-align: center;
 }
 
 img{
-    width: 10%;
+    width: 15%;
+    height: auto;
 }
 
 #employes p {
