@@ -11,6 +11,7 @@ namespace WebApplication4.Models
         public Stories_f(string description, string type, DateTime depart, DateTime maj, string owners, string labels, bool billable, bool isPayed, bool bonus, long originalID, string url, string epic, string isAmo,long fkprojet) : base(description, type, depart, maj, owners, labels, billable, isPayed, bonus, originalID, url, epic, isAmo,fkprojet)
         {
         }
+      
 
         public Stories_f(WebApplication4.Models.BO.MasterStories s)
         {

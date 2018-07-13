@@ -128,7 +128,7 @@ namespace WebApplication4.Controllers
             //response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
             //return response;
-            //newGenObject.SaveToDb(false, facturation);
+            newGenObject.SaveToDb(true, facturation);
             //return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
@@ -146,7 +146,7 @@ namespace WebApplication4.Controllers
                 {
                     Facturation ts = db.Facturation.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
                     db.Facturation.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.Numéro = factu.Numéro; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.Commande= factu.Commande; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.Mois = factu.Mois; // same
                     ts.Montant = factu.Montant; // same
                     ts.FK_Devis = factu.FK_Devis; // same

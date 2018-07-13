@@ -24,6 +24,7 @@ namespace WebApplication4.Models.BO
         public string fileName { get; set; }
         public bool isFactu { get; set; }
         public byte[] encoded { get; set; }
+        public bool isAnUpdate;
 
         //public WordFileGenerator(FactuConstante obj, bool isFactu = false)
         //{
@@ -55,6 +56,7 @@ namespace WebApplication4.Models.BO
 
         public WordFileGenerator(GeneralObject obj,SumManager sumManager,dynamic fichier, bool isFactu = false)
         {
+            DevisFacturationEntities db = new DevisFacturationEntities();
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
             this.basePath = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -62,13 +64,44 @@ namespace WebApplication4.Models.BO
             this.tableSubTotalBonus = 0;
             if (isFactu)
             {
-                fichier = (Facturation)fichier;
-                this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+                List<Facturation> lesFactures = db.Facturation.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).ToList();
+                if(lesFactures.Count() > 0)
+                {
+                    fichier = (Facturation) lesFactures[0];
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = true;
+                }
+                else
+                {
+                    fichier = (Facturation)fichier;                    
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    Devis devisSameCommande = db.Devis.Where(dev => dev.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).FirstOrDefault();
+                    fichier.FK_Devis = devisSameCommande.ID;
+                    this.isAnUpdate = false;
+                }
+                this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" +obj.epic.Trim() + ".docx";
             }
             else
             {
-                fichier = (Devis)fichier;
-                this.fileName = "Devis_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(1).Month + ".docx";
+                List<Devis> lesDevis = db.Devis.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).ToList();
+                if (lesDevis.Count() > 0)
+                {
+                    fichier = (Devis)lesDevis[0];
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = true;
+                }
+                else
+                {
+                    fichier = (Devis)fichier;
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = false;
+                }
+
+                this.fileName = "Devis_All_NS_Reneco_" + obj.epic.Trim() + ".docx";
             }
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
@@ -79,22 +112,38 @@ namespace WebApplication4.Models.BO
             }
             else
             {
-                insertElementsInFiles(fichier );
+                insertElementsInFiles(fichier);
             }            
             this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
-            DevisFacturationEntities db = new DevisFacturationEntities();
             fichier.Filename = this.fileName;
             fichier.Date = DateTime.Now;
+            //fichier.
             if (this.isFactu)
             {
-                //db.Facturation.Add(fichier);
-                //db.SaveChanges();
+                if (this.isAnUpdate)
+                {
+                    db.Facturation.Attach(fichier);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Facturation.Add(fichier);
+                    db.SaveChanges();
+                }
+              
             }
             else
             {
-                db.Devis.Add(fichier);
-                db.SaveChanges();
+                if (this.isAnUpdate)
+                {
+                    db.Devis.Attach(fichier);
+                    db.SaveChanges();
+                }else{
+
+                    db.Devis.Add(fichier);
+                    db.SaveChanges();
+                }
             }
         }
 

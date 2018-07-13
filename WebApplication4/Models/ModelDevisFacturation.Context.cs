@@ -29,7 +29,6 @@ namespace WebApplication4.Models
         public virtual DbSet<Stories_d> Stories_d { get; set; }
         public virtual DbSet<Stories_Devis> Stories_Devis { get; set; }
         public virtual DbSet<Stories_f> Stories_f { get; set; }
-        public virtual DbSet<Stories_Facturation> Stories_Facturation { get; set; }
         public virtual DbSet<Tarification_Ressource> Tarification_Ressource { get; set; }
         public virtual DbSet<Tasks_d> Tasks_d { get; set; }
         public virtual DbSet<Tasks_f> Tasks_f { get; set; }
@@ -38,5 +37,6 @@ namespace WebApplication4.Models
         public virtual DbSet<Paramètres> Paramètres { get; set; }
         public virtual DbSet<Devis> Devis { get; set; }
         public virtual DbSet<Facturation> Facturation { get; set; }
+        public virtual DbSet<Stories_Facturation> Stories_Facturation { get; set; }
     }
 }

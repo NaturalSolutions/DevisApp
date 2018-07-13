@@ -14,14 +14,22 @@ namespace WebApplication4.Models
     
     public partial class Facturation
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Facturation()
+        {
+            this.Stories_Facturation = new HashSet<Stories_Facturation>();
+        }
+    
         public long ID { get; set; }
         public string Commande { get; set; }
-        public System.DateTime Mois { get; set; }
+        public string Mois { get; set; }
         public decimal Montant { get; set; }
         public long FK_Devis { get; set; }
         public System.DateTime Date { get; set; }
         public string Filename { get; set; }
     
         public virtual Devis Devis { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stories_Facturation> Stories_Facturation { get; set; }
     }
 }

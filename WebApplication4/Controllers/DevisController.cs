@@ -141,7 +141,7 @@ namespace WebApplication4.Controllers
                     db.Devis.Attach(res); // ecouteur de chamgement de l'objet
                     res.Mois = value.Mois;  // changement de valeur des attributs
                     res.Montant = value.Montant; // same
-                    res.Numéro = value.Numéro; // same
+                    res.Commande = value.Commande; // same
                     res.Filename = value.Filename; // same
                     res.Date = value.Date; // same
                     db.SaveChanges(); // mise a joue de la table
