@@ -55,35 +55,6 @@ namespace WebApplication4.Controllers
 
         }
 
-        //public GeneralObject CreateATestingContext()
-        //{
-        //  //  Tasks taskTest = new Tasks();
-        //  //  taskTest.Description = "une tache de merde bien chiante";
-        //  //  taskTest.Duration = 2;
-        //  //  taskTest.Initials = "TL";
-        //  //  List<Tasks> TasksTest = new List<Tasks>();
-        //  //  TasksTest.Add(taskTest);
-
-        //    // LA TACHE
-
-        //    //MasterStories storyTest = new MasterStories();
-        //   // storyTest.Type = "DEV";
-        //   // storyTest.Tasks = TasksTest;
-        //    List<MasterStories> storiesTest = new List<MasterStories>();
-        //    //   storiesTest.Add(storyTest);
-
-        //    // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
-        //    //projetTest.Nom = "nom Test";
-
-        //    //projetTest.MasterStories = storiesTest;
-        //    List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
-        //    //projetsTest.Add(projetTest);
-         
-        //    GeneralObject myTestGenObject = new GeneralObject();
-        //    myTestGenObject.projets = projetsTest;
-
-        //    return myTestGenObject;
-        //}
 
         // POST: api/Devis
         public HttpResponseMessage Post( object genObjec_d) // DEVRA CREER UN DEVIS 
