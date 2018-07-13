@@ -26,35 +26,16 @@ namespace WebApplication4.Controllers
 
 
         // GET: api/Facturation
-        public HttpResponseMessage Get()
+        public List<Facturation> Get()
         {
-            DateTime longDate = DateTime.Now;
-            //var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
-            //HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            //var stream = new FileStream(path, FileMode.Open);
-            //result.Content = new StreamContent(stream);
-            //result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            //result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
-            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-            //result.Content.Headers.ContentLength = stream.Length;
-
-            string strdocPath;
-            //strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul" + ".txt";
-            strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
-
-            //FileStream objfilestream = new FileStream(strdocPath, FileMode.Open, FileAccess.Read);
-            //int len = (int)objfilestream.Length;
-            Byte[] documentcontents = File.ReadAllBytes(strdocPath);
-            // objfilestream.Read(documentcontents, 0, len);
-            // objfilestream.Close();
-
-            string stringFile = Convert.ToBase64String(documentcontents);
-
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
-            //response.Content = new StringContent(stringFile, Encoding.UTF8);
-            
-            //response.Content = new ObjectContent(stringFile,
-            return response;
+            if (db.Facturation.ToList() != null)
+            {
+                return db.Facturation.ToList();
+            }
+            else
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
+            }
         }
 
         // GET: api/Facturation/5

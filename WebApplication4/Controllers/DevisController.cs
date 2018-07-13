@@ -22,22 +22,15 @@ namespace WebApplication4.Controllers
             this.db = new DevisFacturationEntities(); // interface d'appel de la bd
         }
         // GET: api/Devis
-        public IEnumerable<Devis> Get() // Devra return TOUUUUT les emplacements des DEVIS existant
+        public List<Devis> Get() 
         {
-            try
+            if (db.Devis.ToList() != null)
             {
-                if ((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
-                {
-                    return db.Devis.ToList(); // TO DO Jsonifier le renvoie de la liste des devis pour pouvoir acceder aux attributs des objets
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
-                }
+               return db.Devis.ToList(); 
             }
-            catch (Exception e)
+            else
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
+               throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
             }
         }
 
