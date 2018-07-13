@@ -21,12 +21,14 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.service';
-import { ReactiveFormsModule } from '@angular/forms';  
+import { ReactiveFormsModule } from '@angular/forms';
+import { EmployeesComponent } from '../settings/employees/employees.component';
+import { ConstanteCalculComponent } from '../settings/constante-calcul/constante-calcul.component';  
 
 @NgModule({
   declarations: [
     AppComponent,
-    FileGeneratorComponent, LogMessageComponent, DashboardComponent, SettingsComponent, NgbdModalContent
+    FileGeneratorComponent, LogMessageComponent, DashboardComponent, SettingsComponent, NgbdModalContent, EmployeesComponent, ConstanteCalculComponent
   ],
   entryComponents: [NgbdModalContent],
   imports: [

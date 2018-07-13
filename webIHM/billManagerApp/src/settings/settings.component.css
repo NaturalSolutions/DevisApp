@@ -36,6 +36,20 @@
     margin:auto;
 }
 
+.button-tab{
+    width: 100%;
+    position: absolute;
+    top: 10%;
+}
+
+.image-button{
+    text-align: center;
+}
+
+img{
+    width: 10%;
+}
+
 #employes p {
     display: block;
 }
