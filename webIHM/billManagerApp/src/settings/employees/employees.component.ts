@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http/';
+import { ViewChild } from '@angular/core';
+import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AfterViewInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
+import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
+import { AlertDialogService } from '../../services/alert-dialog.service';
 
 @Component({
   selector: 'app-employees',
@@ -9,15 +19,29 @@ import { HttpClient } from '@angular/common/http/';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor(private http : HttpClient) {
+  constructor(private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
+    this.getEmployes();
+    this.getTarification();
   }
 
   private employees;
   private tarifications;
+  private FgTarificationData: FormControl[];
+  public formAjoutRess: FormGroup;
+  private modalRessourceRef;
+  private modalRef: NgbModalRef;
+
+  createForm() {
+    this.formAjoutRess = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      initial: '',
+      niveau: ['', Validators.required],
+      tarificationForm: new FormArray(this.FgTarificationData)
+    });
+  };
 
   ngOnInit() {
-    this.getEmployes();
-    this.getTarification();
   }
 
 
@@ -34,8 +58,57 @@ export class EmployeesComponent implements OnInit {
   }
 
   addRessource() {
-    alert('on va ajouter une ressource tkt');
+    this.FgTarificationData = this.tarifications.map(tarif => {
+      return new FormControl(false);
+    });
+    this.createForm();
+    this.setModalAjoutRessource().result.then(() => {
+    }).catch(() => {
+      console.log('annulation validé')
+    })
   }
+
+
+  validerRessource() {
+    this.modalRef.close();
+    let data: any = this.formAjoutRess.getRawValue();
+    let usersTarifications: boolean[] = data.tarificationForm;
+    let selectedTarifications: Int16Array[] = [];
+    usersTarifications.forEach((isSelected, index) => {
+      if (isSelected)
+        selectedTarifications.push(this.tarifications[index].ID);
+    });
+
+    let nouvelle_ressource: any = {};
+    nouvelle_ressource.name = data.name;
+    nouvelle_ressource.initial = data.initial;
+    nouvelle_ressource.mail = data.email;
+    nouvelle_ressource.niveau = data.niveau;
+    nouvelle_ressource.tarification = selectedTarifications;
+    console.log(nouvelle_ressource);
+    this.formAjoutRess.reset();
+    this.postNewRessource("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+      this.alertSrv.open({ title: 'OK ', content: 'Ressource ajoutée' })
+      this.getEmployes();
+    }).catch(() => {
+      this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+        location.reload(true);
+      }).catch(() => {
+        location.reload(true);
+      })
+    })
+  }
+
+  postNewRessource(url, objetAEnvoyer) {
+    return this.http.post(url, objetAEnvoyer, {
+      headers: {
+        "dataType": "json",
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    });
+  }
+
+  // @ViewChild('confirmationSuppr')  confirmation : NgbModalRef;
 
   deleteRessource(id) {
     this.delete("http://localhost/DevisAPI/api/Ressource/" + id).toPromise().then((res) => {
@@ -55,7 +128,13 @@ export class EmployeesComponent implements OnInit {
     alert('ressource mise à jour');
   }
 
+  @ViewChild('ressource') ajoutRessources: NgbModalRef;
 
+  setModalAjoutRessource() {
+    let modal = this.modalService.open(this.ajoutRessources, { backdrop: "static" });
+    this.modalRef = modal;
+    return modal;
+  }
 
 
   addTarification() {

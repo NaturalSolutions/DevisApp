@@ -30,20 +30,104 @@
   <div class="col-{breakpoint}-auto">
     <br>
     <div class="table-striped table-hover ">
-        <tr *ngFor="let tarif of tarifications">
-          <td class="tdemp">{{tarif.Type}}</td>
-          <td class="tdemp">{{tarif.Tar3}}</td>
-          <td class="tdemp">{{tarif.Tar5}}</td>
-          <td class="tdemp">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
-              <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
-            </div>
-          </td>
-        </tr>
-      </div>
+      <tr *ngFor="let tarif of tarifications">
+        <td class="tdemp">{{tarif.Type}}</td>
+        <td class="tdemp">{{tarif.Tar3}}</td>
+        <td class="tdemp">{{tarif.Tar5}}</td>
+        <td class="tdemp">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
+            <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
+          </div>
+        </td>
+      </tr>
+    </div>
     <div class="row" style="text-align:center;">
       <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addTarification()">Ajouter</button>
     </div>
   </div>
 </div>
+
+
+
+<ng-template #ressource let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Ajout de ressource</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form [formGroup]="formAjoutRess" class="form-group col-lg-12">
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Nom,Prénom
+            <br>
+            <input required type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Mail
+            <br>
+            <input required type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Initial
+            <br>
+            <input required type="text" class="form-control" formControlName="initial" placeholder={{currentRessource}} aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Niveau
+            <br>
+            <input required type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Tarifications
+            <br>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>Choix du/des Tarification(s)</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                <div class="col" required formArrayName="tarificationForm" *ngFor="let tarif of tarifications; let i= index">
+                  <label>&nbsp;
+                    <input type="checkbox" [value]="tarif" [formControlName]="i" /> &nbsp; {{ tarif.Type }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">Ajouter la ressource</button>
+  </div>
+</ng-template>
+
+<!-- 
+
+<ng-template #confirmationSuppr let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Confirmation de suppression</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <p>Etes vous sur de vouloir supprimer cette ressource ? </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="">Oui ! </button>
+    <button type="button" class="btn btn-outline-dark" (click)="d('miss click')">Non j'ai miss click ! </button>
+  </div>
+</ng-template> -->
