@@ -66,9 +66,8 @@ header{
 
 #menu{
     background-color: #37474f;
-    height: 100%;
     width: 15%;
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 0px;
     bottom: 0px;

@@ -1,116 +1,4 @@
 
-	Recherche d'une modelisation mathématique pour la description des objectifs de production et d'utilité (phase 1)    |  type : (amo)
-
-Recherche d'une modelisation mathématique pour la description des objectifs de production et d'utilité.-5 MV
-
-
-	Recherche d'une modelisation mathématique pour la description des objectifs de production et d'utilité (phase 2)    |  type : (amo)
-
-Recherche d'une modelisation mathématique pour la description des objectifs de production et d'utilité.-5 MV
-
-
-	Classification des règles en fonction des dépendances de tables pour l'étape de création des listes    |  type : (dev)
-
-Réalisation du diagramme de dépendances des tables vis-à-vis des règles (phase1).-7 MV
-
-Réalisation du diagramme de dépendances des tables vis-à-vis des règles (phase2).-7 MV
-
-Réalisation du diagramme de dépendances des tables vis-à-vis des règles (phase3).-7  MV
-
-
-	Rédaction des spécifications des tables pour l'étape de création des listes    |  type : (dev)
-
-Spécifications des tables vis-à-vis des résultats des règles dont elles dépendent (phase1).-7 MV
-
-Spécifications des tables vis-à-vis des résultats des règles dont elles dépendent (phase2).-7 MV
-
-Spécifications des tables vis-à-vis des résultats des règles dont elles dépendent (phase3).-7 MV
-
-
-	Discussion : architecture de l'appli Repro, choix techniques front    |  type : (amo)
-
-Discussion : architecture de l'appli Repro, choix techniques front.-2+2+2+2+2 JV+TL+VB+DL+MV
-
-
-	Discussion : architecture de l'appli Repro, choix techniques côté back    |  type : (amo)
-
-Discussion : architecture de l'appli Repro, choix techniques côté back.-1+1+1+1+1 MV+VB+JV+TL+DL
-
-
-	Récupération de la base de donnée repro_narc_macq et analyse des éléments indispensables à la transposition.    |  type : (dev)
-
-Restauration de la base.-0 MV
-
-
-	Création du modèle de gestion des règles    |  type : (dev)
-
-Création du modèle de gestion des règles.-2 MV
-
-Mise au point d'un système d'imports de fichiers excel des règles.-2 MV
-
-Création d'une procédure stockée de purge et remplissage du modèle de gestion des règles.-3 MV
-
-
-MV  |  Valeur FE    0 x 680 = 0
-
-MV  |  Valeur WE    0 x 680 = 0
-
-MV  |  Valeur WEFE   0 x 680 = 0
-
-MV  |  Valeur Normal   2 x 680 = 1360
-
-
-
-MV  |  Valeur FE    0 x 660 = 0
-
-MV  |  Valeur WE    0 x 660 = 0
-
-MV  |  Valeur WEFE   0 x 660 = 0
-
-MV  |  Valeur Normal   7 x 660 = 4620
-
-
-
-JV  |  Valeur FE    0 x 610 = 0
-
-JV  |  Valeur WE    0 x 610 = 0
-
-JV  |  Valeur WEFE   0 x 610 = 0
-
-JV  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
-TL  |  Valeur FE    0 x 610 = 0
-
-TL  |  Valeur WE    0 x 610 = 0
-
-TL  |  Valeur WEFE   0 x 610 = 0
-
-TL  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
-VB  |  Valeur FE    0 x 680 = 0
-
-VB  |  Valeur WE    0 x 680 = 0
-
-VB  |  Valeur WEFE   0 x 680 = 0
-
-VB  |  Valeur Normal   0,50 x 680 = 340,00
-
-
-
-DL  |  Valeur FE    0 x 610 = 0
-
-DL  |  Valeur WE    0 x 610 = 0
-
-DL  |  Valeur WEFE   0 x 610 = 0
-
-DL  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
 	Amélioration des maquettes existantes de l'outil repro (phase 1)    |  type : (des)
 
 Revue de l'ensemble des écrans par rapport au workflow existant.-7 AR
@@ -131,21 +19,6 @@ AR  |  Valeur Normal   4 x 440 = 1760
 
 
 
-	Discussion : validation des nouveaux chois technologiques    |  type : (dev)
-
-Discussion : validation des nouveaux choix technologiques.-1 CL
-
-
-CL  |  Valeur FE    0 x 440 = 0
-
-CL  |  Valeur WE    0 x 440 = 0
-
-CL  |  Valeur WEFE   0 x 440 = 0
-
-CL  |  Valeur Normal   0,50 x 440 = 220,00
-
-
-
 	Recherche de matériel intégré pour la balance connectée    |  type : (dev)
 
 ##Recherche d'un kit RaspberryPi incluant horloge, boutons précablés vissables, et diodes précablées vissables.-3 CL
@@ -178,87 +51,34 @@ CL  |  Valeur Normal   3,50 x 440 = 1540,00
 
 
 
-	Maquettage de l'input "Taxon" en modal    |  type : (des)
+	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.    |  type : (dev)
 
-Réalisation d'une maquette représentant l'input "Taxon" ouvert dans un pop-up modal.-1 AR
-
-
-	Amélioration de l'ergonomie des écrans de visualisation des données d'échantillon    |  type : (des)
-
-##Revue de l'ensemble des affichages à modifier.-2+2+2 AR+DL+NF
-
-Amélioration de l'écran de visualisation des détails d'un sujet et création d'une maquette.-6+6 NF+AR
-
-Amélioration des écrans de visualisation des détails d'un échantillon et création d'une maquette.-15+15 AR+NF
-
-Amélioration de l'écran de visualisation des imports et historique des imports et création d'une maquette.-4+4 AR+NF
-
-Corrections des maquettes suite à validation (phase1).-7 AR
+Intégration des maquettes de page d'accueil.-4 NF
 
 
-	Correction de l'affichage de l'axe Y pour le graphique de la page d'accueil    |  type : (dev)
+	Création d'un système de génération d'excel pour import     |  type : (dev)
 
-Correction de l'affichage.-2 TL
+##Récupération de la configuration des objets en fonction des contextes (sujets, échantillons, évènements).-2 TL
 
+##Création d'un moteur de génération de fichier excel en fonction des configurations.-7 TL
 
-	Revue des retours maquettes de dbsupport    |  type : (des)
+##Intégration à l'appli existante de la fonctionnalité.-1 TL
 
-Revue des retours maquettes de dbsupport.-2+2 DL+AR
-
-
-	Modification et amélioration du list of object    |  type : (dev)
-
-L'UI du list of object est désormais correcte pour les cas où celui-ci contient beaucoup d'éléments.-6 DL
-
-Les champs liés sont bien pris en compte lors des sauvegardes.-6 DL
-
-Le reconstructeur d'objet prends en compte les listsOfObjects pour le décompte de "number".-4 DL
-
-Réimplémentation de la configuration custom pour les inputs Backbone dans le cas d'un listOfSubform.-4 DL
-
-La liaison par ID est bien effectuée sur les éléments édités.-4 DL
+Permettre la sauvegarde d'une liste de subject_id (pool).-4 TL
 
 
-AR  |  Valeur FE    0 x 440 = 0
+	Mise à jour du module d'import avec modification de la base de données    |  type : (dev)
 
-AR  |  Valeur WE    0 x 440 = 0
+##Mise à jour de la configuration de l'import avec la structure de la base de données.-4 TL
 
-AR  |  Valeur WEFE   0 x 440 = 0
+Intégration du développement à la branche du code source et tests.-5 TL
 
-AR  |  Valeur Normal   5,50 x 440 = 2420,00
 
-
-
-DL  |  Valeur FE    0 x 530 = 0
+	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)    |  type : (dev)
 
-DL  |  Valeur WE    0 x 530 = 0
+Intégration de l'écran de visualisation des détails d'un sujet.-14+1+2 NF+AR+DL
 
-DL  |  Valeur WEFE   0 x 530 = 0
 
-DL  |  Valeur Normal   4 x 530 = 2120
-
-
-
-NF  |  Valeur FE    0 x 410 = 0
-
-NF  |  Valeur WE    0 x 410 = 0
-
-NF  |  Valeur WEFE   0 x 410 = 0
-
-NF  |  Valeur Normal   4 x 410 = 1640
-
-
-
-TL  |  Valeur FE    0 x 530 = 0
-
-TL  |  Valeur WE    0 x 530 = 0
-
-TL  |  Valeur WEFE   0 x 530 = 0
-
-TL  |  Valeur Normal   0,50 x 530 = 265,00
-
-
-
 	Traitement des retours de Mai suite à la MAJ de Mai    |  type : (dev)
 
 ##Revue de la configuration des ListOfSubForms pour les évènements d'extraction.-4 DL
@@ -301,84 +121,6 @@ Des règles de valeur par défaut ont été mises en place pour les imports.-12+
 Test des règles de valeur par défaut et corrections des problèmes.-4+1 HE+DL
 
 
-DL  |  Valeur FE    0 x 530 = 0
-
-DL  |  Valeur WE    0 x 530 = 0
-
-DL  |  Valeur WEFE   0 x 530 = 0
-
-DL  |  Valeur Normal   3,50 x 530 = 1855,00
-
-
-
-JV  |  Valeur FE    0 x 440 = 0
-
-JV  |  Valeur WE    0 x 440 = 0
-
-JV  |  Valeur WEFE   0 x 440 = 0
-
-JV  |  Valeur Normal   0,50 x 440 = 220,00
-
-
-
-NF  |  Valeur FE    0 x 410 = 0
-
-NF  |  Valeur WE    0 x 410 = 0
-
-NF  |  Valeur WEFE   0 x 410 = 0
-
-NF  |  Valeur Normal   0,50 x 410 = 205,00
-
-
-
-HE  |  Valeur FE    0 x 410 = 0
-
-HE  |  Valeur WE    0 x 410 = 0
-
-HE  |  Valeur WEFE   0 x 410 = 0
-
-HE  |  Valeur Normal   4,50 x 410 = 1845,00
-
-
-
-TL  |  Valeur FE    0 x 530 = 0
-
-TL  |  Valeur WE    0 x 530 = 0
-
-TL  |  Valeur WEFE   0 x 530 = 0
-
-TL  |  Valeur Normal   0,50 x 530 = 265,00
-
-
-
-	Intégration des maquettes de page d'accueil pour les différentes versions d'eCollection selon les différents sites.    |  type : (dev)
-
-Intégration des maquettes de page d'accueil.-4 NF
-
-
-	Création d'un système de génération d'excel pour import     |  type : (dev)
-
-##Récupération de la configuration des objets en fonction des contextes (sujets, échantillons, évènements).-2 TL
-
-##Création d'un moteur de génération de fichier excel en fonction des configurations.-7 TL
-
-##Intégration à l'appli existante de la fonctionnalité.-1 TL
-
-Permettre la sauvegarde d'une liste de subject_id (pool).-4 TL
-
-
-	Mise à jour du module d'import avec modification de la base de données    |  type : (dev)
-
-##Mise à jour de la configuration de l'import avec la structure de la base de données.-4 TL
-
-Intégration du développement à la branche du code source et tests.-5 TL
-
-
-	Intégration des maquettes des écrans de visualisation des données d'échantillon (phase 1)    |  type : (dev)
-
-Intégration de l'écran de visualisation des détails d'un sujet.-14+1+2 NF+AR+DL
-
-
 NF  |  Valeur FE    0 x 410 = 0
 
 NF  |  Valeur WE    0 x 410 = 0
@@ -395,7 +137,7 @@ TL  |  Valeur WE    0 x 530 = 0
 
 TL  |  Valeur WEFE   0 x 530 = 0
 
-TL  |  Valeur Normal   3,50 x 530 = 1855,00
+TL  |  Valeur Normal   4 x 530 = 2120
 
 
 
@@ -415,53 +157,7 @@ DL  |  Valeur WE    0 x 530 = 0
 
 DL  |  Valeur WEFE   0 x 530 = 0
 
-DL  |  Valeur Normal   0,50 x 530 = 265,00
-
-
-
-
-	CaméraTrap : discussion sur l'implémentation du tag de qualité    |  type : (amo)
-
-CaméraTrap : discussion sur l'implémnetation du tag de qualité.-1 JV
-
-
-	Analyse des modifications du bridge ecoRelevé vs eColl entomo par dbsupport    |  type : (dev)
-
-Analyse des modifications du bridge ecoRelevé vs eColl entomo par dbsupport.-1 JV
-
-
-	Discussion : gestion des règles d'ecoRelevé au sein de FormBuilder    |  type : (amo)
-
-Discussion : gestion des règles d'ecoRelevé au sein de FormBuilder.-1+1 JV+DL
-
-
-	Discussion : réponse technique pour un outil de reconnaissance automatique d'outardes    |  type : (amo)
-
-Discussion : réponse technique pour un outil de reconnaissance automatique d'outardes.-1 JD
-
-
-	Discussion : configuration des droits d'accès SQLServer vers le NAS pour le module CameraTrap    |  type : (dev)
-
-Discussion : configuration des droits d'accès SQLServer vers le NAS pour le module CameraTrap.-3 JV
-
-
-	Discussion : configuration des jobs de nuit pour le module CameraTrap    |  type : (dev)
-
-Discussion : configuration des jobs de nuit pour le module CameraTrap.-1 JV
-
-
-	Discussion : nouveau process d'identification pour la google map API    |  type : (amo)
-
-Discussion : nouveau process d'identification pour la google map API.-2+2 TL+JV
-
-
-JV  |  Valeur FE    0 x 610 = 0
-
-JV  |  Valeur WE    0 x 610 = 0
-
-JV  |  Valeur WEFE   0 x 610 = 0
-
-JV  |  Valeur Normal   1 x 610 = 610
+DL  |  Valeur Normal   4 x 530 = 2120
 
 
 
@@ -471,40 +167,26 @@ JV  |  Valeur WE    0 x 440 = 0
 
 JV  |  Valeur WEFE   0 x 440 = 0
 
-JV  |  Valeur Normal   1 x 440 = 440
+JV  |  Valeur Normal   0,50 x 440 = 220,00
 
 
 
-DL  |  Valeur FE    0 x 610 = 0
+HE  |  Valeur FE    0 x 410 = 0
 
-DL  |  Valeur WE    0 x 610 = 0
+HE  |  Valeur WE    0 x 410 = 0
 
-DL  |  Valeur WEFE   0 x 610 = 0
+HE  |  Valeur WEFE   0 x 410 = 0
 
-DL  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
-JD  |  Valeur FE    0 x 610 = 0
-
-JD  |  Valeur WE    0 x 610 = 0
-
-JD  |  Valeur WEFE   0 x 610 = 0
-
-JD  |  Valeur Normal   0,50 x 610 = 305,00
+HE  |  Valeur Normal   4,50 x 410 = 1845,00
 
 
 
-TL  |  Valeur FE    0 x 610 = 0
 
-TL  |  Valeur WE    0 x 610 = 0
+	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
 
-TL  |  Valeur WEFE   0 x 610 = 0
+Modification des maquettes en fonction des commentaires de DBSupport.-7 AR
 
-TL  |  Valeur Normal   0,50 x 610 = 305,00
 
-
-
 	Maquette de la page individuals pour intégrer la nouvelle grille avec pager    |  type : (des)
 
 Réorganisation de la page pour intégrer le pager.-2+2 NH+JV
@@ -541,6 +223,16 @@ Déploiement Prod pour l'ensemble des instances.- 7 JV
 Intégration de la maquette individuals avec le pager, les symboles pour la grille et le player.-5 NF
 
 
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   1 x 440 = 440
+
+
+
 NH  |  Valeur FE    0 x 440 = 0
 
 NH  |  Valeur WE    0 x 440 = 0
@@ -571,115 +263,18 @@ NF  |  Valeur Normal   1 x 410 = 410
 
 
 
-	Corrections des maquettes suite aux retours pour la gestion des protocoles    |  type : (des)
-
-Modification des maquettes en fonction des commentaires de DBSupport.-7 AR
 
 
-AR  |  Valeur FE    0 x 440 = 0
+	Corrections des maquettes de gestion des événements    |  type : (des)
 
-AR  |  Valeur WE    0 x 440 = 0
-
-AR  |  Valeur WEFE   0 x 440 = 0
-
-AR  |  Valeur Normal   1 x 440 = 440
-
-
-
-
-	Génération des exports json de définition des protocoles    |  type : (dev)
-
-Choix de la norme json.-3 VB
-
-Modification du module d'export json pour l'adapter à la norme.-21 RK
+Corrections des maquettes suite aux retours de dbsupport.-3 AR
 
 
-VB  |  Valeur FE    0 x 610 = 0
-
-VB  |  Valeur WE    0 x 610 = 0
-
-VB  |  Valeur WEFE   0 x 610 = 0
-
-VB  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
-RK  |  Valeur FE    0 x 440 = 0
-
-RK  |  Valeur WE    0 x 440 = 0
-
-RK  |  Valeur WEFE   0 x 440 = 0
-
-RK  |  Valeur Normal   3 x 440 = 1320
-
-
-
-
-	Finalisation de l'intégration de la page d'accueil    |  type : (des)
-
-Finaliser les détails de la page d'accueil.-11 NF
-
-
-	Amélioration graphique    |  type : (des)
-
-Proposer deux manières d'augmenter la taille du bouton "cibler dans l'arbre". Une avec et l'autre sans bordure.-2 NF
-
-Modifier l'apparence du picker de champs dates.-6 NF
-
-Mettre en violet le nom de l'onglet sélectionné dans la vue consultation/modification (propriétés, traduction,...) en violet.-1 NF
-
-
-	Intégration de la gestion des événements à l'application Position (proposition de maquettes)    |  type : (des)
-
-##Maquettage de la création d'un évènement pour une ou plusieurs positions.-3 AR
-
-##Maquettage de l'historisation des évènements.-9 AR
-
-Maquettage du formulaire de création d'un évènement.-5 AR
-
-##Maquettage de la consultation/édition d'un évènement.-9 AR
-
-
-NF  |  Valeur FE    0 x 410 = 0
-
-NF  |  Valeur WE    0 x 410 = 0
-
-NF  |  Valeur WEFE   0 x 410 = 0
-
-NF  |  Valeur Normal   3 x 410 = 1230
-
-
-
-AR  |  Valeur FE    0 x 440 = 0
-
-AR  |  Valeur WE    0 x 440 = 0
-
-AR  |  Valeur WEFE   0 x 440 = 0
-
-AR  |  Valeur Normal   4 x 440 = 1760
-
-
-
 	Traitement des retours DBSupport    |  type : (dev)
 
 Test des derniers retours de DBSupport, dans l'application en dev.-2 TL
 
 Traitement des bugs et améliorations Forfait.-7 TL
-
-
-TL  |  Valeur FE    0 x 530 = 0
-
-TL  |  Valeur WE    0 x 530 = 0
-
-TL  |  Valeur WEFE   0 x 530 = 0
-
-TL  |  Valeur Normal   1,50 x 530 = 795,00
-
-
-
-	Corrections des maquettes de gestion des événements    |  type : (des)
-
-Corrections des maquettes suite aux retours de dbsupport.-3 AR
 
 
 AR  |  Valeur FE    0 x 440 = 0
@@ -692,117 +287,27 @@ AR  |  Valeur Normal   0,50 x 440 = 220,00
 
 
 
+TL  |  Valeur FE    0 x 530 = 0
 
-	Discussion : nouvelle architecture des serveurs Reneco pour une meilleure prise en charge de l'écossytème applicatif    |  type : (amo)
+TL  |  Valeur WE    0 x 530 = 0
 
-Discussion : nouvelle architecture des serveurs Reneco pour une meilleure prise en charge de l'écossytème applicatif.-2+2+2+1 MV+TL+VB+JV
+TL  |  Valeur WEFE   0 x 530 = 0
 
-
-	Discussion : choix d'un format JSON de communication entre le formBuilder et l'appli repro    |  type : (amo)
-
-Discussion : choix d'un format JSON de communication entre le formBuilder et l'appli repro.-1+1+1+1 RK+VB+TL+MV
-
-
-	Discussion : point sur la saisie optimisée et choix de la meilleure librairie pour la visualisation en grille    |  type : (amo)
-
-Discussion : point sur la saisie optimisée et choix de la meilleure librairie pour la visualisation en grille.-1+1+1 JV+TL+VB
-
-
-	Discussion : implémentation des tasks queues dans les outils reneco    |  type : (amo)
-
-Discussion : implémentation des tasks queues dans les outils reneco.-3+3+3+3 MV+VB+TL+JV
-
-
-MV  |  Valeur FE    0 x 680 = 0
-
-MV  |  Valeur WE    0 x 680 = 0
-
-MV  |  Valeur WEFE   0 x 680 = 0
-
-MV  |  Valeur Normal   1 x 680 = 680
+TL  |  Valeur Normal   1,50 x 530 = 795,00
 
 
 
-TL  |  Valeur FE    0 x 610 = 0
 
-TL  |  Valeur WE    0 x 610 = 0
+	Gestion du backlog et planification    |  type : (dev)
 
-TL  |  Valeur WEFE   0 x 610 = 0
+Gestion du backlog et planification.-1+1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE+MV
 
-TL  |  Valeur Normal   1 x 610 = 610
 
-
-
-VB  |  Valeur FE    0 x 680 = 0
-
-VB  |  Valeur WE    0 x 680 = 0
-
-VB  |  Valeur WEFE   0 x 680 = 0
-
-VB  |  Valeur Normal   1 x 680 = 680
-
-
-
-JV  |  Valeur FE    0 x 610 = 0
-
-JV  |  Valeur WE    0 x 610 = 0
-
-JV  |  Valeur WEFE   0 x 610 = 0
-
-JV  |  Valeur Normal   1 x 610 = 610
-
-
-
-RK  |  Valeur FE    0 x 610 = 0
-
-RK  |  Valeur WE    0 x 610 = 0
-
-RK  |  Valeur WEFE   0 x 610 = 0
-
-RK  |  Valeur Normal   0,50 x 610 = 305,00
-
-
-
 	Choix de la stratégie de la validation des forms    |  type : (amo)
 
 Test de la validation par schéma du json issu du formbuilder.-7+7+7 VB+TL+JV
 
 Test de la génération du formulaire à partir du json.-7+7+7 VB+TL+JV
-
-
-VB  |  Valeur FE    0 x 680 = 0
-
-VB  |  Valeur WE    0 x 680 = 0
-
-VB  |  Valeur WEFE   0 x 680 = 0
-
-VB  |  Valeur Normal   2 x 680 = 1360
-
-
-
-TL  |  Valeur FE    0 x 610 = 0
-
-TL  |  Valeur WE    0 x 610 = 0
-
-TL  |  Valeur WEFE   0 x 610 = 0
-
-TL  |  Valeur Normal   2 x 610 = 1220
-
-
-
-JV  |  Valeur FE    0 x 610 = 0
-
-JV  |  Valeur WE    0 x 610 = 0
-
-JV  |  Valeur WEFE   0 x 610 = 0
-
-JV  |  Valeur Normal   2 x 610 = 1220
-
-
-
-	Gestion du backlog et planification    |  type : (dev)
-
-Gestion du backlog et planification.-1+1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE+MV
 
 
 JV  |  Valeur FE    0 x 440 = 0
@@ -811,7 +316,7 @@ JV  |  Valeur WE    0 x 440 = 0
 
 JV  |  Valeur WEFE   0 x 440 = 0
 
-JV  |  Valeur Normal   0,50 x 440 = 220,00
+JV  |  Valeur Normal   1,50 x 440 = 660,00
 
 
 
@@ -831,7 +336,7 @@ TL  |  Valeur WE    0 x 530 = 0
 
 TL  |  Valeur WEFE   0 x 530 = 0
 
-TL  |  Valeur Normal   0,50 x 530 = 265,00
+TL  |  Valeur Normal   1,50 x 530 = 795,00
 
 
 
@@ -895,47 +400,41 @@ MV  |  Valeur Normal   0,50 x 660 = 330,00
 
 
 
+VB  |  Valeur FE    0 x 680 = 0
 
+VB  |  Valeur WE    0 x 680 = 0
 
-	Modification du script de purge des tables temporaires et des synonyme    |  type : (dev)
+VB  |  Valeur WEFE   0 x 680 = 0
 
-Modification de la procédure pour purger l'ensemble des éléments vieux de 2 mois au lieu de 3 et création d'un pipe déployé sur renecore.-1 HE
-
-Déploiement sur l'ensemble des sites du pipe de modification.-1 HE
-
-
-	Gestion des utilisateurs SQL de tous les serveurs    |  type : (dev)
-
-Suppression des utilisateurs TrackUser, nslog, eColUser, ecoreleveUser et modification de la configuration de l'ensemble des applications sur le serveur. Remplacement par NSApp.-7 HE
-
-
-	Rédaction du cahier des charges pour l'implémentation d'une application permettant d'automatiser la saisie par scan de QRCodes    |  type : (amo)
-
-Rédaction du cahier des charges pour l'implémentation d'une application permettant d'automatiser la saisie par scan de QRCodes à partir des synthèses de réunions du NARC.-14 CG
-
-Relecture et corrections.-2 CG
-
-
-HE  |  Valeur FE    0 x 410 = 0
-
-HE  |  Valeur WE    0 x 410 = 0
-
-HE  |  Valeur WEFE   0 x 410 = 0
-
-HE  |  Valeur Normal   1,50 x 410 = 615,00
+VB  |  Valeur Normal   2 x 680 = 1360
 
 
 
-CG  |  Valeur FE    0 x 610 = 0
+TL  |  Valeur FE    0 x 610 = 0
 
-CG  |  Valeur WE    0 x 610 = 0
+TL  |  Valeur WE    0 x 610 = 0
 
-CG  |  Valeur WEFE   0 x 610 = 0
+TL  |  Valeur WEFE   0 x 610 = 0
 
-CG  |  Valeur Normal   2,50 x 610 = 1525,00
+TL  |  Valeur Normal   1 x 610 = 610
 
 
 
+JV  |  Valeur FE    0 x 610 = 0
+
+JV  |  Valeur WE    0 x 610 = 0
+
+JV  |  Valeur WEFE   0 x 610 = 0
+
+JV  |  Valeur Normal   1 x 610 = 610
+
+
+
+
+
+	Répercussion de la centralisation des référentiels [annulé]    |  type : (dev)
+
+
 	Export des colonnes dans l'ordre de TObs_Ordre    |  type : (dev)
 
 Modification des sp d'export des protocoles pour prendre en compte le TObs_Ordre et création des pipes.-1 HE
@@ -945,13 +444,13 @@ Tests.-1 HE
 
 	Intégration du système de reconstruction d'un état à une date donnée pour la gestion des saisies et import, pour des protocoles avec importapressortie = 0    |  type : (dev)
 
-Modification de la sp pr_Check_BirthDeathValidity pour intégrer la reconstruction d'un état à la date de saisie donnée et validation de la condition d'import apres sortie.-5 HE
+Modification de la sp pr_Check_BirthDeathValidity pour intégrer la reconstruction d'un état à la date de saisie donnée et validation de la condition d'import apres sortie.-5+5 RG+HE
 
-Modification du code de la page ViewForm.aspx pour intégrer la reconstruction d'un état de l'individu à la date de saisie donnée et validation de la condition d'import après sortie.-3 HE
+Modification du code de la page ViewForm.aspx pour intégrer la reconstruction d'un état de l'individu à la date de saisie donnée et validation de la condition d'import après sortie.-3+3 RG+HE
 
-Génération des messages d'erreurs traduits dans la page viewForm.aspx.-2 HE
+Génération des messages d'erreurs traduits dans la page viewForm.aspx.-2+2 RG+HE
 
-Test des saisies et des imports, avec intégration d'un protocole arrivage/retour au centre.-7 HE
+Test des saisies et des imports, avec intégration d'un protocole arrivage/retour au centre.-7+7+7 RG+HE+TL
 
 
 HE  |  Valeur FE    0 x 410 = 0
@@ -964,7 +463,24 @@ HE  |  Valeur Normal   3 x 410 = 1230
 
 
 
-	Répercussion de la centralisation des référentiels [annulé]    |  type : (dev)
+RG  |  Valeur FE    0 x 410 = 0
 
+RG  |  Valeur WE    0 x 410 = 0
 
+RG  |  Valeur WEFE   0 x 410 = 0
+
+RG  |  Valeur Normal   2,50 x 410 = 1025,00
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   1 x 530 = 530
+
+
+
 

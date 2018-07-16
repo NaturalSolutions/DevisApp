@@ -9,7 +9,8 @@ import { HttpClient } from '@angular/common/http/';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private http : HttpClient) {
+  }
 
   private employees;
   private tarifications;
@@ -21,7 +22,7 @@ export class EmployeesComponent implements OnInit {
 
 
   getEmployes() {
-    this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res : Array<any>) => {
+    this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res: Array<any>) => {
       this.employees = res;
     });
   }
@@ -37,7 +38,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   deleteRessource(id) {
-    this.delete("http://localhost/DevisAPI/api/Ressource/"+id).toPromise().then((res) => {
+    this.delete("http://localhost/DevisAPI/api/Ressource/" + id).toPromise().then((res) => {
       this.getEmployes();
     })
   }

@@ -1,57 +1,49 @@
-<div class="container" style="height:100%;">
-  <div class="row align-items-center">
-      <div class="col-lg-6 col-md-12 col-sm-12  align-self-center">
-          <div  style="margin-top:20px; margin-bottom:20px;">
-              <h3 style="color:white;">Ressources</h3>
-              <br>
-              <div id="employes" class="row" style="height:600px; overflow-y:scroll; background-color:white; border-radius:15px;">
-                  <table class="table-striped table-hover table">
-                      <tbody>
-                          <tr *ngFor="let emp of employees">
-                              <td>{{emp.Name}}</td>
-                              <td>{{emp.Initial}}</td>
-                              <td>{{emp.Mail}}</td>
-                              <td>
-                                  <div class="btn-group" role="group">
-                                      <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
-                                      <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
-                                  </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              <div class="row" style="text-align:center;">
-                  <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addRessource()" >Ajouter</button>
-              </div>
+<div class="row justify-content-around">
+  <div class="col-lg-6 col-sm-12">
+    <h3 style="color:white; text-align:center;">Ressources</h3>
+  </div>
+  <div class="col-lg-6 ">
+    <h3 style="color:white; text-align:center;">Tarifications</h3>
+  </div>
+</div>
+<div class="row justify-content-around">
+  <div class="col-{breakpoint}-auto">
+    <br>
+    <div class="table-striped table-hover ">
+      <tr *ngFor="let emp of employees">
+        <td class="tdemp">{{emp.Name}}</td>
+        <td class="tdemp">{{emp.Initial}}</td>
+        <td class="tdemp">{{emp.Mail}}</td>
+        <td class="tdemp">
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
+            <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
           </div>
+        </td>
+      </tr>
+    </div>
+    <div class="row" style="text-align:center;">
+      <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addRessource()">Ajouter</button>
+    </div>
 
+  </div>
+  <div class="col-{breakpoint}-auto">
+    <br>
+    <div class="table-striped table-hover ">
+        <tr *ngFor="let tarif of tarifications">
+          <td class="tdemp">{{tarif.Type}}</td>
+          <td class="tdemp">{{tarif.Tar3}}</td>
+          <td class="tdemp">{{tarif.Tar5}}</td>
+          <td class="tdemp">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
+              <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
+            </div>
+          </td>
+        </tr>
       </div>
-      <div class="col-lg-6 col-md-12 col-sm-12">
-          <div style="margin-top:20px; margin-bottom:20px;">
-              <h3 style="color:white;">Tarifications</h3>
-              <br>
-              <div id="tarif" class="row">
-                  <table class="table-striped table-hover table">
-                      <tbody>
-                          <tr *ngFor="let tarif of tarifications">
-                              <td>{{tarif.Type}}</td>
-                              <td>{{tarif.Tar3}}</td>
-                              <td>{{tarif.Tar5}}</td>
-                              <td>
-                                  <div class="btn-group" role="group">
-                                      <button type="button" class="btn btn-warning" (click)="modifyTarification()" >M</button>
-                                      <button type="button" class="btn btn-danger"(click)="deleteTarification()">X</button>
-                                  </div>
-                              </td>
-                          </tr>
-                      </tbody>
-                  </table>
-              </div>
-              <div class="row" style="text-align:center;">
-                  <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addTarification()">Ajouter</button>
-              </div>
-          </div>
-      </div>
+    <div class="row" style="text-align:center;">
+      <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addTarification()">Ajouter</button>
+    </div>
   </div>
 </div>
