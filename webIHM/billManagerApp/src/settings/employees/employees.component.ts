@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor(private toastr: ToastrService,private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
+  constructor(private toastr: ToastrService, private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
     this.getEmployes();
     this.getTarification();
   }
@@ -30,14 +30,15 @@ export class EmployeesComponent implements OnInit {
   private FgTarificationData: FormControl[];
   public formAjoutRess: FormGroup;
   private modalRessourceRef;
+  private modalConfirmatioSupprRef;
   private modalRef: NgbModalRef;
 
   showError() {
-    this.toastr.warning('Tout les champs doivent être remplie','Erreur d\'envoi de formulaire')
+    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire')
   }
 
-  showSucess(){
-    this.toastr.success('Sucessfully added ressource','Sucess')
+  showSucess() {
+    this.toastr.success('Sucessfully added ressource', 'Sucess')
   }
 
   createForm() {
@@ -86,14 +87,14 @@ export class EmployeesComponent implements OnInit {
       if (isSelected)
         selectedTarifications.push(this.tarifications[index].ID);
     });
-    if (data.name == '' || data.name == undefined 
-    || data.initial == '' 
-    || data.initial == undefined 
-    || data.email == '' 
-    || data.email == undefined 
-    || data.niveau == '' 
-    || data.niveau == undefined  
-    || selectedTarifications == undefined) {
+    if (data.name == '' || data.name == undefined
+      || data.initial == ''
+      || data.initial == undefined
+      || data.email == ''
+      || data.email == undefined
+      || data.niveau == ''
+      || data.niveau == undefined
+      || selectedTarifications == undefined) {
       this.showError();
     } else {
       let nouvelle_ressource: any = {};
@@ -127,11 +128,22 @@ export class EmployeesComponent implements OnInit {
     });
   }
 
-  // @ViewChild('confirmationSuppr')  confirmation : NgbModalRef;
+  @ViewChild('confirmationSuppr') confirmation: NgbModalRef;
+
+  setModalConfirmationsuppression() {
+    let modalRef = this.modalService.open(this.confirmation, { backdrop: "static" });
+    this.modalConfirmatioSupprRef = modalRef;
+    return modalRef;
+  }
+
 
   deleteRessource(id) {
-    this.delete("http://localhost/DevisAPI/api/Ressource/" + id).toPromise().then((res) => {
-      this.getEmployes();
+    this.setModalConfirmationsuppression().result.then(() => {
+      this.delete("http://localhost/DevisAPI/api/Ressource/" + id).toPromise().then((res) => {
+        this.getEmployes();
+      })
+    }).catch(() => {
+      this.modalConfirmatioSupprRef.close();
     })
   }
 
