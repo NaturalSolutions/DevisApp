@@ -11,6 +11,7 @@ import { AfterViewInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AlertDialogService } from '../../services/alert-dialog.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-employees',
@@ -19,7 +20,7 @@ import { AlertDialogService } from '../../services/alert-dialog.service';
 })
 export class EmployeesComponent implements OnInit {
 
-  constructor(private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
+  constructor(private toastr: ToastrService,private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
     this.getEmployes();
     this.getTarification();
   }
@@ -30,6 +31,14 @@ export class EmployeesComponent implements OnInit {
   public formAjoutRess: FormGroup;
   private modalRessourceRef;
   private modalRef: NgbModalRef;
+
+  showError() {
+    this.toastr.warning('Tout les champs doivent être remplie','Erreur d\'envoi de formulaire')
+  }
+
+  showSucess(){
+    this.toastr.success('Sucessfully added ressource','Sucess')
+  }
 
   createForm() {
     this.formAjoutRess = this.fb.group({
@@ -70,7 +79,6 @@ export class EmployeesComponent implements OnInit {
 
 
   validerRessource() {
-    this.modalRef.close();
     let data: any = this.formAjoutRess.getRawValue();
     let usersTarifications: boolean[] = data.tarificationForm;
     let selectedTarifications: Int16Array[] = [];
@@ -86,11 +94,7 @@ export class EmployeesComponent implements OnInit {
     || data.niveau == '' 
     || data.niveau == undefined  
     || selectedTarifications == undefined) {
-      this.alertSrv.open({title: "Echec",content: "Tout les champs doivent êtres remplies"}).result.then(() => {
-        return;
-      }).catch(() => {
-        return;
-      })
+      this.showError();
     } else {
       let nouvelle_ressource: any = {};
       nouvelle_ressource.name = data.name;
@@ -101,8 +105,9 @@ export class EmployeesComponent implements OnInit {
       console.log(nouvelle_ressource);
       this.formAjoutRess.reset();
       this.postNewRessource("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
-        this.alertSrv.open({ title: 'OK ', content: 'Ressource ajoutée' })
+        this.showSucess();
         this.getEmployes();
+        this.modalRef.close();
       }).catch(() => {
         this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
           location.reload(true);

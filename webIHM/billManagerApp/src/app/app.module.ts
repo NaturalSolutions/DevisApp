@@ -24,6 +24,9 @@ import { AlertDialogService, NgbdModalContent } from 'src/services/alert-dialog.
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmployeesComponent } from '../settings/employees/employees.component';
 import { ConstanteCalculComponent } from '../settings/constante-calcul/constante-calcul.component';
+import { CommonModule } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { ConstanteCalculComponent } from '../settings/constante-calcul/constante
     AlertModule.forRoot(),
     NgbModule.forRoot(),
     BrowserModule,
+    CommonModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(), // ToastrModule added
     AccordionModule.forRoot(),
     HttpClientModule,
     AngularFontAwesomeModule,
@@ -51,12 +57,12 @@ import { ConstanteCalculComponent } from '../settings/constante-calcul/constante
         path: 'gestion-employes',
         component: EmployeesComponent
       }] }
-    ])
+    ]),
   ],
   exports: [
     ModalModule
   ],
-  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent, AccordionModule, AlertModule, ModalModule],
+  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent, AccordionModule, AlertModule, ModalModule,BrowserAnimationsModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
