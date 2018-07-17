@@ -117,7 +117,7 @@ export class EmployeesComponent implements OnInit {
       nouvelle_ressource.tarification = selectedTarifications;
       console.log(nouvelle_ressource);
       this.formAjoutRess.reset();
-      this.postNewRessource("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+      this.post("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
         this.showSucess();
         this.getEmployes();
         this.modalRef.close();
@@ -131,7 +131,39 @@ export class EmployeesComponent implements OnInit {
     }
   }
 
-  postNewRessource(url, objetAEnvoyer) {
+
+  validerTarification() {
+    let data: any = this.formAjoutTar.getRawValue();
+    if (data.type == '' || data.type == undefined
+      || data.tar3 == ''
+      || data.tar3 == undefined
+      || data.tar5 == ''
+      || data.tar5 == undefined
+      || data.isAmo == ''
+      || data.isAmo == undefined) {
+      this.showError();
+    } else {
+      let nouvelle_tarification: any = {};
+      nouvelle_tarification.type = data.type;
+      nouvelle_tarification.tar3 = data.tar3;
+      nouvelle_tarification.tar5 = data.tar5;
+      nouvelle_tarification.isAmo = data.isAmo;
+      this.formAjoutTar.reset();
+      this.post("http://localhost/DevisAPI/api/tarification", nouvelle_tarification).toPromise().then(() => {
+        this.showSucess();
+        this.getTarification();
+        this.modalAjoutTarificationRef.close();
+      }).catch(() => {
+        this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+          location.reload(true);
+        }).catch(() => {
+          location.reload(true);
+        })
+      })
+    }
+  }
+
+  post(url, objetAEnvoyer) {
     return this.http.post(url, objetAEnvoyer, {
       headers: {
         "dataType": "json",
@@ -197,7 +229,7 @@ export class EmployeesComponent implements OnInit {
 
   deleteTarification(id) {
     this.setModalConfirmationsuppression().result.then(() => {
-      this.delete('http://localhost/DevisAPI/api/Tarification' + id).toPromise().then((res) => {
+      this.delete('http://localhost/DevisAPI/api/Tarification/' + id).toPromise().then((res) => {
         this.getTarification();
       })
     });
