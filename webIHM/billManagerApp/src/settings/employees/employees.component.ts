@@ -76,6 +76,7 @@ export class EmployeesComponent implements OnInit {
   getTarification() {
     this.get("http://localhost/DevisAPI/api/Tarification/").toPromise().then((res) => {
       this.tarifications = res;
+      console.log(res);
     });
   }
 
@@ -138,11 +139,12 @@ export class EmployeesComponent implements OnInit {
       || data.tar3 == ''
       || data.tar3 == undefined
       || data.tar5 == ''
-      || data.tar5 == undefined
-      || data.isAmo == ''
-      || data.isAmo == undefined) {
+      || data.tar5 == undefined) {
       this.showError();
     } else {
+      if(data.isAmo == '' || data.isAmo == undefined){
+        data.isAmo = false;
+      }
       let nouvelle_tarification: any = {};
       nouvelle_tarification.type = data.type;
       nouvelle_tarification.tar3 = data.tar3;
