@@ -35,7 +35,7 @@ export class EmployeesComponent implements OnInit {
     this.formAjoutRess = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
-      initial: '',
+      initial: ['', Validators.required],
       niveau: ['', Validators.required],
       tarificationForm: new FormArray(this.FgTarificationData)
     });
@@ -78,25 +78,39 @@ export class EmployeesComponent implements OnInit {
       if (isSelected)
         selectedTarifications.push(this.tarifications[index].ID);
     });
-
-    let nouvelle_ressource: any = {};
-    nouvelle_ressource.name = data.name;
-    nouvelle_ressource.initial = data.initial;
-    nouvelle_ressource.mail = data.email;
-    nouvelle_ressource.niveau = data.niveau;
-    nouvelle_ressource.tarification = selectedTarifications;
-    console.log(nouvelle_ressource);
-    this.formAjoutRess.reset();
-    this.postNewRessource("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
-      this.alertSrv.open({ title: 'OK ', content: 'Ressource ajoutée' })
-      this.getEmployes();
-    }).catch(() => {
-      this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
-        location.reload(true);
+    if (data.name == '' || data.name == undefined 
+    || data.initial == '' 
+    || data.initial == undefined 
+    || data.email == '' 
+    || data.email == undefined 
+    || data.niveau == '' 
+    || data.niveau == undefined  
+    || selectedTarifications == undefined) {
+      this.alertSrv.open({title: "Echec",content: "Tout les champs doivent êtres remplies"}).result.then(() => {
+        return;
       }).catch(() => {
-        location.reload(true);
+        return;
       })
-    })
+    } else {
+      let nouvelle_ressource: any = {};
+      nouvelle_ressource.name = data.name;
+      nouvelle_ressource.initial = data.initial;
+      nouvelle_ressource.mail = data.email;
+      nouvelle_ressource.niveau = data.niveau;
+      nouvelle_ressource.tarification = selectedTarifications;
+      console.log(nouvelle_ressource);
+      this.formAjoutRess.reset();
+      this.postNewRessource("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+        this.alertSrv.open({ title: 'OK ', content: 'Ressource ajoutée' })
+        this.getEmployes();
+      }).catch(() => {
+        this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+          location.reload(true);
+        }).catch(() => {
+          location.reload(true);
+        })
+      })
+    }
   }
 
   postNewRessource(url, objetAEnvoyer) {
