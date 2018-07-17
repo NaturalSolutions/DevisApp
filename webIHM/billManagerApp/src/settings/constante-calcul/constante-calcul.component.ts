@@ -14,6 +14,7 @@ import { AlertDialogService } from '../../services/alert-dialog.service';
 import { ToastrService } from 'ngx-toastr';
 import { timeout } from 'q';
 
+
 @Component({
   selector: 'app-constante-calcul',
   templateUrl: './constante-calcul.component.html',
@@ -21,7 +22,7 @@ import { timeout } from 'q';
 })
 export class ConstanteCalculComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private fb : FormBuilder) { }
 
   public parameters;
   ngOnInit() {
@@ -34,6 +35,25 @@ export class ConstanteCalculComponent implements OnInit {
       PrixSupport: 'loading..',
     }
     this.getParameters()
+  }
+
+  private formParam;
+
+  @ViewChild('modificationParam') modalParam : NgbModalRef;
+
+  createFormTar() {
+    this.formParam = this.fb.group({
+      CoefficientF: ['', Validators.required],
+      CoefficientW: ['', Validators.required],
+      CoefficientWF: ['', Validators.required],
+      JourCDP: ['', Validators.required],
+      JourDT: ['', Validators.required],
+      Support : ['',Validators.required]
+    });
+  };
+
+  modifierParam(){
+    
   }
 
 

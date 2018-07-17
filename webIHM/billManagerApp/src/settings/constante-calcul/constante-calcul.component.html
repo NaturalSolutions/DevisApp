@@ -36,3 +36,62 @@
     </table>
   </div>
 </div>
+
+
+<ng-template #modificationParam let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Modifiez les paramètres</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form [formGroup]="formAjoutTar" class="form-group col-lg-12">
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Coefficient Férié
+            <br>
+            <input required type="number" class="form-control" formControlName="CoefficientF" placeholder="Type" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Coefficient weekend
+            <br>
+            <input required type="number" min="0" class="form-control" formControlName="CoefficientW" placeholder="tar3" aria-label="mail" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>coefficient weekend férié
+            <br>
+            <input required type="number" min="0" class="form-control" maxlength="2" formControlName="CoefficientWF" placeholder="tar5" aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Jour CDP
+            <br>
+            <input required type="number" class="form-control" formControlName="JourCDP" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Jour DT
+            <br>
+            <input required type="number" class="form-control" formControlName="JourDT" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Support
+            <br>
+            <input required type="number" class="form-control" formControlName="Support" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="validerTarification()">Ajouter la tarification</button>
+  </div>
+</ng-template>
