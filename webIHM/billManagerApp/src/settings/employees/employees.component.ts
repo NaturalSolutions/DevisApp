@@ -12,6 +12,7 @@ import { FormArray } from '@angular/forms';
 import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AlertDialogService } from '../../services/alert-dialog.service';
 import { ToastrService } from 'ngx-toastr';
+import { timeout } from 'q';
 
 @Component({
   selector: 'app-employees',
@@ -34,11 +35,11 @@ export class EmployeesComponent implements OnInit {
   private modalRef: NgbModalRef;
 
   showError() {
-    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire')
+    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', {timeOut : 2000})
   }
 
   showSucess() {
-    this.toastr.success('Sucessfully added ressource', 'Sucess')
+    this.toastr.success('Sucessfully added ressource', 'Sucess', {timeOut : 1500})
   }
 
   createForm() {
