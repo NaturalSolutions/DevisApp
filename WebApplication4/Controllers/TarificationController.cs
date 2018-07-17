@@ -54,25 +54,26 @@ namespace WebApplication4.Controllers
             }
         }
 
-        // POST: api/Tarification
-        public void Post([FromBody]Tarification tsk) // creer et ajoute à la bd une nouvelle Tarification
+        public struct tarifiClient
         {
-            try
-            {
-                if (tsk != null)
-                {
-                    this.db.Tarification.Add(tsk); // Ajout d'un nouvel objet dans la table
-                    this.db.SaveChanges(); // mise a jour de la table
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
-                }
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
-            }
+            public string type;
+            public decimal tar3;
+            public decimal tar5;
+            public bool isAmo;
+        }
+
+        // POST: api/Tarification
+        public void Post(tarifiClient tarifclient) // creer et ajoute à la bd une nouvelle Tarification
+        {
+            Tarification nouveauTarif = new Tarification();
+            nouveauTarif.Type = tarifclient.type;
+            nouveauTarif.Tar3 = tarifclient.tar3;
+            nouveauTarif.Tar5 = tarifclient.tar5;
+            nouveauTarif.IsAmo = tarifclient.isAmo;
+            nouveauTarif.Date = DateTime.Now;
+            nouveauTarif.Obsolete = false;
+            db.Tarification.Add(nouveauTarif);
+            db.SaveChanges();
         }
 
         // PUT: api/Tarification/5
@@ -107,19 +108,16 @@ namespace WebApplication4.Controllers
         // DELETE: api/Tarification/5
         public void Delete(int id) // Détruit un objet Tarification a partir de son ID
         {
-            //try // vérrif si un objet a été trouvé pour l'id
-            //{
-            //    Tarification ts = db.Tarification.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-            //    db.Tarification.Attach(ts); // ecouter les changement de l'objet 
-            //    db.Tarification.Remove(ts); // remove l'objet ts
-            //    db.SaveChanges(); // mettre a jour la table
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
-            //}
-
-            id = 1;
+            Tarification tar = db.Tarification.Where(t => t.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+            List<Tarification_Ressource> tarRes = db.Tarification_Ressource.Where(t => t.FK_Tarification == id).ToList();
+            foreach (Tarification_Ressource tr in tarRes)
+            {
+                db.Tarification_Ressource.Attach(tr);
+                db.Tarification_Ressource.Remove(tr);
+            }
+            db.Tarification.Attach(tar); // ecouter les changement de l'objet 
+            db.Tarification.Remove(tar); // remove l'objet ts
+            db.SaveChanges(); // mettre a jour la table
         }
     }
 }

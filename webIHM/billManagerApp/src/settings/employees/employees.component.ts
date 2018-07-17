@@ -30,9 +30,11 @@ export class EmployeesComponent implements OnInit {
   private tarifications;
   private FgTarificationData: FormControl[];
   public formAjoutRess: FormGroup;
+  public formAjoutTar: FormGroup;
   private modalRessourceRef;
   private modalConfirmatioSupprRef;
   private modalRef: NgbModalRef;
+  private modalAjoutTarificationRef : NgbModalRef;
 
   showError() {
     this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', {timeOut : 2000})
@@ -42,13 +44,22 @@ export class EmployeesComponent implements OnInit {
     this.toastr.success('Sucessfully added ressource', 'Sucess', {timeOut : 1500})
   }
 
-  createForm() {
+  createFormRes() {
     this.formAjoutRess = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
       initial: ['', Validators.required],
       niveau: ['', Validators.required],
       tarificationForm: new FormArray(this.FgTarificationData)
+    });
+  };
+
+  createFormTar() {
+    this.formAjoutTar = this.fb.group({
+      type: ['', Validators.required],
+      tar3: ['', Validators.required],
+      tar5: ['', Validators.required],
+      isAmo: ['', Validators.required],
     });
   };
 
@@ -72,7 +83,7 @@ export class EmployeesComponent implements OnInit {
     this.FgTarificationData = this.tarifications.map(tarif => {
       return new FormControl(false);
     });
-    this.createForm();
+    this.createFormRes();
     this.setModalAjoutRessource().result.then(() => {
     }).catch(() => {
       console.log('annulation validé')
@@ -168,13 +179,28 @@ export class EmployeesComponent implements OnInit {
     return modal;
   }
 
+  @ViewChild('ajoutTarification') ajoutTarification : NgbModalRef;
 
-  addTarification() {
-    alert('on va ajouter une tarification tkt');
+  setModalAjoutTarification(){
+    let modal = this.modalService.open(this.ajoutTarification,{backdrop : "static"});
+    this.modalAjoutTarificationRef = modal;
+    return modal;
   }
 
-  deleteTarification() {
-    alert('tarification supprimé');
+  addTarification() {
+    this.createFormTar();
+    this.setModalAjoutTarification().result.then(() => {
+    }).catch(() => {
+      console.log('annulation validé')
+    })
+  }
+
+  deleteTarification(id) {
+    this.setModalConfirmationsuppression().result.then(() => {
+      this.delete('http://localhost/DevisAPI/api/Tarification' + id).toPromise().then((res) => {
+        this.getTarification();
+      })
+    });
   }
 
   modifyTarification() {

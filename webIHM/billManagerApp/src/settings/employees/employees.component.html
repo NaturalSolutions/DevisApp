@@ -36,8 +36,8 @@
         <td class="tdemp">{{tarif.Tar5}}</td>
         <td class="tdemp">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
-            <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
+            <button type="button" class="btn btn-warning" (click)="modifyTarification(tarif.ID)">M</button>
+            <button type="button" class="btn btn-danger" (click)="deleteTarification(tarif.ID)">X</button>
           </div>
         </td>
       </tr>
@@ -77,8 +77,7 @@
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Initial
             <br>
-            <input required type="text" class="form-control" maxlength="2" formControlName="initial" aria-label="Username"
-              aria-describedby="basic-addon1">
+            <input required type="text" class="form-control" maxlength="2" formControlName="initial" aria-label="Username" aria-describedby="basic-addon1">
           </label>
 
         </div>
@@ -113,6 +112,53 @@
 </ng-template>
 
 
+<ng-template #ajoutTarification let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Ajout de tarification</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form [formGroup]="formAjoutTar" class="form-group col-lg-12">
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Type
+            <br>
+            <input required type="text" class="form-control" formControlName="type" placeholder="Type" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Tar3
+            <br>
+            <input required type="number" min="0" class="form-control" formControlName="tar3" placeholder="tar3" aria-label="mail" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Tar5
+            <br>
+            <input required type="number" min="0" class="form-control" maxlength="2" formControlName="tar5" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>IsAmo
+            <br>
+            <input required type="checkbox"  class="form-control" formControlName="isAmo"aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">Ajouter la tarification</button>
+  </div>
+</ng-template>
+
+
 
 <ng-template #confirmationSuppr let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -123,11 +169,15 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <p>Etes vous sur de vouloir supprimer cette ressource ? </p>
+      <div class="col">
+        <p>Etes vous sur de vouloir supprimer cet élément ? </p>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="c('oui')" >Oui ! </button>
-    <button type="button" class="btn btn-outline-dark" (click)="d('miss click')">Non j'ai miss click ! </button>
+    <div class="btn-group">
+      <button type="button" class="btn btn-outline-dark" (click)="c('oui')">Oui ! </button>
+      <button type="button" class="btn btn-outline-dark" (click)="d('miss click')">Non j'ai miss click ! </button>
+    </div>
   </div>
 </ng-template>
