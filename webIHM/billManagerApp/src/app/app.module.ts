@@ -51,18 +51,26 @@ import { ToastrModule } from 'ngx-toastr';
         path: 'billManager',
         component: FileGeneratorComponent,
       },
-      { path: 'parmeters', 
-      component: SettingsComponent,
-      children: [{
-        path: 'gestion-employes',
-        component: EmployeesComponent
-      }] }
+      {
+        path: 'parmeters',
+        component: SettingsComponent,
+        children: [
+          {
+            path: 'gestion-employes',
+            component: EmployeesComponent
+          },
+          {
+            path : 'gestion-constante-calcul',
+            component : ConstanteCalculComponent
+          }
+        ]
+      }
     ]),
   ],
   exports: [
     ModalModule
   ],
-  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent, AccordionModule, AlertModule, ModalModule,BrowserAnimationsModule],
+  providers: [AlertDialogService, EpicRecuperatorModule, DevisRequesterModule, TasksParserModule, StructurerModule, PtConfModule, TransmuterModule, AlertDisplayerService, LogMessageComponent, AccordionModule, AlertModule, ModalModule, BrowserAnimationsModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

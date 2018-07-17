@@ -1,3 +1,38 @@
-<p>
-  constante-calcul works!
-</p>
+<div class="row justify-content-around">
+  <div class="col">
+    <h3 style="color:white; text-align:center;">Constantes de calcul</h3>
+  </div>
+</div>
+<div class="row justify-content-around">
+  <div class="col-lg-6 col-md-12 col-sm-12  col-xs-10">
+    <br>
+    <table class="table table-striped table-hover">
+      <thead class="thead-light" style="text-align:center;">
+        <tr>
+          <th scope="col">Coefficient Férié</th>
+          <th scope="col">Coefficient Weekend</th>
+          <th scope="col">Coefficient Weekend Férié</th>
+          <th scope="col">Jour CDP</th>
+          <th scope="col">Jour DT</th>
+          <th scope="col">Support</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody style="text-align:center; color:white;">
+        <tr>
+          <td>{{parameters.MultiplicationFE}}</td>
+          <td>{{parameters.MultiplicationWE}}</td>
+          <td>{{parameters.MultiplicationWEFE}}</td>
+          <td>{{parameters.NbJourCDP}}</td>
+          <td>{{parameters.NbJourDT}}</td>
+          <td>{{parameters.PrixSupport}}</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" (click)="modifyTarification(tarif.ID)">M</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
