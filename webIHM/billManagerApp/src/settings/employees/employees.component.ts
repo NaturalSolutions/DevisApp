@@ -37,6 +37,7 @@ export class EmployeesComponent implements OnInit {
   private modalAjoutTarificationRef: NgbModalRef;
   private currentRessource;
   private currentTarif;
+  private Action;
 
   showError() {
     this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', { timeOut: 2000 })
@@ -87,6 +88,7 @@ export class EmployeesComponent implements OnInit {
     this.FgTarificationData = this.tarifications.map(tarif => {
       return new FormControl(false);
     });
+    this.Action = 'Ajouter ';
     this.createFormRes();
     this.setModalAjoutRessource().result.then(() => {
     }).catch(() => {
@@ -205,6 +207,7 @@ export class EmployeesComponent implements OnInit {
     });
   }
   modifyRessource(emp) {
+    this.Action = 'Modifier ';
     this.currentRessource = emp;
     this.FgTarificationData = this.tarifications.map(tarif => {
       for (let tarification of this.currentRessource.Tarification_Ressource) {
@@ -220,6 +223,8 @@ export class EmployeesComponent implements OnInit {
       console.log('annulation validé')
     })
   }
+
+
 
   @ViewChild('ressource') ajoutRessources: NgbModalRef;
 

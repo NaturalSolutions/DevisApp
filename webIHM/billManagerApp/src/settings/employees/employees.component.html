@@ -1,50 +1,46 @@
-<div class="row justify-content-around">
-  <div class="col-lg-6 col-sm-12">
+<div class="row justify-content-center" style="padding:80px;">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 align-self-center">
     <h3 style="color:white; text-align:center;">Ressources</h3>
-  </div>
-  <div class="col-lg-6 ">
-    <h3 style="color:white; text-align:center;">Tarifications</h3>
-  </div>
-</div>
-<div class="row justify-content-around">
-  <div class="col-{breakpoint}-auto">
-    <br>
-    <div class="table-striped table-hover ">
-      <tr *ngFor="let emp of employees">
-        <td class="tdemp">{{emp.Name}}</td>
-        <td class="tdemp">{{emp.Initial}}</td>
-        <td class="tdemp">{{emp.Mail}}</td>
-        <td class="tdemp">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp)">M</button>
-            <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
-          </div>
-        </td>
-      </tr>
-    </div>
-    <div class="row" style="text-align:center;">
+    <div class="row" style="text-align:center; padding:35px; padding-top:0px;">
       <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addRessource()">Ajouter</button>
     </div>
-
-  </div>
-  <div class="col-{breakpoint}-auto">
-    <br>
-    <div class="table-striped table-hover ">
-      <tr *ngFor="let tarif of tarifications">
-        <td class="tdemp">{{tarif.Type}}</td>
-        <td class="tdemp">{{tarif.Tar3}}</td>
-        <td class="tdemp">{{tarif.Tar5}}</td>
-        <td class="tdemp">{{tarif.IsAmo}}</td>
-        <td class="tdemp">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="modifyTarification(tarif.ID)">M</button>
-            <button type="button" class="btn btn-danger" (click)="deleteTarification(tarif.ID)">X</button>
-          </div>
-        </td>
-      </tr>
+    <div class="row justify-content-center" style="padding:60px;">
+      <div class="table-striped table-hover ">
+        <tr *ngFor="let emp of employees">
+          <td class="tdemp">{{emp.Name}}</td>
+          <td class="tdemp">{{emp.Initial}}</td>
+          <td class="tdemp">{{emp.Mail}}</td>
+          <td class="tdemp">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" (click)="modifyRessource(emp)">M</button>
+              <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
+            </div>
+          </td>
+        </tr>
+      </div>
     </div>
-    <div class="row" style="text-align:center;">
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 align-self-center">
+    <h3 style="color:white; text-align:center;">Tarifications</h3>
+    <div class="row" style="text-align:center; padding:35px; padding-top:0px;">
       <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addTarification()">Ajouter</button>
+    </div>
+    <div class="row justify-content-center" style="padding:60px;">
+      <div class="table-striped table-hover ">
+        <tr *ngFor="let tarif of tarifications">
+          <td class="tdemp">#{{tarif.ID}}</td>
+          <td class="tdemp">{{tarif.Type}}</td>
+          <td class="tdemp">{{tarif.Tar3}}</td>
+          <td class="tdemp">{{tarif.Tar5}}</td>
+          <td class="tdemp">{{tarif.IsAmo}}</td>
+          <td class="tdemp">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" (click)="modifyTarification(tarif.ID)">M</button>
+              <button type="button" class="btn btn-danger" (click)="deleteTarification(tarif.ID)">X</button>
+            </div>
+          </td>
+        </tr>
+      </div>
     </div>
   </div>
 </div>
@@ -53,7 +49,7 @@
 
 <ng-template #ressource let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Ajout de ressource</h4>
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">{{Action}} ressource</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -64,29 +60,32 @@
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Nom,Prénom
             <br>
-            <input required type="text" class="form-control" formControlName="name" value="{{currentRessource.Name}}" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="text" class="form-control" formControlName="name" value="{{currentRessource.Name}}" placeholder="Nom Prénom"
+              aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Mail
             <br>
-            <input required type="mail" class="form-control" formControlName="email"  value="{{currentRessource.Initial}}" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="mail" class="form-control" formControlName="email" value="{{currentRessource.Initial}}" placeholder="mail"
+              aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Initial
             <br>
-            <input required type="text" class="form-control" maxlength="2"  value="{{currentRessource.Mail}}" formControlName="initial" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="text" class="form-control" maxlength="2" value="{{currentRessource.Mail}}" formControlName="initial"
+              aria-label="Username" aria-describedby="basic-addon1">
           </label>
 
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Niveau
             <br>
-            <input required type="number" step="2" min="3" max="5"  value="{{currentRessource.Niveau}}" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
-              aria-describedby="basic-addon1">
+            <input required type="number" step="2" min="3" max="5" value="{{currentRessource.Niveau}}" class="form-control" formControlName="niveau"
+              placeholder=3 aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
@@ -108,7 +107,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">Ajouter la ressource</button>
+    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">{{Action}} la ressource</button>
   </div>
 </ng-template>
 
@@ -140,15 +139,15 @@
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Tar5
             <br>
-            <input required type="number" min="0" class="form-control" maxlength="2" formControlName="tar5" placeholder="tar5" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="number" min="0" class="form-control" maxlength="2" formControlName="tar5" placeholder="tar5" aria-label="Username"
+              aria-describedby="basic-addon1">
           </label>
 
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>IsAmo
             <br>
-            <input required type="checkbox"  class="form-control" formControlName="isAmo"aria-label="Username"
-              aria-describedby="basic-addon1">
+            <input required type="checkbox" class="form-control" formControlName="isAmo" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
       </form>
