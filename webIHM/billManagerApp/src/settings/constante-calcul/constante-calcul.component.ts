@@ -23,7 +23,7 @@ import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 })
 export class ConstanteCalculComponent implements OnInit {
 
-  constructor(private toastr: ToastrService,private http: HttpClient, private fb: FormBuilder, private modalService: NgbModal) { }
+  constructor(private toastr: ToastrService, private http: HttpClient, private fb: FormBuilder, private modalService: NgbModal) { }
 
   public parameters;
   ngOnInit() {
@@ -52,11 +52,11 @@ export class ConstanteCalculComponent implements OnInit {
   }
 
   showError() {
-    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', {timeOut : 2000})
+    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', { timeOut: 2000 })
   }
 
   showSucess() {
-    this.toastr.success('Sucessfully added ressource', 'Sucess', {timeOut : 1500})
+    this.toastr.success('Sucessfully added ressource', 'Sucess', { timeOut: 1500 })
   }
 
 
@@ -75,34 +75,22 @@ export class ConstanteCalculComponent implements OnInit {
     this.lauchparamModal();
   }
 
-  validerParam(){
+  validerParam() {
     let data: any = this.formParam.getRawValue();
-    if (data.CoefficientF == '' || data.CoefficientF == undefined
-      || data.CoefficientW == ''
-      || data.CoefficientW == undefined
-      || data.CoefficientWF == ''
-      || data.CoefficientWF == undefined
-      || data.JourCDP == ''
-      || data.JourCDP == undefined
-      || data.JourDT == ''
-      || data.JourDT == undefined
-      || data.Support == ''
-      || data.Support == undefined) {
-        this.showError();
-    } else {
-      let param : any = {};
-      param.FE = data.CoefficientF;
-      param.WE = data.CoefficientW;
-      param.WEFE = data.CoefficientWF;
-      param.cdp = data.JourCDP;
-      param.dt = data.JourDT;
-      param.support = data.Support;
-      this.put('http://localhost/DevisAPI/api/parametres/',param).toPromise().then(() => {
-        this.showSucess();
-      }).catch(() => {
-        alert('erreur connard')
-      })
-    }
+    let param: any = {};
+    param.FE = data.CoefficientF == undefined || data.CoefficientF == '' ? this.parameters.MultiplicationFE : data.CoefficientF;
+    param.WE = data.CoefficientW == undefined || data.CoefficientW == '' ? this.parameters.MultiplicationWE : data.CoefficientW;
+    param.WEFE = data.CoefficientWF == undefined || data.CoefficientWF == '' ? this.parameters.MultiplicationWEFE : data.CoefficientWF;
+    param.cdp = data.JourCDP == undefined || data.JourCDP == '' ? this.parameters.NbJourCDP : data.JourCDP;
+    param.dt = data.JourDT == undefined || data.JourDT == '' ? this.parameters.NbJourDT : data.JourDT;
+    param.support = data.Support == undefined || data.Support == '' ? this.parameters.PrixSupport : data.Support;
+    this.put('http://localhost/DevisAPI/api/parametres/', param).toPromise().then(() => {
+      this.showSucess();
+      this.getParameters();
+      this.modalParamRef.close();
+    }).catch(() => {
+      this.showError();
+    })
   }
 
   put(url, objet) {
