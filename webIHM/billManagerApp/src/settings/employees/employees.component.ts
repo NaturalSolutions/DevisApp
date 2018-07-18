@@ -34,7 +34,7 @@ export class EmployeesComponent implements OnInit {
   private modalRef: NgbModalRef;
   private modalAjoutTarificationRef: NgbModalRef;
   private currentRessource;
-  private currentTarif;
+  private currentTarif = { IsAmo : false};
   private Action;
 
   showError() {
@@ -60,7 +60,7 @@ export class EmployeesComponent implements OnInit {
       type: ['', Validators.required],
       tar3: ['', Validators.required],
       tar5: ['', Validators.required],
-      isAmo: [this.currentTarif.IsAmo, Validators.required],
+      isAmo: [this.currentTarif.IsAmo == undefined ? false : this.currentTarif.IsAmo, Validators.required],
     });
   };
 
@@ -85,7 +85,6 @@ export class EmployeesComponent implements OnInit {
   getTarification() {
     this.get("http://localhost/DevisAPI/api/Tarification/").toPromise().then((res) => {
       this.tarifications = res;
-      console.log(res);
     });
   }
 
@@ -128,7 +127,6 @@ export class EmployeesComponent implements OnInit {
         nouvelle_ressource.mail = data.email;
         nouvelle_ressource.niveau = data.niveau;
         nouvelle_ressource.tarification = selectedTarifications;
-        console.log(nouvelle_ressource);
         this.formAjoutRess.reset();
         this.post("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
           this.showSucess();
@@ -184,35 +182,54 @@ export class EmployeesComponent implements OnInit {
 
 
   validerTarification() {
-    let data: any = this.formAjoutTar.getRawValue();
-    if (data.type == '' || data.type == undefined
-      || data.tar3 == ''
-      || data.tar3 == undefined
-      || data.tar5 == ''
-      || data.tar5 == undefined) {
-      this.showError();
-    } else {
-      if (data.isAmo == '' || data.isAmo == undefined) {
-        data.isAmo = false;
+    if (this.Action.trim() == 'Ajout') {
+      let data: any = this.formAjoutTar.getRawValue();
+      if (data.type == '' || data.type == undefined
+        || data.tar3 == ''
+        || data.tar3 == undefined
+        || data.tar5 == ''
+        || data.tar5 == undefined) {
+        this.showError();
+      } else {
+        if (data.isAmo == '' || data.isAmo == undefined) {
+          data.isAmo = false;
+        }
+        let nouvelle_tarification: any = {};
+        nouvelle_tarification.type = data.type;
+        nouvelle_tarification.tar3 = data.tar3;
+        nouvelle_tarification.tar5 = data.tar5;
+        nouvelle_tarification.isAmo = data.isAmo;
+        this.formAjoutTar.reset();
+        this.post("http://localhost/DevisAPI/api/tarification", nouvelle_tarification).toPromise().then(() => {
+          this.showSucess();
+          this.getTarification();
+          this.modalAjoutTarificationRef.close();
+        }).catch(() => {
+          this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+            location.reload(true);
+          }).catch(() => {
+            location.reload(true);
+          })
+        })
       }
-      let nouvelle_tarification: any = {};
-      nouvelle_tarification.type = data.type;
-      nouvelle_tarification.tar3 = data.tar3;
-      nouvelle_tarification.tar5 = data.tar5;
-      nouvelle_tarification.isAmo = data.isAmo;
-      this.formAjoutTar.reset();
-      this.post("http://localhost/DevisAPI/api/tarification", nouvelle_tarification).toPromise().then(() => {
+    } else {
+      let data: any = this.formAjoutTar.getRawValue();
+      let majTarification: any = {};
+      majTarification.id = this.currentTarif.ID;
+      majTarification.type = data.type == undefined || data.type == '' ? this.currentTarif.Type : data.type;
+      majTarification.tar3 = data.tar3 == undefined || data.tar3 == '' ? this.currentTarif.Tar3 : data.tar3;
+      majTarification.tar5 = data.tar5 == undefined || data.tar5 == '' ? this.currentTarif.Tar5 : data.tar5;
+      majTarification.isAmo = data.isAmo == undefined || data.isAmo == '' ? false : data.isAmo;
+      this.put("http://localhost/DevisAPI/api/tarification/", majTarification).toPromise().then(() => {
         this.showSucess();
         this.getTarification();
+        this.formAjoutTar.reset();
         this.modalAjoutTarificationRef.close();
       }).catch(() => {
-        this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
-          location.reload(true);
-        }).catch(() => {
-          location.reload(true);
-        })
+
       })
     }
+
   }
 
   post(url, objetAEnvoyer) {
@@ -288,6 +305,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   addTarification() {
+    this.Action = 'Ajout ';
     this.createFormTar();
     this.setModalAjoutTarification().result.then(() => {
     }).catch(() => {

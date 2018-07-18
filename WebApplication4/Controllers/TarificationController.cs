@@ -56,6 +56,7 @@ namespace WebApplication4.Controllers
 
         public struct tarifiClient
         {
+            public int id;
             public string type;
             public decimal tar3;
             public decimal tar5;
@@ -77,32 +78,14 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Tarification/5
-        public void Put(int id, [FromBody]Tarification tsk) // met a jour une Tarification a partir de son ID
+        public void Put(tarifiClient majT) // met a jour une Tarification a partir de son ID
         {
-            try
-            {
-                if (tsk != null) // si l'objet source n'est pas null => update de la base
-                {
-                    Tarification ts = db.Tarification.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Tarification.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.Type = tsk.Type; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    ts.Tar3 = tsk.Tar3; // same
-                    ts.Tar5 = tsk.Tar5; // same 
-                    ts.IsAmo = tsk.IsAmo; // same
-                    ts.Date = tsk.Date; // same
-                    ts.Obsolete = tsk.Obsolete; // same
-                    db.SaveChanges(); // mise a jour de la table
-                }
-                else // sinon je throw une exception
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "l'objet source est vide"));
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
-            }
+            Tarification tarif = db.Tarification.Where(t => t.ID == majT.id).FirstOrDefault();
+            tarif.IsAmo = majT.isAmo;
+            tarif.Tar3 = majT.tar3;
+            tarif.Tar5 = majT.tar5;
+            tarif.Type = majT.type;
+            db.SaveChanges();
         }
 
         // DELETE: api/Tarification/5
