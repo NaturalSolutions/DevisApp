@@ -9,7 +9,7 @@ import { TransmuterModule } from "../transmuter/transmuter.module";
 import { resolve } from 'q';
 import { $ } from 'protractor';
 import { AlertDialogService } from 'src/services/alert-dialog.service';
-import { ViewChild } from '@angular/core';
+import { ViewChild,ElementRef } from '@angular/core';
 import { Injectable, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
@@ -61,11 +61,13 @@ export class FileGeneratorComponent implements OnInit {
     this.configDropDown.autoClose = false;
   }
 
+  private spinner;
 
   ngOnInit() {
     this.devisScope = document.getElementById('devis');
     this.factureScope = document.getElementById('facture');
     this.fileScope = document.getElementById('fileGenerator');
+    this.spinner = 'hidden';
   }
 
   private expanded = false;
@@ -186,6 +188,14 @@ export class FileGeneratorComponent implements OnInit {
     return modalRef;
   }
 
+  setSpinner(){
+    if(this.spinner == 'visible'){
+      this.spinner = 'hidden';
+    }else{
+      this.spinner = 'visible';
+    }   
+  }
+
   get(url) {
     return this.http.get(url, {
       headers: {
@@ -209,12 +219,12 @@ export class FileGeneratorComponent implements OnInit {
           if (taches[currentTasks].Initials.length > 2) {
             let owners = taches[currentTasks].Initials.split("+");
             for (let currentOwner in owners) {
-              if (initialEmployes.includes(owners[currentOwner])) {
+              if (!initialEmployes.includes(owners[currentOwner])) {
                 initialInexistante.add(owners[currentOwner]);
               }
             }
           } else {
-            if (initialEmployes.includes(taches[currentTasks].Initials)) {
+            if (!initialEmployes.includes(taches[currentTasks].Initials)) {
               initialInexistante.add(taches[currentTasks].Initials);
             }
           }

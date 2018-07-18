@@ -1,12 +1,41 @@
-<div id="fic" (click)="displayOptions()">
+<div class="row justify-content-center" style="height: 100%;width: 100%;margin: auto; padding:50px;">
+  <div class="row justify-content-around" style=" width:100%; height: 20%; padding:5px;">
+    <div class="col-2" [style.visibility]="spinner" style="padding:15px;">
+      <div class="spinner-1"></div>
+    </div>
+    <div class="col-9 align-self-center" style="text-align:center;">
+      <button type="button" class="btn btn-primary" (click)="setSpinner()">Générer un fichier</button>
+      <div class="row justify-content-around" style="padding:60px;">
+        <div class="col-4">
+          <button type="button" class="btn btn-primary" (click)="lauchProcess('devis')">Devis</button>
+        </div>
+        <div class="col-4">
+          <button type="button" class="btn btn-primary" (click)="lauchProcess('facture')">Facture</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-center" id="fileGenerator" style="width:100%; height: 80%; padding:5px;">
+  </div>
+</div>
+
+
+
+
+
+<!-- <div id="fic" class="row justify-content-center" (click)="displayOptions()">
+    <div class="row">
+        <div class="loader"></div>
+      </div>
+    
   <span>Générer un fichier</span>
 </div>
-<section id="fileGenerator">
-  <div id="devis" (click)="lauchProcess('devis')">
+<section id="fileGenerator" class="row">
+  <div id="devis" class="col-6" (click)="lauchProcess('devis')">
     <span>Devis</span>
   </div>
 
-  <div id="facture" (click)="lauchProcess('facture')">
+  <div id="facture" class="col-6" (click)="lauchProcess('facture')">
     <span>Facture</span>
   </div>
 
@@ -23,8 +52,7 @@
   </div>
 
 </section>
-
-
+ -->
 
 <ng-template #treatmentStories let-c="close" let-d="dismiss">
   <div class="modal-header">
@@ -109,7 +137,7 @@
               <div ngbDropdownMenu aria-labelledby="dropdownConfig">
                 <div class="col" required formArrayName="tarificationForm" *ngFor="let tarif of tarifications; let i= index">
                   <label>&nbsp;
-                    <input  type="checkbox" [value]="tarif" [formControlName]="i" /> &nbsp; {{ tarif.Type }}
+                    <input type="checkbox" [value]="tarif" [formControlName]="i" /> &nbsp; {{ tarif.Type }}
                   </label>
                 </div>
               </div>
