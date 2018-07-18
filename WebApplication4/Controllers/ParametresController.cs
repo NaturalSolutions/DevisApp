@@ -35,14 +35,32 @@ namespace WebApplication4.Controllers
         }
 
         // POST: api/Parametres
-        public HttpResponseMessage Post(object genObjec_d) // DEVRA CREER UN DEVIS 
-        { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
+        public HttpResponseMessage Post(object genObjec_d)
+        { 
             return new HttpResponseMessage();
         }
 
         // PUT: api/Parametres/5
-        public void Put(int id, [FromBody]Devis value) // Update un DEVIS
+        public struct paramClient
         {
+            public decimal FE;
+            public decimal WE;
+            public decimal WEFE;
+            public decimal cdp;
+            public decimal dt;
+            public decimal support;
+        }
+
+        public void Put(paramClient p) 
+        {
+            Paramètres param = db.Paramètres.Where(po => po.ID == 1).FirstOrDefault();
+            param.MultiplicationFE = p.FE;
+            param.MultiplicationWE = p.WE;
+            param.MultiplicationWEFE = p.WEFE;
+            param.NbJourCDP = p.cdp;
+            param.NbJourDT = p.dt;
+            param.PrixSupport = p.support;
+            db.SaveChanges();     
         }
 
         // DELETE: api/Parametres/5

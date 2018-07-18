@@ -87,7 +87,7 @@ namespace WebApplication4.Controllers
                     db.Tarification.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
                     ts.Type = tsk.Type; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.Tar3 = tsk.Tar3; // same
-                    ts.Tar5 = tsk.Tar5; // same
+                    ts.Tar5 = tsk.Tar5; // same 
                     ts.IsAmo = tsk.IsAmo; // same
                     ts.Date = tsk.Date; // same
                     ts.Obsolete = tsk.Obsolete; // same
