@@ -34,7 +34,7 @@ export class EmployeesComponent implements OnInit {
   private modalRef: NgbModalRef;
   private modalAjoutTarificationRef: NgbModalRef;
   private currentRessource;
-  private currentTarif = { IsAmo : false};
+  private currentTarif;
   private Action;
 
   showError() {
@@ -306,6 +306,7 @@ export class EmployeesComponent implements OnInit {
 
   addTarification() {
     this.Action = 'Ajout ';
+    this.currentTarif = {Type : 'Nouveau type de job', Tar3 : 'Un millions de dollars', Tar5 : 'Quelques dollars',IsAmo : false};
     this.createFormTar();
     this.setModalAjoutTarification().result.then(() => {
     }).catch(() => {
