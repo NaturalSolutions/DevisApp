@@ -151,6 +151,7 @@ export class EmployeesComponent implements OnInit {
           selectedTarifications.push(this.tarifications[index].ID);
       });
       let ressMAJ: any = {};
+      ressMAJ.id = this.currentRessource.ID;
       ressMAJ.name = data.name == undefined || data.name == '' ? this.currentRessource.Name : data.name;
       ressMAJ.initial = data.initial == undefined || data.initial == '' ? this.currentRessource.Initial : data.initial;
       ressMAJ.mail = data.email == undefined || data.email == '' ? this.currentRessource.Mail : data.email;

@@ -104,7 +104,7 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Ressource/5
-        public void Put(ressClient majRes)// Update une ressource Existente de par son ID
+        public void Put(ressClient majRes)
         {
             Ressource ressource =  db.Ressource.Where(res => res.ID == majRes.id).FirstOrDefault();
             ressource.Initial = majRes.initial;
@@ -118,9 +118,10 @@ namespace WebApplication4.Controllers
                 db.Tarification_Ressource.Attach(tar);
                 db.Tarification_Ressource.Remove(tar);
             }
-            Tarification_Ressource tarification_ressource = new Tarification_Ressource();
+            db.SaveChanges();
             foreach (Int16 idTar in majRes.tarification)
             {
+                Tarification_Ressource tarification_ressource = new Tarification_Ressource();
                 tarification_ressource.FK_Ressource = majRes.id;
                 Tarification tar = db.Tarification.Where(res => res.ID == idTar).FirstOrDefault();
                 tarification_ressource.FK_Tarification = tar.ID;
