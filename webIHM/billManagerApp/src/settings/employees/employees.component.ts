@@ -22,8 +22,6 @@ import { timeout } from 'q';
 export class EmployeesComponent implements OnInit {
 
   constructor(private toastr: ToastrService, private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
-    this.getEmployes();
-    this.getTarification();
   }
 
   private employees;
@@ -67,12 +65,22 @@ export class EmployeesComponent implements OnInit {
   };
 
   ngOnInit() {
+    this.getEmployes();
+    this.getTarification();
   }
 
 
   getEmployes() {
     this.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res: Array<any>) => {
+      for (let emp of res) {
+        emp.tarif = '';
+        for (let tarif of emp.Tarification_Ressource) {
+          console.log('tarif', tarif);
+          emp.tarif += tarif.Tarification.Type + " ; ";
+        }
+      }
       this.employees = res;
+      console.log(res);
     });
   }
 
@@ -88,7 +96,7 @@ export class EmployeesComponent implements OnInit {
     this.FgTarificationData = this.tarifications.map(tarif => {
       return new FormControl(false);
     });
-    this.Action = 'Ajouter ';
+    this.Action = 'Ajout ';
     this.createFormRes();
     this.setModalAjoutRessource().result.then(() => {
     }).catch(() => {
@@ -207,7 +215,7 @@ export class EmployeesComponent implements OnInit {
     });
   }
   modifyRessource(emp) {
-    this.Action = 'Modifier ';
+    this.Action = 'Modification ';
     this.currentRessource = emp;
     this.FgTarificationData = this.tarifications.map(tarif => {
       for (let tarification of this.currentRessource.Tarification_Ressource) {

@@ -10,6 +10,7 @@
           <td class="tdemp">{{emp.Name}}</td>
           <td class="tdemp">{{emp.Initial}}</td>
           <td class="tdemp">{{emp.Mail}}</td>
+          <td class="tdemp">{{emp.tarif}}</td>
           <td class="tdemp">
             <div class="btn-group" role="group">
               <button type="button" class="btn btn-warning" (click)="modifyRessource(emp)">M</button>
@@ -49,7 +50,7 @@
 
 <ng-template #ressource let-c="close" let-d="dismiss">
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">{{Action}} ressource</h4>
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">{{Action}} de ressource</h4>
     <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -107,7 +108,7 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">{{Action}} la ressource</button>
+    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">{{Action}}</button>
   </div>
 </ng-template>
 
