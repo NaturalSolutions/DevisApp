@@ -103,8 +103,8 @@ export class EmployeesComponent implements OnInit {
   }
 
 
-  validerRessource(action) {
-    if (action == 'add') {
+  validerRessource() {
+    if (this.Action.trim() == 'Ajout') {
       let data: any = this.formAjoutRess.getRawValue();
       let usersTarifications: boolean[] = data.tarificationForm;
       let selectedTarifications: Int16Array[] = [];
