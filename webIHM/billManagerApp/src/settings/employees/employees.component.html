@@ -5,7 +5,7 @@
       <button type="button" class="btn btn-success" style=" margin:auto; margin-top:10px;" (click)="addRessource()">Ajouter</button>
     </div>
     <div class="row justify-content-center" style="padding:60px;">
-      <div class="table-striped table-hover ">
+      <table class="table-striped table-hover ">
         <tr *ngFor="let emp of employees">
           <td class="tdemp">{{emp.Name}}</td>
           <td class="tdemp">{{emp.Initial}}</td>
@@ -18,7 +18,7 @@
             </div>
           </td>
         </tr>
-      </div>
+      </table>
     </div>
   </div>
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-10 align-self-center">

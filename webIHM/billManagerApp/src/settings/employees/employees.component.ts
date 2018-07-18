@@ -75,12 +75,10 @@ export class EmployeesComponent implements OnInit {
       for (let emp of res) {
         emp.tarif = '';
         for (let tarif of emp.Tarification_Ressource) {
-          console.log('tarif', tarif);
           emp.tarif += tarif.Tarification.Type + " ; ";
         }
       }
       this.employees = res;
-      console.log(res);
     });
   }
 
@@ -105,33 +103,62 @@ export class EmployeesComponent implements OnInit {
   }
 
 
-  validerRessource() {
-    let data: any = this.formAjoutRess.getRawValue();
-    let usersTarifications: boolean[] = data.tarificationForm;
-    let selectedTarifications: Int16Array[] = [];
-    usersTarifications.forEach((isSelected, index) => {
-      if (isSelected)
-        selectedTarifications.push(this.tarifications[index].ID);
-    });
-    if (data.name == '' || data.name == undefined
-      || data.initial == ''
-      || data.initial == undefined
-      || data.email == ''
-      || data.email == undefined
-      || data.niveau == ''
-      || data.niveau == undefined
-      || selectedTarifications == undefined) {
-      this.showError();
+  validerRessource(action) {
+    if (action == 'add') {
+      let data: any = this.formAjoutRess.getRawValue();
+      let usersTarifications: boolean[] = data.tarificationForm;
+      let selectedTarifications: Int16Array[] = [];
+      usersTarifications.forEach((isSelected, index) => {
+        if (isSelected)
+          selectedTarifications.push(this.tarifications[index].ID);
+      });
+      if (data.name == '' || data.name == undefined
+        || data.initial == ''
+        || data.initial == undefined
+        || data.email == ''
+        || data.email == undefined
+        || data.niveau == ''
+        || data.niveau == undefined
+        || selectedTarifications == undefined) {
+        this.showError();
+      } else {
+        let nouvelle_ressource: any = {};
+        nouvelle_ressource.name = data.name;
+        nouvelle_ressource.initial = data.initial;
+        nouvelle_ressource.mail = data.email;
+        nouvelle_ressource.niveau = data.niveau;
+        nouvelle_ressource.tarification = selectedTarifications;
+        console.log(nouvelle_ressource);
+        this.formAjoutRess.reset();
+        this.post("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+          this.showSucess();
+          this.getEmployes();
+          this.modalRef.close();
+        }).catch(() => {
+          this.alertSrv.open({ title: "Une erreur est survenue", content: 'Le serveur à rencontré une erreur innatendue, le processus va redémarrer' }).result.then(() => {
+            location.reload(true);
+          }).catch(() => {
+            location.reload(true);
+          })
+        })
+      }
     } else {
-      let nouvelle_ressource: any = {};
-      nouvelle_ressource.name = data.name;
-      nouvelle_ressource.initial = data.initial;
-      nouvelle_ressource.mail = data.email;
-      nouvelle_ressource.niveau = data.niveau;
-      nouvelle_ressource.tarification = selectedTarifications;
-      console.log(nouvelle_ressource);
+      let data: any = this.formAjoutRess.getRawValue();
+      let usersTarifications: boolean[] = data.tarificationForm;
+      let selectedTarifications: Int16Array[] = [];
+      usersTarifications.forEach((isSelected, index) => {
+        if (isSelected)
+          selectedTarifications.push(this.tarifications[index].ID);
+      });
+      let ressMAJ: any = {};
+      ressMAJ.name = data.name == undefined || data.name == '' ? this.currentRessource.Name : data.name;
+      ressMAJ.initial = data.initial == undefined || data.initial == '' ? this.currentRessource.Initial : data.initial;
+      ressMAJ.mail = data.email == undefined || data.email == '' ? this.currentRessource.Mail : data.email;
+      ressMAJ.niveau = data.niveau == undefined || data.niveau == '' ? this.currentRessource.Niveau : data.niveau;
+      ressMAJ.tarification = selectedTarifications;
+      console.log(ressMAJ);
       this.formAjoutRess.reset();
-      this.post("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+      this.put("http://localhost/DevisAPI/api/ressource/", ressMAJ).toPromise().then(() => {
         this.showSucess();
         this.getEmployes();
         this.modalRef.close();
@@ -143,6 +170,15 @@ export class EmployeesComponent implements OnInit {
         })
       })
     }
+  }
+
+  put(url, objet) {
+    return this.http.put(url, objet, {
+      headers: {
+        "dataType": "json",
+        "Content-Type": "application/json; charset=UTF-8"
+      }
+    });
   }
 
 

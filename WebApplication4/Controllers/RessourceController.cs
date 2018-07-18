@@ -73,6 +73,7 @@ namespace WebApplication4.Controllers
 
         public struct ressClient
         {
+            public int id;
             public string initial;
             public string mail;
             public string name;
@@ -103,33 +104,29 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Ressource/5
-        public void Put(int id, [FromBody]Ressource rss)// Update une ressource Existente de par son ID
+        public void Put(ressClient majRes)// Update une ressource Existente de par son ID
         {
-            try
+            Ressource ressource =  db.Ressource.Where(res => res.ID == majRes.id).FirstOrDefault();
+            ressource.Initial = majRes.initial;
+            ressource.Name = majRes.name;
+            ressource.Niveau = majRes.niveau;
+            ressource.Mail = majRes.mail;
+            ressource.Obsolete = false;
+            List<Tarification_Ressource> tarRess = db.Tarification_Ressource.Where(t => t.FK_Ressource == majRes.id).ToList();
+            foreach (Tarification_Ressource tar in tarRess)
             {
-                if (rss != null) // si l'objet source n'est pas null => update de la base
-                {
-                    Ressource rs = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Ressource.Attach(rs); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    rs.Name = rss.Name; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    rs.Mail = rss.Mail; // same
-                    rs.Initial = rss.Initial; // same
-                    rs.Niveau = rss.Niveau; // same
-                    rs.Date = rss.Date; // same
-                    rs.Obsolete = rss.Obsolete; // same
-                    db.SaveChanges(); // mise a jour de la table
-                }
-                else // sinon je throw une exception
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "l'objet source est vide"));
-                }
-
+                db.Tarification_Ressource.Attach(tar);
+                db.Tarification_Ressource.Remove(tar);
             }
-            catch (Exception e)
+            Tarification_Ressource tarification_ressource = new Tarification_Ressource();
+            foreach (Int16 idTar in majRes.tarification)
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
+                tarification_ressource.FK_Ressource = majRes.id;
+                Tarification tar = db.Tarification.Where(res => res.ID == idTar).FirstOrDefault();
+                tarification_ressource.FK_Tarification = tar.ID;
+                db.Tarification_Ressource.Add(tarification_ressource);
             }
-
+            db.SaveChanges();
         }
 
         // DELETE: api/Ressource/5
