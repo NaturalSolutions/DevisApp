@@ -16,7 +16,7 @@
         <td class="tdemp">{{emp.Mail}}</td>
         <td class="tdemp">
           <div class="btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp.ID)">M</button>
+            <button type="button" class="btn btn-warning" (click)="modifyRessource(emp)">M</button>
             <button type="button" class="btn btn-danger" (click)="deleteRessource(emp.ID)">X</button>
           </div>
         </td>
@@ -64,28 +64,28 @@
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Nom,Prénom
             <br>
-            <input required type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="text" class="form-control" formControlName="name" value="{{currentRessource.Name}}" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Mail
             <br>
-            <input required type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="mail" class="form-control" formControlName="email"  value="{{currentRessource.Initial}}" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Initial
             <br>
-            <input required type="text" class="form-control" maxlength="2" formControlName="initial" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="text" class="form-control" maxlength="2"  value="{{currentRessource.Mail}}" formControlName="initial" aria-label="Username" aria-describedby="basic-addon1">
           </label>
 
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Niveau
             <br>
-            <input required type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
+            <input required type="number" step="2" min="3" max="5"  value="{{currentRessource.Niveau}}" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
               aria-describedby="basic-addon1">
           </label>
         </div>

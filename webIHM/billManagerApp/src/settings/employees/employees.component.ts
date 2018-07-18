@@ -34,14 +34,16 @@ export class EmployeesComponent implements OnInit {
   private modalRessourceRef;
   private modalConfirmatioSupprRef;
   private modalRef: NgbModalRef;
-  private modalAjoutTarificationRef : NgbModalRef;
+  private modalAjoutTarificationRef: NgbModalRef;
+  private currentRessource;
+  private currentTarif;
 
   showError() {
-    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', {timeOut : 2000})
+    this.toastr.warning('Tout les champs doivent être remplie', 'Erreur d\'envoi de formulaire', { timeOut: 2000 })
   }
 
   showSucess() {
-    this.toastr.success('Sucessfully added ressource', 'Sucess', {timeOut : 1500})
+    this.toastr.success('Sucessfully added ressource', 'Sucess', { timeOut: 1500 })
   }
 
   createFormRes() {
@@ -81,6 +83,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   addRessource() {
+    this.currentRessource = {};
     this.FgTarificationData = this.tarifications.map(tarif => {
       return new FormControl(false);
     });
@@ -142,7 +145,7 @@ export class EmployeesComponent implements OnInit {
       || data.tar5 == undefined) {
       this.showError();
     } else {
-      if(data.isAmo == '' || data.isAmo == undefined){
+      if (data.isAmo == '' || data.isAmo == undefined) {
         data.isAmo = false;
       }
       let nouvelle_tarification: any = {};
@@ -202,7 +205,20 @@ export class EmployeesComponent implements OnInit {
     });
   }
   modifyRessource(emp) {
-    alert('ressource mise à jour');
+    this.currentRessource = emp;
+    this.FgTarificationData = this.tarifications.map(tarif => {
+      for (let tarification of this.currentRessource.Tarification_Ressource) {
+        if (tarif.ID == tarification.Tarification.ID) {
+          return new FormControl(true);
+        }
+      }
+      return new FormControl(false);
+    });
+    this.createFormRes();
+    this.setModalAjoutRessource().result.then(() => {
+    }).catch(() => {
+      console.log('annulation validé')
+    })
   }
 
   @ViewChild('ressource') ajoutRessources: NgbModalRef;
@@ -213,10 +229,10 @@ export class EmployeesComponent implements OnInit {
     return modal;
   }
 
-  @ViewChild('ajoutTarification') ajoutTarification : NgbModalRef;
+  @ViewChild('ajoutTarification') ajoutTarification: NgbModalRef;
 
-  setModalAjoutTarification(){
-    let modal = this.modalService.open(this.ajoutTarification,{backdrop : "static"});
+  setModalAjoutTarification() {
+    let modal = this.modalService.open(this.ajoutTarification, { backdrop: "static" });
     this.modalAjoutTarificationRef = modal;
     return modal;
   }
