@@ -28,7 +28,7 @@
           <td>{{parameters.PrixSupport}}</td>
           <td>
             <div class="btn-group" role="group">
-              <button type="button" class="btn btn-warning" (click)="modifyTarification(tarif.ID)">M</button>
+              <button type="button" class="btn btn-warning" (click)="modifierParam()">M</button>
             </div>
           </td>
         </tr>
@@ -47,25 +47,25 @@
   </div>
   <div class="modal-body">
     <div class="row">
-      <form [formGroup]="formAjoutTar" class="form-group col-lg-12">
+      <form [formGroup]="formParam" class="form-group col-lg-12">
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Coefficient Férié
             <br>
-            <input required type="number" class="form-control" formControlName="CoefficientF" placeholder="Type" aria-describedby="basic-addon1">
+            <input required type="number"  min="0" class="form-control" step="0.1" formControlName="CoefficientF" value="{{parameters.MultiplicationFE}}" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Coefficient weekend
             <br>
-            <input required type="number" min="0" class="form-control" formControlName="CoefficientW" placeholder="tar3" aria-label="mail" aria-describedby="basic-addon1">
+            <input required type="number" min="0" step="0.1" class="form-control" formControlName="CoefficientW" value="{{parameters.MultiplicationWE}}" aria-label="mail" aria-describedby="basic-addon1">
           </label>
         </div>
 
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>coefficient weekend férié
             <br>
-            <input required type="number" min="0" class="form-control" maxlength="2" formControlName="CoefficientWF" placeholder="tar5" aria-label="Username"
+            <input required type="number" min="0" step="0.1" class="form-control" formControlName="CoefficientWF" value="{{parameters.MultiplicationWEFE}}" aria-label="Username"
               aria-describedby="basic-addon1">
           </label>
 
@@ -73,25 +73,25 @@
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Jour CDP
             <br>
-            <input required type="number" class="form-control" formControlName="JourCDP" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="number" min="0" step="1" class="form-control" value="{{parameters.NbJourCDP}}" formControlName="JourCDP" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Jour DT
             <br>
-            <input required type="number" class="form-control" formControlName="JourDT" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="number" min="0" step="1" class="form-control" value="{{parameters.NbJourDT}}" formControlName="JourDT" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
         <div class="col-lg-12 col-sm-12" style="text-align:center;">
           <label>Support
             <br>
-            <input required type="number" class="form-control" formControlName="Support" aria-label="Username" aria-describedby="basic-addon1">
+            <input required type="number" class="form-control" value="{{parameters.PrixSupport}}" formControlName="Support" aria-label="Username" aria-describedby="basic-addon1">
           </label>
         </div>
       </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="validerTarification()">Ajouter la tarification</button>
+    <button type="button" class="btn btn-outline-dark" (click)="validerTarification()">Sauvegarder</button>
   </div>
 </ng-template>

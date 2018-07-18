@@ -13,6 +13,7 @@ import { NgbDropdownConfig } from '@ng-bootstrap/ng-bootstrap';
 import { AlertDialogService } from '../../services/alert-dialog.service';
 import { ToastrService } from 'ngx-toastr';
 import { timeout } from 'q';
+import { BsModalService } from 'ngx-bootstrap/modal/bs-modal.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { timeout } from 'q';
 })
 export class ConstanteCalculComponent implements OnInit {
 
-  constructor(private http: HttpClient,private fb : FormBuilder) { }
+  constructor(private http: HttpClient, private fb: FormBuilder, private modalService: NgbModal) { }
 
   public parameters;
   ngOnInit() {
@@ -38,22 +39,36 @@ export class ConstanteCalculComponent implements OnInit {
   }
 
   private formParam;
+  private modalParamRef : NgbModalRef;
 
-  @ViewChild('modificationParam') modalParam : NgbModalRef;
+  @ViewChild('modificationParam') modalParam: NgbModalRef;
 
-  createFormTar() {
+
+  lauchparamModal() {
+    this.createFormParam();
+    let modal = this.modalService.open(this.modalParam, { backdrop: "static" });
+    this.modalParamRef = modal;
+    return modal;
+  }
+
+
+  createFormParam() {
     this.formParam = this.fb.group({
       CoefficientF: ['', Validators.required],
       CoefficientW: ['', Validators.required],
       CoefficientWF: ['', Validators.required],
       JourCDP: ['', Validators.required],
       JourDT: ['', Validators.required],
-      Support : ['',Validators.required]
+      Support: ['', Validators.required]
     });
   };
 
-  modifierParam(){
-    
+  modifierParam() {
+    this.lauchparamModal().result.then(() => {
+      alert('paramètres modifier');
+    }).catch(() => {
+      this.modalParamRef.close();
+    })
   }
 
 
