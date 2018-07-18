@@ -60,7 +60,7 @@ export class EmployeesComponent implements OnInit {
       type: ['', Validators.required],
       tar3: ['', Validators.required],
       tar5: ['', Validators.required],
-      isAmo: ['', Validators.required],
+      isAmo: [this.currentTarif.IsAmo, Validators.required],
     });
   };
 
@@ -302,10 +302,17 @@ export class EmployeesComponent implements OnInit {
       })
     });
   }
-
-  modifyTarification() {
-    alert('Tarification mise à jour');
+  modifyTarification(tarif) {
+    this.Action = 'Modification ';
+    this.currentTarif = tarif;
+    console.log(this.currentTarif.IsAmo);
+    this.createFormTar();
+    this.setModalAjoutTarification().result.then(() => {
+    }).catch(() => {
+      console.log('annulation validé')
+    })
   }
+
 
   get(url) {
     return this.http.get(url, {
