@@ -22,15 +22,18 @@ namespace WebApplication4.Controllers
         public FacturationController()
         {
             this.db = new DevisFacturationEntities(); // interface avec la bd
+            db.Configuration.LazyLoadingEnabled = false;
         }
 
 
         // GET: api/Facturation
         public List<Facturation> Get()
         {
-            if (db.Facturation.ToList() != null)
+            List<Facturation> datas;
+
+            if ((datas = db.Facturation.ToList()) != null)
             {
-                return db.Facturation.ToList();
+                return datas;
             }
             else
             {

@@ -42,15 +42,16 @@ namespace WebApplication4.Models.BO
             if (!isFactu)
             {
                 fichier = (Devis)fichier;
-            }else
+            }
+            else
             {
                 fichier = (Facturation)fichier;
             }
             switch (isFactu)
             {
                 case false:
-                    List<Devis> lesdevis =  db.Devis.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == this.epic.Trim().ToLower()).ToList();
-                    if(lesdevis.Count() > 0)
+                    List<Devis> lesdevis = db.Devis.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == this.epic.Trim().ToLower()).ToList();
+                    if (lesdevis.Count() > 0)
                     {
                         Devis devisAsupprimer = lesdevis[0];
                         fichier = lesdevis[0];
@@ -59,7 +60,7 @@ namespace WebApplication4.Models.BO
                         {
                             Stories_d storyASupprimer = db.Stories_d.Where(sas => sas.ID == myStoriesDevis.FK_Stories_d).FirstOrDefault();
                             List<Tasks_d> tachesAsupprimer = db.Tasks_d.Where(tachasup => tachasup.FK_Stories_d == storyASupprimer.ID).ToList();
-                            foreach(Tasks_d ta in tachesAsupprimer)
+                            foreach (Tasks_d ta in tachesAsupprimer)
                             {
                                 db.Tasks_d.Remove(ta);
                             }
@@ -102,7 +103,7 @@ namespace WebApplication4.Models.BO
                                 }
                             }
                         }
-                    }                             
+                    }
                     break;
 
                 case true:
@@ -115,7 +116,7 @@ namespace WebApplication4.Models.BO
                         foreach (Stories_Facturation myStoriesFacturation in storiesDevisASuprimer)
                         {
                             Stories_f storyASupprimer = db.Stories_f.Where(sas => sas.ID == myStoriesFacturation.FK_Stories_f).FirstOrDefault();
-                            List<Tasks_f> tachesAsupprimer = db.Tasks_f.Where(tachasup => tachasup.FK_Stories_f== storyASupprimer.ID).ToList();
+                            List<Tasks_f> tachesAsupprimer = db.Tasks_f.Where(tachasup => tachasup.FK_Stories_f == storyASupprimer.ID).ToList();
                             foreach (Tasks_f ta in tachesAsupprimer)
                             {
                                 db.Tasks_f.Remove(ta);
@@ -159,9 +160,9 @@ namespace WebApplication4.Models.BO
                                 }
                             }
                         }
-                    }                 
+                    }
                     break;
-            }            
+            }
         }
     }
 }

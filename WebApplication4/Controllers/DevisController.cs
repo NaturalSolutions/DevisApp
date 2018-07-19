@@ -20,6 +20,7 @@ namespace WebApplication4.Controllers
         public DevisController()
         {
             this.db = new DevisFacturationEntities(); // interface d'appel de la bd
+            db.Configuration.LazyLoadingEnabled = false;
         }
         // GET: api/Devis
         public List<Devis> Get() 

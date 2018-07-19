@@ -267,7 +267,8 @@ export class FileGeneratorComponent implements OnInit {
       this.DevisProcessLauched = true;
       let objetTransition;
       // this.alerter.setLoadingProperty();
-      this.epicRecuperator.getAllProjectsId().then(projects => {
+      this.setSpinner();
+      this.epicRecuperator.getAllProjectsId().then(projects => {        
         this.epicRecuperator.getAllEpics(projects).then(epics => {
           let selector = document.createElement("select");
           selector.style.borderRadius = "15px";
@@ -285,8 +286,10 @@ export class FileGeneratorComponent implements OnInit {
           }
           let fileGeneratorContext = document.getElementById('fileGenerator');
           fileGeneratorContext.appendChild(selector);
+          this.setSpinner();
           //     this.alerter.setLoadingProperty();
           selector.onchange = () => {
+            this.setSpinner();
             if (type.toLowerCase() == "devis") {
               this.epicCommande = selector.value;
               this.get("http://localhost/DevisAPI/api/devis").toPromise().then((listeDevisExistant) => {
@@ -313,8 +316,9 @@ export class FileGeneratorComponent implements OnInit {
                         let transformedTasks = couilles;
                         this.verifyInitial(couilles).then((retour) => {
                           if (retour) {
-                            this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0, this.epicCommande);
+                            this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0, this.epicCommande)
                             console.log('envoir en cours');
+                            this.setSpinner();
                           }
                         }).catch((retour) => {
                           location.reload(true);
@@ -325,6 +329,7 @@ export class FileGeneratorComponent implements OnInit {
                     location.reload(true);
                   });
                 } else {
+                  this.setSpinner();
                   let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
                   let projettransmuter = this.myTransMuter.transmuteProjects(projets);
                   let transformedProject = projettransmuter;
@@ -341,6 +346,7 @@ export class FileGeneratorComponent implements OnInit {
                         if (retour) {
                           this.myTransMuter.encapsulateObjects(transformedProject, transformedStories, transformedTasks, false, 0, 0, this.epicCommande);
                           console.log('envoir en cours');
+                          this.setSpinner();
                         }
                       }).catch((retour) => {
                         location.reload(true);
@@ -363,9 +369,13 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.style.transform = "translateX(-50%)";
               monthPicker.style.width = "25%";
               fileGeneratorContext.appendChild(monthPicker);
+              this.setSpinner();
               monthPicker.onchange = () => {
+                this.setSpinner();
                 this.get("http://localhost/DevisAPI/api/facturation").toPromise().then((listeFacturationExistante) => {
+                  console.log('listeFacturationExistante',listeFacturationExistante);
                   this.get("http://localhost/DevisAPI/api/devis").toPromise().then((listeDevisExistan) => {
+                    console.log('listeDevisExistan',listeDevisExistan);
                     let listeDevisAvecBonNumCommande = [];
                     for (let devis in listeDevisExistan) {
                       if (listeDevisExistan[devis].Commande.trim().toLowerCase() == selector.value.trim().toLocaleLowerCase()) {
@@ -433,6 +443,7 @@ export class FileGeneratorComponent implements OnInit {
                                             console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
                                             this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
                                             console.log('j\'envoi !');
+                                            this.setSpinner();
                                           } else {
                                             this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
                                           }
@@ -446,6 +457,7 @@ export class FileGeneratorComponent implements OnInit {
                               }
                             });
                           }).catch((treatmeantStoriesWithoutEpics) => {
+
                             console.log("treatmeantStoriesWithoutEpics", treatmeantStoriesWithoutEpics);
                             this.storiesSansEpics = treatmeantStoriesWithoutEpics.storiesSansEpics;
                             this.setModalStoriesSansEpics().result.then(() => {
@@ -494,6 +506,7 @@ export class FileGeneratorComponent implements OnInit {
                                               console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
                                               this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
                                               console.log('j\'envoi !');
+                                              this.setSpinner();
                                             } else {
                                               this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
                                             }
@@ -651,6 +664,8 @@ export class FileGeneratorComponent implements OnInit {
                       })
                     }
                   })
+                }).catch(() => {
+                  alert('coucou');
                 })
               }
             }
