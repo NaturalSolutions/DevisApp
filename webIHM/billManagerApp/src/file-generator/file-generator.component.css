@@ -34,8 +34,8 @@ input{
     margin-top: -30px;
     margin-left: -30px;
     border-radius: 50%;
-    border: 6px solid lightgray;
-    border-top-color: coral;
+    border: 6px solid #37474f;
+    border-top-color: #7aa93c;
     animation: spinner 0.7s linear infinite;
   }
   
@@ -43,6 +43,11 @@ input{
     to {
       transform: rotate(360deg);
     }
+  }
+
+  .lab{
+      color: white;
+      text-align: center;
   }
   
 /* 

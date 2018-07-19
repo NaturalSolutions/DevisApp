@@ -372,7 +372,8 @@ export class FileGeneratorComponent implements OnInit {
               this.setSpinner();
               monthPicker.onchange = () => {
                 this.setSpinner();
-                this.get("http://localhost/DevisAPI/api/facturation").toPromise().then((listeFacturationExistante) => {
+                this.get("http://localhost/DevisAPI/api/facturation").toPromise().then(
+                  (listeFacturationExistante) => {
                   console.log('listeFacturationExistante',listeFacturationExistante);
                   this.get("http://localhost/DevisAPI/api/devis").toPromise().then((listeDevisExistan) => {
                     console.log('listeDevisExistan',listeDevisExistan);
