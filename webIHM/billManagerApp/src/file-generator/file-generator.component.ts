@@ -9,7 +9,7 @@ import { TransmuterModule } from "../transmuter/transmuter.module";
 import { resolve } from 'q';
 import { $ } from 'protractor';
 import { AlertDialogService } from 'src/services/alert-dialog.service';
-import { ViewChild,ElementRef } from '@angular/core';
+import { ViewChild, ElementRef } from '@angular/core';
 import { Injectable, Input } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
@@ -40,6 +40,7 @@ export class FileGeneratorComponent implements OnInit {
   private nbRessourceAAjouter;
   private FgTarificationData: FormControl[];
   private epicCommande;
+  private epics;
 
   ressourceForm: FormGroup;
 
@@ -101,11 +102,11 @@ export class FileGeneratorComponent implements OnInit {
       || data.niveau == ''
       || data.niveau == undefined
       || selectedTarifications == undefined) {
-        this.alertSrv.open({title: "Echec",content: "Tout les champs doivent êtres remplies"}).result.then(() => {
-          return;
-        }).catch(() => {
-          return;
-        })
+      this.alertSrv.open({ title: "Echec", content: "Tout les champs doivent êtres remplies" }).result.then(() => {
+        return;
+      }).catch(() => {
+        return;
+      })
     } else {
       let nouvelle_ressource: any = {};
       nouvelle_ressource.name = data.name;
@@ -188,12 +189,12 @@ export class FileGeneratorComponent implements OnInit {
     return modalRef;
   }
 
-  setSpinner(){
-    if(this.spinner == 'visible'){
+  setSpinner() {
+    if (this.spinner == 'visible') {
       this.spinner = 'hidden';
-    }else{
+    } else {
       this.spinner = 'visible';
-    }   
+    }
   }
 
   get(url) {
@@ -219,12 +220,12 @@ export class FileGeneratorComponent implements OnInit {
           if (taches[currentTasks].Initials.length > 2) {
             let owners = taches[currentTasks].Initials.split("+");
             for (let currentOwner in owners) {
-              if (!initialEmployes.includes(owners[currentOwner])) {
+              if (initialEmployes.includes(owners[currentOwner])) {
                 initialInexistante.add(owners[currentOwner]);
               }
             }
           } else {
-            if (!initialEmployes.includes(taches[currentTasks].Initials)) {
+            if (initialEmployes.includes(taches[currentTasks].Initials)) {
               initialInexistante.add(taches[currentTasks].Initials);
             }
           }
@@ -268,8 +269,9 @@ export class FileGeneratorComponent implements OnInit {
       let objetTransition;
       // this.alerter.setLoadingProperty();
       this.setSpinner();
-      this.epicRecuperator.getAllProjectsId().then(projects => {        
+      this.epicRecuperator.getAllProjectsId().then(projects => {
         this.epicRecuperator.getAllEpics(projects).then(epics => {
+          this.epics = epics;
           let selector = document.createElement("select");
           selector.style.borderRadius = "15px";
           selector.style.padding = "10px";
@@ -357,12 +359,36 @@ export class FileGeneratorComponent implements OnInit {
               })
             } else if (type.toLowerCase() == "facture") {
               this.epicCommande = selector.value;
+              let monthValue = selector.value.split('-');
+              let regexMonth = /[A-Z|a-z]{3,10}/;
+              let regexYears = /([0-9]{4})/;
+              let month = regexMonth.exec(monthValue[1]);
+              let year = regexYears.exec(monthValue[1]);
+              console.log('monthValue', monthValue);
+              let enumMonth = {
+                janvier: '01',
+                février: '02',
+                fevrier: '02',
+                mars: '03',
+                avril: '04',
+                mai: '05',
+                juin: '06',
+                juillet: '07',
+                août: '08',
+                aout: '08',
+                septembre: '09',
+                octobre: '10',
+                novembre: '11',
+                décembre: '12',
+                decembre: '12'
+              }           
               let monthPicker = document.createElement('input');
               monthPicker.type = "month";
               monthPicker.id = "month";
               monthPicker.pattern = '[0-9]{4}/[0-9]{2}';
               monthPicker.style.borderRadius = "15px";
               monthPicker.style.padding = "10px";
+              monthPicker.value = year[0].toString() + '-' + enumMonth[month.toString()]; ;
               monthPicker.style.position = "absolute";
               monthPicker.style.bottom = "40px";
               monthPicker.style.left = "50%";
@@ -374,25 +400,160 @@ export class FileGeneratorComponent implements OnInit {
                 this.setSpinner();
                 this.get("http://localhost/DevisAPI/api/facturation").toPromise().then(
                   (listeFacturationExistante) => {
-                  console.log('listeFacturationExistante',listeFacturationExistante);
-                  this.get("http://localhost/DevisAPI/api/devis").toPromise().then((listeDevisExistan) => {
-                    console.log('listeDevisExistan',listeDevisExistan);
-                    let listeDevisAvecBonNumCommande = [];
-                    for (let devis in listeDevisExistan) {
-                      if (listeDevisExistan[devis].Commande.trim().toLowerCase() == selector.value.trim().toLocaleLowerCase()) {
-                        listeDevisAvecBonNumCommande.push(listeDevisExistan[devis]);
-                      }
-                    }
-
-                    if (listeDevisAvecBonNumCommande.length > 0) {
-                      let factureAvecCommandeCorrespondant = [];
-                      for (let devis in listeFacturationExistante) {
-                        if (listeFacturationExistante[devis].Commande.trim().toLowerCase() == selector.value.trim().toLowerCase()) {
-                          factureAvecCommandeCorrespondant.push(listeFacturationExistante[devis]);
+                    console.log('listeFacturationExistante', listeFacturationExistante);
+                    this.get("http://localhost/DevisAPI/api/devis").toPromise().then((listeDevisExistan) => {
+                      console.log('listeDevisExistan', listeDevisExistan);
+                      let listeDevisAvecBonNumCommande = [];
+                      for (let devis in listeDevisExistan) {
+                        if (listeDevisExistan[devis].Commande.trim().toLowerCase() == selector.value.trim().toLocaleLowerCase()) {
+                          listeDevisAvecBonNumCommande.push(listeDevisExistan[devis]);
                         }
                       }
-                      if (factureAvecCommandeCorrespondant.length > 0) {
-                        this.alertSrv.open({ title: "Une facturation existe déjà ", content: "Une facturation existe déjà pour cette commande si vous continuez vous allez ecrasé les données existantes" }).result.then(() => {
+
+                      if (listeDevisAvecBonNumCommande.length > 0) {
+                        let factureAvecCommandeCorrespondant = [];
+                        for (let devis in listeFacturationExistante) {
+                          if (listeFacturationExistante[devis].Commande.trim().toLowerCase() == selector.value.trim().toLowerCase()) {
+                            factureAvecCommandeCorrespondant.push(listeFacturationExistante[devis]);
+                          }
+                        }
+                        if (factureAvecCommandeCorrespondant.length > 0) {
+                          this.alertSrv.open({ title: "Une facturation existe déjà ", content: "Une facturation existe déjà pour cette commande si vous continuez vous allez ecrasé les données existantes" }).result.then(() => {
+                            let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
+                            console.log('projets', projets);
+                            let projetmidified = this.myTransMuter.transmuteProjects(projets);
+                            this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets, selector.value), monthPicker.value).then((resFactu) => {
+
+                              this.myTransMuter.transmuteStories(resFactu);
+                              let ProperStories = [];
+                              for (let z in resFactu.stories) {
+                                if (resFactu.stories[z].labels != undefined) {
+                                  if (resFactu.stories[z].labels.includes('bonus')) {
+                                    resFactu.stories[z].nonEffetue = false;
+                                    ProperStories.push(resFactu.stories[z]);
+                                  } else {
+                                    resFactu.stories[z].nonEffetue = false;
+                                    ProperStories.push(resFactu.stories[z]);
+                                  }
+                                }
+                              }
+                              this.devisRequester.getProjectStories(projects).then((e: any) => {
+                                for (let cpt in e.stories) {
+                                  if (e.stories[cpt].current_state != "accepted") {
+                                    console.log("e[cpt]", e[cpt]);
+                                    e.stories[cpt].nonEffetue = true;
+                                    ProperStories.push(e.stories[cpt]);
+                                  }
+                                }
+                                let stories = this.myTransMuter.transmuteStories(ProperStories);
+                                let storiesmodified = stories;
+                                console.log("TRANSMUTED STORIES", stories);
+                                if (ProperStories.length > 0) {
+                                  this.devisRequester.getTasks(ProperStories, projects, true).then((properTasks) => {
+                                    console.log("properTasks", properTasks.Taches);
+                                    let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
+                                    let tachemodified = taches;
+                                    let initialEmployes = []
+                                    this.verifyInitial(taches).then((retour) => {
+                                      if (retour) {
+                                        console.log('transformed tâches', taches);
+                                        this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
+                                          let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
+                                          cdp.value = params.NbJourCDP;
+                                          let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
+                                          dt.value = params.NbJourDT;
+                                          let DTCDP = document.getElementById("DTCDP");
+                                          DTCDP.style.display = "block";
+                                          let btnEnvoi = document.getElementById('sendObject');
+                                          btnEnvoi.onclick = (() => {
+                                            if (cdp.value != '0' || dt.value != '0') {
+                                              console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
+                                              this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
+                                              console.log('j\'envoi !');
+                                              this.setSpinner();
+                                            } else {
+                                              this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                            }
+                                          })
+                                        })
+                                      }
+                                    }).catch((retour) => {
+                                      location.reload(true);
+                                    })
+                                  });
+                                }
+                              });
+                            }).catch((treatmeantStoriesWithoutEpics) => {
+
+                              console.log("treatmeantStoriesWithoutEpics", treatmeantStoriesWithoutEpics);
+                              this.storiesSansEpics = treatmeantStoriesWithoutEpics.storiesSansEpics;
+                              this.setModalStoriesSansEpics().result.then(() => {
+                                let ProperStories = [];
+                                for (let z in treatmeantStoriesWithoutEpics.stories) {
+                                  if (treatmeantStoriesWithoutEpics.stories[z].labels != undefined) {
+                                    if (treatmeantStoriesWithoutEpics.stories[z].labels.includes('bonus')) {
+                                      treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
+                                      ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
+                                    } else {
+                                      treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
+                                      ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
+                                    }
+                                  }
+                                }
+                                this.devisRequester.getProjectStories(projects).then((e: any) => {
+                                  for (let cpt in e.stories) {
+                                    if (e.stories[cpt].current_state != "accepted") {
+                                      console.log("e[cpt]", e[cpt]);
+                                      e.stories[cpt].nonEffetue = true;
+                                      ProperStories.push(e.stories[cpt]);
+                                    }
+                                  }
+                                  let stories = this.myTransMuter.transmuteStories(ProperStories);
+                                  let storiesmodified = stories;
+                                  console.log("TRANSMUTED STORIES", stories);
+                                  if (ProperStories.length > 0) {
+                                    this.devisRequester.getTasks(ProperStories, projects, true).then((properTasks) => {
+                                      console.log("properTasks", properTasks.Taches);
+                                      let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
+                                      let tachemodified = taches;
+                                      this.verifyInitial(taches).then((retour) => {
+                                        if (retour) {
+                                          this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
+                                            console.log('transformed tâches', taches);
+                                            let DTCDP = document.getElementById("DTCDP");
+                                            DTCDP.style.display = "block";
+                                            let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
+                                            cdp.value = params.NbJourCDP;
+                                            let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
+                                            dt.value = params.NbJourDT;
+                                            let btnEnvoi = document.getElementById('sendObject');
+                                            btnEnvoi.onclick = (() => {
+
+                                              if (cdp.value != '0' || dt.value != '0') {
+                                                console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
+                                                this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
+                                                console.log('j\'envoi !');
+                                                this.setSpinner();
+                                              } else {
+                                                this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
+                                              }
+                                            })
+                                          });
+                                        }
+                                      }).catch((retour) => {
+                                        location.reload(true);
+                                      })
+                                    });
+                                  }
+                                });
+                              }).catch(() => {
+                                location.reload();
+                              });
+                            });
+                          }).catch(() => {
+                            location.reload(true);
+                          })
+                        } else {
                           let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
                           console.log('projets', projets);
                           let projetmidified = this.myTransMuter.transmuteProjects(projets);
@@ -444,7 +605,6 @@ export class FileGeneratorComponent implements OnInit {
                                             console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
                                             this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
                                             console.log('j\'envoi !');
-                                            this.setSpinner();
                                           } else {
                                             this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
                                           }
@@ -458,7 +618,6 @@ export class FileGeneratorComponent implements OnInit {
                               }
                             });
                           }).catch((treatmeantStoriesWithoutEpics) => {
-
                             console.log("treatmeantStoriesWithoutEpics", treatmeantStoriesWithoutEpics);
                             this.storiesSansEpics = treatmeantStoriesWithoutEpics.storiesSansEpics;
                             this.setModalStoriesSansEpics().result.then(() => {
@@ -507,7 +666,6 @@ export class FileGeneratorComponent implements OnInit {
                                               console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
                                               this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
                                               console.log('j\'envoi !');
-                                              this.setSpinner();
                                             } else {
                                               this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
                                             }
@@ -524,150 +682,18 @@ export class FileGeneratorComponent implements OnInit {
                               location.reload();
                             });
                           });
+                        }
+                      } else {
+                        this.alertSrv.open({ title: "Devis non existant pour cette commande", content: "Le devis pour cette commande n'as pas été effectué vous ne pouvez donc pas réaliser la facturation" }).result.then(() => {
+                          location.reload(true);
                         }).catch(() => {
                           location.reload(true);
                         })
-                      } else {
-                        let projets = this.devisRequester.getProjectFromEpic(projects, selector.value);
-                        console.log('projets', projets);
-                        let projetmidified = this.myTransMuter.transmuteProjects(projets);
-                        this.devisRequester.getAcceptedProjectStories(this.devisRequester.getProjectFromEpic(projets, selector.value), monthPicker.value).then((resFactu) => {
-
-                          this.myTransMuter.transmuteStories(resFactu);
-                          let ProperStories = [];
-                          for (let z in resFactu.stories) {
-                            if (resFactu.stories[z].labels != undefined) {
-                              if (resFactu.stories[z].labels.includes('bonus')) {
-                                resFactu.stories[z].nonEffetue = false;
-                                ProperStories.push(resFactu.stories[z]);
-                              } else {
-                                resFactu.stories[z].nonEffetue = false;
-                                ProperStories.push(resFactu.stories[z]);
-                              }
-                            }
-                          }
-                          this.devisRequester.getProjectStories(projects).then((e: any) => {
-                            for (let cpt in e.stories) {
-                              if (e.stories[cpt].current_state != "accepted") {
-                                console.log("e[cpt]", e[cpt]);
-                                e.stories[cpt].nonEffetue = true;
-                                ProperStories.push(e.stories[cpt]);
-                              }
-                            }
-                            let stories = this.myTransMuter.transmuteStories(ProperStories);
-                            let storiesmodified = stories;
-                            console.log("TRANSMUTED STORIES", stories);
-                            if (ProperStories.length > 0) {
-                              this.devisRequester.getTasks(ProperStories, projects, true).then((properTasks) => {
-                                console.log("properTasks", properTasks.Taches);
-                                let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
-                                let tachemodified = taches;
-                                let initialEmployes = []
-                                this.verifyInitial(taches).then((retour) => {
-                                  if (retour) {
-                                    console.log('transformed tâches', taches);
-                                    this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
-                                      let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
-                                      cdp.value = params.NbJourCDP;
-                                      let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
-                                      dt.value = params.NbJourDT;
-                                      let DTCDP = document.getElementById("DTCDP");
-                                      DTCDP.style.display = "block";
-                                      let btnEnvoi = document.getElementById('sendObject');
-                                      btnEnvoi.onclick = (() => {
-                                        if (cdp.value != '0' || dt.value != '0') {
-                                          console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                          this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
-                                          console.log('j\'envoi !');
-                                        } else {
-                                          this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
-                                        }
-                                      })
-                                    })
-                                  }
-                                }).catch((retour) => {
-                                  location.reload(true);
-                                })
-                              });
-                            }
-                          });
-                        }).catch((treatmeantStoriesWithoutEpics) => {
-                          console.log("treatmeantStoriesWithoutEpics", treatmeantStoriesWithoutEpics);
-                          this.storiesSansEpics = treatmeantStoriesWithoutEpics.storiesSansEpics;
-                          this.setModalStoriesSansEpics().result.then(() => {
-                            let ProperStories = [];
-                            for (let z in treatmeantStoriesWithoutEpics.stories) {
-                              if (treatmeantStoriesWithoutEpics.stories[z].labels != undefined) {
-                                if (treatmeantStoriesWithoutEpics.stories[z].labels.includes('bonus')) {
-                                  treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
-                                  ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
-                                } else {
-                                  treatmeantStoriesWithoutEpics.stories[z].nonEffetue = false;
-                                  ProperStories.push(treatmeantStoriesWithoutEpics.stories[z]);
-                                }
-                              }
-                            }
-                            this.devisRequester.getProjectStories(projects).then((e: any) => {
-                              for (let cpt in e.stories) {
-                                if (e.stories[cpt].current_state != "accepted") {
-                                  console.log("e[cpt]", e[cpt]);
-                                  e.stories[cpt].nonEffetue = true;
-                                  ProperStories.push(e.stories[cpt]);
-                                }
-                              }
-                              let stories = this.myTransMuter.transmuteStories(ProperStories);
-                              let storiesmodified = stories;
-                              console.log("TRANSMUTED STORIES", stories);
-                              if (ProperStories.length > 0) {
-                                this.devisRequester.getTasks(ProperStories, projects, true).then((properTasks) => {
-                                  console.log("properTasks", properTasks.Taches);
-                                  let taches = this.myTransMuter.transmuteTasks(properTasks.Taches);
-                                  let tachemodified = taches;
-                                  this.verifyInitial(taches).then((retour) => {
-                                    if (retour) {
-                                      this.get("http://localhost/DevisAPI/api/parametres/").toPromise().then((params: any) => {
-                                        console.log('transformed tâches', taches);
-                                        let DTCDP = document.getElementById("DTCDP");
-                                        DTCDP.style.display = "block";
-                                        let cdp: HTMLInputElement = <HTMLInputElement>document.getElementById("cdp");
-                                        cdp.value = params.NbJourCDP;
-                                        let dt: HTMLInputElement = <HTMLInputElement>document.getElementById("dt");
-                                        dt.value = params.NbJourDT;
-                                        let btnEnvoi = document.getElementById('sendObject');
-                                        btnEnvoi.onclick = (() => {
-
-                                          if (cdp.value != '0' || dt.value != '0') {
-                                            console.log("cdp dt ", document.getElementById("cdp").textContent + "    " + document.getElementById("dt").textContent)
-                                            this.myTransMuter.encapsulateObjects(projetmidified, storiesmodified, tachemodified, true, cdp.value, dt.value, this.epicCommande);
-                                            console.log('j\'envoi !');
-                                          } else {
-                                            this.alerter.setlogMessage('tous les champs doivent être remplis ! ')
-                                          }
-                                        })
-                                      });
-                                    }
-                                  }).catch((retour) => {
-                                    location.reload(true);
-                                  })
-                                });
-                              }
-                            });
-                          }).catch(() => {
-                            location.reload();
-                          });
-                        });
                       }
-                    } else {
-                      this.alertSrv.open({ title: "Devis non existant pour cette commande", content: "Le devis pour cette commande n'as pas été effectué vous ne pouvez donc pas réaliser la facturation" }).result.then(() => {
-                        location.reload(true);
-                      }).catch(() => {
-                        location.reload(true);
-                      })
-                    }
+                    })
+                  }).catch(() => {
+                    alert('coucou');
                   })
-                }).catch(() => {
-                  alert('coucou');
-                })
               }
             }
           };

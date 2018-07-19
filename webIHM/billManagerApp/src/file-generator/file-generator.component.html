@@ -15,19 +15,27 @@
       </div>
     </div>
   </div>
-  <div class="row justify-content-center" id="fileGenerator" style="width:100%; height: 80%; padding:5px;">
-      <div class="col-2 align-self-center" id="DTCDP" style="display: none;">
-          <label for="cdp" class="lab">Jour de Chef de projet</label>
-          <br>
-          <input type="number" class="form-control" id="cdp" value=0>
-          <br>
-          <label for="dt" class="lab"> Jour de Directeur technique</label>
-          <br>
-          <input type="number"  class="form-control" id="dt" value=0>
-          <br>
-          <button class="btn btn-primary" style="text-align:center;" id="sendObject">Send</button>
-        </div>
-      
+  <div class="row justify-content-center align-items-start" id="fileGenerator" style="width:100%; height: 80%; padding:5px;">
+    <div class="row">
+      <div class="col align-self-center">
+        <select class="custom-select" id="selectEpics">
+          <option *ngFor="let epic of epics" value="1">{{epic}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-2 align-self-center" id="DTCDP" style="display: none;">
+      <label for="cdp" class="lab">Jour de Chef de projet</label>
+      <br>
+      <input type="number" class="form-control" id="cdp" value=0>
+      <br>
+      <label for="dt" class="lab"> Jour de Directeur technique</label>
+      <br>
+      <input type="number" class="form-control" id="dt" value=0>
+      <br>
+      <button class="btn btn-primary" style="text-align:center;" id="sendObject">Send</button>
+    </div>
+
   </div>
 </div>
 
