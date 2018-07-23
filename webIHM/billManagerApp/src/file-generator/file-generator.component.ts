@@ -220,12 +220,12 @@ export class FileGeneratorComponent implements OnInit {
           if (taches[currentTasks].Initials.length > 2) {
             let owners = taches[currentTasks].Initials.split("+");
             for (let currentOwner in owners) {
-              if (initialEmployes.includes(owners[currentOwner])) {
+              if (!initialEmployes.includes(owners[currentOwner])) {
                 initialInexistante.add(owners[currentOwner]);
               }
             }
           } else {
-            if (initialEmployes.includes(taches[currentTasks].Initials)) {
+            if (!initialEmployes.includes(taches[currentTasks].Initials)) {
               initialInexistante.add(taches[currentTasks].Initials);
             }
           }
@@ -388,7 +388,7 @@ export class FileGeneratorComponent implements OnInit {
               monthPicker.pattern = '[0-9]{4}/[0-9]{2}';
               monthPicker.style.borderRadius = "15px";
               monthPicker.style.padding = "10px";
-              monthPicker.value = year[0].toString() + '-' + enumMonth[month.toString()]; ;
+              monthPicker.placeholder = year[0].toString() + '-' + enumMonth[month.toString()]; ;
               monthPicker.style.position = "absolute";
               monthPicker.style.bottom = "40px";
               monthPicker.style.left = "50%";
