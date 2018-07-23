@@ -62,7 +62,7 @@ export class FileGeneratorComponent implements OnInit {
     this.configDropDown.autoClose = false;
   }
 
-  private spinner;
+  public spinner;
 
   ngOnInit() {
     this.devisScope = document.getElementById('devis');

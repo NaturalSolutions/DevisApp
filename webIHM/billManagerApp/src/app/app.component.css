@@ -23,6 +23,18 @@ header{
     z-index: 3;
 }
 
+#natural{
+    position: absolute;
+    left: 100px;
+    top: 10px;
+}
+
+.actif{
+    position: absolute;
+    top: 10px;
+    left: 80px;
+}
+
 #onglet-actif{
     position: absolute;
     left: 23%;
@@ -35,7 +47,6 @@ header{
 #onglet-actif h1{
    color: black;
    position: relative;
-   left: 10%;
    height: 5%;
    font-size: 100%;
 }

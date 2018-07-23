@@ -24,8 +24,8 @@ export class EmployeesComponent implements OnInit {
   constructor(private toastr: ToastrService, private http: HttpClient, private modalService: NgbModal, private fb: FormBuilder, private alertSrv: AlertDialogService) {
   }
 
-  private employees;
-  private tarifications;
+  public employees;
+  public tarifications;
   private FgTarificationData: FormControl[];
   public formAjoutRess: FormGroup;
   public formAjoutTar: FormGroup;
