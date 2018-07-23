@@ -17,6 +17,7 @@ namespace WebApplication4.Controllers
         {
             this.db = new DevisFacturationEntities();
         }
+
         // GET: api/Ressource
         public IEnumerable<Ressource> Get() // renvoie Toute les ressource existantes
         {
@@ -41,6 +42,7 @@ namespace WebApplication4.Controllers
         // GET: api/Ressource/5
         public Ressource Get(int id)// renvoie la ressource de par son ID
         {
+            Paramètres para = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
             Ressource res = this.db.Ressource.Where(s => s.ID == id).FirstOrDefault();   // renvoi l'objet pointé par l'id pris en paramètre      
             if (res != null)
             {
@@ -69,71 +71,78 @@ namespace WebApplication4.Controllers
         //    }
         //}
 
-        // POST: api/Ressource
-        public void Post([FromBody]Ressource rss) // Ajout d'une nouvelle ressource 
+        public struct ressClient
         {
-            try
+            public int id;
+            public string initial;
+            public string mail;
+            public string name;
+            public int niveau;
+            public List<Int16> tarification;
+        }
+
+        // POST: api/Ressource
+        public void Post(ressClient rss) // Ajout d'une nouvelle ressource 
+        {
+            Ressource newRess = new Ressource();
+            newRess.Initial = rss.initial;
+            newRess.Mail = rss.mail;
+            newRess.Name = rss.name;
+            newRess.Niveau = rss.niveau;
+            newRess.Obsolete = false;
+            newRess.Date = DateTime.Now;
+            Tarification_Ressource tarRes = new Tarification_Ressource();
+            foreach (Int16 idTar in rss.tarification)
             {
-                if (rss != null)
-                {
-                    this.db.Ressource.Add(rss); 
-                    this.db.SaveChanges(); // mise a jour de la table
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Objet source null"));
-                }
+                tarRes.FK_Ressource = newRess.ID;
+                Tarification tar = db.Tarification.Where(res => res.ID == idTar).FirstOrDefault();
+                tarRes.FK_Tarification = tar.ID;
             }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
-            }
+            db.Ressource.Add(newRess);
+            db.Tarification_Ressource.Add(tarRes);
+            db.SaveChanges();
         }
 
         // PUT: api/Ressource/5
-        public void Put(int id, [FromBody]Ressource rss)// Update une ressource Existente de par son ID
+        public void Put(ressClient majRes)
         {
-            try
+            Ressource ressource =  db.Ressource.Where(res => res.ID == majRes.id).FirstOrDefault();
+            ressource.Initial = majRes.initial;
+            ressource.Name = majRes.name;
+            ressource.Niveau = majRes.niveau;
+            ressource.Mail = majRes.mail;
+            ressource.Obsolete = false;
+            List<Tarification_Ressource> tarRess = db.Tarification_Ressource.Where(t => t.FK_Ressource == majRes.id).ToList();
+            foreach (Tarification_Ressource tar in tarRess)
             {
-                if (rss != null) // si l'objet source n'est pas null => update de la base
-                {
-                    Ressource rs = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
-                    db.Ressource.Attach(rs); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    rs.Name = rss.Name; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
-                    rs.Mail = rss.Mail; // same
-                    rs.Initial = rss.Initial; // same
-                    rs.Niveau = rss.Niveau; // same
-                    rs.Date = rss.Date; // same
-                    rs.Obsolete = rss.Obsolete; // same
-                    db.SaveChanges(); // mise a jour de la table
-                }
-                else // sinon je throw une exception
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "l'objet source est vide"));
-                }
-
+                db.Tarification_Ressource.Attach(tar);
+                db.Tarification_Ressource.Remove(tar);
             }
-            catch (Exception e)
+            db.SaveChanges();
+            foreach (Int16 idTar in majRes.tarification)
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message));
+                Tarification_Ressource tarification_ressource = new Tarification_Ressource();
+                tarification_ressource.FK_Ressource = majRes.id;
+                Tarification tar = db.Tarification.Where(res => res.ID == idTar).FirstOrDefault();
+                tarification_ressource.FK_Tarification = tar.ID;
+                db.Tarification_Ressource.Add(tarification_ressource);
             }
-
+            db.SaveChanges();
         }
 
         // DELETE: api/Ressource/5
-        public void Delete(int id) // detruit la ressource de par son ID
+        public void Delete(int id)
         {
-            try // vérrif si un objet a été trouvé pour l'id
+            Ressource ts = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
+            List<Tarification_Ressource> tarRes = db.Tarification_Ressource.Where(t => t.FK_Ressource == id).ToList();
+            foreach(Tarification_Ressource tar in tarRes)
             {
-                Ressource ts = db.Ressource.Where(res => res.ID == id).FirstOrDefault(); // récupération de la tache pointé par l'id
-                db.Ressource.Attach(ts); // ecouter les changement de l'objet 
-                db.Ressource.Remove(ts); // remove l'objet ts
-                db.SaveChanges(); // mettre a jour la table
+                db.Tarification_Ressource.Attach(tar);
+                db.Tarification_Ressource.Remove(tar);                           
             }
-            catch (Exception e)
-            {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Pas d'objet pour cet Id"));
-            }
+            db.Ressource.Attach(ts); // ecouter les changement de l'objet 
+            db.Ressource.Remove(ts); // remove l'objet ts
+            db.SaveChanges(); // mettre a jour la table
         }
     }
 }

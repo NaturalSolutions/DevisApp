@@ -1,0 +1,58 @@
+img {
+    width: 30%;
+    cursor: pointer;
+}
+
+.center-content{
+    position: absolute;
+    top: 35%;
+    left: 20%;
+    right: 20%;
+}
+
+
+.text-p-centerContent{
+    color: white;
+    margin-top: 40px;
+    text-transform: uppercase;
+    font-size: 1.2em;
+}
+
+
+
+#tarif{
+    overflow-y: scroll;
+    background-color:white;
+    border-radius:15px;
+    margin:auto;
+}
+
+.button-tab{
+    width: 100%;
+}
+
+.content-appender{
+    height: 80%;
+}
+
+.general{
+    padding: 4%;
+    background-color: #4e616b;
+}
+
+.button-label{
+    padding: 5%;
+}
+
+.image-button{
+    text-align: center;
+}
+
+img{
+    width: 15%;
+    height: auto;
+}
+
+#employes p {
+    display: block;
+}

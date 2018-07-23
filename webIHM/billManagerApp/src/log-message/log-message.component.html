@@ -6,6 +6,15 @@
 </div>
 
 <div id="processState">
-    <p id="close" (click)="hideProcessViewver()">X</p>
+    <p class="close" (click)="hideProcessViewver()">X</p>
     <div id="consoleProcess"></div>
+</div>
+
+<div id="blur-background">&nbsp;</div>
+
+<div id="blur">
+    <div id="closableAlert">
+        <p class="close" (click)="hideClosableAlert(stopProcess)">X</p>
+        <div id="content"></div>
+    </div>    
 </div>

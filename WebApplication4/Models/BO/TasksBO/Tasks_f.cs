@@ -20,6 +20,11 @@ namespace WebApplication4.Models
         {
         }
 
+        public Tasks_f()
+        {
+
+        }
+
         public void save()
         {
             Models.Tasks_f taskTemp = this;

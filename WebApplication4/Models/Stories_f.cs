@@ -17,8 +17,8 @@ namespace WebApplication4.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Stories_f()
         {
-            this.Stories_Facturation = new HashSet<Stories_Facturation>();
             this.Tasks_f = new HashSet<Tasks_f>();
+            this.Stories_Facturation = new HashSet<Stories_Facturation>();
         }
     
         public long ID { get; set; }
@@ -38,8 +38,8 @@ namespace WebApplication4.Models
     
         public virtual Projet Projet { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Stories_Facturation> Stories_Facturation { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Tasks_f> Tasks_f { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Stories_Facturation> Stories_Facturation { get; set; }
     }
 }

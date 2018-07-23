@@ -24,6 +24,7 @@ namespace WebApplication4.Models.BO
         public string fileName { get; set; }
         public bool isFactu { get; set; }
         public byte[] encoded { get; set; }
+        public bool isAnUpdate;
 
         //public WordFileGenerator(FactuConstante obj, bool isFactu = false)
         //{
@@ -55,6 +56,7 @@ namespace WebApplication4.Models.BO
 
         public WordFileGenerator(GeneralObject obj,SumManager sumManager,dynamic fichier, bool isFactu = false)
         {
+            DevisFacturationEntities db = new DevisFacturationEntities();
             DateTime longDate = DateTime.Now;
             this.isFactu = isFactu;
             this.basePath = System.AppDomain.CurrentDomain.BaseDirectory;
@@ -62,13 +64,44 @@ namespace WebApplication4.Models.BO
             this.tableSubTotalBonus = 0;
             if (isFactu)
             {
-                fichier = (Facturation)fichier;
-                this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
+                List<Facturation> lesFactures = db.Facturation.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).ToList();
+                if(lesFactures.Count() > 0)
+                {
+                    fichier = (Facturation) lesFactures[0];
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = true;
+                }
+                else
+                {
+                    fichier = (Facturation)fichier;                    
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    Devis devisSameCommande = db.Devis.Where(dev => dev.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).FirstOrDefault();
+                    fichier.FK_Devis = devisSameCommande.ID;
+                    this.isAnUpdate = false;
+                }
+                this.fileName = "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" +obj.epic.Trim() + ".docx";
             }
             else
             {
-                fichier = (Devis)fichier;
-                this.fileName = "Devis_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(1).Month + ".docx";
+                List<Devis> lesDevis = db.Devis.Where(devisVerif => devisVerif.Commande.Trim().ToLower() == obj.epic.Trim().ToLower()).ToList();
+                if (lesDevis.Count() > 0)
+                {
+                    fichier = (Devis)lesDevis[0];
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = true;
+                }
+                else
+                {
+                    fichier = (Devis)fichier;
+                    fichier.Commande = obj.epic;
+                    fichier.Mois = DateTime.Now.ToString("MMMM");
+                    this.isAnUpdate = false;
+                }
+
+                this.fileName = "Devis_All_NS_Reneco_" + obj.epic.Trim() + ".docx";
             }
             this.final = loadTemplate();
             setValue("dateCreation", longDate.ToShortDateString());
@@ -79,22 +112,38 @@ namespace WebApplication4.Models.BO
             }
             else
             {
-                insertElementsInFiles(fichier );
+                insertElementsInFiles(fichier);
             }            
             this.final.SaveAs(this.basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
             this.encoded = File.ReadAllBytes(this.basePath + @"\Content\Devis"+ longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + this.fileName);
-            DevisFacturationEntities db = new DevisFacturationEntities();
             fichier.Filename = this.fileName;
             fichier.Date = DateTime.Now;
+            //fichier.
             if (this.isFactu)
             {
-                //db.Facturation.Add(fichier);
-                //db.SaveChanges();
+                if (this.isAnUpdate)
+                {
+                    db.Facturation.Attach(fichier);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    db.Facturation.Add(fichier);
+                    db.SaveChanges();
+                }
+              
             }
             else
             {
-                db.Devis.Add(fichier);
-                db.SaveChanges();
+                if (this.isAnUpdate)
+                {
+                    db.Devis.Attach(fichier);
+                    db.SaveChanges();
+                }else{
+
+                    db.Devis.Add(fichier);
+                    db.SaveChanges();
+                }
             }
         }
 
@@ -134,7 +183,7 @@ namespace WebApplication4.Models.BO
             {
                 fichie = (Devis)fichie;
             }
-            fichie.Montant = infos.totalCumule;
+            fichie.Montant = decimal.Parse(infos.totalCumule);
         }
 
           private void manageDevisTable(GeneralObject obj,SumManager sumManager)
@@ -144,7 +193,7 @@ namespace WebApplication4.Models.BO
            Row templateToCopy = tab.Rows[1];
             foreach (Projet projet in obj.projets)
             {
-                if (projet.Stories != null)
+                if (projet.Stories != null && projet.Stories.Count > 0  && projet.découpageStories["PR"].Count > 0)
                 {
                     Row toAdd = tab.InsertRow(tab.RowCount - 2);
                     //project
@@ -169,17 +218,18 @@ namespace WebApplication4.Models.BO
                             toAdd.Cells[1].InsertList(bulletedList);
                             //Cout
                             FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(projet.Nom, true);
-                            toAdd.Cells[2].InsertParagraph(total.getPR() + "€");
+                            toAdd.Cells[2].InsertParagraph(total.getPR().ToString("G29") + "€");
                         }
                     }
                 }
                 FactuStoriesTabs totalCost = (FactuStoriesTabs)sumManager.getProjectCost(projet.Nom, true);
-                this.tableSubTotal += (decimal) totalCost.getPR();
+                string totalCostStr = totalCost.getPR().ToString("G29");
+                this.tableSubTotal += decimal.Parse(totalCostStr);
             }            
             tab.Rows[tab.RowCount - 1].Cells[1].ReplaceText("[totalTable]", this.tableSubTotal.ToString());
 
             if (this.isFactu)
-            {
+            {               
                 Table tabBonus = this.final.Tables[3];
                 Table tabUnfinished = this.final.Tables[4];
                 Row ToCopy = tab.Rows[1];
@@ -206,8 +256,9 @@ namespace WebApplication4.Models.BO
                         toAdd.Cells[1].InsertList(bulletedList);
                         //Cout
                         FactuStoriesTabs total = (FactuStoriesTabs) sumManager.getProjectCost(insert.Nom, true);
-                        toAdd.Cells[2].InsertParagraph( total.getB() + "€");
-                        this.tableSubTotalBonus += total.getB();
+                        toAdd.Cells[2].InsertParagraph( total.getB().ToString("G29") + "€");
+                        string totalBstr = total.getB().ToString("G29");
+                        this.tableSubTotalBonus += decimal.Parse(totalBstr);
                     }
 
                     if (insert.découpageStories["PNR"] != null && insert.découpageStories["PNR"].Count > 0)

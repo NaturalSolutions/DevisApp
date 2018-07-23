@@ -12,6 +12,7 @@ namespace WebApplication4.Models
         {
         }
 
+
         public Stories_d(WebApplication4.Models.BO.MasterStories s)
         {            
             this.Description = s.Description;

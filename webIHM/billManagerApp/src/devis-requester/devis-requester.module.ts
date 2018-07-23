@@ -40,7 +40,7 @@ export class DevisRequesterModule {
 
   getProjectFromEpic(myProjects, RequestedEpic: any) {
     let projectvalable = [];
-    this.log.setlogProcess("Getting project from requested epic");
+    //this.log.setlogProcess("Getting project from requested epic");
     this.epic = RequestedEpic;
     let epicsAdder = new Set();
     let epicsArray;
@@ -76,7 +76,7 @@ export class DevisRequesterModule {
   }
 
   getProjectStories(projects) {
-    this.log.setlogProcess("Getting stories from project");
+    //this.log.setlogProcess("Getting stories from project");
     return new Promise<any>((resolve, reject) => {
       let stories = [];
       let promises: Promise<any>[] = [];
@@ -88,6 +88,7 @@ export class DevisRequesterModule {
             for (let u in res) {
               myCurrentStory = res[u];
               myCurrentStory.listeTaches = [];
+              console.log("myCurrentStory.labels",myCurrentStory.labels);
               if (myCurrentStory.story_type.toLowerCase() != 'release' && !this.checkifBonus(myCurrentStory.labels)) {
                 res[u].listeTaches = new Array();
                 myCurrentStory.story_type = "";
@@ -128,7 +129,7 @@ export class DevisRequesterModule {
   }
 
   getTasks(storiesIds, projectIds, isFactu) {
-    this.log.setlogProcess('Getting Tasks from stories');
+   // this.log.setlogProcess('Getting Tasks from stories');
     return new Promise<any>((resolve, reject) => {
       let tasks = [];
       let listeModifie = [];
@@ -165,7 +166,7 @@ export class DevisRequesterModule {
       Promise.all(promises).then(() => {
         let objectToSend: any = {};
         objectToSend.Taches = listeModifie;
-        this.log.setlogProcess("Tasks have been parsed");
+   //     this.log.setlogProcess("Tasks have been parsed");
         resolve(objectToSend);
       })
     });
@@ -244,12 +245,12 @@ export class DevisRequesterModule {
           objectToSend.stories = stories;
           objectToSend.storiesSansEpics = storiesSansEpics;
           reject(objectToSend);
-          this.log.setLoadingProperty();
+         // this.log.setLoadingProperty();
         } else {
           let objectToSend: any = {};
           objectToSend.stories = stories;
           resolve(objectToSend);
-          this.log.setLoadingProperty();
+         // this.log.setLoadingProperty();
         }
       })
 
