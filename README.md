@@ -1,64 +1,64 @@
-# Natural_solution_API
+
+# BillManager
+
+the main goal of this application it's to create and personalize bills based on a SCRUM project management application.
+
+  
+
+  
+
+## Installation
+
+  
+
+1. First you have to install the back-end wich is based on a web API using C#, .NET web API and SQL server.
+
+- Take the sql script named ''database.sql'' and run it in sql server
+
+- Then you can reference the back in IIS
+
+![](http://www.helpmasterpro.com/helpfile/Web%20Modules/images/IIS7_addapplication1.png)
+
+  
+
+- After that go to web.config file and change the connection string to yours ( you can get it on sql server )
+
+![](https://docs.telerik.com/devtools/aspnet-ajax/controls/panelbar/getting-started/images/panelbar_connection_string.png)
+
+Then you can run the back to overwrite the previous version with the old connection string
+
+  
+
+2. Install the front using npm
+
+- Go to ``webIHM\billManagerApp\`` and run `` npm install``
+
+  
+
+3. Change the url for contacting the API to yours in thoses files : 
+- ``file-generator.component.ts``  
+- ``devis-requester.module.ts``
+- `` transmuter.module.ts ``
+- ``constante-calcul.component.ts``
+- ``employees.component.ts``
+
+4.  build the front
+- To build the front go in ``webIHM\billManagerApp\``and run  ``ng build --prod``
+- The built version will be in ``webIHM\billManagerApp\dist\billManagerApp``
+- Then reference the built version in IIS
+
+5. Usage 
+
+![](vuApp.png)
+
+- start by adding your ressources, tarifications and calcul parameters on the settings page 
+- then you can start making bills on the apps page
 
 
-# ASP dot NET et web API
+6. Upcoming in the next versions ? 
 
-## What is ASP dot NET Web API  ? 
-
->ASP dot NET is a framework for building web API's HTTP based services on top of the .NET framework
->These services can be consumed by a big range of clients like 
-> 
-> + Browsers
-> + Mobile application
-> + Desktop applications
-> + IOTs ( internet of things )
-
-## What are RESTful services ? 
-
-> REST stands for Representation State Transfer. REST is ans architehtural pattern for creating services using HTTP protocol
-
-## REST Constraints
-
-**Clint | Server**
-
-+ this means that the client side and the server side are independent : the client send a request to the server and the server answer to the client 
-
-**Stateless**
-
-+ the server side shouldn't store any information related to the client | The client request should contain all the informations necessary to the server to execute that request | Each request can be trated indenpendently by the server 
-
-**Cacheable**
-
-+ let the client know how long the data he collected is good for so the client does not have to come back to the server over and over for the same information ( increase the performance of the system ) 
-
-**Uniform Interface**
-
-+  this constraint define the interface between the client and the server 
- Explanation :
-	 * What is a Ressource ? 
-	 in the context of a REST Api the ressources are represente the data
-	 exemple : Product, Employee, Customer.....
-	 
-	 * What are the HTTP verbs GET , PUT , POST , DELETE  ?  
-	 those verbs tells the Api what to do with the ressources. Each ressource is identify 
-	 by a URI ( Uniform Ressource Identifier )  exemple : 
-	 
-	 |Resource|Verb|Outcome|
-	 |--|--|--|
-	 |/Employees |GET|get list of employees|
-	 |/Employee/1 |GET|get employee with id = 1|
- 	 |/Employees |POST|Create a new Employee|
- 	 |/Employees/1 |PUT|Update employee with id = 1|
- 	 |/Employee/1 |DELETE|Deletes employee with id = 1 |
-	
-	---
-	
-	### Create a new project
-	
-+ Go to Visual Studio / new Project / Visual C# / ASP . NET Web Application / Select Empty 
-or Web API 
-
-? why on a pas fait un projet Web API directement ? 
-
-
-
+- posibility to change the pivotal tracker api token ? 
+- posibility to change the API the project management app ?
+- interface to change the conection string ? 
+- mobil version ? 
+- dashboard ? 

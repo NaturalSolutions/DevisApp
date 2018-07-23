@@ -157,6 +157,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DevisController.cs" />
     <Compile Include="Controllers\FacturationController.cs" />
+    <Compile Include="Controllers\ParametresController.cs" />
     <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="Controllers\RessourceController.cs" />
     <Compile Include="Controllers\StoriesFacturationController.cs" />
@@ -211,6 +212,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelDevisFacturation.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Paramètres.cs">
+      <DependentUpon>ModelDevisFacturation.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Projet.cs">
       <DependentUpon>ModelDevisFacturation.tt</DependentUpon>

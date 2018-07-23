@@ -22,39 +22,23 @@ namespace WebApplication4.Controllers
         public FacturationController()
         {
             this.db = new DevisFacturationEntities(); // interface avec la bd
+            db.Configuration.LazyLoadingEnabled = false;
         }
 
 
         // GET: api/Facturation
-        public HttpResponseMessage Get()
+        public List<Facturation> Get()
         {
-            DateTime longDate = DateTime.Now;
-            //var path = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
-            //HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            //var stream = new FileStream(path, FileMode.Open);
-            //result.Content = new StreamContent(stream);
-            //result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            //result.Content.Headers.ContentDisposition.FileName = Path.GetFileName(path);
-            //result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-            //result.Content.Headers.ContentLength = stream.Length;
+            List<Facturation> datas;
 
-            string strdocPath;
-            //strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul" + ".txt";
-            strdocPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\" + "Etat_des_lieux_VS_Devis_initial_All_NS_Reneco_" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + ".docx";
-
-            //FileStream objfilestream = new FileStream(strdocPath, FileMode.Open, FileAccess.Read);
-            //int len = (int)objfilestream.Length;
-            Byte[] documentcontents = File.ReadAllBytes(strdocPath);
-            // objfilestream.Read(documentcontents, 0, len);
-            // objfilestream.Close();
-
-            string stringFile = Convert.ToBase64String(documentcontents);
-
-            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
-            //response.Content = new StringContent(stringFile, Encoding.UTF8);
-            
-            //response.Content = new ObjectContent(stringFile,
-            return response;
+            if ((datas = db.Facturation.ToList()) != null)
+            {
+                return datas;
+            }
+            else
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
+            }
         }
 
         // GET: api/Facturation/5
@@ -128,7 +112,7 @@ namespace WebApplication4.Controllers
             //response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
 
             //return response;
-            //newGenObject.SaveToDb(false, facturation);
+            newGenObject.SaveToDb(true, facturation);
             //return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
@@ -146,7 +130,7 @@ namespace WebApplication4.Controllers
                 {
                     Facturation ts = db.Facturation.Where(res => res.ID == id).FirstOrDefault(); // recuperer la tache pointé par l'id pris en paramètre de la fonction
                     db.Facturation.Attach(ts); // Faire ecouter le contexte de base de donnée sur les changements de l'objet ts 
-                    ts.Numéro = factu.Numéro; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
+                    ts.Commande= factu.Commande; // changement des différents attribut de l'objet pointé avec les attributs de l'objet pris en paramètre
                     ts.Mois = factu.Mois; // same
                     ts.Montant = factu.Montant; // same
                     ts.FK_Devis = factu.FK_Devis; // same

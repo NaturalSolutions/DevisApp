@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common/src/dom_tokens';
 
 @Component({
   selector: 'app-log-message',
@@ -30,13 +31,47 @@ export class LogMessageComponent implements OnInit {
 
   setlogMessage(message: any) {
     let infolog = document.getElementById("infoLog");
+    let blur = document.getElementById("blur-background");
     infolog.innerHTML = message;
     infolog.style.visibility = "visible";
+    blur.style.visibility = "visible";
     setTimeout(() => {
       infolog.style.visibility = "hidden";
+      blur.style.visibility = "hidden";
     }, 2000);
   }
 
+  setBlur(isActiv){
+    let blur = document.getElementById("blur-background");
+    if(!isActiv){
+      blur.style.visibility = "hidden";
+    }else {
+      blur.style.visibility = "visible";
+    }
+  }
+
+  setBlurBackground(isActiv){
+    let blur = document.getElementById("blur");
+    if(!isActiv){
+      blur.style.visibility = "hidden";
+    }else {
+      blur.style.visibility = "visible";
+    }
+  }
+
+  setClosableAlert(innerElement : HTMLElement){
+    console.log("innerElement",innerElement);
+    let closableAlertContext = document.getElementById('closableAlert');
+    closableAlertContext.style.visibility = "visible";
+    let contentClosableAlert = document.getElementById('content');
+    contentClosableAlert.appendChild(innerElement);
+    this.setBlurBackground(true);
+  }
+
+  stopProcess()
+  {
+    location.reload();
+  }
   setlogProcess(message: any) {
     let processLog = document.getElementById('consoleProcess');
     let newMessage = document.createElement('p');
@@ -60,6 +95,19 @@ export class LogMessageComponent implements OnInit {
     } else {
       this.processViewverState = false;
       process.style.visibility = "hidden";
+    }
+  }
+
+  hideClosableAlert(callback = null){
+    let ClosableAlert = document.getElementById('closableAlert');
+    ClosableAlert.style.visibility = 'hidden';
+    this.setBlurBackground(false);
+    let contentClosableAlert = document.getElementById('content');    
+    while (contentClosableAlert.firstChild) {
+      contentClosableAlert.removeChild(contentClosableAlert.firstChild);
+    }
+    if(callback != null){
+      callback();
     }
   }
 

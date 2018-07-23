@@ -381,6 +381,7 @@ namespace WebApplication4.Models.BO.ProcessFiles
                     {
                         decimal mescouilles = ressourceTemp.getCurrentTarification(true);
                     }
+                    Paramètres param = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
                     decimal? dailyValueFE = user.fe != null ? Math.Round(Convert.ToDecimal(user.fe / 7), 2) : 0; // conversion en jour
                     decimal? dailyValueWE = user.we != null ? Math.Round(Convert.ToDecimal(user.we / 7), 2) : 0; // conversion en jour
                     decimal? dailyValueWEFE = user.wefe != null ? Math.Round(Convert.ToDecimal(user.wefe / 7), 2) : 0; // conversion en jour
@@ -390,9 +391,9 @@ namespace WebApplication4.Models.BO.ProcessFiles
                     dailyValueWEFE = getDecimalPart(dailyValueWEFE); //Arrondie au supérieur      
                     dailyValueNO = getDecimalPart(dailyValueNO); //Arrondie au supérieur      
                     decimal resFact = ressourceTemp.getCurrentTarification(user.isAmo);
-                    storycost += resFact * (decimal)dailyValueFE * (decimal)1.5 ;
-                    storycost += resFact * (decimal)dailyValueWE * (decimal) 2 ;
-                    storycost += resFact * (decimal)dailyValueWEFE * (decimal) 2 ;
+                    storycost += resFact * (decimal)dailyValueFE * (decimal) param.MultiplicationFE;
+                    storycost += resFact * (decimal)dailyValueWE * (decimal)param.MultiplicationWE;
+                    storycost += resFact * (decimal)dailyValueWEFE * (decimal) param.MultiplicationWEFE;
                     storycost += resFact * (decimal)dailyValueNO;
                     this.logFile.WriteLine(user.name + "  |  "  +"Valeur FE    " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
                     this.logFile.WriteLine(user.name + "  |  " + "Valeur WE    " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');

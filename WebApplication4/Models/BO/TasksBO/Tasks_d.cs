@@ -22,6 +22,11 @@ namespace WebApplication4.Models
         {
         }
 
+        public Tasks_d()
+        {
+
+        }
+
         public void save()
         {
             this.db.Tasks_d.Add(this);

@@ -1,11 +1,11 @@
-#fic{
+/* #fic{
     background-color: white;
     width: 10%;
     position: relative;
     top: 70px;
     margin: auto;
     padding: 2%;
-    left: 190px;
+    left: 0%;
     border-radius: 15px;
     will-change: box-shadow;
 }
@@ -17,6 +17,112 @@
     transition: 1s ease-in-out;
 }
 
+input{
+    text-align: center;
+    padding: 2px;
+}
+ */
+/* Spinner 1 */
+.spinner-1:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-top: -30px;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: 6px solid #37474f;
+    border-top-color: #7aa93c;
+    animation: spinner 0.7s linear infinite;
+  }
+  
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .lab{
+      color: white;
+      text-align: center;
+  }
+
+  input{
+      text-align: center;
+  }
+  
+/* 
+
+.multiselect {
+  width: 200px;
+  margin: auto;
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox select {
+  width: 100%;
+  font-weight: bold;
+}
+
+.overSelect {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+*{
+    outline: none;
+}
+
+input:focus{
+    outline: none;
+}
+
+#checkboxes {
+  display: none;
+  border: 1px #dadada solid;
+  background-color: white;
+  position: absolute;
+  left: 10px;
+  border-radius: 15px;
+  -webkit-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  -moz-box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  box-shadow: -1px 7px 33px -1px rgba(0,0,0,0.75);
+  text-align: left;
+  padding: 5px;
+}
+
+#checkboxes label {
+  display: block;
+}
+
+#checkboxes label:hover {
+  background-color: #1e90ff;
+}
+
+
+#taille_init{
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 60px;
+    vertical-align: middle;
+    padding: 5px;
+    position: absolute;
+    left: 90%;
+    top: -10px;
+    border: solid 2px white;
+    color: white;
+} */
+/* 
 #devis{
     width: 10%;
     position: relative;
@@ -27,8 +133,8 @@
     padding: 2%;
     display: inline-block;
     border-radius: 15px;
-}
-
+} */
+/* 
 #devis:hover{
     -webkit-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
@@ -37,8 +143,9 @@
 
 #DTCDP{
     position: relative;
-    top: 500px;
+    top: 350px;
 }
+
 
 #cdp, #dt{
     padding: 4px;
@@ -53,9 +160,9 @@
      border-radius: 15px;
      margin: 10px;
      border-color:white;
-}
+} */
 
-#facture{
+/* #facture{
     width: 10%;
     position: relative;
     top: 120px;
@@ -65,18 +172,25 @@
     padding: 2%;
     display: inline-block;
     border-radius: 15px;
-}
-
+} */
+/* 
 #facture:hover{
     -webkit-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
     -moz-box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 36px 2px rgba(0,0,0,0.75);
 }
 
-#fileGenerator{
-    position: relative;
-    top:100px;
-    height : 400px;
-    width: 60%;
-    left: 30%;
-}
+
+p.cptRessource{
+    background-color: red;
+    color: white;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: -20px;
+    bottom: -30px;
+    border-radius: 30px;
+    border: solid 2px white;
+    text-align: center;
+    padding: 5px;
+} */

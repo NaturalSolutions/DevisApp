@@ -20,24 +20,18 @@ namespace WebApplication4.Controllers
         public DevisController()
         {
             this.db = new DevisFacturationEntities(); // interface d'appel de la bd
+            db.Configuration.LazyLoadingEnabled = false;
         }
         // GET: api/Devis
-        public IEnumerable<Devis> Get() // Devra return TOUUUUT les emplacements des DEVIS existant
+        public List<Devis> Get() 
         {
-            try
+            if (db.Devis.ToList() != null)
             {
-                if ((db.Devis.ToList() != null) && (!db.Devis.ToList().Any()))
-                {
-                    return db.Devis.ToList(); // TO DO Jsonifier le renvoie de la liste des devis pour pouvoir acceder aux attributs des objets
-                }
-                else
-                {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
-                }
+               return db.Devis.ToList(); 
             }
-            catch (Exception e)
+            else
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
+               throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
             }
         }
 
@@ -55,35 +49,6 @@ namespace WebApplication4.Controllers
 
         }
 
-        //public GeneralObject CreateATestingContext()
-        //{
-        //  //  Tasks taskTest = new Tasks();
-        //  //  taskTest.Description = "une tache de merde bien chiante";
-        //  //  taskTest.Duration = 2;
-        //  //  taskTest.Initials = "TL";
-        //  //  List<Tasks> TasksTest = new List<Tasks>();
-        //  //  TasksTest.Add(taskTest);
-
-        //    // LA TACHE
-
-        //    //MasterStories storyTest = new MasterStories();
-        //   // storyTest.Type = "DEV";
-        //   // storyTest.Tasks = TasksTest;
-        //    List<MasterStories> storiesTest = new List<MasterStories>();
-        //    //   storiesTest.Add(storyTest);
-
-        //    // WebApplication4.Models.BO.Projet projetTest = new WebApplication4.Models.BO.Projet();
-        //    //projetTest.Nom = "nom Test";
-
-        //    //projetTest.MasterStories = storiesTest;
-        //    List<WebApplication4.Models.BO.Projet> projetsTest = new List<WebApplication4.Models.BO.Projet>();
-        //    //projetsTest.Add(projetTest);
-         
-        //    GeneralObject myTestGenObject = new GeneralObject();
-        //    myTestGenObject.projets = projetsTest;
-
-        //    return myTestGenObject;
-        //}
 
         // POST: api/Devis
         public HttpResponseMessage Post( object genObjec_d) // DEVRA CREER UN DEVIS 
@@ -121,7 +86,7 @@ namespace WebApplication4.Controllers
                 Devis devis = new Devis();
                 FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
 
-               // newGenObject.SaveToDb(false,devis);
+                newGenObject.SaveToDb(false,devis);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);
             //}
             //catch (Exception e)
@@ -141,7 +106,7 @@ namespace WebApplication4.Controllers
                     db.Devis.Attach(res); // ecouteur de chamgement de l'objet
                     res.Mois = value.Mois;  // changement de valeur des attributs
                     res.Montant = value.Montant; // same
-                    res.Numéro = value.Numéro; // same
+                    res.Commande = value.Commande; // same
                     res.Filename = value.Filename; // same
                     res.Date = value.Date; // same
                     db.SaveChanges(); // mise a joue de la table

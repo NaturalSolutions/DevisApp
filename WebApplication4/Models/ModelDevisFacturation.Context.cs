@@ -25,17 +25,18 @@ namespace WebApplication4.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Devis> Devis { get; set; }
-        public virtual DbSet<Facturation> Facturation { get; set; }
         public virtual DbSet<Projet> Projet { get; set; }
         public virtual DbSet<Stories_d> Stories_d { get; set; }
         public virtual DbSet<Stories_Devis> Stories_Devis { get; set; }
         public virtual DbSet<Stories_f> Stories_f { get; set; }
-        public virtual DbSet<Stories_Facturation> Stories_Facturation { get; set; }
         public virtual DbSet<Tarification_Ressource> Tarification_Ressource { get; set; }
         public virtual DbSet<Tasks_d> Tasks_d { get; set; }
         public virtual DbSet<Tasks_f> Tasks_f { get; set; }
         public virtual DbSet<Tarification> Tarification { get; set; }
         public virtual DbSet<Ressource> Ressource { get; set; }
+        public virtual DbSet<Paramètres> Paramètres { get; set; }
+        public virtual DbSet<Devis> Devis { get; set; }
+        public virtual DbSet<Facturation> Facturation { get; set; }
+        public virtual DbSet<Stories_Facturation> Stories_Facturation { get; set; }
     }
 }
