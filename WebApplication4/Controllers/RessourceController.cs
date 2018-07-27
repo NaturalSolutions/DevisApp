@@ -24,18 +24,18 @@ namespace WebApplication4.Controllers
             try
             {
                 List<Ressource> rs = db.Ressource.ToList();
-                if ((rs.Count > 0 ) && (rs != null)) // verification de la nullité de la liste renvoyé
+                if (rs.Count > 0 ) // verification de la nullité de la liste renvoyé
                 {
                     return rs; // si c'est bon on renvoi la liste des taches json ou xml dailleurs mais mieux JSON quand meme c'est moins caca
                 }
                 else
                 {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Aucun élément dans la liste"));
+                    return new List<Ressource>();
                 }
             }
             catch (Exception e)
             {
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message));
+                return new List<Ressource>();
             }
         }
 
