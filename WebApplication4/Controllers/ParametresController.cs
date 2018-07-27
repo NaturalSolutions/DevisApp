@@ -22,6 +22,7 @@ namespace WebApplication4.Controllers
             this.db = new DevisFacturationEntities(); // interface d'appel de la bd
         }
         // GET: api/Parametres
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public Paramètres Get() // Devra return TOUUUUT les emplacements des DEVIS existant
         {
             Paramètres param = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
@@ -29,18 +30,21 @@ namespace WebApplication4.Controllers
         }
 
         // GET: api/Parametres/5
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public List<string> Get(int id) //Devra return l'emmplacement d'un DEVIS existant en particulier
         {
             return new List<string>();
         }
 
         // POST: api/Parametres
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public HttpResponseMessage Post(object genObjec_d)
         { 
             return new HttpResponseMessage();
         }
 
         // PUT: api/Parametres/5
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public struct paramClient
         {
             public decimal FE;
@@ -51,6 +55,7 @@ namespace WebApplication4.Controllers
             public decimal support;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public void Put(paramClient p) 
         {
             Paramètres param = db.Paramètres.Where(po => po.ID == 1).FirstOrDefault();
@@ -63,6 +68,7 @@ namespace WebApplication4.Controllers
             db.SaveChanges();     
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         // DELETE: api/Parametres/5
         public void Delete(int id)  // Devra supprimer un DEVIS
         {          
