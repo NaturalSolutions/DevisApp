@@ -31,7 +31,7 @@ namespace WebApplication4.Controllers
             }
             else
             {
-               throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "liste vide")); // lance une exception si la liste est vide
+                return null;
             }
         }
 
