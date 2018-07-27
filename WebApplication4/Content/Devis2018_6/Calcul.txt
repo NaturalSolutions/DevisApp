@@ -1,0 +1,468 @@
+
+	Implémentation d'un query engine qui prend en charge les tables plates et les tables à propriétés dynamiques    |  type : (dev)
+
+Analyse du queryengine d'ecoRelevé.-3 MV
+
+Implémentation d'une V.0 du queryengine appli repro pour les tables plates.-14 MV
+
+Tests du queryengine.-14 MV
+
+
+	Corrections suite aux retours de DBsupport sur les maquettes Sperm Data Entry    |  type : (des)
+
+Corrections suite aux retours de DBsupport sur les maquettes Sperm Data Entry.-7 AR
+
+
+	Création d'une référence graphique pour l'appli repro : UI Kit    |  type : (des)
+
+Inventaire de l'ensemble des éléments graphiques utilisés dans l'appli repro.-4 AR
+
+Création de l'UI Kit.-7 AR
+
+Validation et correction auprès des développeurs.-2 AR
+
+
+	Etude des formulaires et champs complexes utilisés dans les applis reneco pour la mise en place de validateurs et la génération dynamique    |  type : (dev)
+
+Recensement et étude de l'ensemble des champs et formulaires complexes.-7+7 DL+JV
+
+Recensement et étude de l'ensemble des validateurs complexes.-7+7 DL+JV
+
+
+	Création d'un moteur de formulaires dynamiques pour des formulaires simples    |  type : (dev)
+
+Création d'un formulaire avec champs natifs html à partir du schéma json.-7+7 VB+TL
+
+Mise en place d'un système de validation par champ par validateur simple.-7+7 VB+TL
+
+
+	Adaptation du moteur de formulaires dynamiques pour des formulaires complexes (phase 1)    |  type : (dev)
+
+Génération dynamique d'un champ complexe et d'un validateur.-3+3 VB+DL
+
+Génération dynamique des champs complexes et des validateurs (phase 1).-14 DL
+
+
+	Initialisation du front du projet Appli Repro    |  type : (dev)
+
+Création du repo github pour le front.-0 VB
+
+Initialisation de l'appli angular.-1+1+1 VB+DL+JV
+
+Initialisation du layout (NS like).-7+7 VB+JV
+
+
+	Spike Ionic : étude d'ionic versus material et choix du framework le plus adapté    |  type : (amo)
+
+Spike Ionic : étude d'ionic versus material et choix du framework le plus adapté (bootstrap ?...).-4 VB
+
+Etude d'ionic 4.-3 VB
+
+
+	Implémentation du module de saisie côté Back pour la partie sperm data collection    |  type : (dev)
+
+Analyse des différents validateurs pour les 5 étapes de saisie.-7 MV
+
+Création de l'ensemble des validateurs côté back.-14 MV
+
+Tests des validateurs.-4 MV
+
+
+MV  |  Valeur FE    0 x 660 = 0
+
+MV  |  Valeur WE    0 x 660 = 0
+
+MV  |  Valeur WEFE   0 x 660 = 0
+
+MV  |  Valeur Normal   8 x 660 = 5280
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   3 x 440 = 1320
+
+
+
+DL  |  Valeur FE    0 x 530 = 0
+
+DL  |  Valeur WE    0 x 530 = 0
+
+DL  |  Valeur WEFE   0 x 530 = 0
+
+DL  |  Valeur Normal   5 x 530 = 2650
+
+
+
+JV  |  Valeur FE    0 x 440 = 0
+
+JV  |  Valeur WE    0 x 440 = 0
+
+JV  |  Valeur WEFE   0 x 440 = 0
+
+JV  |  Valeur Normal   3,50 x 440 = 1540,00
+
+
+
+VB  |  Valeur FE    0 x 610 = 0
+
+VB  |  Valeur WE    0 x 610 = 0
+
+VB  |  Valeur WEFE   0 x 610 = 0
+
+VB  |  Valeur Normal   4 x 610 = 2440
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   2 x 530 = 1060
+
+
+
+VB  |  Valeur FE    0 x 680 = 0
+
+VB  |  Valeur WE    0 x 680 = 0
+
+VB  |  Valeur WEFE   0 x 680 = 0
+
+VB  |  Valeur Normal   1 x 680 = 680
+
+
+
+
+	Documentation balance : mode d'emploi, logo, achat de pièces    |  type : (des)
+
+Faire un manuel d'utilisation  pour la balance (voir un graphiste si nécessaire).-7+2 CL+NF
+
+Création du logo.-7 NF
+
+Naming de la balance.-2+2 NF+CL
+
+Elaboration d'un document récapitulant l'ensemble du matériel acheté avec : point de vente, tarifs (unité/gros), frais de port, délais annoncés, délais réels.-4 CL
+
+
+	Préparation de la démonstration    |  type : (dev)
+
+Installation d'une application TRACK version balance compatible.-4 CL
+
+Préparation de la base de données.-2 CL
+
+Création d'une présentation.-14 CL
+
+Tests.-7 CL
+
+
+CL  |  Valeur FE    0 x 440 = 0
+
+CL  |  Valeur WE    0 x 440 = 0
+
+CL  |  Valeur WEFE   0 x 440 = 0
+
+CL  |  Valeur Normal   6 x 440 = 2640
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   2 x 410 = 820
+
+
+
+
+
+	Suppression  du champ age pour les individus    |  type : (dev)
+
+Création d'un script de modification du schema de la base pour la table individus .-2 HE
+
+Création d'un script de suppression de l'input age pour le formulaire de création des individus .-2 HE
+
+Suppression de la propriété Age du model Individual dans l'API .-1+1 HE+JV 
+
+Suppression de la prise en compte de l'Age dans la création des individus et dans le release .-7 HE
+
+Suppression de la prise en compte de l'Age dans les différents affichages des individus dans le front .-7+1 HE+JV
+
+Tests et corrections .-3 JV
+
+Répercuter les modifications dans la base export.-2+1 HE+JV
+
+
+	Ajout des raccourcis clavier sur la validation camera trap    |  type : (des)
+
+Création de la maquette qui renseigne sur les raccourcis clavier, ajout des icones dans icomoon.-4 AR
+
+Intégration de la maquette coté front.-4 NF
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   3 x 410 = 1230
+
+
+
+JV  |  Valeur FE    0 x 440 = 0
+
+JV  |  Valeur WE    0 x 440 = 0
+
+JV  |  Valeur WEFE   0 x 440 = 0
+
+JV  |  Valeur Normal   1 x 440 = 440
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   1 x 440 = 440
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   1 x 410 = 410
+
+
+
+
+	Aperçu des fichiers joints dans les formulaires    |  type : (dev)
+
+Recensement des types de fichiers à afficher.-1 HE
+
+Il est possible de prévisualiser les fichiers joints aux formulaires.-10 RK
+
+##Il est possible de supprimer des fichiers après leur sauvegarde.-2 RK
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+RK  |  Valeur FE    0 x 440 = 0
+
+RK  |  Valeur WE    0 x 440 = 0
+
+RK  |  Valeur WEFE   0 x 440 = 0
+
+RK  |  Valeur Normal   2 x 440 = 880
+
+
+
+
+	Historisation et restauration d'une position à une date donnée    |  type : (dev)
+
+Récupération des propriétés static et dynamique a une date donnée.-4+2 HE+TL
+
+Création d'une route qui prend en parametre une date et renvois l'objet formaté en fonction celle-ci.-1+1 TL+HE
+
+Création d'un onglet visualisation d'une position a une date donnée.-7+1 HE+TL
+
+
+	Préparation du code et de la base de données pour le prochain déploiement    |  type : (dev)
+
+Préparation du code et de la base de données pour le prochain déploiement et tests.-7 TL
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   2 x 410 = 820
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   2 x 530 = 1060
+
+
+
+
+	Analyse du nouvel algorithme d'OCR tesseract 4 afin de comprendre son fonctionnement pour pouvoir le comparer à d'autres algorithmes d'OCR dans le but de l'intégrer dans le projet cameraTrap.    |  type : (amo)
+
+Recherche sur l'algortihme tesseract 4.-5 JD
+
+
+	Implémentation de l'algorithme Tesseract 4 pour relever les températures des photos des caméras trappes.    |  type : (dev)
+
+Implémentation de l'OCR.-1 JD
+
+Implémentation des templates pour les 16 caméras trappes différentes.-16 JD
+
+Test du programme sur un échantillon de photos des 16 caméras trappes différentes.-2 JD
+
+Création d'une base de données comprenant des photos des 16 caméras trappes triées.-2 JD
+
+
+	Reprise du cahier des charges sur la reconnaissance automatique d'outardes pour différentes classes, suite aux retours de dbsupport    |  type : (amo)
+
+Forfait pour correction du cahier des charges.-7 JD
+
+
+	Test de l'outil de reconnaissance d'outarde sur le serveur windows 2008.    |  type : (dev)
+
+Accéder au serveur et installer les librairies.-2+2 JD+TL
+
+Exécution du programme sur le serveur.-2 JD
+
+Prédiction d'un set de 1000 photograhies.-1 JD
+
+
+	Gestion du backlog et planification    |  type : (dev)
+
+Gestion du backlog et planification.-1+1+1+1+1+1+1+1+1+1 JV+DL+TL+NF+CL+AR+JD+HE+MV+RG
+
+
+	Ajout de l'information de langage dans le portail    |  type : (dev)
+
+Ajout de l'information de langage pour l'utilisateur loggué, dans le portail.-1 HE
+
+
+JD  |  Valeur FE    0 x 610 = 0
+
+JD  |  Valeur WE    0 x 610 = 0
+
+JD  |  Valeur WEFE   0 x 610 = 0
+
+JD  |  Valeur Normal   2,50 x 610 = 1525,00
+
+
+
+JD  |  Valeur FE    0 x 440 = 0
+
+JD  |  Valeur WE    0 x 440 = 0
+
+JD  |  Valeur WEFE   0 x 440 = 0
+
+JD  |  Valeur Normal   3,50 x 440 = 1540,00
+
+
+
+TL  |  Valeur FE    0 x 530 = 0
+
+TL  |  Valeur WE    0 x 530 = 0
+
+TL  |  Valeur WEFE   0 x 530 = 0
+
+TL  |  Valeur Normal   0,50 x 530 = 265,00
+
+
+
+JV  |  Valeur FE    0 x 440 = 0
+
+JV  |  Valeur WE    0 x 440 = 0
+
+JV  |  Valeur WEFE   0 x 440 = 0
+
+JV  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+DL  |  Valeur FE    0 x 530 = 0
+
+DL  |  Valeur WE    0 x 530 = 0
+
+DL  |  Valeur WEFE   0 x 530 = 0
+
+DL  |  Valeur Normal   0,50 x 530 = 265,00
+
+
+
+NF  |  Valeur FE    0 x 410 = 0
+
+NF  |  Valeur WE    0 x 410 = 0
+
+NF  |  Valeur WEFE   0 x 410 = 0
+
+NF  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+CL  |  Valeur FE    0 x 440 = 0
+
+CL  |  Valeur WE    0 x 440 = 0
+
+CL  |  Valeur WEFE   0 x 440 = 0
+
+CL  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+AR  |  Valeur FE    0 x 440 = 0
+
+AR  |  Valeur WE    0 x 440 = 0
+
+AR  |  Valeur WEFE   0 x 440 = 0
+
+AR  |  Valeur Normal   0,50 x 440 = 220,00
+
+
+
+HE  |  Valeur FE    0 x 410 = 0
+
+HE  |  Valeur WE    0 x 410 = 0
+
+HE  |  Valeur WEFE   0 x 410 = 0
+
+HE  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+MV  |  Valeur FE    0 x 660 = 0
+
+MV  |  Valeur WE    0 x 660 = 0
+
+MV  |  Valeur WEFE   0 x 660 = 0
+
+MV  |  Valeur Normal   0,50 x 660 = 330,00
+
+
+
+RG  |  Valeur FE    0 x 410 = 0
+
+RG  |  Valeur WE    0 x 410 = 0
+
+RG  |  Valeur WEFE   0 x 410 = 0
+
+RG  |  Valeur Normal   0,50 x 410 = 205,00
+
+
+
+
+
+
