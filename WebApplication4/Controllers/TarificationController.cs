@@ -31,7 +31,7 @@ namespace WebApplication4.Controllers
                 }
                 else
                 {
-                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, "Aucun élément dans la liste"));
+                    return new List<Tarification>();
                 }
             //}
             //catch (Exception e)
