@@ -44,7 +44,6 @@ namespace WebApplication4.Controllers
         }
 
         // PUT: api/Parametres/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public struct paramClient
         {
             public decimal FE;

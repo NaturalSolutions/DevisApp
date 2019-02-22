@@ -61,7 +61,7 @@ namespace WebApplication4.Controllers
             var stringed = genObjec_f.ToString();
             GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(stringed);
             foreach(Projet p in newGenObject.projets)
-            {
+            {   
                 p.découpageStories.Add("B", new List<MasterStories>());
                 p.découpageStories.Add("PR", new List<MasterStories>());
                 p.découpageStories.Add("PNR", new List<MasterStories>());

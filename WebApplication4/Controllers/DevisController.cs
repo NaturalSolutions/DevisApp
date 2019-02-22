@@ -10,6 +10,8 @@ using WebApplication4.Models.BO.ProcessFiles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Web.Http.Cors;
+using System.Web;
+using System.IO;
 
 namespace WebApplication4.Controllers
 {
@@ -49,16 +51,21 @@ namespace WebApplication4.Controllers
 
         }
 
-
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
         // POST: api/Devis
-        public HttpResponseMessage Post( object genObjec_d) // DEVRA CREER UN DEVIS 
+        public HttpResponseMessage Post( [FromBody]object genObjec_d) // DEVRA CREER UN DEVIS 
         { // recup informations envoyer PUIIIS fabrique WORD et met son emplacement dans la bd 
             //try
             //{
-                //JObject job = JObject.Parse(genObjec_d);
 
-                var escouilles = genObjec_d.ToString();
-                GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(escouilles);
+                //HttpContent requestContent = Request.Content;
+                //string jsonContent = requestContent.ReadAsStringAsync().Result;
+
+                //JObject job = JObject.Parse(genObjec_d);
+                //var request = HttpContext.Current.Request;
+                //HttpResponseMessage result = null;
+                var jsonstring = genObjec_d.ToString();
+                GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(jsonstring);
                 foreach (Projet p in newGenObject.projets)
                 {
                     p.découpageStories.Add("B", new List<MasterStories>());
@@ -91,7 +98,8 @@ namespace WebApplication4.Controllers
             //}
             //catch (Exception e)
             //{
-            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.NotFound, e.Message)); //lance exception si y'a eu un problème
+            //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message)); //lance exception si y'a eu un problème
+            //    //return new HttpResponseMessage(HttpStatusCode.InternalServerError);
             //}
         }
 
