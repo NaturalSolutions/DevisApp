@@ -73,18 +73,18 @@ namespace WebApplication4.Controllers
                     p.découpageStories.Add("PNR", new List<MasterStories>());
                     foreach (MasterStories s in p.Stories)
                     {
-                        if ((bool)s.Bonus)
-                        {
-                            p.découpageStories["B"].Add(s);
-                        }
-                        else if (s.nonEffetue)
-                        {
-                            p.découpageStories["PNR"].Add(s);
-                        }
-                        else
-                        {
+                        //if ((bool)s.Bonus)
+                        //{
+                        //    p.découpageStories["B"].Add(s);
+                        //}
+                        //else if (s.nonEffetue)
+                        //{
+                        //    p.découpageStories["PNR"].Add(s);
+                        //}
+                        //else
+                        //{
                             p.découpageStories["PR"].Add(s);
-                        }
+                        //}
                     }
                 }
             //GeneralObject genTest = CreateATestingContext();
