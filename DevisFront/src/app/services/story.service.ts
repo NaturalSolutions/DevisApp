@@ -97,7 +97,8 @@ export class StoryService {
           if(factuInfoDate){
             strDateStart = factuInfoDate[2] + "-" + this.monthConversion[factuInfoDate[1].toLowerCase()] + "-01";
             dateStart = moment(strDateStart).toISOString();
-            dateEnd = moment(strDateStart).endOf('month').toISOString();
+            dateEnd = moment(strDateStart).endOf('month').add(1, 'd').toISOString();
+            console.log('Les dates envoyées',dateStart,dateEnd);
           }else{
             alert('l\'epic ne permet pas de déterminer un mois de facturation');
             //TODO gerer le cas et faire pop un picker de date
