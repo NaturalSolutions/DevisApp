@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http/';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ServerobjectService {
+
+	private serverUrl = environment.serverUrl;
+
   constructor(private http: HttpClient) {
 	}
 
@@ -14,7 +18,7 @@ export class ServerobjectService {
 
 	public getProjetStructure() {
 		return new Promise((resolve, reject) => {
-			this.Angularget("http://localhost/DevisAPI/api/Projet/getStructure").toPromise().then((res) => {
+			this.Angularget(this.serverUrl + "api/Projet/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
 				reject(error);
@@ -24,7 +28,7 @@ export class ServerobjectService {
 
 	public getStoriesStructure() {
 		return new Promise((resolve, reject) => {
-			this.Angularget("http://localhost/DevisAPI/api/Stories_d/getStructure").toPromise().then((res) => {
+			this.Angularget(this.serverUrl + "api/Stories_d/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
 				reject(error);
@@ -34,7 +38,7 @@ export class ServerobjectService {
 
 	public getTasksStructure() {
 		return new Promise((resolve, reject) => {
-			this.Angularget("http://localhost/DevisAPI/api/Tasks_d/getStructure").toPromise().then((res) => {
+			this.Angularget(this.serverUrl + "api/Tasks_d/getStructure").toPromise().then((res) => {
 				resolve(res);
 			}).catch((error) => {
 				reject(error);

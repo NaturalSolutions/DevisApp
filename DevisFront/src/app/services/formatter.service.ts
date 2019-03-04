@@ -11,6 +11,8 @@ import { ViewChild } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+
+import { environment } from '../../environments/environment';
 // import { FormModalComponent } from '@angular/form-modal/form-modal.component';
 
 // import { AlertDialogService } from 'src/services/alert-dialog.service';
@@ -27,6 +29,7 @@ export class FormatterService {
   private listeStories: any;
   private listeProjets: any;
   private blob: Blob;
+  private serverUrl = environment.serverUrl;
 
   private modalRef: NgbModalRef;
 
@@ -202,7 +205,7 @@ export class FormatterService {
     console.log('contentmodal',this.ajoutRessources);
     return new Promise((resolve, reject) => {
       let initialEmployes = [];
-      this.http.get("http://localhost/DevisAPI/api/Ressource/").toPromise().then((res) => {
+      this.http.get(this.serverUrl + "api/Ressource/").toPromise().then((res) => {
         for (let emp in res) {
           initialEmployes.push(res[emp].Initial)
         }
@@ -224,7 +227,7 @@ export class FormatterService {
         }
         let initialInexistanteArray = Array.from(initialInexistante);
         if (initialInexistanteArray.length > 0) {
-          this.http.get('http://localhost/DevisAPI/api/tarification/').toPromise().then((res) => {
+          this.http.get(this.serverUrl + 'api/tarification/').toPromise().then((res) => {
             this.tarifications = res;
             this.initialInexistante = initialInexistante;
             this.currentRessource = this.initialInexistante[0];
@@ -272,13 +275,13 @@ export class FormatterService {
     console.log('before send',GeneralObject);
     if (isFactu) {
       console.log("sending object : ", GeneralObject);
-      this.Angularget('http://localhost/DevisAPI/api/Facturation/', JSON.stringify(GeneralObject)).toPromise().then((file: HttpResponse<string>) => {
+      this.Angularget(this.serverUrl + 'api/Facturation/', JSON.stringify(GeneralObject)).toPromise().then((file: HttpResponse<string>) => {
       let alertProcess = {
         title : "Terminé",
         content : "Processus Terminé :)"
       }
       // this.alerter.open(alertProcess);
-        this.getfile("http://localhost/DevisAPI/api/Facturation/").toPromise().then((file: any) => {
+        this.getfile(this.serverUrl + "api/Facturation/").toPromise().then((file: any) => {
           console.log("file", file);
         });
       }).catch((error) => {
@@ -290,8 +293,8 @@ export class FormatterService {
       });
     } else {
       // console.log("sending object : ", GeneralObject);
-      // this.Angularget('http://localhost/DevisAPI/api/Devis/', JSON.stringify(GeneralObject)).toPromise().then((res) => {
-      this.Angularget('http://localhost/DevisAPI/api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
+      // this.Angularget(this.serverUrl + 'api/Devis/', JSON.stringify(GeneralObject)).toPromise().then((res) => {
+      this.Angularget(this.serverUrl + 'api/Devis/',JSON.stringify(GeneralObject)).toPromise().then((res) => {
         let alertProcess = {
           title : "Terminé",
           content : "Processus Terminé :)"

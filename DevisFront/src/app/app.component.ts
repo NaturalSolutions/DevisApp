@@ -4,6 +4,7 @@ import { FormatterService } from './services/formatter.service';
 import { StoryService } from './services/story.service';
 import { TaskService } from './services/task.service';
 import { HttpClient} from '@angular/common/http';
+import { environment } from '../environments/environment';
 
 import * as _ from 'lodash'
 
@@ -17,7 +18,7 @@ import { FormBuilder, Validators, FormControl, FormArray } from '@angular/forms'
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  
+  serverUrl: string = environment.serverUrl;
   /*Usefull informations*/
   title = 'Devis - Facturation';
   epics : Array<any> = [];
@@ -226,7 +227,7 @@ export class AppComponent implements OnInit{
           nouvelle_ressource.tarification = selectedTarifications;
           console.log(nouvelle_ressource);
           this.ressourceForm.reset();
-          this.http.post("http://localhost/DevisAPI/api/ressource", nouvelle_ressource).toPromise().then(() => {
+          this.http.post(this.serverUrl + "api/ressource", nouvelle_ressource).toPromise().then(() => {
             alert("c'est bon c'est envoyer");
             this.modalRessourceRef.close();
             this.missingRessources.shift();
