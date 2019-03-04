@@ -1,0 +1,16 @@
+DevisFront/node_modules/
+DevisFront/bower_components/
+DevisFront/build/
+DevisFront/styles/main.css
+DevisFront/styles/main.css.map
+DevisFront/app/config.js
+DevisFront/.git/
+
+
+DevisBack/pt_devis/obj/Debug
+.vs/
+DevisBack/WebApplication4/Devis.sln
+DevisBack/WebApplication4/obj/
+DevisBack/WebApplication4/packages/
+DevisBack/WebApplication4/Content
+DevisBack/webApi_natural_solutionsTest/
