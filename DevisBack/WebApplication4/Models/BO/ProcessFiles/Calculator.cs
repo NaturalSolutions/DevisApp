@@ -115,10 +115,6 @@ namespace WebApplication4.Models.BO.ProcessFiles
             {
 
                 //   this.logFile.WriteLine(p.Nom + '\n' + '\r');
-                if (p.Nom.ToLower() == "ecollection")
-                {
-                    var test = "tst";
-                }
                 decimal? projectCost = 0;
                 Dictionary<string, Dictionary<string, decimal>> truc = new Dictionary<string, Dictionary<string, decimal>>();
                 truc.Add("AMO", new Dictionary<string, decimal>());
@@ -377,10 +373,6 @@ namespace WebApplication4.Models.BO.ProcessFiles
                 foreach (UserProcess user in myList)
                 {                    
                     Ressource ressourceTemp = db.Ressource.Where(ressource => ressource.Initial == user.name).FirstOrDefault(); // Recuperation de la ressource correspondante
-                    if (user.name == "AR")
-                    {
-                        decimal mescouilles = ressourceTemp.getCurrentTarification(true);
-                    }
                     Paramètres param = db.Paramètres.Where(p => p.ID == 1).FirstOrDefault();
                     decimal? dailyValueFE = user.fe != null ? Math.Round(Convert.ToDecimal(user.fe / 7), 2) : 0; // conversion en jour
                     decimal? dailyValueWE = user.we != null ? Math.Round(Convert.ToDecimal(user.we / 7), 2) : 0; // conversion en jour
