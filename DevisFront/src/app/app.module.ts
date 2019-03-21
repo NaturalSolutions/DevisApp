@@ -9,12 +9,16 @@ import {NgbModule, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 import { HttpClientModule } from '@angular/common/http';
-import { ModalesComponent } from './modales/modales.component'; 
+import { ModalesComponent } from './modales/modales.component';
+import { SummaryComponent } from './summary/summary.component';
+import { DevisComponent } from './devis/devis.component'; 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ModalesComponent
+    ModalesComponent,
+    SummaryComponent,
+    DevisComponent
   ],
   imports: [
     BrowserModule,

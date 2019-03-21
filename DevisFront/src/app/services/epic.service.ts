@@ -43,6 +43,22 @@ export class EpicService {
     })
   }
 
+  fetchAllProjects(): Promise<any> {
+    return new Promise<any[]>((resolve, reject) => {
+      this.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe((res: Array<any>) => {
+        let projects = [];
+        projects = res;
+        projects.sort((a, b) => {
+          if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          return 0;
+        });      
+
+        resolve(projects);
+      });
+    })
+  }
+
   fetchEpics(): Promise<any> { /* va parcourir tout les projets et récuperer les epics et les foutre dans un tableaux */
     // this.log.setlogProcess('Getting all epics');
       return this.fetchProjects().then(projects => {

@@ -162,6 +162,79 @@ export class StoryService {
     });
   }
 
+  public getSimpleProjectStories(projects, dateDebut, dateFin) : Promise<any> {
+    //this.log.setlogProcess("Getting stories from project");
+    console.log('argument',arguments);
+    return new Promise<any>((resolve, reject) => {
+      let stories = [];
+      let storiesSansEpics = [];
+      // console.log('beginDate',moment(dateDebut).toISOString());
+      // console.log('endDate',moment(dateFin).toISOString());
+      //let correctedDate = moment(date).startOf('month').format('YYYY-MM-DD[T]HH:mm:ss.SSS');
+      let promises: Promise<any>[] = [];
+      for (let i in projects) {
+        console.log('dans le projet', projects[i]);
+        //Example en dur a dynamiser avec du front
+        let nowDate = moment();
+        let res = this.Angularget("https://www.pivotaltracker.com/services/v5/projects/" + projects[i].id + "/stories?accepted_after=" + dateDebut + "&accepted_before=" + dateFin)
+          .toPromise().then((res: any) => {
+            for (let u in res) {
+              let stringLabels: string = "  ";
+              let myCurrentStory: any;
+              myCurrentStory = res[u];
+              if (myCurrentStory.story_type.toLowerCase() != 'release') {
+                myCurrentStory.listeTaches = new Array();
+                myCurrentStory.story_type = "";
+                  stories.push(myCurrentStory);
+
+                for (let o in myCurrentStory.labels) {
+                  if (myCurrentStory.labels[o] != undefined) {
+                    if (myCurrentStory.labels[o].name.trim().toLowerCase() == 'bonus') {
+                      myCurrentStory.Bonus = true;
+                    }
+                    stringLabels += myCurrentStory.labels[o].name + " ; ";
+                    if (myCurrentStory.labels[o].name == "des" || myCurrentStory.labels[o].name == "dev" || myCurrentStory.labels[o].name == "amo") {
+                      myCurrentStory.story_type = myCurrentStory.labels[o].name;
+                      if (myCurrentStory.labels[o].name == "amo") {
+                        myCurrentStory.AMO = true;
+                      }
+                    }
+                    myCurrentStory.listeTaches = [];
+                    myCurrentStory.owner_ids = myCurrentStory.owner_ids.toString();
+                    if (myCurrentStory.AMO == undefined) {
+                      myCurrentStory.AMO = false;
+                    }
+                    else if (myCurrentStory.Bonus == undefined || myCurrentStory.Bonus == null) {
+                      myCurrentStory.Bonus = false;
+                    }
+                  }
+                }
+                myCurrentStory.labels = stringLabels;
+                stringLabels = " ";
+              }
+
+            }
+          });
+        promises.push(res);
+      }
+      Promise.all(promises).then(() => {
+        if (storiesSansEpics.length > 0) {
+          let objectToSend: any = {};
+          objectToSend.stories = stories;
+          objectToSend.storiesSansEpics = storiesSansEpics;
+          reject(objectToSend);
+         // this.log.setLoadingProperty();
+        } else {
+          let objectToSend: any = {};
+          objectToSend.stories = stories;
+          resolve(objectToSend);
+         // this.log.setLoadingProperty();
+        }
+      })
+
+    });
+  }
+
   containsEpic(labels, epic): boolean {
     for (let lab in labels) {
       if (labels[lab] != undefined && labels[lab].name != undefined) {

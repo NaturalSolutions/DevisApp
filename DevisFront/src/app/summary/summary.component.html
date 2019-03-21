@@ -1,0 +1,20 @@
+<h1> Export Feuille de temps </h1>
+<h6><i>Les dates sont exclusive et ne sont pas prise en compte dans l'intervalle</i></h6>
+<div class="row">
+  <div class="col-md-5">
+    Début
+      <ngb-datepicker id="dp1" [(ngModel)]="beginDate"></ngb-datepicker>
+  </div>
+  <div class="col-md-5">
+    Fin
+      <ngb-datepicker id="dp2" [(ngModel)]="endDate"></ngb-datepicker>
+  </div>
+  <div class="col-md-2">
+    <button (click)="runExport($event)">Exporter</button>
+  </div>
+  <label *ngFor="let project of projects" class="col-md-3">
+    <input type="checkbox" name="chkProjects" id="{{project.id}}" (change)="manageCheck($event)" checked>
+    {{project.name}}
+  </label>
+
+</div>

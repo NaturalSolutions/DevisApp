@@ -1,0 +1,134 @@
+
+  <div class="jumbotron">
+    <h1>{{ title }}</h1>
+    <div class="row radiocontainer">
+      <div class="col-md-4">
+        <input type="radio" name="radiotype" id="devis" (change)="onSelectionChange($event)"checked="true"><label for="devis">Devis</label>
+      </div>
+      <div class="col-md-4">
+        <input type="radio" name="radiotype" id="facturation" (change)="onSelectionChange($event)"><label for="facturation">Facturation</label>
+      </div>
+      <div class="col-md-4">
+        <select type="select" class="form-control" [(ngModel)]="selectedEpic" [hidden]="epics.length > 0  ? false : true" (change)="epicSelected($event)"  name="epicselect" id="epicselect">
+          <option *ngFor="let epic of epics" [value]="epic">
+            {{epic}}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4"></div>  
+      <div class="col-md-4"><input type="button" (click)="proceed($event)" value="Procésser" [hidden]="selectedEpic != null ? false : true" ></div>  
+      <div class="col-md-4"></div>  
+      <div id="monthSelectorContainer" class="col-md-12">
+
+      </div>
+      <div id="factuInfosContainer" class="row hidden">
+        <div class="col-md-6">
+          <label>Jours Chef de projet :</label><input type="number" id="inputCDP" [(ngModel)]="valueCDP"/>
+        </div>
+        <div class="col-md-6">
+          <label>Jours Directeur technique :</label><input type="number" id="inputDT" [(ngModel)]="valueDT"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<ng-template #treatmentStories let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Des Stories sans Epics on été detecté</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngFor="let st of storiesSansEpics">
+    <a href="{{st.url}}" target="_blank">{{st.url}}</a>
+    <br>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Continuer</button>
+  </div>
+</ng-template>
+
+
+<ng-template #templateRessourceModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Des ressouces inconnu on été detecté</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Vous pouvez ajouter la ou les ressources manquante ou fermer le processus</p>
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button" class="btn btn-secondary" (click)="c('close'); setModalAjoutRessource()">Ajouter la/les ressource(s)</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Fermer le processus</button>
+  </div>
+</ng-template>
+
+
+<ng-template #ajoutRessources let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" style="text-align:center;">Initial : {{currentRessource}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <form [formGroup]="ressourceForm" class="form-group col-lg-12">
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Nom,Prénom
+            <br>
+            <input required type="text" class="form-control" formControlName="name" placeholder="Nom Prénom" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Mail
+            <br>
+            <input required type="mail" class="form-control" formControlName="email" placeholder="mail" aria-label="Username" aria-describedby="basic-addon1">
+          </label>
+        </div>
+
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Initial
+            <br>
+            <input required type="text" class="form-control" formControlName="initial" placeholder={{currentRessource}} aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Niveau
+            <br>
+            <input required type="number" step="2" min="3" max="5" class="form-control" formControlName="niveau" placeholder=3 aria-label="Username"
+              aria-describedby="basic-addon1">
+          </label>
+        </div>
+        <div class="col-lg-12 col-sm-12" style="text-align:center;">
+          <label>Tarifications
+            <br>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownConfig" ngbDropdownToggle>Choix du/des Tarification(s)</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownConfig">
+                <div class="col" required formArrayName="tarificationForm" *ngFor="let tarif of tarifications; let i= index">
+                  <label>&nbsp;
+                    <input type="checkbox" [value]="tarif" [formControlName]="i" /> &nbsp; {{ tarif.Type }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </label>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="validerRessource()">Ajouter la ressource</button>
+    <p class="cptRessource">{{nbRessourceAAjouter}}</p>
+  </div>
+</ng-template>
