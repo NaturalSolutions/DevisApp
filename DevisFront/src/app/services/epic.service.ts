@@ -48,6 +48,9 @@ export class EpicService {
       this.Angularget('https://www.pivotaltracker.com/services/v5/projects').subscribe((res: Array<any>) => {
         let projects = [];
         projects = res;
+        //Faut supprimer ce projet qui fait tout péter
+        //Du coup paliatif (Reneco_db_support)
+        projects.splice(projects.findIndex(o => o.id.toString() == '1247874'),1)
         projects.sort((a, b) => {
           if (a.name.toLowerCase() < b.name.toLowerCase()) return -1;
           if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;

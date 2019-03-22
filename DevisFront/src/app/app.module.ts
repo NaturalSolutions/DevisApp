@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import {NgbModule, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 
-
+import {Globals} from './services/globals'
 import { HttpClientModule } from '@angular/common/http';
 import { ModalesComponent } from './modales/modales.component';
 import { SummaryComponent } from './summary/summary.component';
@@ -29,7 +29,7 @@ import { DevisComponent } from './devis/devis.component';
     ReactiveFormsModule,
     NgbModule.forRoot(),
   ],
-  providers: [NgbActiveModal],
+  providers: [NgbActiveModal, Globals],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
