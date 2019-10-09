@@ -19,25 +19,25 @@ namespace WebApplication4.Models.BO.ProcessFiles
         public dynamic getProjectCost(string key, bool isFactu = false)
         {
             dynamic result;
-            if (!isFactu)
-            {
-                if(this.projectCost != null && key != null)
-                {
-                    if (this.projectCost.ContainsKey(key))
-                    {
-                        result = this.projectCost[key];
-                    }
-                    else
-                    {
-                        result = -1;
-                    }
-                }
-                else
-                {
-                    result = -2;
-                }
-            }else
-            {
+            //if (!isFactu)
+            //{
+            //    if(this.projectCost != null && key != null)
+            //    {
+            //        if (this.projectCost.ContainsKey(key))
+            //        {
+            //            result = this.projectCost[key];
+            //        }
+            //        else
+            //        {
+            //            result = -1;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        result = -2;
+            //    }
+            //}else
+            //{
                 if (this.projectCost != null && key != null)
                 {
                     if (this.factuProjectCost.ContainsKey(key))
@@ -53,7 +53,7 @@ namespace WebApplication4.Models.BO.ProcessFiles
                 {
                     result = -2;
                 }
-            }
+            //}
             return result;
         }
         public void setProjectCost(string projectName,decimal? priceCash)

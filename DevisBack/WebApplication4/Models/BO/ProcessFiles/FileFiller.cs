@@ -9,9 +9,9 @@ namespace WebApplication4.Models.BO.ProcessFiles
     public class FileFiller
     {
         private WordFileGenerator generator;
-        public FileFiller(dynamic fichier,bool isFactu, SumManager sumManager,GeneralObject genObject)
+        public FileFiller(dynamic fichier,bool isFactu, SumManager sumManager,GeneralObject genObject, LogManager userLogs)
         {
-            this.generator = new WordFileGenerator(genObject,sumManager,fichier,isFactu);
+            this.generator = new WordFileGenerator(genObject,sumManager,fichier,isFactu, userLogs);
         }
     }
 }

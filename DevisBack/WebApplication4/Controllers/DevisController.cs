@@ -68,8 +68,11 @@ namespace WebApplication4.Controllers
                 GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(jsonstring);
                 foreach (Projet p in newGenObject.projets)
                 {
+                    //Stories Bonus
                     p.découpageStories.Add("B", new List<MasterStories>());
+                    //Stories PrévueRéalisé
                     p.découpageStories.Add("PR", new List<MasterStories>());
+                    //Prévu non Réalisé
                     p.découpageStories.Add("PNR", new List<MasterStories>());
                     foreach (MasterStories s in p.Stories)
                     {
@@ -91,7 +94,7 @@ namespace WebApplication4.Controllers
                 Calculator devisCalculator = new Calculator(newGenObject);
                 SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
                 Devis devis = new Devis();
-                FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject);
+                FileFiller filler = new FileFiller(devis,false,resultFromcallCalculator,newGenObject, devisCalculator.logs);
 
                 newGenObject.SaveToDb(false,devis);
                 return new HttpResponseMessage(HttpStatusCode.Accepted);

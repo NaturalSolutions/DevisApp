@@ -61,17 +61,25 @@ namespace WebApplication4.Controllers
             var stringed = genObjec_f.ToString();
             GeneralObject newGenObject = JsonConvert.DeserializeObject<GeneralObject>(stringed);
             foreach(Projet p in newGenObject.projets)
-            {   
+            {
+                //Stories Bonus
                 p.découpageStories.Add("B", new List<MasterStories>());
+                //Stories PrévueRéalisé
                 p.découpageStories.Add("PR", new List<MasterStories>());
+                //Prévu non Réalisé
                 p.découpageStories.Add("PNR", new List<MasterStories>());
                 foreach(MasterStories s in p.Stories)
                 {
-                    if ((bool)s.Bonus) {
+                    if ((bool)s.Bonus)
+                    {
                         p.découpageStories["B"].Add(s);
-                    }else if(s.nonEffetue){
+                    }
+                    else if(s.nonEffetue)
+                    {
                         p.découpageStories["PNR"].Add(s);
-                    }else{
+                    }
+                    else
+                    {
                         p.découpageStories["PR"].Add(s);
                     }
                 }
@@ -80,7 +88,7 @@ namespace WebApplication4.Controllers
             //DevisCalculator devisCalculator = new DevisCalculator(genObjec_d);
             SumManager resultFromcallCalculator = devisCalculator.CalculateFactu();
             Facturation facturation = new Facturation();
-            FileFiller filler = new FileFiller(facturation, true, resultFromcallCalculator, newGenObject);
+            FileFiller filler = new FileFiller(facturation, true, resultFromcallCalculator, newGenObject, devisCalculator.logs);
             //StreamWriter logFile = new StreamWriter(System.AppDomain.CurrentDomain.BaseDirectory + @"\Content\test.txt");
             //logFile.WriteLine("je suis juste un petit fichier de test qui va me permettre de savoir si j'arriva a renvoyer des fichiers au clients");
             //logFile.Close();
