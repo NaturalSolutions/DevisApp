@@ -107,7 +107,7 @@ namespace WebApplication4.Models.BO.ProcessFiles
             DateTime longDate = DateTime.Now;
             string basePath = System.AppDomain.CurrentDomain.BaseDirectory;
             Directory.CreateDirectory(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month);
-            this.logFile = new StreamWriter(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul.txt");
+            //this.logFile = new StreamWriter(basePath + @"\Content\Devis" + longDate.Year.ToString() + "_" + longDate.AddMonths(-1).Month + @"\Calcul.txt");
         }
 
         public SumManager CalculateDevis()
@@ -212,12 +212,12 @@ namespace WebApplication4.Models.BO.ProcessFiles
             List<UserProcess> truc = new List<UserProcess>();
             foreach (MasterStories s in masterStories)
             {
-                this.logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
+                //this.logFile.WriteLine('\t' + s.Description + "    |  type : (" + s.Type + ")" + '\n' + '\r');
                 decimal? StoriesCost = 0;
                 foreach (MasterTasks t in s.Tasks)
                 {
                     string dicSelector = s.Type.ToUpper();
-                    this.logFile.WriteLine(t.Description + '\n' + '\r');
+                    //this.logFile.WriteLine(t.Description + '\n' + '\r');
                     if (t.Duration.IndexOf('+') != -1 && t.Initials.IndexOf('+') != -1)
                     {
                         t.isMultiProgramming = true;
@@ -321,7 +321,7 @@ namespace WebApplication4.Models.BO.ProcessFiles
                         }
                     }
                 }
-                this.logFile.WriteLine('\r');
+                //this.logFile.WriteLine('\r');
             }
             return truc;
             //}
@@ -354,8 +354,8 @@ namespace WebApplication4.Models.BO.ProcessFiles
                         resFact = ressourceTemp.getCurrentTarification(false);
                     }
                     storycost += resFact * (decimal)dailyValue;
-                    this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + resFact + " = " + dailyValue * resFact + '\n' + '\r');
-                    this.logFile.WriteLine('\n');
+                    //this.logFile.WriteLine(entry.Key + "  |  " + entry.Value + "   |   " + dailyValue + " x " + resFact + " = " + dailyValue * resFact + '\n' + '\r');
+                    //this.logFile.WriteLine('\n');
                 }
             }
             return storycost;
@@ -401,11 +401,11 @@ namespace WebApplication4.Models.BO.ProcessFiles
                     this.logs.AddUserData(logproject, user.name, user.isAmo, hourssum, daysSum, resFact, 0, unitaireStoryCost);
 
                 }
-                this.logFile.WriteLine(user.name + "  |  " + "Valeur FE    " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
-                this.logFile.WriteLine(user.name + "  |  " + "Valeur WE    " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');
-                this.logFile.WriteLine(user.name + "  |  " + "Valeur WEFE   " + dailyValueWEFE + " x " + resFact + " = " + dailyValueWEFE * resFact + '\n' + '\r');
-                this.logFile.WriteLine(user.name + "  |  " + "Valeur Normal   " + dailyValueNO + " x " + resFact + " = " + dailyValueNO * resFact + '\n' + '\r');
-                this.logFile.WriteLine('\n');
+                //this.logFile.WriteLine(user.name + "  |  " + "Valeur FE    " + dailyValueFE + " x " + resFact + " = " + dailyValueFE * resFact + '\n' + '\r');
+                //this.logFile.WriteLine(user.name + "  |  " + "Valeur WE    " + dailyValueWE + " x " + resFact + " = " + dailyValueWE * resFact + '\n' + '\r');
+                //this.logFile.WriteLine(user.name + "  |  " + "Valeur WEFE   " + dailyValueWEFE + " x " + resFact + " = " + dailyValueWEFE * resFact + '\n' + '\r');
+                //this.logFile.WriteLine(user.name + "  |  " + "Valeur Normal   " + dailyValueNO + " x " + resFact + " = " + dailyValueNO * resFact + '\n' + '\r');
+                //this.logFile.WriteLine('\n');
             }
             return storycost;
             //}
